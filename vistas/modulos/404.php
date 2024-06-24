@@ -1,26 +1,50 @@
-<div class="content-wrapper">
 
-  <section class="content-header">
-    
-    <h1>
-      
-      Página no encontrada
-    
-    </h1>
+ 
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
-    <ol class="breadcrumb">
-      
-      <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
-      
-      <li class="active">Página no encontrada</li>
-    
-    </ol>
+        <li class="nav-item En_linea 1" role="presentation">
+          <a data-toggle="tab" href="inicio" class="nav-link">
+            <i class="nav-icon far fa-smile-wink"></i>
+            <p>
+              Inicio
+            </p>
+          </a>
+        </li>
 
-  </section>
+      </ul>
 
-  <section class="content">
+    </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
 
-    <div class="error-page">
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Pagina no Encontrada</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">404</a></li>
+              <li class="breadcrumb-item active">Pagina no Encontrada</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+      <div class="error-page">
       
       <h2 class="headline text-primary">404</h2> 
 
@@ -36,14 +60,17 @@
 
         <p>
         
-           Ingresa al menú lateral y allí podrás encontrar las páginas disponibles. También puedes regresar haciendo <a href="inicio">click aquí.</a>
+           Ingresa al menú  y allí podrás encontrar las páginas disponibles. También puedes regresar haciendo <a href="inicio">click aquí.</a>
         
         </p>
 
       </div>
 
-    </div>  
+    </div> 
+    </div>
+    </section>
 
-  </section>
 
+
+  <!-- /.control-sidebar -->
 </div>

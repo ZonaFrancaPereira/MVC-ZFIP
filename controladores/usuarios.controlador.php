@@ -51,48 +51,7 @@ class ControladorUsuarios{
 
 						//DERECHOS MENU CONFIGURACION
 						$_SESSION["menuConfiguraciones"] = $acceso["menuConfiguraciones"];
-						$_SESSION["datosEmpresa"] = $acceso["datosEmpresa"];
-						$_SESSION["usuarios"] = $acceso["usuarios"];
-						$_SESSION["perfiles"] = $acceso["perfiles"];
-						$_SESSION["configuracionCorreo"] = $acceso["configuracionCorreo"];
-						$_SESSION["bitacora"] = $acceso["bitacora"];
-
-						//DERECHOS CATALOGOS
-						$_SESSION["clientes"] = $acceso["clientes"];
-						$_SESSION["productos"] = $acceso["productos"];
-						$_SESSION["categorias"] = $acceso["categorias"];
-						$_SESSION["costoProductos"] = $acceso["costoProductos"];
-						$_SESSION["permiteModificarStock"] = $acceso["stock"];
-
-						//DERECHOS COTIZACIONES
-						$_SESSION["menuCotizaciones"] = $acceso["menuCotizaciones"];
-						$_SESSION["cotizaciones"] = $acceso["cotizaciones"];
-						$_SESSION["administrarCotizaciones"] = $acceso["administrarCotizaciones"];
-						$_SESSION["modificarCotizaciones"] = $acceso["modificarCotizaciones"];
-						$_SESSION["eliminarCotizaciones"] = $acceso["eliminarCotizaciones"];
-
-						//DERECHOS VENTAS
-						$_SESSION["menuVentas"] = $acceso["menuVentas"];
-						$_SESSION["ventas"] = $acceso["ventas"];
-						$_SESSION["administrarVentas"] = $acceso["administrarVentas"];
-						$_SESSION["modificarVentas"] = $acceso["modificarVentas"];
-						$_SESSION["eliminarVentas"] = $acceso["eliminarVentas"];
-						$_SESSION["facturacionElectronica"] = $acceso["facturacionElectronica"];
-						$_SESSION["reportesVentas"] = $acceso["reportesVentas"];
-						$_SESSION["cajas"] = $acceso["cajas"];
-
-
-						//REPORTES
-						$_SESSION["cajasSuperiores"] = $acceso["cajasSuperiores"];
-						$_SESSION["graficoGanancias"] = $acceso["graficoGanancias"];
-						$_SESSION["productosMasVendidos"] = $acceso["productosMasVendidos"];
-						$_SESSION["productosAgregadosRecientemente"] = $acceso["productosAgregadosRecientemente"];
-
-						//PAGOS
-						$_SESSION["pagos"] = $acceso["pagos"];
-						$_SESSION["historicoPagos"] = $acceso["historicoPagos"];
-						$_SESSION["imprimirPagos"] = $acceso["imprimirPagos"];
-						$_SESSION["eliminarPagos"] = $acceso["eliminarPagos"];
+						
 
 
 

@@ -48,11 +48,7 @@
             <li><a href="mantenimientos_ti.php" class="dropdown-item">Mantenimientos</a></li>
             <li><a href=".php" class="dropdown-item">Matriz de Usuarios y Criticidad</a></li>
             <li><a href="soporte_ti.php" class="dropdown-item">Soporte</a></li>
-          
-
-            <li><a href="ti.php" class="dropdown-item">Usuarios</a></li>
-         
- 
+            <li><a href="vistas/modulos/usuarios.php" class="dropdown-item">Usuarios</a></li>
           </ul>
         </li>
         <li class="nav-item dropdown">
@@ -128,7 +124,7 @@
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
             <i class="dropdown-item dropdown-header">Opciones</i>
             <div class="dropdown-divider"></div>
-            <a href="close.php" class="dropdown-item">
+            <a href="salir" class="dropdown-item">
               <i class="fas fa-sign-in-alt mr-2"></i> Cerrar Sesion
 
             </a>
@@ -148,7 +144,7 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
-      <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <img src="vistas/img/logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">PLATAFORMA ZFIP</span>
     </a>
 
@@ -165,7 +161,7 @@
       <!-- SidebarSearch Form -->
       <div class="form-inline">
         <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Buscar">
           <div class="input-group-append">
             <button class="btn btn-sidebar">
               <i class="fas fa-search fa-fw"></i>
