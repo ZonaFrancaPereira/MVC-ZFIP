@@ -47,7 +47,6 @@
             <li><a href="licencias_ti..php" class="dropdown-item">Licencias</a></li>
             <li><a href="mantenimientos_ti.php" class="dropdown-item">Mantenimientos</a></li>
             <li><a href=".php" class="dropdown-item">Matriz de Usuarios y Criticidad</a></li>
- ?>
             <li><a href="soporte_ti.php" class="dropdown-item">Soporte</a></li>
           
 
