@@ -46,7 +46,11 @@ session_start();
   <link rel="stylesheet" href="vistas/plugins/daterangepicker/daterangepicker.css">
   <!-- summernote -->
   <link rel="stylesheet" href="vistas/plugins/summernote/summernote-bs4.min.css">
+<!-- Select2 -->
+<link rel="stylesheet" href="vistas/plugins/select2/css/select2.min.css">
 
+ <!-- Switch Check -->
+ <link href="vistas/bower_components/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet">
 
   <!--=====================================
   PLUGINS DE JAVASCRIPT
@@ -86,10 +90,20 @@ session_start();
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="vistas/dist/js/pages/dashboard.js"></script>
 
+  <!-- Select2 -->
+  <script src="vistas/plugins/select2/js/select2.full.min.js"></script>
 
 
-
-
+  <!-- Swith Check -->
+  <script src="vistas/bower_components/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
+    <!-- SweetAlert 2 -->
+    <script src="vistas/plugins/sweetalert2/sweetalert2.all.js"></script>
+<!-- Initialize tooltips -->
+<script>
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+</script>
 </head>
 
 <!--=====================================
@@ -109,12 +123,6 @@ CUERPO DOCUMENTO
     =============================================*/
 
     include "modulos/cabezote.php";
-
-    /*=============================================
-    MENU
-    =============================================*/
-
-    include "modulos/menu.php";
 
     /*=============================================
     CONTENIDO

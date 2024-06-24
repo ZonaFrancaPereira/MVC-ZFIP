@@ -85,7 +85,7 @@ $(".tablas").on("click", ".btnEliminarPerfil", function(){
 
   var idPerfil = $(this).attr("idPerfil");
 
-  swal({
+  Swal.fire({
     title: '¿Está seguro de borrar el Perfil?',
     text: "¡Si no lo está puede cancelar la accíón!",
     type: 'warning',
