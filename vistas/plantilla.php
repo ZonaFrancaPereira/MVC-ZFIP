@@ -149,6 +149,7 @@ CUERPO DOCUMENTO
       if($_GET["ruta"] == "inicio" ||
          $_GET["ruta"] == "ti" ||
          $_GET["ruta"] == "perfiles" ||
+         $_GET["ruta"] == "usuarios" ||
          $_GET["ruta"] == "salir"){
 
         include "modulos/".$_GET["ruta"].".php";
