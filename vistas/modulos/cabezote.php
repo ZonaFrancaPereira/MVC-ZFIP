@@ -37,25 +37,13 @@
           
           </ul>
         </li>
-        <li class="nav-item dropdown">
-          <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle" title="Gestión Tecnología e Informática">G-TI</a>
-          <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-   
-            <li><a href="asignacion_ti.php" class="dropdown-item">Asignación de Equipos</a></li>
-            <li><a href="backup_ti.php" class="dropdown-item">Backup</a></li>
-            <li><a href="inventario_ti.php" class="dropdown-item">Inventario TI</a></li>
-            <li><a href="licencias_ti..php" class="dropdown-item">Licencias</a></li>
-            <li><a href="mantenimientos_ti.php" class="dropdown-item">Mantenimientos</a></li>
-            <li><a href=".php" class="dropdown-item">Matriz de Usuarios y Criticidad</a></li>
-            <li><a href="soporte_ti.php" class="dropdown-item">Soporte</a></li>
-            <li><a href="vistas/modulos/usuarios.php" class="dropdown-item">Usuarios</a></li>
-          </ul>
+        <li class="nav-item d-none d-sm-inline-block">
+          <a href="ti" class="nav-link">G-TI</a>
         </li>
         <li class="nav-item dropdown">
           <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle" title="Gestión Jurídica">JU</a>
           <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
             <li><a href="asociados_ju.php" class="dropdown-item">Asociados de Negocios</a></li>
-        
           </ul>
         </li>
       </ul>

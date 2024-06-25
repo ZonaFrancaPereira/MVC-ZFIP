@@ -147,30 +147,8 @@ CUERPO DOCUMENTO
     if(isset($_GET["ruta"])){
 
       if($_GET["ruta"] == "inicio" ||
-         $_GET["ruta"] == "administrarcotizaciones" ||
-         $_GET["ruta"] == "usuarios" ||
-         $_GET["ruta"] == "categorias" ||
-         $_GET["ruta"] == "productos" ||
-         $_GET["ruta"] == "clientes" ||
-         $_GET["ruta"] == "ventas" ||
-         $_GET["ruta"] == "crear-venta" ||
-         $_GET["ruta"] == "editar-venta" ||
-         $_GET["ruta"] == "reportes" ||
-         $_GET["ruta"] == "datosEmpresa" ||
-         $_GET["ruta"] == "crearcotizacion" ||
-         $_GET["ruta"] == "configurarCorreo" ||
-         $_GET["ruta"] == "editar-cotizacion" ||
-         $_GET["ruta"] == "bitacora" ||
-         $_GET["ruta"] == "facturacionElectronica" ||
+         $_GET["ruta"] == "ti" ||
          $_GET["ruta"] == "perfiles" ||
-         $_GET["ruta"] == "ventasProductos" ||
-         $_GET["ruta"] == "cambiarContra" ||
-         $_GET["ruta"] == "bodegas" ||
-         $_GET["ruta"] == "actualizar" ||
-         $_GET["ruta"] == "acercaDe" ||
-         $_GET["ruta"] == "cajadiaria" ||
-         $_GET["ruta"] == "descuentos" ||
-
          $_GET["ruta"] == "salir"){
 
         include "modulos/".$_GET["ruta"].".php";

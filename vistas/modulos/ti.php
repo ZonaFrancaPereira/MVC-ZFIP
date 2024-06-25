@@ -1,0 +1,107 @@
+<li class="nav-item d-none d-sm-inline-block">
+    <a href="" class="nav-link">Asignación de Equipos</a>
+</li>
+<li class="nav-item d-none d-sm-inline-block">
+    <a href="" class="nav-link">Backup</a>
+</li>
+<li class="nav-item d-none d-sm-inline-block">
+    <a href="" class="nav-link">Inventario TI</a>
+</li>
+<li class="nav-item d-none d-sm-inline-block">
+    <a href="" class="nav-link">Licencias</a>
+</li>
+<li class="nav-item d-none d-sm-inline-block">
+    <a href="#principal" class="nav-link">Mantenimientos</a>
+</li>
+<li class="nav-item d-none d-sm-inline-block">
+    <a href="" class="nav-link">Matriz de Usuarios y Criticidad</a>
+</li>
+<nav class="mt-2">
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-search-plus"></i>
+                <p>
+                    Soporte
+                    <i class="fas fa-angle-left right"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+
+                <li class="nav-item">
+                    <a data-toggle="tab" href="#realizar_solicitud" class="nav-link">
+                        <i class="nav-icon far fa-question-circle"></i>
+                        <p>Realizar Solicitud</p>
+                    </a>
+                </li>
+                <li class="nav-item" name="">
+                    <a data-toggle="tab" href="#principal" class="nav-link">
+                        <i class="fas fa-th-large"></i>
+                        <p>Principal</p>
+                    </a>
+                </li>
+                <li class="nav-item" name="">
+                    <a data-toggle="tab" href="#solicitudes_soporte" class="nav-link">
+                        <i class="nav-icon fas fa-sync-alt"></i>
+                        <p>Solicitudes de Soporte</p>
+                    </a>
+                    <a data-toggle="tab" href="#solicitudes_solucionadas" class="nav-link">
+                        <i class="nav-icon fas fa-sync-alt"></i>
+                        <p>Solicitudes Finalizadas</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+<li class="nav-item d-none d-sm-inline-block">
+    <a href="" class="nav-link">Usuarios</a>
+</li>
+<li class="nav-item d-none d-sm-inline-block">
+    <a data-toggle="tab" href="#principal" class="nav-link">Perfiles</a>
+</li>
+<?php
+
+if ($_SESSION["ti"] == "off") {
+
+    echo '<script>
+
+    window.location = "inicio";
+
+  </script>';
+
+    return;
+}
+
+?>
+</div>
+<!-- /.sidebar -->
+</aside>
+
+<div class="content-wrapper">
+    <div id="wrapper" class="toggled">
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="tab-content card">
+                    <div id="principal" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card card-default">
+                                    <div class="card-header bg-gradient-info">
+                                        <h3 class="card-title text-white">
+                                            <i class="fas fa-exclamation-triangle mr-2"></i>
+                                            Solicitudes Realizadas
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
