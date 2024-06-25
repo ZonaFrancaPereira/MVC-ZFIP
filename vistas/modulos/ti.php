@@ -1,23 +1,54 @@
-<li class="nav-item d-none d-sm-inline-block">
-    <a href="" class="nav-link">Asignación de Equipos</a>
-</li>
-<li class="nav-item d-none d-sm-inline-block">
-    <a href="" class="nav-link">Backup</a>
-</li>
-<li class="nav-item d-none d-sm-inline-block">
-    <a href="" class="nav-link">Inventario TI</a>
-</li>
-<li class="nav-item d-none d-sm-inline-block">
-    <a href="" class="nav-link">Licencias</a>
-</li>
-<li class="nav-item d-none d-sm-inline-block">
-    <a href="#principal" class="nav-link">Mantenimientos</a>
-</li>
-<li class="nav-item d-none d-sm-inline-block">
-    <a href="" class="nav-link">Matriz de Usuarios y Criticidad</a>
-</li>
 <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <li class="nav-item">
+            <a data-toggle="tab" href="#" class="nav-link">
+            <i class="fas fa-desktop"></i>
+                <p>Asignación de Equipos</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a data-toggle="tab" href="#" class="nav-link">
+            <i class="far fa-save"></i>
+                <p>Backup</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a data-toggle="tab" href="#" class="nav-link">
+            <i class="fas fa-file-invoice"></i>
+                <p>Inventario TI</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a data-toggle="tab" href="#" class="nav-link">
+            <i class="far fa-id-badge"></i>
+                <p>Licencias</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a data-toggle="tab" href="#" class="nav-link">
+            <i class="fas fa-laptop-code"></i>
+                <p>Mantenimientos</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a data-toggle="tab" href="#" class="nav-link">
+            <i class="fas fa-user-tie"></i>
+                <p>Matriz de Usuarios y Criticidad</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a data-toggle="tab" href="#" class="nav-link">
+            <i class="fas fa-users"></i>
+                <p>Usuarios</p>
+            </a>
+            
+        </li>
+        <li class="nav-item">
+            <a data-toggle="tab" href="#" class="nav-link">
+            <i class="fas fa-id-card"></i>
+                <p>Perfiles</p>
+            </a>
+        </li>
         <li class="nav-item">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-search-plus"></i>
@@ -29,23 +60,19 @@
             <ul class="nav nav-treeview">
 
                 <li class="nav-item">
-                    <a data-toggle="tab" href="#realizar_solicitud" class="nav-link">
+                    <a data-toggle="tab" href="#" class="nav-link">
                         <i class="nav-icon far fa-question-circle"></i>
                         <p>Realizar Solicitud</p>
                     </a>
                 </li>
-                <li class="nav-item" name="">
-                    <a data-toggle="tab" href="#principal" class="nav-link">
-                        <i class="fas fa-th-large"></i>
-                        <p>Principal</p>
-                    </a>
-                </li>
-                <li class="nav-item" name="">
-                    <a data-toggle="tab" href="#solicitudes_soporte" class="nav-link">
+                <li class="nav-item">
+                    <a data-toggle="tab" href="#" class="nav-link">
                         <i class="nav-icon fas fa-sync-alt"></i>
                         <p>Solicitudes de Soporte</p>
                     </a>
-                    <a data-toggle="tab" href="#solicitudes_solucionadas" class="nav-link">
+                </li>
+                <li class="nav-item">
+                    <a data-toggle="tab" href="#" class="nav-link">
                         <i class="nav-icon fas fa-sync-alt"></i>
                         <p>Solicitudes Finalizadas</p>
                     </a>
@@ -54,12 +81,6 @@
         </li>
     </ul>
 </nav>
-<li class="nav-item d-none d-sm-inline-block">
-    <a href="" class="nav-link">Usuarios</a>
-</li>
-<li class="nav-item d-none d-sm-inline-block">
-    <a data-toggle="tab" href="#principal" class="nav-link">Perfiles</a>
-</li>
 <?php
 
 if ($_SESSION["ti"] == "off") {
@@ -102,6 +123,7 @@ if ($_SESSION["ti"] == "off") {
         </div>
     </div>
 </div>
+
 </body>
 
 </html>
