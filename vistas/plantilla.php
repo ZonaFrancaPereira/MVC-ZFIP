@@ -199,6 +199,7 @@ CUERPO DOCUMENTO
 <script src="vistas/js/bodegas.js"></script>
 <script src="vistas/js/cajas.js"></script>
 <script src="vistas/js/zoom.js"></script>
+<script src="vistas/js/ti.js"></script>
 
 
 </body>
