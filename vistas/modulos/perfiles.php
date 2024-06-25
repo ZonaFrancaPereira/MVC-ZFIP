@@ -84,36 +84,66 @@ if ($_SESSION["perfiles"] == "off") {
                                     <div class="card pt-2">
                                         <h6 class="text-center">MODULO GESTIÓN TI</h6>
                                     </div>
-
-                                    <!-- Check USUARIOS -->
+                                    <p><B>Gestionar Usuarios</B> : Permisos para crear, consultar, editar, eliminar usuarios de ZFIP</p>
+                                    <!-- Check ADMINISTRAR USUARIOS -->
                                     <div class="checkbox">
-                                        <input type="checkbox" data-toggle="toggle" name="smUsuarios" data-on="Si" data-off="No">
-                                        <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para administrar usuarios">Usuarios</label>
+                                        <input type="checkbox" data-toggle="toggle" name="smAdminUsuarios" data-on="Si" data-off="No">
+                                        <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para crear,editar,consultar,eliminar  usuarios">Administrador de Usuarios</label>
                                     </div>
-                                    <!-- Check Perfiles -->
-                                    <div class="checkbox pt-2">
-                                        <input type="checkbox" data-toggle="toggle" name="smPerfiles" data-on="Si" data-off="No">
-                                        <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para administrar perfiles, es importante para limitar permisos dentro de la APP">Perfiles</label>
+                                    <!-- Check CONSULTAR USUARIOS -->
+                                    <div class="checkbox">
+                                        <input type="checkbox" data-toggle="toggle" name="smVerUsuarios" data-on="Si" data-off="No">
+                                        <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para consultar usuarios">Consultar</label>
+                                    </div>
+                                    <!-- Check ESTADO USUARIOS -->
+                                    <div class="checkbox">
+                                        <input type="checkbox" data-toggle="toggle" name="smEstadoUsuarios" data-on="Si" data-off="No">
+                                        <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para cambiar el estado de los usuarios usuarios">Habilitar y Deshabilitar Usuarios</label>
+                                    </div>
+                                    <p class="pt-2"><B>Gestionar Perfiles</B> : Permisos para crear, consultar, editar, eliminar perfiles de los Usuarios</p>
+                                    <!-- Check CREAR PERFILES -->
+                                    <div class="checkbox ">
+                                        <input type="checkbox" data-toggle="toggle" name="smCrearPerfiles" data-on="Si" data-off="No">
+                                        <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para crear,editar,consultar,eliminar perfiles">Administrador de Perfiles</label>
                                     </div>
                                     <br>
                                     <!-- MODULO PARA GESTIONAR LOS MANTENIMIENTOS DE LOS EQUIPOS TECNOLÓGICOS -->
                                     <div class="card pt-2">
                                         <h6 class="text-center">MODULO MANTENIMIENTO DE RECURSOS TECNOLÓGICOS</h6>
                                     </div>
+                                    <p class="pt-2"><B>Gestionar Mantenimientos</B> : Permisos para crear, consultar, editar, eliminar Mantenimientos de los Recursos Tecnológicos</p>
+
                                     <!-- Check Mantenimientos -->
                                     <div class="checkbox pt-2">
-                                        <input type="checkbox" data-toggle="toggle" name="smMantenimientos" data-on="Si" data-off="No">
-                                        <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para administrar los mantenimientos de equipos y dispositivos de ZFIP">Mantenimientos</label>
+                                        <input type="checkbox" data-toggle="toggle" name="smAdminMantenimientos" data-on="Si" data-off="No">
+                                        <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para administrar los mantenimientos de equipos y dispositivos de ZFIP">Administrador de Mantenimientos</label>
                                     </div>
-                                    <!-- Check Inventario TI -->
+                                    <!-- Check FIRMAR Mantenimientos -->
                                     <div class="checkbox pt-2">
-                                        <input type="checkbox" data-toggle="toggle" name="smInventario" data-on="Si" data-off="No">
-                                        <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para administrar el inventario de recursos tecnológicos, incluidas licencias, dispositivos móviles y equipos de computo">Inventario TI (Asignación de equipos y licencias)</label>
+                                        <input type="checkbox" data-toggle="toggle" name="smFirmarMantenimientos" data-on="Si" data-off="No">
+                                        <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para administrar los mantenimientos de equipos y dispositivos de ZFIP">Firmar Mantenimiento</label>
+                                    </div>
+                                    <p class="pt-2"><B>Gestionar Inventarios</B> : Permisos para crear, consultar, editar, eliminar Mantenimientos de los Recursos Tecnológicos</p>
+                                    <!-- Check Inventario Licencias TI -->
+                                    <div class="checkbox pt-2">
+                                        <input type="checkbox" data-toggle="toggle" name="smInventarioLicencias" data-on="Si" data-off="No">
+                                        <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para administrar el inventario de licencias">Inventario Licencias</label>
+                                    </div>
+                                    <!-- Check Inventario Equipos TI -->
+                                    <div class="checkbox pt-2">
+                                        <input type="checkbox" data-toggle="toggle" name="smInventarioEquipos" data-on="Si" data-off="No">
+                                        <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para administrar el inventario de licencias">Inventario de Recursos Tecnológicos</label>
                                     </div>
                                     <br>
                                     <!-- MODULO PARA GESTIONAR LOS SOPORTES TÉCNICOS -->
                                     <div class="card pt-2">
                                         <h6 class="text-center">MODULO SOPORTE TÉCNICO</h6>
+                                    </div>
+                                    <p class="pt-2"><B>Gestionar Soportes Técnicos</B> : Permisos para crear, consultar, editar, eliminar Soportes Técnicos</p>
+                                    <!-- Check Administrador de soportes TI -->
+                                    <div class="checkbox pt-2">
+                                        <input type="checkbox" data-toggle="toggle" name="smAdminSoporte" data-on="Si" data-off="No">
+                                        <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para responder solicitudes de soporte técnico a los usuarios">Administrador de Soportes TI</label>
                                     </div>
                                     <!-- Check Solicitud de soporte TI -->
                                     <div class="checkbox pt-2">
@@ -125,11 +155,7 @@ if ($_SESSION["perfiles"] == "off") {
                                         <input type="checkbox" data-toggle="toggle" name="smConsultarSoporte" data-on="Si" data-off="No">
                                         <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para consultar solicitudes de soporte técnico realizadas">Consultar Solicitudes de Soporte Técnico </label>
                                     </div>
-                                    <!-- Check Administrador de soportes TI -->
-                                    <div class="checkbox pt-2">
-                                        <input type="checkbox" data-toggle="toggle" name="smAdminSoporte" data-on="Si" data-off="No">
-                                        <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para responder solicitudes de soporte técnico a los usuarios">Administrador de Soportes TI</label>
-                                    </div>
+
                                     <br>
                                 </div>
                             </div>
@@ -138,6 +164,7 @@ if ($_SESSION["perfiles"] == "off") {
                                 <div class="card-header bg-success">
                                     Configuraciones Sistema Integrado de Gestión.
                                 </div>
+                                
 
                                 <!-- DIV PARA CONTENER LAS OPCIONES  DE SIG-->
                                 <div class="pt-2 card">
@@ -145,32 +172,35 @@ if ($_SESSION["perfiles"] == "off") {
                                     <div class="card pt-2">
                                         <h6 class="text-center">MODULO ACCIONES CORRECTIVAS, PREVENTIVAS Y DE MEJORA</h6>
                                     </div>
+                                    <p class="pt-2"><B>Gestionar ACPM</B> : Permisos para crear, consultar, editar, eliminar : ACPM</p>
                                     <!-- Check RECHAZAR-ACEPTAR-CERRAR ACPM SOLO CORRESPONDE AL SIG -->
                                     <div class="checkbox">
-                                        <input type="checkbox" data-toggle="toggle" name="smUsuarios" data-on="Si" data-off="No">
-                                        <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para rechazar, aceptar y cerrar ACPM de los lideres de proceso.">Administrar ACPM</label>
+                                        <input type="checkbox" data-toggle="toggle" name="smAdminAcpm" data-on="Si" data-off="No">
+                                        <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para rechazar, aceptar y cerrar ACPM de los lideres de proceso.">Administrador ACPM</label>
                                     </div>
                                     <!-- Check RADICAR ACPM -->
                                     <div class="checkbox">
                                         <input type="checkbox" data-toggle="toggle" name="smCrearAcpm" data-on="Si" data-off="No">
-                                        <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para radicar una acpm, solo lideres de proceso y personal autorizado">Crear ACPM</label>
+                                        <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para radicar una acpm, solo lideres de proceso y personal autorizado">Crear</label>
+                                    </div>
+                                     <!-- Check CONSULTAR ACPM -->
+                                     <div class="checkbox">
+                                        <input type="checkbox" data-toggle="toggle" name="smConsultarAcpm" data-on="Si" data-off="No">
+                                        <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para consultar las ACPM que se tienen en el proceso, solo para lideres de proceso ó personal autorizado.">Consultar</label>
                                     </div>
                                     <!-- Check EDITAR ACPM -->
                                     <div class="checkbox">
                                         <input type="checkbox" data-toggle="toggle" name="smEditarAcpm" data-on="Si" data-off="No">
-                                        <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para radicar editar la ACPM">Editar ACPM</label>
+                                        <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para radicar editar la ACPM">Editar</label>
                                     </div>
                                     <!-- Check ELIMINAR ACPM -->
                                     <div class="checkbox">
                                         <input type="checkbox" data-toggle="toggle" name="smEliminarAcpm" data-on="Si" data-off="No">
-                                        <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para radicar una acpm, solo lideres de proceso y personal autorizado">Eliminar ACPM</label>
+                                        <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para radicar una acpm, solo lideres de proceso y personal autorizado">Eliminar</label>
                                     </div>
-                                    <!-- Check CONSULTAR ACPM -->
-                                    <div class="checkbox">
-                                        <input type="checkbox" data-toggle="toggle" name="smResponderActividades" data-on="Si" data-off="No">
-                                        <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para consultar las ACPM que se tienen en el proceso, solo para lideres de proceso ó personal autorizado.">Consultar ACPM</label>
-                                    </div>
+                                   
                                     <hr>
+                                    <p class="pt-2"><B>Gestionar Actividades</B> : Permisos para crear, consultar, editar, eliminar : ACPM</p>
                                     <!-- Check ASIGNAR ACTIVIDADES -->
                                     <div class="checkbox">
                                         <input type="checkbox" data-toggle="toggle" name="smAsignarActividades" data-on="Si" data-off="No">
@@ -255,7 +285,27 @@ if ($_SESSION["perfiles"] == "off") {
                                         <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para asignar actividades a los colaboradores">Consultar Orden de Compra</label>
                                     </div>
                                     <hr>
-                                    <!-- Check RESPONDER ACTIVIDADES -->
+                                    <!-- Check CREAR PROVEEDOR -->
+                                    <div class="checkbox">
+                                        <input type="checkbox" data-toggle="toggle" name="smResponderActividades" data-on="Si" data-off="No">
+                                        <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para responder actividades que tienen asignadas">Crear Proveedor</label>
+                                    </div>
+                                    <!-- Check EDITAR PROVEEDOR -->
+                                    <div class="checkbox">
+                                        <input type="checkbox" data-toggle="toggle" name="smResponderActividades" data-on="Si" data-off="No">
+                                        <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para responder actividades que tienen asignadas">Crear Proveedor</label>
+                                    </div>
+                                    <!-- Check EDITAR PROVEEDOR -->
+                                    <div class="checkbox">
+                                        <input type="checkbox" data-toggle="toggle" name="smResponderActividades" data-on="Si" data-off="No">
+                                        <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para responder actividades que tienen asignadas">Crear Proveedor</label>
+                                    </div>
+                                    <!-- Check ELIMINAR PROVEEDOR -->
+                                    <div class="checkbox">
+                                        <input type="checkbox" data-toggle="toggle" name="smResponderActividades" data-on="Si" data-off="No">
+                                        <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para responder actividades que tienen asignadas">Crear Proveedor</label>
+                                    </div>
+                                    <!-- Check CONSULTAR PROVEEDOR -->
                                     <div class="checkbox">
                                         <input type="checkbox" data-toggle="toggle" name="smResponderActividades" data-on="Si" data-off="No">
                                         <label for="exampleInputEmail1" data-toggle="tooltip" data-placement="top" title="Permisos para responder actividades que tienen asignadas">Crear Proveedor</label>
