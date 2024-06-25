@@ -1,7 +1,7 @@
 /*=============================================
 EDITAR PERFIL
 =============================================*/
-$(".tablas").on("click", ".btnEditarPerfil", function(){
+$(".table").on("click", ".btnEditarPerfil", function(){
 
 	var idPerfil= $(this).attr("idPerfil");
 
@@ -27,47 +27,6 @@ $(".tablas").on("click", ".btnEditarPerfil", function(){
 			$("#editarDescripcion").val(respuesta["descripcion"]);
 			$("#idPerfil").val(respuesta["perfil"]);
 
-			$('#editarmConfiguraciones').bootstrapToggle(respuesta["menuConfiguraciones"]);
-			$('#editarsmDatosEmpresa').bootstrapToggle(respuesta["datosEmpresa"]);
-			$('#editarsmUsuarios').bootstrapToggle(respuesta["usuarios"]);
-			$('#editarsmPerfiles').bootstrapToggle(respuesta["perfiles"]);
-			$('#editarsmConfiguracionCorreo').bootstrapToggle(respuesta["configuracionCorreo"]);
-			$('#editarsmBitacora').bootstrapToggle(respuesta["bitacora"]);
-
-			$('#editarsmClientes').bootstrapToggle(respuesta["clientes"]);
-			$('#editarsmProductos').bootstrapToggle(respuesta["productos"]);
-			$('#editarsmCategorias').bootstrapToggle(respuesta["categorias"]);
-
-			$('#editarmCotizaciones').bootstrapToggle(respuesta["menuCotizaciones"]);
-			$('#editarsmCotizaciones').bootstrapToggle(respuesta["cotizaciones"]);
-			$('#editarsmAdministraCotizaciones').bootstrapToggle(respuesta["administrarCotizaciones"]);
-			$('#editarsmModificarCotizaciones').bootstrapToggle(respuesta["modificarCotizaciones"]);
-			$('#editarsmEliminarCotizaciones').bootstrapToggle(respuesta["eliminarCotizaciones"]);
-
-			$('#editarmVentas').bootstrapToggle(respuesta["menuVentas"]);
-			$('#editarsmVentas').bootstrapToggle(respuesta["ventas"]);
-			$('#editarsmAdministraVentas').bootstrapToggle(respuesta["administrarVentas"]);
-			$('#editarsmModificarVentas').bootstrapToggle(respuesta["modificarVentas"]);
-			$('#editarsmEliminarVentas').bootstrapToggle(respuesta["eliminarVentas"]);
-			$('#editarsFacturacionElectronica').bootstrapToggle(respuesta["facturacionElectronica"]);
-			$('#editarsmReportesVentas').bootstrapToggle(respuesta["reportesVentas"]);
-
-			$('#smEditarPagos').bootstrapToggle(respuesta["pagos"]);
-			$('#smEditarHistoricoPagos').bootstrapToggle(respuesta["historicoPagos"]);
-			$('#smEditarImprimirPagos').bootstrapToggle(respuesta["imprimirPagos"]);
-			$('#smEditarEliminarPagos').bootstrapToggle(respuesta["eliminarPagos"]);
-
-			$('#editarCajasSuperiores').bootstrapToggle(respuesta["cajasSuperiores"]);
-			$('#editarGraficoGanancias').bootstrapToggle(respuesta["graficoGanancias"]);
-			$('#editarProductosMasVendidos').bootstrapToggle(respuesta["productosMasVendidos"]);
-			$('#editarroductosAgregadosRecienteMente').bootstrapToggle(respuesta["productosAgregadosRecientemente"]);
-
-			$('#editarsmCostoProductos').bootstrapToggle(respuesta["costoProductos"]);
-
-			$('#editarStock').bootstrapToggle(respuesta["stock"]);
-      $('#editarActualizar').bootstrapToggle(respuesta["actualizar"]);
-		  $('#editarCajas').bootstrapToggle(respuesta["cajas"]);
-
 
 
 		}
@@ -78,30 +37,44 @@ $(".tablas").on("click", ".btnEditarPerfil", function(){
 
 
 
-/*=============================================
-ELIMINAR PERFIL
-=============================================*/
-$(".tablas").on("click", ".btnEliminarPerfil", function(){
+$(".table").on("click", ".btnEliminarPerfil", function(){
 
-  var idPerfil = $(this).attr("idPerfil");
-
-  Swal.fire({
-    title: '¿Está seguro de borrar el Perfil?',
-    text: "¡Si no lo está puede cancelar la accíón!",
-    type: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      cancelButtonText: 'Cancelar',
-      confirmButtonText: 'Si, borrar perfil!'
-  }).then(function(result){
-
-    if(result.value){
-
-      window.location = "index.php?ruta=perfiles&idPerfil="+idPerfil+"&eliminar=si";
-
-    }
-
-  })
-
-})
+	var idPerfil = $(this).attr("idPerfil");
+  
+	Swal.fire({
+	  title: '¿Está seguro de borrar el Perfil?',
+	  text: "¡Si no lo está puede cancelar la acción!",
+	  type: 'warning',
+	  showCancelButton: true,
+	  confirmButtonColor: '#3085d6',
+	  cancelButtonColor: '#d33',
+	  cancelButtonText: 'Cancelar',
+	  confirmButtonText: 'Sí, borrar perfil!'
+	}).then(function(result){
+	  if(result.value){
+		$.ajax({
+		  url: 'index.php',
+		  type: 'POST',
+		  data: { idPerfil: idPerfil, eliminar: 'si' },
+		  success: function(response) {
+			Swal.fire(
+			  'Eliminado!',
+			  'El perfil ha sido eliminado.',
+			  'success'
+			).then(function() {
+			  // Puedes actualizar la tabla o redirigir
+			  location.reload(); // Recargar la página para reflejar los cambios
+			});
+		  },
+		  error: function() {
+			Swal.fire(
+			  'Error!',
+			  'Hubo un problema al eliminar el perfil.',
+			  'error'
+			);
+		  }
+		});
+	  }
+	});
+  
+  });

@@ -5,37 +5,37 @@ require_once "configuracion.php";
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <li class="nav-item">
             <a data-toggle="tab" href="" class="nav-link">
-            <i class="fas fa-desktop"></i>
+                <i class="fas fa-desktop"></i>
                 <p>Asignación de Equipos</p>
             </a>
         </li>
         <li class="nav-item">
             <a data-toggle="tab" href="" class="nav-link">
-            <i class="far fa-save"></i>
+                <i class="far fa-save"></i>
                 <p>Backup</p>
             </a>
         </li>
         <li class="nav-item">
             <a data-toggle="tab" href="" class="nav-link">
-            <i class="fas fa-file-invoice"></i>
+                <i class="fas fa-file-invoice"></i>
                 <p>Inventario TI</p>
             </a>
         </li>
         <li class="nav-item">
             <a data-toggle="tab" href="" class="nav-link">
-            <i class="far fa-id-badge"></i>
+                <i class="far fa-id-badge"></i>
                 <p>Licencias</p>
             </a>
         </li>
         <li class="nav-item">
             <a data-toggle="tab" href="" class="nav-link">
-            <i class="fas fa-laptop-code"></i>
+                <i class="fas fa-laptop-code"></i>
                 <p>Mantenimientos</p>
             </a>
         </li>
         <li class="nav-item">
             <a data-toggle="tab" href="" class="nav-link">
-            <i class="fas fa-user-tie"></i>
+                <i class="fas fa-user-tie"></i>
                 <p>Matriz de Usuarios y Criticidad</p>
             </a>
         </li>
@@ -44,16 +44,16 @@ require_once "configuracion.php";
             <i class="fas fa-users"></i>
                 <p>Usuarios</p>
             </a>
-            
+
         </li>
         <li class="nav-item">
-            <a data-toggle="tab" href="" class="nav-link">
-            <i class="fas fa-id-card"></i>
+            <a data-toggle="tab" href="#perfiles" class="nav-link">
+                <i class="fas fa-id-card"></i>
                 <p>Perfiles</p>
             </a>
         </li>
         <li class="nav-item">
-            <a  data-toggle="tab" href="#principal_soporte" class="nav-link">
+            <a data-toggle="tab" href="#principal_soporte" class="nav-link">
                 <i class="nav-icon fas fa-search-plus"></i>
                 <p>
                     Soporte
@@ -133,14 +133,14 @@ if ($_SESSION["ti"] == "off") {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                        <tr style="text-align:center">
-                                                            <td>1</td>
-                                                            <td>2</td>
-                                                            <td>3</td>
-                                                            <td>4</td>
-                                                            <td>5</td>
-                                                            <td>6</td>
-                                                        </tr>
+                                                    <tr style="text-align:center">
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>4</td>
+                                                        <td>5</td>
+                                                        <td>6</td>
+                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -231,19 +231,19 @@ if ($_SESSION["ti"] == "off") {
                             <form id="soporte_ti" method="POST" enctype="multipart/form-data">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-6 mb-3"  >
+                                        <div class="col-md-6 mb-3">
                                             <label for="correo">Correo</label>
                                             <input list="correo_soporte_browsers" class="form-control" value="<?php echo $_SESSION['correo_usuario'] ?>" id="correo_soporte" name="correo_soporte" placeholder="Correo" readonly>
                                         </div>
-                                        <div class="col-md-6 mb-3" >
+                                        <div class="col-md-6 mb-3">
                                             <label for="id_usuario_soporte">id usuario</label>
                                             <input type="text" class="form-control" id="id_usuario_soporte" value="<?php echo $_SESSION['id'] ?>" name="id_usuario_soporte" placeholder="ID de Usuario" readonly>
                                         </div>
-                                        <div class="col-md-6 mb-3"  >
+                                        <div class="col-md-6 mb-3">
                                             <label for="usuario_soporte">Nombre de Usuario</label>
                                             <input type="text" class="form-control" id="usuario_soporte" value="<?php echo $_SESSION['nombre'] . " " . $_SESSION['apellidos_usuario'] ?>" name="usuario_soporte" placeholder="Nombre de Usuario" readonly>
                                         </div>
-                                        <div class="col-md-6 mb-3"  >
+                                        <div class="col-md-6 mb-3">
                                             <label for="proceso_soporte">Proceso</label>
                                             <input type="text" class="form-control" id="proceso_soporte" value="<?php echo $_SESSION['nombre_proceso'] ?>" name="proceso_soporte" placeholder="Proceso" readonly>
                                         </div>
@@ -251,7 +251,7 @@ if ($_SESSION["ti"] == "off") {
                                             <label for="textarea">Descripción de la solicitud</label>
                                             <textarea class="form-control" id="descripcion_soporte" name="descripcion_soporte" rows="3" placeholder="Descripción"></textarea>
                                         </div>
-                                    </div>                <br>
+                                    </div> <br>
                                     <div class="col-md-12">
                                         <div id="actions">
                                             <div class="col-lg-6">
@@ -277,10 +277,28 @@ if ($_SESSION["ti"] == "off") {
 
                         </div>
                     </div>
+                    <!-- /.FORMULARIO PARA REALIZAR SOLICITUD DE SOPORTE -->
+                    <div id="perfiles" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                            
+                                    <?php require "ti/perfiles.php"; ?>
+                                    <?php
+
+  $borrarPerfil = new ControladorPerfiles();
+  $borrarPerfil-> ctrBorrarPerfil();
+
+?>
+
+                                
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 </body>
+
 </html>

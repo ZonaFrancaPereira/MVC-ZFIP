@@ -196,7 +196,7 @@ class ControladorPerfiles{
 
 				echo'<script>
 
-				swal({
+				Swal.fire({
 					  type: "success",
 					  title: "El Perfil ha sido borrado correctamente",
 					  showConfirmButton: true,
@@ -204,8 +204,12 @@ class ControladorPerfiles{
 					  closeOnConfirm: false
 					  }).then(function(result) {
 								if (result.value) {
-
-								window.location = "perfiles";
+								
+								$("#perfiles").addClass("active");
+								var table = $(".perfiles").DataTable();
+table.clear().draw();
+table.rows.add(newData); // newData es un array con los nuevos datos
+table.columns.adjust().draw(); // Ajustar las columnas si es necesario
 
 								}
 							})
