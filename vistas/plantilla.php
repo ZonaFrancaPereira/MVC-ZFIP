@@ -55,6 +55,8 @@ session_start();
     <link rel="stylesheet" href="vistas/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="vistas/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <link rel="stylesheet" href="vistas/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="vistas/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
 
   <!--=====================================
   PLUGINS DE JAVASCRIPT
@@ -95,8 +97,12 @@ session_start();
   <script src="vistas/dist/js/pages/dashboard.js"></script>
   <!-- Select2 -->
   <script src="vistas/plugins/select2/js/select2.full.min.js"></script>
+   <!-- iCheck 1.0.1 -->
+   <script src="vistas/plugins/iCheck/icheck.min.js"></script>
   <!-- Swith Check -->
   <script src="vistas/bower_components/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
+  <!-- Bootstrap Switch -->
+<script src="vistas/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
   <!-- SweetAlert 2 -->
   <script src="vistas/plugins/sweetalert2/sweetalert2.all.js"></script>
   <!-- Initialize tooltips -->
@@ -163,6 +169,7 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "inicio" ||
         $_GET["ruta"] == "ti" ||
         $_GET["ruta"] == "perfiles" ||
+        $_GET["ruta"] == "usuarios" ||
         $_GET["ruta"] == "salir"
       ) {
 
@@ -199,51 +206,7 @@ CUERPO DOCUMENTO
   <script src="vistas/js/perfiles.js"></script>
   <script src="vistas/js/ti.js"></script>
 
-  <script>
-  $(document).ready(function() {
-    $("perfiles").DataTable({
-
-"language":{
-  "sProcessing":     "Procesando...",
-  "sLengthMenu":     "Mostrar _MENU_ registros",
-  "sZeroRecords":    "No se encontraron resultados",
-  "sEmptyTable":     "Ningún dato disponible en esta tabla",
-  "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-  "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-  "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-  "sSearch":         "Buscar:",
-  "sInfoThousands":  ",",
-  "sLoadingRecords": "Cargando...",
-  "oPaginate": {
-    "sFirst":    "Primero",
-    "sLast":     "Último",
-    "sNext":     "Siguiente",
-    "sPrevious": "Anterior"
-  },
-  "oAria": {
-    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-  },
-  "buttons": {
-    "copy": "Copiar",
-    "colvis": "Visibilidad"
-  }
-},
-responsive:"true",
-dom:"Bfrtilp",
-
-
-"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
-
-
-
-"order":[[0,'desc']],
-autoWidth: true
-
-});
-
-  });
-</script>
+ 
 </body>
 
 </html>

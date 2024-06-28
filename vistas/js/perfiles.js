@@ -1,3 +1,48 @@
+
+var tablaPerfiles = $(".tabla-perfiles").DataTable({
+	"ajax": "ajax/datatable-perfiles.ajax.php",
+    "deferRender": true,
+     "serverSide" : true,
+  "retrieve": true,
+  "processing": true,
+	"language":{
+	  "sProcessing":     "Procesando...",
+	  "sLengthMenu":     "Mostrar _MENU_ registros",
+	  "sZeroRecords":    "No se encontraron resultados",
+	  "sEmptyTable":     "Ningún dato disponible en esta tabla",
+	  "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+	  "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+	  "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+	  "sSearch":         "Buscar:",
+	  "sInfoThousands":  ",",
+	  "sLoadingRecords": "Cargando...",
+	  "oPaginate": {
+		"sFirst":    "Primero",
+		"sLast":     "Último",
+		"sNext":     "Siguiente",
+		"sPrevious": "Anterior"
+	  },
+	  "oAria": {
+		"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+		"sSortDescending": ": Activar para ordenar la columna de manera descendente"
+	  },
+	  "buttons": {
+		"copy": "Copiar",
+		"colvis": "Visibilidad"
+	  }
+	},
+	responsive:"true",
+	dom:"Bfrtilp",
+	
+	
+	"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+	
+	
+	
+	"order":[[0,'desc']],
+	autoWidth: true
+	
+	});
 /*=============================================
 EDITAR PERFIL
 =============================================*/
@@ -53,7 +98,7 @@ $(".table").on("click", ".btnEliminarPerfil", function(){
 	}).then(function(result){
 	  if(result.value){
 		$.ajax({
-		  url: 'index.php',
+		  url: 'ti',
 		  type: 'POST',
 		  data: { idPerfil: idPerfil, eliminar: 'si' },
 		  success: function(response) {
@@ -62,8 +107,10 @@ $(".table").on("click", ".btnEliminarPerfil", function(){
 			  'El perfil ha sido eliminado.',
 			  'success'
 			).then(function() {
-			  // Puedes actualizar la tabla o redirigir
-			  location.reload(); // Recargar la página para reflejar los cambios
+	
+			  $("#ConsultarPerfil").addClass("active");
+			  tablaPerfiles.ajax.reload();
+			 
 			});
 		  },
 		  error: function() {

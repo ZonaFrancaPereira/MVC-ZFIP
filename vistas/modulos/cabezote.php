@@ -46,6 +46,9 @@
             <li><a href="asociados_ju.php" class="dropdown-item">Asociados de Negocios</a></li>
           </ul>
         </li>
+        <li class="nav-item d-none d-sm-inline-block">
+          <a href="operaciones" class="nav-link">G-OP</a>
+        </li>
       </ul>
       <!-- Right navbar links -->
       <ul class="navbar-nav ml-auto">

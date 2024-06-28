@@ -281,16 +281,11 @@ if ($_SESSION["ti"] == "off") {
                     <div id="perfiles" class="tab-pane">
                         <div class="row">
                             <div class="col-md-12">
-                            
-                                    <?php require "ti/perfiles.php"; ?>
-                                    <?php
-
-  $borrarPerfil = new ControladorPerfiles();
-  $borrarPerfil-> ctrBorrarPerfil();
-
-?>
-
-                                
+                                <?php require "ti/perfiles.php"; ?>
+                                <?php
+                                $borrarPerfil = new ControladorPerfiles();
+                                $borrarPerfil->ctrBorrarPerfil();
+                                ?>
                             </div>
                         </div>
                     </div>
