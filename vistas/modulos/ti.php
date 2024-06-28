@@ -40,8 +40,8 @@ require_once "configuracion.php";
             </a>
         </li>
         <li class="nav-item">
-            <a data-toggle="tab" href="" class="nav-link">
-                <i class="fas fa-users"></i>
+            <a data-toggle="tab" href="usuarios" class="nav-link">
+            <i class="fas fa-users"></i>
                 <p>Usuarios</p>
             </a>
 

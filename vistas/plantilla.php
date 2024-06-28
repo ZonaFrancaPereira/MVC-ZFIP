@@ -165,6 +165,7 @@ CUERPO DOCUMENTO
 
     if (isset($_GET["ruta"])) {
 
+<<<<<<< HEAD
       if (
         $_GET["ruta"] == "inicio" ||
         $_GET["ruta"] == "ti" ||
@@ -172,6 +173,13 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "usuarios" ||
         $_GET["ruta"] == "salir"
       ) {
+=======
+      if($_GET["ruta"] == "inicio" ||
+         $_GET["ruta"] == "ti" ||
+         $_GET["ruta"] == "perfiles" ||
+         $_GET["ruta"] == "usuarios" ||
+         $_GET["ruta"] == "salir"){
+>>>>>>> c999ce7bff2759a1eeeb3093dd8b2268763d8881
 
         include "modulos/" . $_GET["ruta"] . ".php";
       } else {
