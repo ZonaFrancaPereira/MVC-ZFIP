@@ -58,6 +58,10 @@ session_start();
   <!-- iCheck for checkboxes and radio inputs -->
   <link rel="stylesheet" href="vistas/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
 
+   <!-- Control Sidebar -->
+   <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
   <!--=====================================
   PLUGINS DE JAVASCRIPT
   ======================================-->
@@ -165,21 +169,15 @@ CUERPO DOCUMENTO
 
     if (isset($_GET["ruta"])) {
 
-<<<<<<< HEAD
       if (
         $_GET["ruta"] == "inicio" ||
         $_GET["ruta"] == "ti" ||
         $_GET["ruta"] == "perfiles" ||
         $_GET["ruta"] == "usuarios" ||
+        $_GET["ruta"] == "operaciones" ||
+        $_GET["ruta"] == "formulario_pesaje" ||
         $_GET["ruta"] == "salir"
       ) {
-=======
-      if($_GET["ruta"] == "inicio" ||
-         $_GET["ruta"] == "ti" ||
-         $_GET["ruta"] == "perfiles" ||
-         $_GET["ruta"] == "usuarios" ||
-         $_GET["ruta"] == "salir"){
->>>>>>> c999ce7bff2759a1eeeb3093dd8b2268763d8881
 
         include "modulos/" . $_GET["ruta"] . ".php";
       } else {
@@ -213,7 +211,12 @@ CUERPO DOCUMENTO
   <script src="vistas/js/usuarios.js"></script>
   <script src="vistas/js/perfiles.js"></script>
   <script src="vistas/js/ti.js"></script>
-
+  <script>
+// Función para limpiar el formulario después de guardar
+function limpiarFormulario() {
+    document.getElementById("GuardarPesaje").reset();
+}
+</script>
  
 </body>
 

@@ -11,6 +11,14 @@
             </p>
           </a>
         </li>
+        <li class="nav-item En_linea 1" role="presentation">
+          <a data-toggle="tab" href="#acpm" class="nav-link">
+            <i class="nav-icon far fa-smile-wink"></i>
+            <p>
+             Enviar Comentario
+            </p>
+          </a>
+        </li>
 
       </ul>
 
