@@ -15,7 +15,8 @@ class ModeloClientes{
 																, email
 																, telefono
 																, direccion
-																, fecha_nacimiento
+																, ciudad
+																, departamento
 
 																) 
 																VALUES (:nombre
@@ -23,7 +24,8 @@ class ModeloClientes{
 																, :email
 																, :telefono
 																, :direccion
-																, :fecha_nacimiento
+																, :ciudad
+																, :departamento
 
 																)");
 
@@ -32,7 +34,8 @@ class ModeloClientes{
 		$stmt->bindParam(":email", $datos["email"], PDO::PARAM_STR);
 		$stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
 		$stmt->bindParam(":direccion", $datos["direccion"], PDO::PARAM_STR);
-		$stmt->bindParam(":fecha_nacimiento", $datos["fecha_nacimiento"], PDO::PARAM_STR);
+		$stmt->bindParam(":ciudad", $datos["ciudad"], PDO::PARAM_STR);
+		$stmt->bindParam(":departamento", $datos["departamento"], PDO::PARAM_STR);
 
 
 		if($stmt->execute()){
@@ -46,7 +49,7 @@ class ModeloClientes{
 		
 		}
 
-		$stmt->close();
+	
 		$stmt = null;
 
 	}
@@ -69,7 +72,8 @@ class ModeloClientes{
 
 			$stmt -> execute();
 
-			return $stmt -> fetch();
+			
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 		}else{
 
@@ -81,7 +85,7 @@ class ModeloClientes{
 
 		}
 
-		$stmt -> close();
+
 
 		$stmt = null;
 
@@ -116,7 +120,7 @@ class ModeloClientes{
 
 		
 
-		$stmt -> close();
+		
 
 		$stmt = null;
 
@@ -158,7 +162,7 @@ class ModeloClientes{
                                                     like '%".$buscar."%'
                                                     or
 
-                                                    fecha_nacimiento
+                                                    ciudad
                                                     like '%".$buscar."%'
 							)
 
@@ -196,7 +200,7 @@ class ModeloClientes{
 
 		return $stmt -> fetchAll();
 
-		$stmt -> close();
+		
 
 		$stmt = null;
 
@@ -220,7 +224,7 @@ class ModeloClientes{
 
 		
 
-		$stmt -> close();
+		
 
 		$stmt = null;
 
@@ -232,7 +236,7 @@ class ModeloClientes{
 
 	static public function mdlEditarCliente($tabla, $datos){
 
-		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET nombre = :nombre, documento = :documento, email = :email, telefono = :telefono, direccion = :direccion, fecha_nacimiento = :fecha_nacimiento WHERE id = :id");
+		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET nombre = :nombre, documento = :documento, email = :email, telefono = :telefono, direccion = :direccion, ciudad = :ciudad WHERE id = :id");
 
 		$stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
 		$stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
@@ -240,7 +244,7 @@ class ModeloClientes{
 		$stmt->bindParam(":email", $datos["email"], PDO::PARAM_STR);
 		$stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
 		$stmt->bindParam(":direccion", $datos["direccion"], PDO::PARAM_STR);
-		$stmt->bindParam(":fecha_nacimiento", $datos["fecha_nacimiento"], PDO::PARAM_STR);
+		$stmt->bindParam(":ciudad", $datos["ciudad"], PDO::PARAM_STR);
 
 		if($stmt->execute()){
 
@@ -252,7 +256,6 @@ class ModeloClientes{
 		
 		}
 
-		$stmt->close();
 		$stmt = null;
 
 	}
@@ -277,7 +280,7 @@ class ModeloClientes{
 
 		}
 
-		$stmt -> close();
+		
 
 		$stmt = null;
 
@@ -304,10 +307,15 @@ class ModeloClientes{
 
 		}
 
-		$stmt -> close();
+		
 
 		$stmt = null;
 
 	}
+	static public function mdlMostrarClientesData() {
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM clientes");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 }

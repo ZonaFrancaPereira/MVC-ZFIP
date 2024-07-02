@@ -112,9 +112,8 @@ class TablaClientes{
 
 
        
-                $codigoBarras ="<button class='btn btn-success btnCodigoBarras' idCliente='" . $clientes[$i]["id"] . "' ><i class='fa fa-barcode'></i></button>";
-                $codigoQR ="<button class='btn btn-success btnCodigoQR' idCliente='" . $clientes[$i]["id"] . "' ><i class='fa fa-qrcode'></i></button>";
-                $botones = "<div class='btn-group'><button class='btn btn-warning btnEditarCliente' idCliente='" . $clientes[$i]["id"] . "' data-toggle='modal' data-target='#modalEditarCliente'><i class='fa fa-pencil'></i></button><button class='btn btn-danger btnEliminarCliente' idCliente='" . $clientes[$i]["id"] . "'><i class='fa fa-times'></i></button>".$codigoBarras.$codigoQR."</div>";
+
+                $botones = "<div class='btn-group'><button class='btn btn-warning btnEditarCliente' idCliente='" . $clientes[$i]["id"] . "' data-toggle='modal' data-target='#modalEditarCliente'><i class='fas fa-edit'></i></button><button class='btn btn-danger btnEliminarCliente' idCliente='" . $clientes[$i]["id"] . "'><i class='fa fa-times'></i></button>".$codigoBarras.$codigoQR."</div>";
           
 
 		  	$datosJson .='[
@@ -124,7 +123,6 @@ class TablaClientes{
 						"'.$clientes[$i]["email"].'",
 						"'.$clientes[$i]["telefono"].'",
 						"'.$clientes[$i]["direccion"].'",
-						"'.$clientes[$i]["fecha_nacimiento"].'",
 						"'.$clientes[$i]["compras"].'",
 						"'.$clientes[$i]["ultima_compra"].'",
 						"'.$clientes[$i]["fecha"].'",

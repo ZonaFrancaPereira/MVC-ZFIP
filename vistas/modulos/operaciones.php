@@ -22,7 +22,7 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
                 <p>Panel de Control</p>
             </a>
         </li>
-      
+
         <li class="nav-item">
             <a data-toggle="tab" href="#formbascula" class="nav-link">
                 <i class="far fa-save"></i>
@@ -36,7 +36,7 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
             </a>
         </li>
         <li class="nav-item">
-            <a data-toggle="tab" href="#clientes" class="nav-link">
+            <a data-toggle="tab" href="#formclientes" class="nav-link">
                 <i class="fas fa-file-invoice"></i>
                 <p>Clientes</p>
             </a>
@@ -59,29 +59,35 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
             <div class="container-fluid">
                 <div class="tab-content card">
                     <!-- /.PANEL PRINCIPAL PARA MOSTRAR LAS CAJAS SUPERIORES E INFORMACIÓN DE BASCULAS -->
-                 
+
                     <div id="panelbascula" class="active tab-pane">
-                    <?php require "operaciones/CajasOp.php"; ?>
+                        <?php require "operaciones/cajas_op.php"; ?>
                     </div>
-                        <!-- /. FORMULARIO PARA INGRESAR NUEVO PESAJE -->
+                    <!-- /. FORMULARIO PARA INGRESAR NUEVO PESAJE -->
                     <div id="formbascula" class="tab-pane">
-                    <?php require "operaciones/formulario_pesaje.php"; ?>
+                        <?php require "operaciones/formulario_pesaje.php"; ?>
                     </div>
-                    
+                    <!-- /. CONSULTAR PESAJE Y SUS ESTADOS -->
+                    <div id="consultarpesaje" class="tab-pane">
+                        <?php require "operaciones/consultar_pesaje.php"; ?>
+                    </div>
+                    <!-- /. Clientes -->
+                    <div id="formclientes" class="tab-pane">
+                        <?php require "operaciones/clientes_pesaje.php"; ?>
+                        <!-- ACCIONES PHP PARA ELIMINIAR CLIENTE  -->
+<?php
+$eliminarCliente = new ControladorClientes();
+$eliminarCliente->ctrEliminarCliente();
+?>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<?php
-    // Controlador para manejar el POST
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $crearBascula = new ControladorBascula();
-        $crearBascula->ctrCrearBascula();
-    }
-    ?>
-    
+
+
 </body>
 
 </html>

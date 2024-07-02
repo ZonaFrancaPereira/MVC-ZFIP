@@ -10,7 +10,7 @@ class ControladorPerfiles
 
 	static public function ctrCrearPerfil()
 	{
-		echo $_POST["nuevoDescripcionPerfil"];
+		
 		if (isset($_POST["nuevoDescripcionPerfil"])) {
 
 			if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevoDescripcionPerfil"])) {

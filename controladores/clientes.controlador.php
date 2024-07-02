@@ -1,96 +1,102 @@
 <?php
 
-class ControladorClientes{
+class ControladorClientes
+{
 	/*=============================================
 	CREAR CLIENTES
 	=============================================*/
 
 	static public function ctrCrearCliente(){
 
-		if(isset($_POST["nuevoCliente"])){
+		if (isset($_POST["nuevoCliente"])) {
 
-			if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevoCliente"]) 
+			if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevoCliente"])) {
 
-				/*&&
-			   preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]++$/', $_POST["nuevoDocumentoId"]) &&
-			   preg_match('/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/', $_POST["nuevoEmail"]) && 
-			   preg_match('/^[()\-0-9 ]+$/', $_POST["nuevoTelefono"]) && 
-			   preg_match('/^[#\.\-a-zA-Z0-9 ]+$/', $_POST["nuevaDireccion"]) */
-			){
+				$tabla = "clientes";
 
-			   	$tabla = "clientes";
+				$datos = array(
+					"nombre" => $_POST["nuevoCliente"],
+					"documento" => $_POST["nuevoDocumentoId"],
+					"email" => $_POST["nuevoEmail"],
+					"telefono" => $_POST["nuevoTelefono"],
+					"direccion" => $_POST["nuevaDireccion"],
+					"ciudad" => $_POST["nuevaCiudad"],
+					"departamento" => $_POST["nuevoDepartamento"]
+				);
 
-			   	$datos = array("nombre"=>$_POST["nuevoCliente"],
-					           "documento"=>$_POST["nuevoDocumentoId"],
-					           "email"=>$_POST["nuevoEmail"],
-					           "telefono"=>$_POST["nuevoTelefono"],
-					           "direccion"=>$_POST["nuevaDireccion"],
-					           "fecha_nacimiento"=>$_POST["nuevaFechaNacimiento"]);
+				$respuesta = ModeloClientes::mdlIngresarCliente($tabla, $datos);
 
-			   	$respuesta = ModeloClientes::mdlIngresarCliente($tabla, $datos);
-			   	
-			   	if($respuesta == "ok"){
+				if ($respuesta == "ok") {
 
-					echo'<script>
+					echo '<script>
 
-					swal({
-						  type: "success",
-						  title: "El cliente ha sido guardado correctamente",
-						  showConfirmButton: true,
-						  confirmButtonText: "Cerrar"
-						  }).then(function(result){
-									if (result.value) {
-
-									window.location = "clientes";
-
-									}
-								})
+					  Swal.fire(
+							"Buen Trabajo!",
+							"El cliente  se ha registrado con éxito.",
+							"success"
+							).then(function() {
+							actualizarDatalist();
+							 //Limpiar el formulario
+                            document.getElementById("GuardarCliente").reset();
+							$("#panelbascula").removeClass("active");
+                            $("#formclientes").addClass("active");
+							
+					
+							
+							
+							});
 
 					</script>';
-
 				}
+			} else {
 
-			}else{
-
-				echo'<script>
+				echo '<script>
 
 					swal({
 						  type: "error",
-						  title: "¡'.$respuesta[2].'El cliente no puede ir vacío o llevar caracteres especiales!",
+						  title: "¡El cliente no puede ir vacío o llevar caracteres especiales!",
 						  showConfirmButton: true,
 						  confirmButtonText: "Cerrar"
 						  }).then(function(result){
 							if (result.value) {
 
-							window.location = "clientes";
+							$("#panelbascula").removeClass("active");
+                            $("#formclientes").addClass("active");
 
 							}
 						})
 
 			  	</script>';
-
-
-
 			}
-
-		}else{
+		} else {
 			return "error";
 		}
-
 	}
+
+	static public function obtenerClientes() {
+        $clientes = ModeloClientes::mdlMostrarClientesData(); // Método para obtener clientes desde la base de datos
+        echo json_encode($clientes);
+    }
 
 	/*=============================================
 	MOSTRAR CLIENTES
 	=============================================*/
 
-	static public function ctrMostrarClientes($item, $valor){
+	static public function ctrMostrarClientes($item, $valor)
+	{
 
 		$tabla = "clientes";
 
 		$respuesta = ModeloClientes::mdlMostrarClientes($tabla, $item, $valor);
 
 		return $respuesta;
+	}
+	static public function ctrMostrarClientesData()
+	{
 
+		$respuesta = ModeloClientes::mdlMostrarClientesData();
+
+		return $respuesta;
 	}
 
 
@@ -98,45 +104,44 @@ class ControladorClientes{
 	MOSTRAR CLIENTES AJAX
 	=============================================*/
 
-	static public function ctrMostrarClientesAjax(){
+	static public function ctrMostrarClientesAjax()
+	{
 
 		$tabla = "clientes";
 
 		$respuesta = ModeloClientes::mdlMostrarClientesAjax();
 
 		return $respuesta;
-
 	}
 
 	/*=============================================
 	EDITAR CLIENTE
 	=============================================*/
 
-	static public function ctrEditarCliente(){
+	static public function ctrEditarCliente()
+	{
 
-		if(isset($_POST["editarCliente"])){
+		if (isset($_POST["editarCliente"])) {
 
-			if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarCliente"]) /*&&
-			   preg_match('/^[0-9]+$/', $_POST["editarDocumentoId"]) &&
-			   preg_match('/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/', $_POST["editarEmail"]) && 
-			   preg_match('/^[()\-0-9 ]+$/', $_POST["editarTelefono"]) && 
-			   preg_match('/^[#\.\-a-zA-Z0-9 ]+$/', $_POST["editarDireccion"])*/){
+			if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarCliente"])) {
 
-			   	$tabla = "clientes";
+				$tabla = "clientes";
 
-			   	$datos = array("id"=>$_POST["idCliente"],
-			   				   "nombre"=>$_POST["editarCliente"],
-					           "documento"=>$_POST["editarDocumentoId"],
-					           "email"=>$_POST["editarEmail"],
-					           "telefono"=>$_POST["editarTelefono"],
-					           "direccion"=>$_POST["editarDireccion"],
-					           "fecha_nacimiento"=>$_POST["editarFechaNacimiento"]);
+				$datos = array(
+					"id" => $_POST["idCliente"],
+					"nombre" => $_POST["editarCliente"],
+					"documento" => $_POST["editarDocumentoId"],
+					"email" => $_POST["editarEmail"],
+					"telefono" => $_POST["editarTelefono"],
+					"direccion" => $_POST["editarDireccion"],
+					"fecha_nacimiento" => $_POST["editarFechaNacimiento"]
+				);
 
-			   	$respuesta = ModeloClientes::mdlEditarCliente($tabla, $datos);
+				$respuesta = ModeloClientes::mdlEditarCliente($tabla, $datos);
 
-			   	if($respuesta == "ok"){
+				if ($respuesta == "ok") {
 
-					echo'<script>
+					echo '<script>
 
 					swal({
 						  type: "success",
@@ -152,12 +157,10 @@ class ControladorClientes{
 								})
 
 					</script>';
-
 				}
+			} else {
 
-			}else{
-
-				echo'<script>
+				echo '<script>
 
 					swal({
 						  type: "error",
@@ -173,55 +176,30 @@ class ControladorClientes{
 						})
 
 			  	</script>';
-
-
-
 			}
-
 		}
-
 	}
 
 	/*=============================================
 	ELIMINAR CLIENTE
 	=============================================*/
 
-	static public function ctrEliminarCliente(){
+	static public function ctrEliminarCliente()
+	{
 
-		if(isset($_GET["idCliente"])){
+		if (isset($_POST["idCliente"])) {
 
-			$tabla ="clientes";
-			$datos = $_GET["idCliente"];
+			$tabla = "clientes";
+			$datos = $_POST["idCliente"];
 
 			$respuesta = ModeloClientes::mdlEliminarCliente($tabla, $datos);
 
-			if($respuesta == "ok"){
+			if ($respuesta == "ok") {
 
-				echo'<script>
-
-				swal({
-					  type: "success",
-					  title: "El cliente ha sido borrado correctamente",
-					  showConfirmButton: true,
-					  confirmButtonText: "Cerrar",
-					  closeOnConfirm: false
-					  }).then(function(result){
-								if (result.value) {
-
-								window.location = "clientes";
-
-								}
-							})
-
-				</script>';
-
-			}		
-
+				echo 'ok';
+			}
 		}
-
 	}
-
-
 }
 
 
@@ -230,17 +208,16 @@ CREAR CLIENTE
 =============================================*/
 
 
-if(isset($_POST["guardarAjax"])){
+if (isset($_POST["guardarAjax"])) {
 
 
-  require_once "../modelos/clientes.modelo.php";
- 
-					
-  $crearCliente = new ControladorClientes();
-  $respuesta=$crearCliente-> ctrCrearCliente();
+	require_once "../modelos/clientes.modelo.php";
 
-  echo  $respuesta;
 
+	$crearCliente = new ControladorClientes();
+	$respuesta = $crearCliente->ctrCrearCliente();
+
+	echo  $respuesta;
 }
 
 /*=============================================
@@ -249,14 +226,18 @@ LEER CLIENTES AJAX
 
 
 
-if(isset($_POST["ajaxCliente"])){
+if (isset($_POST["ajaxCliente"])) {
 
-  require_once "../modelos/clientes.modelo.php";
- 
-  $leerCliente = new ControladorClientes();
-  $respuesta=$leerCliente-> ctrMostrarClientesAjax();
+	require_once "../modelos/clientes.modelo.php";
 
-  echo json_encode($respuesta);
+	$leerCliente = new ControladorClientes();
+	$respuesta = $leerCliente->ctrMostrarClientesAjax();
 
+	echo json_encode($respuesta);
 }
 
+if (isset($_GET['action']) && $_GET['action'] === 'obtener_clientes') {
+    // Aquí va la lógica para obtener los datos de los clientes
+    $clientes = ControladorClientes::ctrMostrarClientesData(); // Suponiendo que este método devuelve los datos
+    echo json_encode($clientes); // Devuelve los datos como JSON
+}

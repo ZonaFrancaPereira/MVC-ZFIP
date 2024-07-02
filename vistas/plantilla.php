@@ -211,6 +211,8 @@ CUERPO DOCUMENTO
   <script src="vistas/js/usuarios.js"></script>
   <script src="vistas/js/perfiles.js"></script>
   <script src="vistas/js/ti.js"></script>
+  <script src="vistas/js/op.js"></script>
+  <script src="vistas/js/clientes.js"></script>
   <script>
 // Función para limpiar el formulario después de guardar
 function limpiarFormulario() {

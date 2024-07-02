@@ -25,7 +25,7 @@
                         <h3 class="card-title">Servicio de Báscula</h3>
                     </div>
                     <div class="card-body">
-                        <form  id="GuardarPesaje" role="form" method="post" enctype="multipart/form-data">
+                        <form id="GuardarPesaje" role="form" method="post" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col-md-4 col-sm-6">
                                     <div class="form-group">
@@ -51,7 +51,8 @@
                                             $item = null;
                                             $valor = null;
                                             $clientes = ControladorClientes::ctrMostrarClientes($item, $valor);
-
+                                            // Devolver los datos en formato JSON
+                                            
                                             foreach ($clientes as $key => $value) {
                                                 echo '<option value="' . $value["id"] . '">' . $value["id"] . " - " . $value["nombre"] . '</option>';
                                             }
