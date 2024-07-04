@@ -9,100 +9,79 @@ class ControladorUsuarios{
 	static public function ctrIngresoUsuario(){
 
 		if(isset($_POST["ingUsuario"])){
-
-			if(preg_match('/^[a-zA-Z0-9]+$/', $_POST["ingUsuario"]) &&
-			   preg_match('/^[a-zA-Z0-9]+$/', $_POST["ingPassword"])){
-
-			   	$encriptar = crypt($_POST["ingPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
-
+	
+			// Permitir letras, números y caracteres especiales comunes
+			if(preg_match('/^[a-zA-Z0-9@._-]+$/', $_POST["ingUsuario"]) &&
+			   preg_match('/^[a-zA-Z0-9@#$%^&*()_+=!]+$/', $_POST["ingPassword"])){
+	
+				$encriptar = crypt($_POST["ingPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+	
 				$tabla = "usuarios";
-
-				$item = "usuario";
+	
+				$item = "correo_usuario";
 				$valor = $_POST["ingUsuario"];
-
+	
 				$respuesta = ModeloUsuarios::MdlMostrarUsuarios($tabla, $item, $valor);
-
+	
 				$acceso = ModeloPerfiles::mdlMostrarPerfiles("perfiles", "perfil", $respuesta["perfil"]);
-
-				if($respuesta["usuario"] == $_POST["ingUsuario"] && $respuesta["password"] !=$encriptar){
-					$intentos=esCero($respuesta["intentos"])+1;
-
-					$respuesta1 = ModeloUsuarios::mdlActualizarUsuario("usuarios","intentos",$intentos,"id",$respuesta["id"]);
-
-
-					if($intentos>5){
-						$respuesta = ModeloUsuarios::mdlActualizarUsuario("usuarios","estado",0,"id",$respuesta["id"]);
-
+	
+				if($respuesta["correo_usuario"] == $_POST["ingUsuario"] && $respuesta["password"] != $encriptar){
+					$intentos = esCero($respuesta["intentos"]) + 1;
+	
+					$respuesta1 = ModeloUsuarios::mdlActualizarUsuario("usuarios", "intentos", $intentos, "id", $respuesta["id"]);
+	
+					if($intentos > 5){
+						$respuesta = ModeloUsuarios::mdlActualizarUsuario("usuarios", "estado", 0, "id", $respuesta["id"]);
 					}
 				}
-
-
-				if($respuesta["usuario"] == $_POST["ingUsuario"] && $respuesta["password"] == $encriptar){
-
+	
+				if($respuesta["correo_usuario"] == $_POST["ingUsuario"] && $respuesta["password"] == $encriptar){
+	
 					if($respuesta["estado"] == 1){
-
+	
 						$_SESSION["iniciarSesion"] = "ok";
 						$_SESSION["id"] = $respuesta["id"];
 						$_SESSION["nombre"] = $respuesta["nombre"];
-						$_SESSION["usuario"] = $respuesta["usuario"];
+						$_SESSION["correo_usuario"] = $respuesta["correo_usuario"];
 						$_SESSION["foto"] = $respuesta["foto"];
 						$_SESSION["perfil"] = $respuesta["perfil"];
+						$_SESSION["id_proceso_fk"] = $respuesta["id_proceso_fk"];
 						$_SESSION["descripcionPerfil"] = $acceso["descripcion"];
-
-						//DERECHOS MENU CONFIGURACION
+	
+						// DERECHOS MENU CONFIGURACION
 						$_SESSION["menuConfiguraciones"] = $acceso["menuConfiguraciones"];
-						
-
-
-
-
-
-						/*=============================================
-						REGISTRAR FECHA PARA SABER EL ÚLTIMO LOGIN
-						=============================================*/
-
-
-
+	
+						// REGISTRAR FECHA PARA SABER EL ÚLTIMO LOGIN
 						$fecha = date('Y-m-d');
 						$hora = date('H:i:s');
-
-						$fechaActual = $fecha.' '.$hora;
-
+						$fechaActual = $fecha . ' ' . $hora;
+	
 						$item1 = "ultimo_login";
 						$valor1 = $fechaActual;
-
+	
 						$item2 = "id";
 						$valor2 = $respuesta["id"];
-
+	
 						$ultimoLogin = ModeloUsuarios::mdlActualizarUsuario($tabla, $item1, $valor1, $item2, $valor2);
-
+	
 						if($ultimoLogin == "ok"){
-
-							echo '<script>
-
-								window.location = "inicio";
-
-							</script>';
-
+							echo '<script>window.location = "inicio";</script>';
 						}
-
+	
 					}else{
-
-						echo '<br>
-							<div class="alert alert-danger">El usuario aún no está activado</div>';
-
+						echo '<br><div class="alert alert-danger">El usuario aún no está activado</div>';
 					}
-
+	
 				}else{
-
 					echo '<br><div class="alert alert-danger">Error al ingresar, vuelve a intentarlo</div>';
-
 				}
-
+	
+			} else {
+				echo '<br><div class="alert alert-danger">Caracteres no permitidos</div>';
 			}
-
+	
 		}
-
+	
 	}
 
 	/*=============================================
@@ -197,7 +176,7 @@ class ControladorUsuarios{
 				$encriptar = crypt($_POST["nuevoPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
 
 				$datos = array("nombre" => $_POST["nuevoNombre"],
-					           "usuario" => $_POST["nuevoUsuario"],
+					           "correo_usuario" => $_POST["nuevoUsuario"],
 					           "password" => $encriptar,
 					           "perfil" => $_POST["nuevoPerfil"],
 					           "foto"=>$ruta);
