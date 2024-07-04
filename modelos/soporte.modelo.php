@@ -5,7 +5,7 @@ require_once "conexion.php";
 class ModeloSoporte {
 
     public static function mdlIngresarSoporte($tabla, $datos) {
-        try {
+        
             $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (
                 correo_soporte,
                 id_usuario_fk,
@@ -27,17 +27,17 @@ class ModeloSoporte {
             $stmt->bindParam(":usuario_soporte", $datos["usuario_soporte"], PDO::PARAM_STR);
             $stmt->bindParam(":proceso_soporte", $datos["proceso_soporte"], PDO::PARAM_INT);
             $stmt->bindParam(":descripcion_soporte", $datos["descripcion_soporte"], PDO::PARAM_STR);
+            
+            if ($stmt->execute()) {
+			return "ok";
+		} else {
+			return "error";
+		}
 
-            if (!$stmt->execute()) {
-                $error = $stmt->errorInfo();
-                throw new PDOException("Error al ejecutar la consulta: ". $error[2]);
-            }
+		$stmt->closeCursor();
+		$stmt = null;
+	}
 
-            return "ok";
-        } catch (PDOException $e) {
-            return "Exception: ". $e->getMessage();
-        }
-    }
 }
 
 ?>

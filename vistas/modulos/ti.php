@@ -119,10 +119,6 @@ if ($_SESSION["ti"] == "off") {
                         <div class="row">
                             <div class="col-md-12">
                                 <?php require "ti/soporte.php"; ?>
-                                <?php
-                                $solicitudSoporte = new ControladorSoporte();
-                                $solicitudSoporte->ctrCrearSoporte();
-                                ?>
                             </div>
                         </div>
                     </div>

@@ -2,14 +2,13 @@
     <div class="container-fluid">
         <div class="tab-content card">
             <div id="realizar_solicitud" class="tab-pane">
-                <div class="card card-custom">
                     <div class="card-header bg-warning">
                         <center>
                             <h3 class="card-title">¡Haz tu Solicitud de Soporte Aquí!</h3>
                         </center>
                     </div>
                     <!-- /.FORMULARIO PARA REALIZAR SOLICITUD DE SOPORTE -->
-                    <div id="realizar_solicitud" class="tab-pane">
+                    <div id="solicitud" class="tab-pane">
                         <div class="card card-custom">
                             <form id="soporte_ti" method="POST" enctype="multipart/form-data">
                                 <div class="card-body">
@@ -42,7 +41,6 @@
                             </form>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
     </div>

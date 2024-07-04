@@ -1,7 +1,7 @@
 <?php
 class ControladorSoporte {
 
-    public static function ctrCrearSoporte() {
+     static public function ctrCrearSoporte() {
 
         if (isset($_POST["correo_soporte"])) {
             //...
@@ -11,8 +11,7 @@ class ControladorSoporte {
                 "id_usuario_fk" => $_POST["id_usuario_fk"],
                 "usuario_soporte" => $_POST["usuario_soporte"],
                 "proceso_soporte" => $_POST["proceso_soporte"],
-                "descripcion_soporte" => $_POST["descripcion_soporte"],
-                "fecha_soporte" => date("Y-m-d H:i:s")
+                "descripcion_soporte" => $_POST["descripcion_soporte"]
             );
 
             $respuesta = ModeloSoporte::mdlIngresarSoporte($tabla, $datos);
