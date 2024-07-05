@@ -1,3 +1,10 @@
+function refrescarClientes() { 
+  alert("sii");
+  
+  $("#contenidoClientes").load(window.location.href + " #contenidoClientes", function() {
+    
+  });
+}
 
 tablaClientes = $('.tablaClientes').DataTable({
   "ajax": "ajax/datatable-clientes.ajax.php",
@@ -39,27 +46,7 @@ tablaClientes = $('.tablaClientes').DataTable({
 
 })
 
-function actualizarDatalist() {
-  alert("dg");
-  $.ajax({
-    url: 'controladores/clientes.controlador.php?action=obtener_clientes',
-    type: 'GET',
-    dataType: 'json',
-    success: function(response) {
-        console.log('Clientes:', response);
-        var datalist = $('#clientes');
-        datalist.empty(); // Limpia el datalist antes de agregar nuevas opciones
-        $.each(response, function(index, cliente) {
-            datalist.append('<option value="' + cliente.id + '">' + cliente.id + ' - ' + cliente.nombre + '</option>');
-        });
-    },
-    error: function(xhr, status, error) {
-        console.log('Error:', error);
-        console.log('Status:', status);
-        console.log('Response:', xhr.responseText);
-    }
-});
-}
+
 
 /*=============================================
 EDITAR CLIENTE
@@ -123,7 +110,8 @@ $(".tablaClientes").on("click", ".btnEliminarCliente", function () {
             'El cliente ha sido eliminado.',
             'success'
           ).then(function () {
-            actualizarDatalist();
+            refrescarClientes();
+            
             tablaClientes.ajax.reload();
             $("#ConsultarClientes").addClass("active");
 

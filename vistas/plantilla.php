@@ -179,6 +179,8 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "usuarios" ||
         $_GET["ruta"] == "operaciones" ||
         $_GET["ruta"] == "formulario_pesaje" ||
+        $_GET["ruta"] == "contabilidad" ||
+        $_GET["ruta"] == "panel_contabilidad" ||
         $_GET["ruta"] == "salir"
       ) {
 
@@ -216,14 +218,19 @@ CUERPO DOCUMENTO
   <script src="vistas/js/ti.js"></script>
   <script src="vistas/js/op.js"></script>
   <script src="vistas/js/clientes.js"></script>
+  <script src="vistas/js/contabilidad.js"></script>
   <script>
 // Función para limpiar el formulario después de guardar
 function limpiarFormulario() {
     document.getElementById("GuardarPesaje").reset();
 }
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> c492da8756749d36bd786adb8749d43e8cf8757e
 </script>
+
  
 </body>
 

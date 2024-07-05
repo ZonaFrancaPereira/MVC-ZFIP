@@ -132,9 +132,8 @@
                                 <table class="table table-bordered table-striped dt-responsive tablaClientes" width="100%">
                                     <thead>
                                         <tr>
-                                            <th style="width:10px">#</th>
+                                        <th>Documento</th>
                                             <th>Nombre</th>
-                                            <th>Documento</th>
                                             <th>Email</th>
                                             <th>Teléfono</th>
                                             <th>Dirección</th>

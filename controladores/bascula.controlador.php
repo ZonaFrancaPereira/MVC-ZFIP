@@ -25,11 +25,12 @@ class ControladorBascula
 
 				$respuesta = ModeloBascula::mdlIngresarBascula($tabla, $datos);
 
-				if ($respuesta == "ok") {
-
+				if (is_numeric($respuesta)) {
+					
 					echo '<script>
+							
 							Swal.fire(
-							"Buen Trabajo!",
+							"Buen Trabajo! Se registro el pesaje con codigo '.$respuesta.'",
 							"El formulario se ha registrado con éxito.",
 							"success"
 							).then(function() {
@@ -38,7 +39,7 @@ class ControladorBascula
 							$("#panelbascula").removeClass("active");
                             $("#formbascula").addClass("active");
 					
-							
+							window.open("extensiones/tcpdf/pdf/ticket.php?codigo='.$respuesta. '", "_blank");
 							
 							});
 						</script>

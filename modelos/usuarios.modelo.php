@@ -46,7 +46,7 @@ class ModeloUsuarios{
 		}
 		
 
-		$stmt -> close();
+	
 
 		$stmt = null;
 
@@ -78,7 +78,7 @@ class ModeloUsuarios{
 		
 		}
 
-		$stmt->close();
+		
 		
 		$stmt = null;
 
@@ -108,7 +108,7 @@ class ModeloUsuarios{
 
 		}
 
-		$stmt -> close();
+	
 
 		$stmt = null;
 
@@ -142,7 +142,7 @@ class ModeloUsuarios{
 
 		}
 
-		$stmt -> close();
+	
 
 		$stmt = null;
 
@@ -170,7 +170,7 @@ class ModeloUsuarios{
 
 		}
 
-		$stmt -> close();
+	
 
 		$stmt = null;
 
@@ -196,7 +196,7 @@ class ModeloUsuarios{
 
 		}
 
-		$stmt -> close();
+	
 
 		$stmt = null;
 
