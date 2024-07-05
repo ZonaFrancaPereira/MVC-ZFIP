@@ -139,7 +139,7 @@ class ModeloPerfiles
 		}
 
 
-		$stmt->close();
+	
 
 		$stmt = null;
 	}
@@ -328,7 +328,7 @@ class ModeloPerfiles
 			return "error";
 		}
 
-		$stmt->close();
+	
 
 		$stmt = null;
 	}
@@ -353,7 +353,7 @@ class ModeloPerfiles
 			return "error";
 		}
 
-		$stmt->close();
+		
 
 		$stmt = null;
 	}

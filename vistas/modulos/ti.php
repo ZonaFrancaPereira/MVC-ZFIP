@@ -53,7 +53,7 @@ require_once "configuracion.php";
             </a>
         </li>
         <li class="nav-item">
-            <a data-toggle="tab" href="#soporte" class="nav-link">
+            <a data-toggle="tab" href="" class="nav-link">
                 <i class="nav-icon fas fa-search-plus"></i>
                 <p>
                     Soporte
@@ -113,9 +113,14 @@ if ($_SESSION["ti"] == "off") {
         <div id="page-content-wrapper">
             <div class="container-fluid">
                 <div class="tab-content card">
+                <div id="principal_soporte" class="tab-pane">
+                        <div class="row">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam alias nulla iste cum aut officia consequatur recusandae neque voluptas veniam dicta distinctio ipsa quos suscipit accusantium exercitationem illum, tempore deserunt.
+                        </div>
+                    </div>
                     
                     <!-- /.FORMULARIO PARA REALIZAR SOLICITUD DE SOPORTE -->
-                    <div id="soporte" class="tab-pane">
+                    <div id="realizar_solicitud" class="tab-pane">
                         <div class="row">
                             <div class="col-md-12">
                                 <?php require "ti/soporte.php"; ?>

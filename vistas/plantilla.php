@@ -128,6 +128,8 @@ session_start();
   <script src="vistas/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
   <script src="vistas/plugins/datatables-buttons/js/buttons.print.min.js"></script>
   <script src="vistas/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+  <!-- Summernote -->
+<script src="vistas/plugins/summernote/summernote-bs4.min.js"></script>
 </head>
 
 <!--=====================================
