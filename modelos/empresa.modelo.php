@@ -11,22 +11,15 @@ class ModeloEmpresas{
 	static public function mdlMostrarEmpresa($tabla, $item, $valor){
 
 		if($item != null){
-
+			$valor="1";
 			$stmt = Conexion::conectar()->prepare("SELECT      id,
                     NombreEmpresa,
                     DireccionEmpresa,
-                    RFC,
                     Telefono,
                     correoElectronico,
-                    diasEntrega,
-                    regimenFiscal,
-                    razonSocial,
-                    codigoPostal,
-                    CURP,
-                    to_base64(logo) as logo,
-                    contraCertificado,
-                    contraEmpresa
-                                                                        FROM datosempresa where id= :idEmpresa ");
+                     logo
+                    
+                    FROM datosempresa where id= :idEmpresa ");
 
 			$stmt -> bindParam(":idEmpresa", $valor, PDO::PARAM_STR);
 
@@ -42,14 +35,8 @@ class ModeloEmpresas{
                     RFC,
                     Telefono,
                     correoElectronico,
-                    diasEntrega,
-                    regimenFiscal,
-                    razonSocial,
-                    codigoPostal,
-                    CURP,
-                    to_base64(logo) as logo,
-                    contraCertificado,
-                    contraEmpresa FROM datosempresa");
+                   
+                    to_base64(logo) as logo FROM datosempresa");
 
 			$stmt -> execute();
 
@@ -58,7 +45,7 @@ class ModeloEmpresas{
 		}
 		
 
-		$stmt -> close();
+	
 
 		$stmt = null;
 
@@ -109,7 +96,7 @@ class ModeloEmpresas{
 
 		}
 
-		$stmt -> close();
+	
 
 		$stmt = null;
 
@@ -136,7 +123,7 @@ class ModeloEmpresas{
 
 		}
 
-		$stmt -> close();
+	
 
 		$stmt = null;
 

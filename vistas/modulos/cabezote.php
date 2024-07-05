@@ -2,7 +2,7 @@
 
   <!-- Preloader -->
   <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
+    <img class="animation__shake" src="vistas/img/logo.png" alt="AdminLTELogo" height="60" width="60">
   </div>
 
   <!-- Navbar -->
@@ -25,17 +25,7 @@
           </ul>
         </li>
         <li class="nav-item dropdown">
-          <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle" title="Contabilidad y Finanzas">CT</a>
-          <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-     
-              <li>
-                <a href="ordenes.php" class="dropdown-item">Ordenes de Compra</a>
-              </li>
-              <li>
-                <a href="activos.php" class="dropdown-item">Activos Fijos</a>
-              </li>
-          
-          </ul>
+        <a href="contabilidad" class="nav-link">Contabilidad</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
           <a href="ti" class="nav-link">G-TI</a>

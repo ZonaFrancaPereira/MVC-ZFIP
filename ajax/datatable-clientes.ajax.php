@@ -17,7 +17,7 @@ class TablaClientes{
 
 		$item = null;
     	$valor = null;
-    	$orden = "id";
+    	$orden = "documento";
 
 
     	$request=$_REQUEST;
@@ -49,77 +49,15 @@ class TablaClientes{
 
 		  for($i = 0; $i < count($clientes); $i++){
 
-		  
-
-		  	/*=============================================
- 	 		TRAEMOS LAS ACCIONES
-  			=============================================*/ 
-  			/*
-  			$descripcion=str_replace(chr(10), "", $bitacora[$i]["descripcion"]);
-  			$descripcion=str_replace(chr(13), "",$descripcion);
-  			$descripcion=str_replace("\n", "",$descripcion);
-  			$descripcion=str_replace("\r", "",$descripcion);
-  			$descripcion=str_replace("\t", "",$descripcion);
-  			$descripcion=str_replace("'", "",$descripcion);
-  			$descripcion=str_replace('"', "",$descripcion);
-
-  			*/
-
-
-            
-/*
-            echo '<tr>
-
-                    <td>'.($key+1).'</td>
-
-                    <td>'.$value["nombre"].'</td>
-
-                    <td>'.$value["documento"].'</td>
-
-                    <td>'.$value["email"].'</td>
-
-                    <td>'.$value["telefono"].'</td>
-
-                    <td>'.$value["direccion"].'</td>
-
-                    <td>'.$value["fecha_nacimiento"].'</td>             
-
-                    <td>'.$value["compras"].'</td>
-
-                    <td>'.$value["ultima_compra"].'</td>
-
-                    <td>'.$value["fecha"].'</td>
-
-                    <td>
-
-                      <div class="btn-group">
-                          
-                        <button class="btn btn-warning btnEditarCliente" data-toggle="modal" data-target="#modalEditarCliente" idCliente="'.$value["id"].'"><i class="fa fa-pencil"></i></button>';
-
-                      if($_SESSION["perfil"] == "Administrador"){
-
-                          echo '<button class="btn btn-danger btnEliminarCliente" idCliente="'.$value["id"].'"><i class="fa fa-times"></i></button>';
-
-                      }
-
-                      echo '</div>  
-
-                    </td>
-
-                  </tr>';
-          
-     */
-
 
        
 
-                $botones = "<div class='btn-group'><button class='btn btn-warning btnEditarCliente' idCliente='" . $clientes[$i]["id"] . "' data-toggle='modal' data-target='#modalEditarCliente'><i class='fas fa-edit'></i></button><button class='btn btn-danger btnEliminarCliente' idCliente='" . $clientes[$i]["id"] . "'><i class='fa fa-times'></i></button>".$codigoBarras.$codigoQR."</div>";
+                $botones = "<div class='btn-group'><button class='btn btn-warning btnEditarCliente' idCliente='" . $clientes[$i]["documento"] . "' data-toggle='modal' data-target='#modalEditarCliente'><i class='fas fa-edit'></i></button><button class='btn btn-danger btnEliminarCliente' idCliente='" . $clientes[$i]["documento"] . "'><i class='fa fa-times'></i></button></div>";
           
 
 		  	$datosJson .='[
-						"'.$clientes[$i]["id"].'", 
+					"'.$clientes[$i]["documento"].'",
 						"'.$clientes[$i]["nombre"].'",
-						"'.$clientes[$i]["documento"].'",
 						"'.$clientes[$i]["email"].'",
 						"'.$clientes[$i]["telefono"].'",
 						"'.$clientes[$i]["direccion"].'",

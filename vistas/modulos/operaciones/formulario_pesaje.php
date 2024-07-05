@@ -39,14 +39,14 @@
                                         <input type="number" class="form-control" id="peso_uno" name="peso_uno" required>
                                     </div>
                                 </div>
-                                <div class="col-md-4 col-sm-6">
-                                    <div class="form-group">
+                                <div class="col-md-4 col-sm-6" id="divClientes">
+                                    <div class="form-group" id="contenidoClientes">
                                         <label for="id_cliente_fk">ID Cliente</label>
                                         <input list="clientes" class="form-control select2 seleccionarCliente" id="seleccionarCliente" name="id_cliente_fk" required style="width: 100%;">
                                         <datalist id="clientes">
                                             <?php
-                                            if ($cliente["id"] <> 0) {
-                                                echo '<option value="' . $cliente["id"] . '"> ' . $cliente["nombre"] . '</option>';
+                                            if ($cliente["documento"] <> 0) {
+                                                echo '<option value="' . $cliente["documento"] . '"> ' . $cliente["nombre"] . '</option>';
                                             }
                                             $item = null;
                                             $valor = null;
@@ -54,10 +54,28 @@
                                             // Devolver los datos en formato JSON
                                             
                                             foreach ($clientes as $key => $value) {
-                                                echo '<option value="' . $value["id"] . '">' . $value["id"] . " - " . $value["nombre"] . '</option>';
+                                                echo '<option value="' . $value["documento"] . '">' . $value["documento"] . " - " . $value["nombre"] . '</option>';
                                             }
                                             ?>
                                         </datalist>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="form-group">
+                                        <label for="peso_uno">Valor Bruto</label>
+                                        <input type="number" class="form-control" id="va" name="va" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="form-group">
+                                        <label for="peso_uno">Valor Impuestos</label>
+                                        <input type="number" class="form-control" id="peso_uno" name="peso_uno" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="form-group">
+                                        <label for="peso_uno">Total a Pagar</label>
+                                        <input type="number" class="form-control" id="peso_uno" name="peso_uno" readonly>
                                     </div>
                                 </div>
                             </div>

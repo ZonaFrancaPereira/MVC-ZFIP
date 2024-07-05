@@ -6,7 +6,8 @@ class ControladorClientes
 	CREAR CLIENTES
 	=============================================*/
 
-	static public function ctrCrearCliente(){
+	static public function ctrCrearCliente()
+	{
 
 		if (isset($_POST["nuevoCliente"])) {
 
@@ -27,7 +28,7 @@ class ControladorClientes
 				$respuesta = ModeloClientes::mdlIngresarCliente($tabla, $datos);
 
 				if ($respuesta == "ok") {
-
+					
 					echo '<script>
 
 					  Swal.fire(
@@ -35,15 +36,14 @@ class ControladorClientes
 							"El cliente  se ha registrado con éxito.",
 							"success"
 							).then(function() {
-							actualizarDatalist();
+							
 							 //Limpiar el formulario
                             document.getElementById("GuardarCliente").reset();
 							$("#panelbascula").removeClass("active");
                             $("#formclientes").addClass("active");
+							refrescarClientes();
 							
-					
-							
-							
+						
 							});
 
 					</script>';
@@ -73,11 +73,6 @@ class ControladorClientes
 		}
 	}
 
-	static public function obtenerClientes() {
-        $clientes = ModeloClientes::mdlMostrarClientesData(); // Método para obtener clientes desde la base de datos
-        echo json_encode($clientes);
-    }
-
 	/*=============================================
 	MOSTRAR CLIENTES
 	=============================================*/
@@ -88,13 +83,6 @@ class ControladorClientes
 		$tabla = "clientes";
 
 		$respuesta = ModeloClientes::mdlMostrarClientes($tabla, $item, $valor);
-
-		return $respuesta;
-	}
-	static public function ctrMostrarClientesData()
-	{
-
-		$respuesta = ModeloClientes::mdlMostrarClientesData();
 
 		return $respuesta;
 	}
@@ -234,10 +222,4 @@ if (isset($_POST["ajaxCliente"])) {
 	$respuesta = $leerCliente->ctrMostrarClientesAjax();
 
 	echo json_encode($respuesta);
-}
-
-if (isset($_GET['action']) && $_GET['action'] === 'obtener_clientes') {
-    // Aquí va la lógica para obtener los datos de los clientes
-    $clientes = ControladorClientes::ctrMostrarClientesData(); // Suponiendo que este método devuelve los datos
-    echo json_encode($clientes); // Devuelve los datos como JSON
 }

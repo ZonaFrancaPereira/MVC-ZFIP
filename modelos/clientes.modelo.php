@@ -72,8 +72,7 @@ class ModeloClientes{
 
 			$stmt -> execute();
 
-			
-			return $stmt->fetchAll(PDO::FETCH_ASSOC);
+			return $stmt -> fetch();
 
 		}else{
 
@@ -100,7 +99,7 @@ class ModeloClientes{
 
 
 
-		$stmt = Conexion::conectar()->prepare("SELECT id 
+		$stmt = Conexion::conectar()->prepare("SELECT documento 
 													,nombre as text	
 													 FROM clientes");
 
@@ -140,10 +139,6 @@ class ModeloClientes{
 	    if(isset($valor['search'])){
 			$buscar=$valor['search']['value'];
 			$busquedaGeneral="and  ( 
-                                                    id
-                                                    like '%".$buscar."%'
-
-                                                    or
 
                                                     nombre
                                                     like '%".$buscar."%'	
@@ -214,7 +209,7 @@ class ModeloClientes{
 	static public function mdlMostrarNumRegistros($valor){
 
                         
-			$stmt = Conexion::conectar()->prepare("SELECT count(id) as contador FROM clientes 
+			$stmt = Conexion::conectar()->prepare("SELECT count(documento) as contador FROM clientes 
                                 
                                 ");
 
@@ -266,7 +261,7 @@ class ModeloClientes{
 
 	static public function mdlEliminarCliente($tabla, $datos){
 
-		$stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id = :id");
+		$stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE documento = :id");
 
 		$stmt -> bindParam(":id", $datos, PDO::PARAM_INT);
 
@@ -292,7 +287,7 @@ class ModeloClientes{
 
 	static public function mdlActualizarCliente($tabla, $item1, $valor1, $valor){
 
-		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET $item1 = :$item1 WHERE id = :id");
+		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET $item1 = :$item1 WHERE documento = :id");
 
 		$stmt -> bindParam(":".$item1, $valor1, PDO::PARAM_STR);
 		$stmt -> bindParam(":id", $valor, PDO::PARAM_STR);
@@ -312,10 +307,6 @@ class ModeloClientes{
 		$stmt = null;
 
 	}
-	static public function mdlMostrarClientesData() {
-        $stmt = Conexion::conectar()->prepare("SELECT * FROM clientes");
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+	
 
 }

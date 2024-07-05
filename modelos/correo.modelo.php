@@ -32,7 +32,7 @@ class ModeloCorreo{
 		
 		
 
-		$stmt -> close();
+
 
 		$stmt = null;
 
@@ -78,7 +78,6 @@ class ModeloCorreo{
 
 		}
 
-		$stmt -> close();
 
 		$stmt = null;
 
