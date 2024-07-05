@@ -172,6 +172,7 @@ CUERPO DOCUMENTO
       if (
         $_GET["ruta"] == "inicio" ||
         $_GET["ruta"] == "ti" ||
+        $_GET["ruta"] == "soporte" ||
         $_GET["ruta"] == "perfiles" ||
         $_GET["ruta"] == "usuarios" ||
         $_GET["ruta"] == "operaciones" ||
@@ -222,6 +223,10 @@ function limpiarFormulario() {
     document.getElementById("GuardarPesaje").reset();
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> c492da8756749d36bd786adb8749d43e8cf8757e
 </script>
 
  
