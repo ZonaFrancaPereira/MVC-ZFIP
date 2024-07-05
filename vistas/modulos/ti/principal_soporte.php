@@ -25,30 +25,23 @@
                         <h3 class="card-title">Solicitud de Soporte</h3>
                     </div>
                     <div class="card-body">
-                    <!-- TABLA PARA MOSTRAR LOS PERFILES CREADOS -->
-                    <table id="tabla-soporte" class="table table-bordered table-striped dt-responsive " width="100%">
-                                        <thead class="bg-dark">
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Fecha</th>
-                                                <th>Descripcion</th>
-                                                <th>Urgencia</th>
-                                                <th>Solucion</th>
-                                                <th>Fecha de Respuesta</th>
-                                                <th>Tecnico</th>
-                                            </tr>
-
-                                        </thead>
-                                        <tbody>
-
-                                        </tbody>
-
-                                    </table>
+                        <!-- TABLA PARA MOSTRAR LOS PERFILES CREADOS -->
+                        <table id="tabla-soporte" class="table table-bordered table-striped dt-responsive " width="100%">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Fecha</th>
+                                    <th>Descripcion</th>
+                                    <th>Urgencia</th>
+                                    <th>Solucion</th>
+                                    <th>Fecha de Respuesta</th>
+                                    <th>Tecnico</th>
+                                </tr>
+                            </thead>
+                        </table>
                     </div><!-- /.card-body -->
                 </div><!-- /.card -->
             </div><!-- /.col -->
-        </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
-</section><!-- /.content -->
-
-
+        </div>
+    </div>
+</section>
