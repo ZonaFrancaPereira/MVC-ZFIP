@@ -225,10 +225,6 @@ function limpiarFormulario() {
     document.getElementById("GuardarPesaje").reset();
 }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> c492da8756749d36bd786adb8749d43e8cf8757e
 </script>
 
  

@@ -115,7 +115,7 @@ if ($_SESSION["ti"] == "off") {
                 <div class="tab-content card">
                 <div id="principal_soporte" class="tab-pane">
                         <div class="row">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam alias nulla iste cum aut officia consequatur recusandae neque voluptas veniam dicta distinctio ipsa quos suscipit accusantium exercitationem illum, tempore deserunt.
+                        <?php require "ti/principal_soporte.php"; ?>
                         </div>
                     </div>
                     

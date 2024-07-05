@@ -28,9 +28,6 @@
                     <form id="soporte_ti" method="POST" enctype="multipart/form-data">
                                 <div class="card-body">
                                     <div class="row">
-                                       
-                                       
-                                      
                                         <div class="col-md-12">
                                             <label for="textarea">Descripción de la solicitud</label>
                                             <textarea class="textarea form-control" id="descripcion_soporte" name="descripcion_soporte" rows="3" placeholder="Descripción"></textarea>

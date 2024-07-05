@@ -46,5 +46,19 @@ class ControladorSoporte {
         }
         }
     }
+
+    	/*=============================================
+	MOSTRAR SOPORTE
+	=============================================*/
+
+	static public function ctrMostrarSoporte($item, $valor)
+	{
+
+		$tabla = "soporte";
+
+		$respuesta = ModeloSoporte::mdlMostrarSoporte($tabla, $item, $valor);
+
+		return $respuesta;
+	}
 }
 ?>
