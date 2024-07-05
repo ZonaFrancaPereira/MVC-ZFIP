@@ -169,7 +169,10 @@
                                 <div class="col-md-12">
                                     <button type="submit" class="btn btn-success btn-block" >Guardar</button>
                                 </div>
-                               
+                                <?php
+                                $crearActivo = new ControladorActivos();
+                                $crearActivo->ctrCrearActivos();
+                                ?>
                             </div>
                     
                     </form>
