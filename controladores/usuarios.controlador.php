@@ -260,6 +260,19 @@ class ControladorUsuarios{
 
 		return $respuesta;
 	}
+	
+	/*=============================================
+	MOSTRAR USUARIO CORREO
+	=============================================*/
+
+	static public function ctrMostrarUsuariosCorreo($item, $valor){
+
+		$tabla = "usuarios";
+
+		$respuesta = ModeloUsuarios::MdlMostrarUsuariosCorreo($tabla, $item, $valor);
+
+		return $respuesta;
+	}
 
 	/*=============================================
 	EDITAR USUARIO
@@ -388,10 +401,10 @@ class ControladorUsuarios{
 				}
 
 				$datos = array("nombre" => $_POST["editarNombre"],
-							   "usuario" => $_POST["editarUsuario"],
+							   "correo_usuario" => $_POST["editarUsuario"],
 							   "password" => $encriptar,
 							   "perfil" => $_POST["editarPerfil"],
-							   "foto" => $ruta);
+							   "firma" => $ruta);
 
 				$respuesta = ModeloUsuarios::mdlEditarUsuario($tabla, $datos);
 
