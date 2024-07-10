@@ -34,8 +34,6 @@
                                     <th>Solucion</th>
                                     <th>Fecha de Respuesta</th>
                                     <th>Tecnico</th>
-                                    <th>Asignar Urgencia</th>
-                                    <th>Respuesta</th>
                                 </tr>
                             </thead>
                         </table>

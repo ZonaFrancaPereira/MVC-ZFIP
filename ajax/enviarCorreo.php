@@ -56,6 +56,9 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
                 // Agregar destinatarios de ejemplo (debes ajustar según tu lógica)
                 foreach ($usuarios as $value) {
                     $nombre_usuario = $value['nombre'];
+                    $correo_soporte = $value['correo_usuario'];
+                    $proceso = $value['siglas_proceso'];
+                    $descripcion_soporte = $value['descripcion_soporte'];
                 }
 
                 // Configurar el correo específico para el módulo 'soporte'
@@ -70,9 +73,9 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
                 <div style="padding: 20px;">
                 <p>Se ha generado una nueva solicitud de soporte:</p>
                 <ul>
-                    <li>Correo del solicitante: ' . $correo_ . '</li>
-                    <li>Usuario solicitante: ' . $usuario_soporte . '</li>
-                    <li>Proceso relacionado: ' . $proceso_soporte . '</li>
+                    <li>Correo del solicitante:' . $correo_soporte . '</li>
+                    <li>Usuario solicitante: ' . $nombre_usuario . ' </li>
+                    <li>Proceso relacionado: ' . $proceso . ' </li>
                     <li>Descripción del problema: ' . $descripcion_soporte . '</li>
                 </ul>
                 <p>Por favor, toma las acciones necesarias para abordar esta solicitud lo antes posible.</p>
@@ -87,6 +90,49 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
                 </div>
                 </div>';
                 break;
+                case 'solicitudes_soporte':
+                    // Ejemplo: Obtener usuarios según el id_usuario_fk
+                    $mail->addAddress('ygarciaz@zonafrancadepereira.com');
+    
+                    $item = 'id';
+                    $valor = $id_usuario_fk;
+                    $usuarios = ControladorUsuarios::ctrMostrarUsuariosCorreo($item, $valor);
+    
+                    // Agregar destinatarios de ejemplo (debes ajustar según tu lógica)
+                    foreach ($usuarios as $value) {
+                        $nombre_usuario = $value['nombre'];
+                        $fecha_solucion = $value['fecha_solucion'];
+                        $solucion_soporte = $value['solucion_soporte'];
+                        $id_soporte = $value['id_soporte'];
+                    }
+    
+                    // Configurar el correo específico para el módulo 'soporte'
+                    $titulo_correo = "Solicitud de soporte numero: ". $id_soporte;
+                    $message  = "<html><body>";
+                    $message .= '
+                    <div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px;">
+                    <div style="background-color: #F8F9F9; color: black; text-align: center; padding: 10px; border-radius: 5px 5px 0 0;">
+                        <img src="https://zonafrancadepereira.com/wp-content/uploads/2020/11/cropped-ZONA-FRANCA-LOGO-PNG-1-1-1-206x81.png">
+                        <h1>Solución proporcionada para la solicitud de soporte</h1>
+                    </div>
+                    <div style="padding: 20px;">
+                        <p>Estimado usuario,</p>
+                        <p>Nos complace informarle que se ha proporcionado una solución para su solicitud de soporte. A continuación, podrá visualizar los detalles:</p>
+                        <p><strong>Fecha de solución:</strong> ' . $fecha_solucion . '</p>
+                        <p><strong>Solución:</strong> ' . $solucion_soporte . '</p>
+                        <p>Por favor, inicie sesión en nuestro sistema para revisar la solicitud y confirmar la solución proporcionada.</p>
+                        <center>
+                            <a href="https://app.zonafrancadepereira.com/" target="_blank">
+                                <button style="border: none; color: white; padding: 14px 28px; cursor: pointer; border-radius: 5px; background: #0b7dda;">Iniciar Sesión</button>
+                            </a>
+                        </center>
+                        <p>¡Gracias por su paciencia y colaboración!</p>
+                    </div>
+                    <div style="text-align: center; padding: 10px; background-color: #f4f4f4; border-radius: 0 0 5px 5px;">
+                        <p>Este es un mensaje automático, por favor no responda a este correo.</p>
+                    </div>
+                </div>';
+                    break;
             default:
                 // Lógica para otros módulos si es necesario
                 break;

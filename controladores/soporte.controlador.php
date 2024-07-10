@@ -166,51 +166,63 @@ class ControladorSoporte
 	=============================================*/
 
     static public function ctrResponderSolicitud()
-    {
+{
+    if (isset($_POST["id_soporte1"])) {
+        $tabla = "soporte";
+        $datos = array(
+            "id_soporte1" =>  $_POST["id_soporte1"],
+            "solucion_soporte" =>  $_POST["solucion_soporte"],
+            "fecha_solucion" =>  $_POST["fecha_solucion"],
+            "usuario_respuesta" =>  $_POST["usuario_respuesta"],
+        );
 
-        if (isset($_POST["id_soporte1"])) {
-            //...
-            $tabla = "soporte";
-            $datos = array(
-                "id_soporte1" =>  $_POST["id_soporte1"],
-                "solucion_soporte" =>  $_POST["solucion_soporte"],
-                "fecha_solucion" =>  $_POST["fecha_solucion"],
-                "usuario_respuesta" =>  $_POST["usuario_respuesta"],
-            );
+        $respuesta = ModeloSoporte::mdlResponderSolicitud($tabla, $datos);
 
-            $respuesta = ModeloSoporte::mdlResponderSolicitud($tabla, $datos);
+        if ($respuesta == "ok") {
+            echo '<script>
+            Swal.fire({
+                title: "Buen Trabajo!",
+                text: "Se ha dado respuesta a La solicitud con éxito.",
+                icon: "success"
+            }).then(function() {
+                var datosCorreo = {
+                    id_usuario_fk: "' . $_SESSION["id"] . '",
+                    modulo: "solicitudes_soporte",
+                    id_consulta: "' . $_POST["id_soporte1"] . '",
+                    destinatario: "ninguno"
+                };
 
-            if ($respuesta == "ok") {
+                $.ajax({
+                    url: "ajax/enviarCorreo.php",
+                    method: "POST",
+                    data: JSON.stringify(datosCorreo),
+                    cache: false,
+                    contentType: "application/json",
+                    processData: false,
+                    success: function(respuesta) {
+                        console.log("respuesta", respuesta);
+                    }
+                });
 
-                echo '<script>
-                        Swal.fire(
-                        "Buen Trabajo!",
-                        "Se ha dado Respuesta con Exito.",
-                        "success"
-                        ).then(function() {
-                        document.getElementById("soporte_ti").reset();
-                        $("#solicitudes_soporte").addClass("active");
-                        
-                        });
-                    </script>
-                ';
-            } else {
-                echo '<script>
-                    Swal.fire({
-                        type: "error",
-                        title: "¡No se pudo guardar la respuesta d la Solicitud!",
-                        showConfirmButton: true,
-                        confirmButtonText: "Cerrar"
-
-                    }).then(function(result){
-                        if(result.value){
-                            $("#solicitudes_soporte ").addClass("active");
-                            
-                        }
-                    });
-                </script>
-            ';
-            }
+                document.getElementById("soporte_ti").reset();
+                $("#principal_soporte").addClass("active");
+            });
+            </script>';
+        } else {
+            echo '<script>
+                Swal.fire({
+                    type: "error",
+                    title: "¡No se pudo guardar la respuesta de la Solicitud!",
+                    showConfirmButton: true,
+                    confirmButtonText: "Cerrar"
+                }).then(function(result){
+                    if(result.value){
+                        $("#solicitudes_soporte ").addClass("active");
+                    }
+                });
+            </script>';
         }
     }
+}
+
 }
