@@ -49,14 +49,11 @@ class ControladorActivos
 							"El Activos  se ha registrado con éxito.",
 							"success"
 							).then(function() {
-							
 							 //Limpiar el formulario
                             $("#GuardarActivo")[0].reset(); // Resetea el formulario
-							$("#panel_contabilidad").removeClass("active");
+							$("#panelcontabilidad").removeClass("active");
                             $("#consultar_activos").addClass("active");
-							
-							
-						
+
 							});
 
 					</script>';
@@ -72,8 +69,9 @@ class ControladorActivos
 						  confirmButtonText: "Cerrar"
 						  }).then(function(result){
 							if (result.value) {
-                            document.getElementById("GuardarActivo").reset();
-							$("#panel_contabilidad").removeClass("active");
+                             //Limpiar el formulario
+                            $("#GuardarActivo")[0].reset(); // Resetea el formulario
+							$("#panelcontabilidad").removeClass("active");
                             $("#consultar_activos").addClass("active");
 
 							}

@@ -24,7 +24,7 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
     </li>
 
     <li class="nav-item">
-      <a data-toggle="tab" href="#principal_activos" class="nav-link">
+      <a data-toggle="tab" href="" class="nav-link">
         <i class="nav-icon fas fa-search-plus"></i>
         <p>
           Activos Fijos
@@ -32,7 +32,7 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
         </p>
       </a>
       <ul class="nav nav-treeview">
-      <li class="nav-item">
+        <li class="nav-item">
           <a data-toggle="tab" href="#qr" class="nav-link ">
             <i class="nav-icon fas fa-qrcode"></i>
             <p>
@@ -111,22 +111,31 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
 
           <div id="panelcontabilidad" class="active tab-pane">
             <?php require "ct/panel_contabilidad.php"; ?>
+  
           </div>
+          
+          <!-- /. CONSULTAR CODIGOS QR DE MIS ACTIVOS FIJOS -->
+          <div id="qr" class="tab-pane">
+          <?php require "ct/qr.php"; ?>
+          </div>
+          <!-- /. CIERRA CONSULTAR CODIGOS QR DE MIS ACTIVOS FIJOS -->
           <!-- /. CONSULTAR LOS ACTIVOS FIJOS DEL USUARIO QUE INICIO SESION -->
           <div id="consultar_activos" class="tab-pane">
-            mis act
+          <?php require "ct/consultar_activos.php"; ?>
+           
           </div>
           <!-- /. CIERRE DE CONSULTA DE LOS ACTIVOS FIJOS DEL USUARIO QUE INICIO SESION -->
 
           <!-- /. FORMULARIO PARA INGRESAR NUEVO ACTIVO FIJO -->
           <div id="nuevo_activo" class="tab-pane">
             <?php require "ct/form_activo.php"; ?>
+            
           </div>
           <!-- /. CIERRE FORMULARIO PARA INGRESAR NUEVO ACTIVO FIJO -->
 
           <!-- /. FORMULARIO PARA TRASLADAR LOS ACTIVOS -->
           <div id="trasladar_activos" class="tab-pane">
-            <?php require "ct/form_activo.php"; ?>
+            TRASLADAR
           </div>
           <!-- /. CIERRE FORMULARIO PARA TRASLADAR LOS ACTIVOS -->
 
@@ -136,15 +145,10 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
           </div>
           <!-- CIERRE DE MANUAL DE USO ACTIVOS FIJOS -->
 
-          <!-- /. CONSULTAR CODIGOS QR DE MIS ACTIVOS FIJOS -->
-          <div id="qr" class="tab-pane">
-            qr
-          </div>
-          <!-- /. CIERRA CONSULTAR CODIGOS QR DE MIS ACTIVOS FIJOS -->
 
           <!-- /. INVENTARIO ACTIVOS FIJOS -->
           <div id="inventario_activos" class="tab-pane">
-            inventario
+          <?php require "ct/inventario.php"; ?>
           </div>
           <!-- /. CIERRE INVENTARIO ACTIVOS FIJOS -->
 
