@@ -261,18 +261,14 @@ class ControladorUsuarios{
 		return $respuesta;
 	}
 	
-	/*=============================================
-	MOSTRAR USUARIO CORREO
-	=============================================*/
-
-	static public function ctrMostrarUsuariosCorreo($item, $valor){
-
-		$tabla = "usuarios";
-
-		$respuesta = ModeloUsuarios::MdlMostrarUsuariosCorreo($tabla, $item, $valor);
-
-		return $respuesta;
-	}
+/*=============================================
+MOSTRAR USUARIO CORREO
+=============================================*/
+static public function ctrMostrarUsuariosCorreo($item, $valor){
+    $tabla = "usuarios";
+    $respuesta = ModeloUsuarios::mdlMostrarUsuariosCorreo($tabla, $item, $valor);
+    return $respuesta;
+}
 
 	/*=============================================
 	EDITAR USUARIO

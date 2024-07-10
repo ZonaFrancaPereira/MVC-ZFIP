@@ -384,7 +384,7 @@ MODAL EDITAR USUARIO
 
                          echo '<option value="'.$value["perfil"].'">'.$value["descripcion"].'</option>';
 
-                       }
+                      }
 
                     ?>
 
