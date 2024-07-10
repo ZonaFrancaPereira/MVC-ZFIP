@@ -53,6 +53,20 @@ class ModeloUsuarios{
 	}
 
 	/*=============================================
+	MOSTRAR USUARIOS CORREO
+	=============================================*/
+
+	static public function mdlMostrarUsuariosCorreo($tabla, $item, $valor){
+		// Consulta con filtro
+		$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :valor");
+		$stmt->bindParam(":valor", $valor, PDO::PARAM_INT);
+		$stmt->execute();
+		
+		$stmt -> execute();
+
+			return $stmt -> fetch();
+	}
+	/*=============================================
 	REGISTRO DE USUARIO
 	=============================================*/
 

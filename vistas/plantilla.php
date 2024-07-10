@@ -183,6 +183,7 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "formulario_pesaje" ||
         $_GET["ruta"] == "contabilidad" ||
         $_GET["ruta"] == "panel_contabilidad" ||
+        $_GET["ruta"] == "notificacion" ||
         $_GET["ruta"] == "salir"
       ) {
 
