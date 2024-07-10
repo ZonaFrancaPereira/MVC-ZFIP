@@ -5,7 +5,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header bg-info">
-                        <h3 class="card-title">Servicio de Báscula</h3>
+                        <h3 class="card-title">Registrar Activo Fijo</h3>
                     </div>
                     <div class="card-body">
                         <form id="GuardarActivo" role="form" method="post" enctype="multipart/form-data">
@@ -167,18 +167,18 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <button type="submit" class="btn btn-success btn-block" >Guardar</button>
+                                    <button type="submit" class="btn btn-success btn-block">Guardar</button>
                                 </div>
                                 <?php
                                 $crearActivo = new ControladorActivos();
                                 $crearActivo->ctrCrearActivos();
                                 ?>
                             </div>
-                    
-                    </form>
-                </div><!-- /.card-body -->
-            </div><!-- /.card -->
-        </div><!-- /.col -->
-    </div><!-- /.row -->
+
+                        </form>
+                    </div><!-- /.card-body -->
+                </div><!-- /.card -->
+            </div><!-- /.col -->
+        </div><!-- /.row -->
     </div><!-- /.container-fluid -->
 </section><!-- /.content -->
