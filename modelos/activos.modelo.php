@@ -223,6 +223,21 @@ class ModeloActivos
 
         $stmt = null;
     }
+     /*=============================================
+	MOSTRAR ACTIVOS FIJOS NO VERIFICADOS
+	=============================================*/
+    public static function mdlMostrarActivosNoVerificados($tablaActivos, $tablaVerificaciones, $id_inventario) {
+        $stmt = Conexion::conectar()->prepare("
+            SELECT a.*
+            FROM $tablaActivos a
+            LEFT JOIN $tablaVerificaciones v ON a.id_activo = v.id_activo_fk AND v.id_inventario_fk = :id_inventario
+            WHERE v.id_activo_fk IS NULL
+        ");
+        $stmt->bindParam(":id_inventario", $id_inventario, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
+        $stmt = null;
+    }
 
     /*=============================================
 	EDITAR Activos

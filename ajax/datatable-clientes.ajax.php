@@ -28,7 +28,6 @@ class TablaClientes{
 
 
     
-
     	
   		$clientes = ModeloClientes::mdlMostrarClientesDTServerSide($request);	
 

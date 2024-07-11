@@ -94,6 +94,7 @@ class ControladorInventario
 
 		return $respuesta;
     }
+    
 
 }
 ?>

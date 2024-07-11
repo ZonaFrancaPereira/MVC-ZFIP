@@ -112,6 +112,14 @@ class ControladorActivos
 
 		return $respuesta;
 	}
+    	/*=============================================
+	MOSTRAR Activos fijos no verificados en el invenario
+	=============================================*/
+    public static function ctrMostrarActivosNoVerificados($id_inventario) {
+        $tablaActivos = "activos";
+        $tablaVerificaciones = "verificaciones";
+        return ModeloActivos::mdlMostrarActivosNoVerificados($tablaActivos, $tablaVerificaciones, $id_inventario);
+    }
 
 	/*=============================================
 	EDITAR Activos
