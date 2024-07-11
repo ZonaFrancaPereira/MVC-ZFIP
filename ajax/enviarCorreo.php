@@ -91,9 +91,6 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
                 </div>';
                 break;
                 case 'solicitudes_soporte':
-                    // Ejemplo: Obtener usuarios según el id_usuario_fk
-                    $mail->addAddress('ygarciaz@zonafrancadepereira.com');
-    
                     $item = 'id';
                     $valor = $id_usuario_fk;
                     $usuarios = ControladorUsuarios::ctrMostrarUsuariosCorreo($item, $valor);
@@ -104,20 +101,22 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
                         $fecha_solucion = $value['fecha_solucion'];
                         $solucion_soporte = $value['solucion_soporte'];
                         $id_soporte = $value['id_soporte'];
+                        $correo_usuario = $value['correo_usuario'];
                     }
-    
+                    // Ejemplo: Obtener usuarios según el id_usuario_fk
+                    $mail->addAddress($correo_usuario);
                     // Configurar el correo específico para el módulo 'soporte'
-                    $titulo_correo = "Solicitud de soporte numero: ". $id_soporte;
+                    $titulo_correo = "Solicitud de soporte numero: ". $id_soporte; 
                     $message  = "<html><body>";
                     $message .= '
                     <div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px;">
                     <div style="background-color: #F8F9F9; color: black; text-align: center; padding: 10px; border-radius: 5px 5px 0 0;">
                         <img src="https://zonafrancadepereira.com/wp-content/uploads/2020/11/cropped-ZONA-FRANCA-LOGO-PNG-1-1-1-206x81.png">
-                        <h1>Solución proporcionada para la solicitud de soporte</h1>
+                        <h1>Solución para la solicitud de soporte numero:' . $id_soporte . '. </h1>
                     </div>
                     <div style="padding: 20px;">
                         <p>Estimado usuario,</p>
-                        <p>Nos complace informarle que se ha proporcionado una solución para su solicitud de soporte. A continuación, podrá visualizar los detalles:</p>
+                        <p>Nos complace informarle que se ha proporcionado una solución para su solicitud de soporte numero ' . $id_soporte . '. A continuación, podrá visualizar los detalles:</p>
                         <p><strong>Fecha de solución:</strong> ' . $fecha_solucion . '</p>
                         <p><strong>Solución:</strong> ' . $solucion_soporte . '</p>
                         <p>Por favor, inicie sesión en nuestro sistema para revisar la solicitud y confirmar la solución proporcionada.</p>

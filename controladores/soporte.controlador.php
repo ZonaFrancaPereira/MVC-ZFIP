@@ -19,9 +19,6 @@ class ControladorSoporte
             $respuesta = ModeloSoporte::mdlIngresarSoporte($tabla, $datos);
             if (is_numeric($respuesta)) {
                 // Llamar a la función EnviarCorreo con el id_usuario_fk
-
-                
-
                 echo '<script>
                 // Mostrar mensaje de éxito con SweetAlert
                 Swal.fire({
@@ -48,7 +45,6 @@ class ControladorSoporte
                             console.log("respuesta", respuesta);
                         }
                     });
-                    
                     // Resetear el formulario y agregar la clase al elemento después del AJAX
                     document.getElementById("soporte_ti").reset();
                     $("#principal_soporte").addClass("active");
@@ -205,7 +201,7 @@ class ControladorSoporte
                 });
 
                 document.getElementById("soporte_ti").reset();
-                $("#principal_soporte").addClass("active");
+                $("#solicitudes_soporte").addClass("active");
             });
             </script>';
         } else {
