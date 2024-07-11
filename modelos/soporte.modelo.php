@@ -108,7 +108,7 @@ class ModeloSoporte
     }
 
     /*=============================================
-	ASIGNAR URGENCIA
+	ASIGNAR SOLUCION SOLICITUD
 	=============================================*/
     public static function mdlResponderSolicitud($tabla, $datos)
     {
