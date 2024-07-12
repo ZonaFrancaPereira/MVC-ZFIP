@@ -120,7 +120,22 @@ class ControladorActivos
         $tablaVerificaciones = "verificaciones";
         return ModeloActivos::mdlMostrarActivosNoVerificados($tablaActivos, $tablaVerificaciones, $id_inventario);
     }
+    /*=============================================
+	MOSTRAR ACTIVOS POR USUARIO
+	=============================================*/
+    public static function obtenerActivosConUsuarios() {
+        // Aquí deberías realizar la consulta SQL para obtener los activos con la información de los usuarios que los tienen
+        // Este es un ejemplo simplificado
+        $stmt = Conexion::conectar()->prepare("
+            SELECT a.id_activo, a.nombre_articulo, u.nombre AS nombre_usuario, u.apellidos_usuario
+            FROM activos a
+            INNER JOIN usuarios u ON a.id_usuario_fk = u.id
+            ORDER BY a.nombre_articulo ASC
+        ");
 
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
 	/*=============================================
 	EDITAR Activos
 	=============================================*/
@@ -161,7 +176,7 @@ class ControladorActivos
     
                 if ($respuesta == "ok") {
                     echo '<script>
-                        swal({
+                        Swal.fire(
                             type: "success",
                             title: "El activo ha sido cambiado correctamente",
                             showConfirmButton: true,
@@ -174,7 +189,7 @@ class ControladorActivos
                     </script>';
                 } else {
                     echo '<script>
-                        swal({
+                        Swal.fire(
                             type: "error",
                             title: "¡Hubo un error al cambiar el activo!",
                             showConfirmButton: true,
@@ -188,7 +203,7 @@ class ControladorActivos
                 }
             } else {
                 echo '<script>
-                    swal({
+                    Swal.fire(
                         type: "error",
                         title: "¡El nombre del artículo no puede ir vacío o llevar caracteres especiales!",
                         showConfirmButton: true,
@@ -223,6 +238,182 @@ class ControladorActivos
 			}
 		}
 	}
+    /*=============================================
+    TRANSFERIR ACTIVO
+    =============================================*/
+     // Función para transferir un activo de un usuario a otro
+     public static function ctrTransferirActivo() {
+        if (isset($_POST["id_activo"], $_POST["usuario_destino"], $_POST["observaciones"])) {
+            // Obtener los datos del formulario POST
+            $id_activo = $_POST["id_activo"];
+            $usuario_destino = $_POST["usuario_destino"];
+            $observaciones = $_POST["observaciones"];
+            
+            // Obtener el usuario origen del activo
+            $item = "id_activo";
+            $valor = $id_activo;
+            $activos = ControladorActivos::ctrMostrarActivos($item, $valor);
+            $usuario_origen = null;
+            foreach ($activos as $row) {
+                $usuario_origen = $row['id_usuario_fk'];
+            }
+
+            // Verificar si se encontró el usuario origen
+            if ($usuario_origen === null) {
+                // Manejar el caso donde no se pudo obtener el usuario origen
+                echo '<script>
+                    Swal.fire(
+                        type: "error",
+                        title: "Error al obtener el usuario origen del activo.",
+                        text: "Por favor, inténtelo de nuevo.",
+                        showConfirmButton: true,
+                        confirmButtonText: "Cerrar"
+                    }).then(function(result) {
+                        if (result.value) {
+                            window.location = "Activos";
+                        }
+                    });
+                </script>';
+                return;
+            }
+
+            // Preparar los datos para la transferencia
+            $datos = array(
+                "id_activo" => $id_activo,
+                "usuario_origen" => $usuario_origen,
+                "usuario_destino" => $usuario_destino,
+                "observaciones" => $observaciones
+            );
+
+            // Registrar la transferencia en el historial
+            $respuestaHistorial = ModeloActivos::mdlRegistrarTransferencia($datos);
+
+            // Actualizar el usuario del activo
+            $respuestaActivo = ModeloActivos::mdlActualizarUsuarioActivo($datos);
+
+            // Manejo de respuestas
+            if ($respuestaHistorial == "ok" && $respuestaActivo == "ok") {
+                echo '<script>
+                    Swal.fire(
+                        type: "success",
+                        title: "El activo ha sido cambiado correctamente",
+                        showConfirmButton: true,
+                        confirmButtonText: "Cerrar"
+                    }).then(function(result) {
+                        if (result.value) {
+                            window.location = "inicio";
+                        }
+                    });
+                </script>';
+            } else {
+                echo '<script>
+                    Swal.fire(
+                        type: "error",
+                        title: "¡Hubo un error al cambiar el activo!",
+                        showConfirmButton: true,
+                        confirmButtonText: "Cerrar"
+                    }).then(function(result) {
+                        if (result.value) {
+                            window.location = "inicio";
+                        }
+                    });
+                </script>';
+            }
+        } else {
+            // Manejar el caso donde faltan parámetros en el POST
+            echo '<script>
+                Swal.fire(
+                    type: "error",
+                    title: "Faltan parámetros para transferir el activo.",
+                    text: "Por favor, complete todos los campos requeridos.",
+                    showConfirmButton: true,
+                    confirmButtonText: "Cerrar"
+                }).then(function(result) {
+                    if (result.value) {
+                        window.location = "inicio";
+                    }
+                });
+            </script>';
+        }
+    }
+
+/*=============================================
+TRANSFERIR ACTIVOS DE UN USUARIO A OTRO
+=============================================*/
+public static function ctrTransferirActivosUsuarioMasivo() {
+    if (isset($_POST["usuario_origen"], $_POST["usuario_destino"], $_POST["observaciones"])) {
+        $usuario_origen = $_POST["usuario_origen"];
+        $usuario_destino = $_POST["usuario_destino"];
+        $observaciones = $_POST["observaciones"];
+
+        // Obtener todos los activos del usuario origen
+        $item = "id_usuario_fk";
+        $valor = $usuario_origen;
+        $activos_usuario_origen = ControladorActivos::ctrMostrarActivos($item, $valor);
+
+        // Iterar sobre los activos y transferir cada uno al usuario destino
+        foreach ($activos_usuario_origen as $activo) {
+            $datos = array(
+                "id_activo" => $activo["id_activo"],
+                "usuario_origen" => $usuario_origen,
+                "usuario_destino" => $usuario_destino,
+                "observaciones" => $observaciones
+            );
+
+            // Registrar la transferencia en el historial
+            $respuestaHistorial = ModeloActivos::mdlRegistrarTransferencia($datos);
+
+            // Actualizar el usuario del activo
+            $respuestaActivo = ModeloActivos::mdlActualizarUsuarioActivo($datos);
+
+            // Verificar si hubo algún error en la transferencia
+            if ($respuestaHistorial != "ok" || $respuestaActivo != "ok") {
+                echo '<script>
+                    Swal.fire(
+                        type: "error",
+                        title: "¡Hubo un error al cambiar el activo!",
+                        showConfirmButton: true,
+                        confirmButtonText: "Cerrar"
+                    }).then(function(result) {
+                        if (result.value) {
+                            window.location = "inicio";
+                        }
+                    });
+                </script>';
+                return; // Salir del proceso si hay errores
+            }
+        }
+
+        // Si se transfieren todos los activos correctamente
+        echo '<script>
+            Swal.fire(
+                type: "success",
+                title: "Los activos han sido transferidos correctamente",
+                showConfirmButton: true,
+                confirmButtonText: "Cerrar"
+            }).then(function(result) {
+                if (result.value) {
+                    window.location = "inicio";
+                }
+            });
+        </script>';
+    } else {
+        echo '<script>
+            Swal.fire(
+                type: "error",
+                title: "Faltan datos requeridos para la transferencia de activos",
+                showConfirmButton: true,
+                confirmButtonText: "Cerrar"
+            }).then(function(result) {
+                if (result.value) {
+                    window.location = "inicio";
+                }
+            });
+        </script>';
+    }
+}
+    
+
 }
 
 

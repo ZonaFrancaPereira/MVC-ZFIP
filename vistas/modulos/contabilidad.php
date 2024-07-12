@@ -111,31 +111,31 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
 
           <div id="panelcontabilidad" class="active tab-pane">
             <?php require "ct/panel_contabilidad.php"; ?>
-  
+
           </div>
-          
+
           <!-- /. CONSULTAR CODIGOS QR DE MIS ACTIVOS FIJOS -->
           <div id="qr" class="tab-pane">
-          <?php require "ct/qr.php"; ?>
+            <?php require "ct/qr.php"; ?>
           </div>
           <!-- /. CIERRA CONSULTAR CODIGOS QR DE MIS ACTIVOS FIJOS -->
           <!-- /. CONSULTAR LOS ACTIVOS FIJOS DEL USUARIO QUE INICIO SESION -->
           <div id="consultar_activos" class="tab-pane">
-          <?php require "ct/consultar_activos.php"; ?>
-           
+            <?php require "ct/consultar_activos.php"; ?>
+
           </div>
           <!-- /. CIERRE DE CONSULTA DE LOS ACTIVOS FIJOS DEL USUARIO QUE INICIO SESION -->
 
           <!-- /. FORMULARIO PARA INGRESAR NUEVO ACTIVO FIJO -->
           <div id="nuevo_activo" class="tab-pane">
             <?php require "ct/form_activo.php"; ?>
-            
+
           </div>
           <!-- /. CIERRE FORMULARIO PARA INGRESAR NUEVO ACTIVO FIJO -->
 
           <!-- /. FORMULARIO PARA TRASLADAR LOS ACTIVOS -->
           <div id="trasladar_activos" class="tab-pane">
-            TRASLADAR
+          <?php require "ct/transferir_activo.php"; ?>
           </div>
           <!-- /. CIERRE FORMULARIO PARA TRASLADAR LOS ACTIVOS -->
 
@@ -148,7 +148,7 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
 
           <!-- /. INVENTARIO ACTIVOS FIJOS -->
           <div id="inventario_activos" class="tab-pane">
-          <?php require "ct/inventario.php"; ?>
+            <?php require "ct/inventario.php"; ?>
           </div>
           <!-- /. CIERRE INVENTARIO ACTIVOS FIJOS -->
 

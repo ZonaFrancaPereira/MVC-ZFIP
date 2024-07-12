@@ -87,14 +87,14 @@ class ControladorInventario
         }
     }
     
-    static public function ctrMostrarInventario(){
+    static public function ctrMostrarInventario($item, $valor){
         $tabla = "inventario";
 
 		$respuesta = ModeloInventario::mdlMostrarInventario($tabla, $item, $valor);
 
 		return $respuesta;
     }
-    
+
 
 }
 ?>

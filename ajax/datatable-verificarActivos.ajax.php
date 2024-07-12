@@ -94,27 +94,46 @@ class TablaVerificacion {
         if (!$id_inventario) {
             return [];
         }
-
-        $ctrActivos = new ControladorActivos();
-        $activos_no_verificados = $ctrActivos->ctrMostrarActivosNoVerificados($id_inventario);
-        
-        $data = [];
+    
+        $request = $_REQUEST;
+        $tablaActivos = "activos";
+        $tablaVerificacion = "verificaciones";
+        $id_usuario_fk = $_SESSION["id"];
+    
+        // Obtener el total de registros no verificados
+        $totalRenglones = ModeloVerificaciones::mdlContarActivosNoVerificados($tablaVerificacion, $tablaActivos, $id_inventario)["contador"];
+    
+        // Obtener los registros no verificados con paginación y búsqueda
+        $activos_no_verificados = ModeloVerificaciones::mdlMostrarActivosNoVerificadosServerSide($request, $tablaVerificacion, $tablaActivos, $id_inventario);
+    
+        // Construir la respuesta JSON para DataTables
+        $datosJson = [
+            "draw" => intval($request["draw"]),
+            "recordsTotal" => intval($totalRenglones),
+            "recordsFiltered" => intval($totalRenglones),
+            "data" => []
+        ];
+    
+        // Preparar los datos para DataTables
         foreach ($activos_no_verificados as $a) {
             $estado = "<span class='badge badge-danger'>Sin Verificar</span>";
             $verificar = "<button type='button' class='btn btn-outline-success' data-toggle='modal' data-target='#modalVerificacion' data-id_activo='{$a["id_activo"]}' data-nombre_articulo='{$a["nombre_articulo"]}'>
                             <i class='fas fa-check'></i> Verificar
-                        </button>";
-            $data[] = array(
+                          </button>";
+            $datosJson["data"][] = [
                 $a["id_activo"],
                 $a["nombre_articulo"],
                 $a["lugar_articulo"],
                 $estado,
                 $verificar
-            );
+            ];
         }
-
-        return $data;
+    
+        // Depuración: imprimir la respuesta JSON antes de enviarla
+        echo json_encode($datosJson);
+        exit;
     }
+    
 }
 
 

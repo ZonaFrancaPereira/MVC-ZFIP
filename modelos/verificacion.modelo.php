@@ -66,77 +66,7 @@ class ModeloVerificaciones
 
 
 
-    /*=============================================
-MOSTRAR ACTIVOS NO VERIFICADOS (SERVER-SIDE)
-=============================================*/
-    static public function mdlMostrarActivosNoVerificadosServerSide($request, $id_inventario)
-    {
-        // Límite de registros para la paginación
-        $limit = "LIMIT " . $request['start'] . ", " . $request['length'];
 
-        // Búsqueda
-        $busquedaGeneral = "";
-        if (isset($request['search']) && !empty($request['search']['value'])) {
-            $buscar = $request['search']['value'];
-            $busquedaGeneral = "AND (
-            codigo LIKE '%" . $buscar . "%' OR
-            nombre_articulo LIKE '%" . $buscar . "%' OR
-            lugar_articulo LIKE '%" . $buscar . "%'
-        )";
-        }
-
-        // Definición de columnas para el ordenamiento
-        $col = array(
-            0 => 'codigo',
-            1 => 'nombre_articulo',
-            2 => 'lugar_articulo',
-        );
-
-        // Construcción de la cláusula ORDER BY
-        $orderBy = "ORDER BY " . $col[$request['order'][0]['column']] . " " . $request['order'][0]['dir'];
-
-        // Consulta SQL con filtros de búsqueda y ordenamiento
-        $stmt = Conexion::conectar()->prepare("
-        SELECT * 
-        FROM activos
-        WHERE id_inventario = :id_inventario AND id_activo NOT IN (SELECT id_activo_fk FROM verificaciones)
-        $busquedaGeneral
-        $orderBy
-        $limit
-    ");
-        $stmt->bindParam(":id_inventario", $id_inventario, PDO::PARAM_INT);
-
-        // Ejecutar consulta
-        $stmt->execute();
-
-        // Retornar resultados
-        return $stmt->fetchAll();
-
-        // Cerrar conexión
-        $stmt = null;
-    }
-
-    /*=============================================
-CONTAR ACTIVOS NO VERIFICADOS
-=============================================*/
-    static public function mdlContarActivosNoVerificados($id_inventario)
-    {
-        $stmt = Conexion::conectar()->prepare("
-        SELECT COUNT(*) as contador 
-        FROM activos
-        WHERE id_inventario = :id_inventario AND id_activo NOT IN (SELECT id_activo_fk FROM verificaciones)
-    ");
-        $stmt->bindParam(":id_inventario", $id_inventario, PDO::PARAM_INT);
-
-        // Ejecutar consulta
-        $stmt->execute();
-
-        // Retornar el conteo de registros
-        return $stmt->fetch();
-
-        // Cerrar conexión
-        $stmt = null;
-    }
 
 /*=============================================
 MOSTRAR ACTIVOS VERIFICADOS (SERVER-SIDE)
@@ -190,4 +120,52 @@ static public function mdlContarActivosVerificados($id_inventario, $id_usuario_f
     $stmt->execute();
     return $stmt->fetch();
 }
+
+/*=============================================
+MOSTRAR ACTIVOS FIJOS NO VERIFICADOS (SERVER-SIDE)
+=============================================*/
+public static function mdlMostrarActivosNoVerificadosServerSide($request, $tablaVerificaciones, $tablaActivos, $id_inventario) {
+    $searchTerm = '%' . $request['search']['value'] . '%';
+    $start = intval($request['start']);
+    $length = intval($request['length']);
+
+    $stmt = Conexion::conectar()->prepare("
+        SELECT a.*
+        FROM $tablaActivos a
+        LEFT JOIN $tablaVerificaciones v ON a.id_activo = v.id_activo_fk AND v.id_inventario_fk = :id_inventario
+        WHERE v.id_activo_fk IS NULL 
+        AND (
+            a.id_activo LIKE :searchTerm
+            OR a.nombre_articulo LIKE :searchTerm
+            OR a.lugar_articulo LIKE :searchTerm
+        )
+        LIMIT :start, :length
+    ");
+
+    $stmt->bindParam(":id_inventario", $id_inventario, PDO::PARAM_INT);
+    $stmt->bindParam(":searchTerm", $searchTerm, PDO::PARAM_STR);
+    $stmt->bindParam(":start", $start, PDO::PARAM_INT);
+    $stmt->bindParam(":length", $length, PDO::PARAM_INT);
+
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+/*=============================================
+CONTAR ACTIVOS FIJOS NO VERIFICADOS
+=============================================*/
+public static function mdlContarActivosNoVerificados($tablaVerificaciones, $tablaActivos, $id_inventario) {
+    $stmt = Conexion::conectar()->prepare("
+        SELECT COUNT(*) as contador
+        FROM $tablaActivos a
+        LEFT JOIN $tablaVerificaciones v ON a.id_activo = v.id_activo_fk AND v.id_inventario_fk = :id_inventario
+        WHERE v.id_activo_fk IS NULL
+    ");
+
+    $stmt->bindParam(":id_inventario", $id_inventario, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
 }

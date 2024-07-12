@@ -238,6 +238,7 @@ class ModeloActivos
         return $stmt->fetchAll();
         $stmt = null;
     }
+    
 
     /*=============================================
 	EDITAR Activos
@@ -348,5 +349,59 @@ class ModeloActivos
         $stmt = null;
     }
     
+  /*=============================================
+    REGISTRAR TRANSFERENCIA DE ACTIVO
+    =============================================*/
+    public static function mdlRegistrarTransferencia($datos) {
+        $stmt = Conexion::conectar()->prepare("
+            INSERT INTO historial_transferencias (id_activo, id_usuario_origen, id_usuario_destino, fecha_transferencia, observaciones)
+            VALUES (:id_activo, :id_usuario_origen, :id_usuario_destino, NOW(), :observaciones)
+        ");
+
+        $id_activo = $datos["id_activo"];
+        $id_usuario_origen = $datos["usuario_origen"];
+        $id_usuario_destino = $datos["usuario_destino"];
+        $observaciones = $datos["observaciones"];
+
+        $stmt->bindParam(":id_activo", $id_activo, PDO::PARAM_INT);
+        $stmt->bindParam(":id_usuario_origen", $id_usuario_origen, PDO::PARAM_INT);
+        $stmt->bindParam(":id_usuario_destino", $id_usuario_destino, PDO::PARAM_INT);
+        $stmt->bindParam(":observaciones", $observaciones, PDO::PARAM_STR);
+
+        if ($stmt->execute()) {
+            return "ok";
+        } else {
+            $arr = $stmt->errorInfo();
+            return $arr[2];
+        }
+
+        $stmt = null;
+    }
+
+    /*=============================================
+    ACTUALIZAR USUARIO DEL ACTIVO
+    =============================================*/
+    public static function mdlActualizarUsuarioActivo($datos) {
+        $stmt = Conexion::conectar()->prepare("
+            UPDATE activos
+            SET id_usuario_fk = :id_usuario_destino
+            WHERE id_activo = :id_activo
+        ");
+
+        $id_activo = $datos["id_activo"];
+        $id_usuario_destino = $datos["usuario_destino"];
+
+        $stmt->bindParam(":id_activo", $id_activo, PDO::PARAM_INT);
+        $stmt->bindParam(":id_usuario_destino", $id_usuario_destino, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return "ok";
+        } else {
+            $arr = $stmt->errorInfo();
+            return $arr[2];
+        }
+
+        $stmt = null;
+    }
 
 }
