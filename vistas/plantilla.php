@@ -109,6 +109,8 @@ session_start();
 <script src="vistas/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
   <!-- SweetAlert 2 -->
   <script src="vistas/plugins/sweetalert2/sweetalert2.all.js"></script>
+  <!-- Bootstrap Switch -->
+<script src="vistas/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
   <!-- Initialize tooltips -->
   <script>
     $(function() {

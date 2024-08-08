@@ -17,6 +17,7 @@ class ControladorSoporte
             );
 
             $respuesta = ModeloSoporte::mdlIngresarSoporte($tabla, $datos);
+            
             if (is_numeric($respuesta)) {
                 // Llamar a la función EnviarCorreo con el id_usuario_fk
                 echo '<script>

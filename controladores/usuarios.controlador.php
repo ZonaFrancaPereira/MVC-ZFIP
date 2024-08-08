@@ -93,21 +93,17 @@ class ControladorUsuarios{
 
 		if(isset($_POST["nuevoUsuario"])){
 
-
-
-
 			if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevoNombre"]) &&
-			   preg_match('/^[a-zA-Z0-9]+$/', $_POST["nuevoUsuario"]) &&
-			   preg_match('/^[a-zA-Z0-9]+$/', $_POST["nuevoPassword"])){
+				preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["apellidos_usuario"]) && // Agregar validación de apellidos
+				preg_match('/^[a-zA-Z0-9]+$/', $_POST["nuevoUsuario"]) &&
+				preg_match('/^[a-zA-Z0-9]+$/', $_POST["nuevoPassword"])) {
+
 
 			   	/*=============================================
 				VALIDAR IMAGEN
 				=============================================*/
 
 				$ruta = "";
-
-
-
 				if(isset($_FILES["nuevaFoto"]["tmp_name"]) && $_FILES["nuevaFoto"]["tmp_name"]!=""){
 
 					list($ancho, $alto) = getimagesize($_FILES["nuevaFoto"]["tmp_name"]);
@@ -176,17 +172,14 @@ class ControladorUsuarios{
 				$encriptar = crypt($_POST["nuevoPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
 
 				$datos = array("nombre" => $_POST["nuevoNombre"],
+							   "apellidos_usuario" => $_POST["apellidos_usuario"],
 					           "correo_usuario" => $_POST["nuevoUsuario"],
 					           "password" => $encriptar,
 					           "perfil" => $_POST["nuevoPerfil"],
-					           "foto"=>$ruta);
-
-
-
+					           "foto"=>$ruta
+							);
 
 				$respuesta = ModeloUsuarios::mdlIngresarUsuario($tabla, $datos);
-
-
 
 				if($respuesta == "ok"){
 

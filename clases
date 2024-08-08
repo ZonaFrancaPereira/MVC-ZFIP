@@ -25,4 +25,7 @@ INSERT INTO `clases` (`id`, `clase`) VALUES
 (24, 'modelos/proveedor.modelo.php');
 (25, 'controladores/soporte.controlador.php');
 (26, 'modelos/soporte.modelo.php');
+(27, 'controladores/mantenimiento.controlador.php');
+(28, 'modelos/mantenimiento.modelo.php');
+
 
