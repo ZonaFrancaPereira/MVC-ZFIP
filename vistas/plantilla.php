@@ -130,6 +130,7 @@ session_start();
   <script src="vistas/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
   <!-- Summernote -->
 <script src="vistas/plugins/summernote/summernote-bs4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 
 <!--=====================================
@@ -184,6 +185,8 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "contabilidad" ||
         $_GET["ruta"] == "panel_contabilidad" ||
         $_GET["ruta"] == "notificacion" ||
+        $_GET["ruta"] == "sig" ||
+        $_GET["ruta"] == "sadoc" ||
         $_GET["ruta"] == "salir"
       ) {
 
@@ -222,6 +225,7 @@ CUERPO DOCUMENTO
   <script src="vistas/js/op.js"></script>
   <script src="vistas/js/clientes.js"></script>
   <script src="vistas/js/contabilidad.js"></script>
+  <script src="vistas/js/sadoc.js"></script>
   <script>
 
 
