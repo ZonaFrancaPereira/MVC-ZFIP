@@ -78,7 +78,9 @@
                                 </table>
                             </div>
                         </div>
+                        
                         <div class="card col-md-6">
+                        
                             <div class="card-header border-0">
                                 <div class="d-flex justify-content-between">
                                     <h3 class="card-title">Estadísticas</h3>
@@ -87,31 +89,23 @@
                             <div class="card-body">
                                 <div class="d-flex">
                                     <p class="d-flex flex-column">
-                                        <span class="text-bold text-lg">400</span>
+                                        <span class="text-bold text-lg" id="no_verificados"></span>
                                         <span>Cantidad por Verificar</span>
                                     </p>
                                     <p class="ml-auto d-flex flex-column text-right">
-                                        <span class="text-success">
-                                            <i class="fas fa-arrow-up"></i> 100
+                                        <span class="text-success text-lg"  id="verificados">
+                                            <i class="fas fa-arrow-up"></i> 
                                         </span>
-                                        <span class="text-muted">Verificados</span>
+                                        <span class="text-muted" >Verificados</span>
                                     </p>
                                 </div>
                                 <!-- /.d-flex -->
 
                                 <div class="position-relative mb-4">
-                                    <canvas id="sales-chart" height="200"></canvas>
+                                    <canvas id="graficaVerificacion"  style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                 </div>
 
-                                <div class="d-flex flex-row justify-content-end">
-                                    <span class="mr-2">
-                                        <i class="fas fa-square text-primary"></i> Activos
-                                    </span>
-
-                                    <span>
-                                        <i class="fas fa-square text-success"></i> Verificados
-                                    </span>
-                                </div>
+                                
                             </div>
                         </div>
                     </div><!-- /.card-body -->
@@ -120,3 +114,86 @@
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
 </section><!-- /.content -->
+
+<div class="modal fade" id="modalCerrarInventario" tabindex="-1" role="dialog" aria-labelledby="modalCerrarInventarioLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCerrarInventarioLabel">Cerrar Inventario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formCerrarInventario" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="id_inventario">ID de Inventario</label>
+                        <input type="text" class="form-control" id="id_inventario" name="id_inventario" readonly hidden>
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha_cierre">Fecha de Cierre</label>
+                        <input type="date" class="form-control" id="fecha_cierre" name="fecha_cierre">
+                    </div>
+                    
+                    <button type="submit" class="btn bg-success" name="cerrarInventario">Cerrar Inventario</button>
+                    <?php
+                if (isset($_POST['cerrarInventario'])) {
+                  $cerrarInventario = new ControladorInventario();
+                  $cerrarInventario->ctrCerrarInventario();
+                }
+                ?>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function cargarGrafica() {
+                fetch('controladores/activos.controlador.php?action=graficaVerificacionActivos')
+                .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            console.error('Error en los datos:', data.error);
+                        } else if (data.verificados !== undefined && data.no_verificados !== undefined) {
+                            // Actualizar los elementos HTML con los valores obtenidos
+                            document.getElementById('verificados').textContent = data.verificados;
+                            document.getElementById('no_verificados').textContent = data.no_verificados;
+
+                            // Crear la gráfica
+                            var pieChartCanvas = document.getElementById('graficaVerificacion').getContext('2d');
+                            var pieData = {
+                                labels: ['Verificados', 'No Verificados'],
+                                datasets: [{
+                                    data: [data.verificados, data.no_verificados],
+                                    backgroundColor: ['#28a745', '#dc3545'],
+                                    borderColor: ['#28a745', '#dc3545']
+                                }]
+                            };
+                            var pieOptions = {
+                            maintainAspectRatio: false,
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    labels: {
+                                        color: 'white' // Cambia el color de las etiquetas a blanco
+                                    }
+                                }
+                            }
+                        };
+                        new Chart(pieChartCanvas, {
+                            type: 'pie',
+                            data: pieData,
+                            options: pieOptions
+                        });
+                        } else {
+                            console.error('Datos no válidos:', data);
+                        }
+                    })
+                    .catch(error => console.error('Error al cargar datos:', error));
+            }
+
+            cargarGrafica();
+        });
+    </script>

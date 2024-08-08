@@ -22,7 +22,7 @@ class ControladorInventario
                 <script>
 							Swal.fire(
 							"Buen Trabajo!",
-							"El inventario '.$respuesta.' ha sido registrado con éxito.",
+							"El inventario ' . $respuesta . ' ha sido registrado con éxito.",
 							"success"
 							).then(function() {
 							$("#nuevo_inventario").hide();
@@ -55,20 +55,51 @@ class ControladorInventario
     =============================================*/
     public function ctrCerrarInventario()
     {
-        if (isset($_POST["id_inventario"]) && isset($_POST["fecha_cierre"]) && isset($_POST["id_usuario_cierre"])) {
-
+        if (isset($_POST["id_inventario"]) && isset($_POST["fecha_cierre"])) {
+            $estado="Cerrado";
             $datos = array(
                 "id_inventario" => $_POST["id_inventario"],
                 "fecha_cierre" => $_POST["fecha_cierre"],
-                "id_usuario_cierre" => $_POST["id_usuario_cierre"]
+                "id_usuario_cierre" => $_SESSION["id"],
+                "estado" => $estado
             );
 
             $respuesta = ModeloInventario::mdlCerrarInventario("inventario", $datos);
 
             if ($respuesta === "ok") {
-                echo json_encode(array("status" => "success"));
+
+                echo '
+                    <script>
+                                Swal.fire(
+                                "Buen Trabajo!",
+                                "El inventario ha sido cerrado con éxito.",
+                                "success"
+                                ).then(function() {
+                                $("#formCerrarInventario")[0].reset();
+                                $("#inventario_activos").addClass("active");
+								tablaInventario.ajax.reload();
+                                
+                                });
+                            </script>
+                  
+                        ';
             } else {
-                echo json_encode(array("status" => "error", "msg" => "Error al cerrar el inventario"));
+                echo '<script>
+                            Swal.fire({
+                                type: "error",
+                                title: "¡No se cerro el inventario correctamente!",
+                                showConfirmButton: true,
+                                confirmButtonText: "Cerrar"
+    
+                            }).then(function(result){
+                                if(result.value){
+                                $("#formCerrarInventario")[0].reset();
+                                     $("#inventario_activos").addClass("active");
+								tablaInventario.ajax.reload();
+                                }
+                            });
+                        </script>
+                    ';
             }
         }
     }
@@ -86,15 +117,13 @@ class ControladorInventario
             return null;
         }
     }
-    
-    static public function ctrMostrarInventario($item, $valor){
+
+    static public function ctrMostrarInventario($item, $valor)
+    {
         $tabla = "inventario";
 
-		$respuesta = ModeloInventario::mdlMostrarInventario($tabla, $item, $valor);
+        $respuesta = ModeloInventario::mdlMostrarInventario($tabla, $item, $valor);
 
-		return $respuesta;
+        return $respuesta;
     }
-
-
 }
-?>

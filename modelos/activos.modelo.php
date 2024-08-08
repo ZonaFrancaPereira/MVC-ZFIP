@@ -5,10 +5,10 @@ require_once "conexion.php";
 class ModeloActivos
 {
 
+
     /*=============================================
 	CREAR Activos
 	=============================================*/
-
     static public function mdlIngresarActivos($tabla, $datos)
     {
 
@@ -81,11 +81,9 @@ class ModeloActivos
 
         $stmt = null;
     }
-
     /*=============================================
 	MOSTRAR Activos
 	=============================================*/
-
     static public function mdlMostrarActivos($tabla, $item, $valor)
     {
 
@@ -95,20 +93,17 @@ class ModeloActivos
         $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetchAll();
-    } else {
+        }else{
         $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
         $stmt->execute();
         return $stmt->fetchAll();
+        }
+
+       
     }
-
-        $stmt = null;
-    }
-
-
     /*=============================================
 	MOSTRAR Activos AJAX
 	=============================================*/
-
     static public function mdlMostrarActivosAjax()
     {
 
@@ -131,11 +126,9 @@ class ModeloActivos
 
         $stmt = null;
     }
-
     /*=============================================
 	MOSTRAR Activos
 	=============================================*/
-
     static public function mdlMostrarActivosDTServerSide($valor)
     {
 
@@ -206,12 +199,9 @@ class ModeloActivos
 
         $stmt = null;
     }
-
-
     /*=============================================
 	MOSTRAR PRODUCTOS NUMERO DE REGISTROS
 	=============================================*/
-
     static public function mdlMostrarNumRegistros($valor)
     {
 
@@ -238,8 +228,6 @@ class ModeloActivos
         return $stmt->fetchAll();
         $stmt = null;
     }
-    
-
     /*=============================================
 	EDITAR Activos
 	=============================================*/
@@ -305,7 +293,6 @@ class ModeloActivos
 
         $stmt = null;
     }
-
     /*=============================================
 	ELIMINAR Activos
 	=============================================*/
@@ -326,7 +313,6 @@ class ModeloActivos
 
         $stmt = null;
     }
-
     /*=============================================
 	ACTUALIZAR Activos
 	=============================================*/
@@ -402,6 +388,48 @@ class ModeloActivos
         }
 
         $stmt = null;
+    }
+
+    /*=============================================
+    CONTAR ACTIVOS VERIFICADOS
+    =============================================*/
+    public static function contarActivosVerificados() {
+        // Obtener la conexión a la base de datos
+        $db = Conexion::conectar();
+    
+        // Consulta SQL para contar los activos verificados en el inventario abierto
+        $sql = "SELECT COUNT(id_verificacion) AS verificados
+                FROM verificaciones
+                WHERE id_inventario_fk = (SELECT id_inventario FROM inventario WHERE estado_inventario = 'Abierto')";
+    
+        // Preparar la consulta
+        $stmt = $db->prepare($sql);
+    
+        // Ejecutar la consulta
+        $stmt->execute();
+    
+        // Obtener el resultado como un array asociativo
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        // Retornar el número de verificaciones encontradas
+        return $row['verificados'];
+    }
+     /*=============================================
+    CONTAR TODOS LOS ACTIVOS
+    =============================================*/
+    public static function contarTotalActivos() {
+         // Obtener la conexión a la base de datos
+         $db = Conexion::conectar();
+        $stmt = "SELECT COUNT(id_activo) AS total_activos
+                FROM activos
+                WHERE estado_activo='Activo' OR estado_activo='Rentado'";
+        // Preparar la consulta
+        $stmt = $db->prepare($stmt);
+        // Ejecutar la consulta
+        $stmt->execute();
+        // Obtener el resultado como un array asociativo
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total_activos'];
     }
 
 }

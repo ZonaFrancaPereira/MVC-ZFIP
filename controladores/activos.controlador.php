@@ -412,7 +412,25 @@ public static function ctrTransferirActivosUsuarioMasivo() {
         </script>';
     }
 }
+
+public static function graficaVerificacionActivos() {
+    // Obtener datos del modelo
+  
+    $verificados = ModeloActivos::contarActivosVerificados();
+    $total_activos = ModeloActivos:: contarTotalActivos();
+
+    // Calcular activos no verificados
+    $no_verificados = $total_activos - $verificados;
+
+    // Preparar datos para la vista
+    $data = [
+        'verificados' => $verificados,
+        'no_verificados' => $no_verificados
+    ];
+
     
+    echo json_encode($data); 
+}
 
 }
 
@@ -442,10 +460,18 @@ LEER Activos AJAX
 
 if (isset($_POST["ajaxActivos"])) {
 
-	require_once "../modelos/Activos.modelo.php";
+	require_once "../modelos/activos.modelo.php";
 
 	$leerActivos = new ControladorActivos();
 	$respuesta = $leerActivos->ctrMostrarActivosAjax();
 
 	echo json_encode($respuesta);
+}
+
+// Manejar la acción de la solicitud AJAX
+if (isset($_GET['action']) && $_GET['action'] == 'graficaVerificacionActivos') {
+    require_once '../modelos/activos.modelo.php';
+    $modelo = new ModeloActivos();
+    $controlador = new ControladorActivos($modelo);
+    $controlador->graficaVerificacionActivos();
 }

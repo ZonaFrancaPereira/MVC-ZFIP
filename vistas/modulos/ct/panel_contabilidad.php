@@ -58,7 +58,7 @@
       </div>
       <!-- /.info-box -->
     </div>
-
+   
 
 
   </div>
@@ -167,6 +167,10 @@
           </div>
         </div>
       </div>
+  
+   
+
+
 
       <script>
         $('#modalVerificacion').on('show.bs.modal', function(event) {

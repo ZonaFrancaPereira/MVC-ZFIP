@@ -100,11 +100,11 @@ class TablaVerificacion {
         $tablaVerificacion = "verificaciones";
         $id_usuario_fk = $_SESSION["id"];
     
-        // Obtener el total de registros no verificados
-        $totalRenglones = ModeloVerificaciones::mdlContarActivosNoVerificados($tablaVerificacion, $tablaActivos, $id_inventario)["contador"];
+        // Obtener el total de registros no verificados del usuario actual
+        $totalRenglones = ModeloVerificaciones::mdlContarActivosNoVerificados($tablaVerificacion, $tablaActivos, $id_inventario, $id_usuario_fk)["contador"];
     
-        // Obtener los registros no verificados con paginación y búsqueda
-        $activos_no_verificados = ModeloVerificaciones::mdlMostrarActivosNoVerificadosServerSide($request, $tablaVerificacion, $tablaActivos, $id_inventario);
+        // Obtener los registros no verificados del usuario actual con paginación y búsqueda
+        $activos_no_verificados = ModeloVerificaciones::mdlMostrarActivosNoVerificadosServerSide($request, $tablaVerificacion, $tablaActivos, $id_inventario, $id_usuario_fk);
     
         // Construir la respuesta JSON para DataTables
         $datosJson = [
@@ -133,6 +133,7 @@ class TablaVerificacion {
         echo json_encode($datosJson);
         exit;
     }
+    
     
 }
 
