@@ -75,27 +75,39 @@ class ModeloUsuarios
 	=============================================*/
 
 	static public function mdlIngresarUsuario($tabla, $datos)
-{
-    $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(nombre, apellidos_usuario, correo_usuario, password, perfil, foto) VALUES (:nombre, :apellidos_usuario, :correo_usuario, :password, :perfil, :foto)");
-
-    $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
-    $stmt->bindParam(":apellidos_usuario", $datos["apellidos_usuario"], PDO::PARAM_STR);
-    $stmt->bindParam(":correo_usuario", $datos["correo_usuario"], PDO::PARAM_STR);
-    $stmt->bindParam(":password", $datos["password"], PDO::PARAM_STR);
-    $stmt->bindParam(":perfil", $datos["perfil"], PDO::PARAM_STR);
-    $stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
-
-    echo "Consulta SQL: " . $stmt->queryString . "\n";
-    echo "Datos: " . print_r($datos, true) . "\n";
-
-    if ($stmt->execute()) {
-        echo "Consulta ejecutada correctamente\n";
-        return "ok";
-    } else {
-        echo "Error en la consulta: " . $stmt->errorInfo()[2] . "\n";
-        return $stmt->errorInfo()[2];
-    }
-}
+	{
+		try {
+			$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(nombre, apellidos_usuario, correo_usuario, password, perfil, foto) VALUES (:nombre, :apellidos_usuario, :correo_usuario, :password, :perfil, :foto)");
+	
+			$stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
+			$stmt->bindParam(":apellidos_usuario", $datos["apellidos_usuario"], PDO::PARAM_STR);
+			$stmt->bindParam(":correo_usuario", $datos["correo_usuario"], PDO::PARAM_STR);
+			$stmt->bindParam(":password", $datos["password"], PDO::PARAM_STR);
+			$stmt->bindParam(":perfil", $datos["perfil"], PDO::PARAM_STR);
+			$stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
+	
+			// Ejecutar la consulta
+			if ($stmt->execute()) {
+				return "ok";
+			} else {
+				// Captura el error de la consulta y lo muestra
+				$errorInfo = $stmt->errorInfo();
+				$errorMessage = "SQLSTATE: " . $errorInfo[0] . "\n" . "Código de error: " . $errorInfo[1] . "\n" . "Mensaje: " . $errorInfo[2];
+				echo "Error en la consulta: " . $errorMessage . "\n";
+	
+				// Puedes también registrar el error en un archivo de log
+				error_log("Error en la consulta SQL: " . $errorMessage, 3, "error_log.log");
+	
+				return $errorMessage;
+			}
+		} catch (Exception $e) {
+			// Captura y muestra excepciones
+			echo "Excepción capturada: " . $e->getMessage() . "\n";
+			error_log("Excepción capturada: " . $e->getMessage(), 3, "error_log.log");
+			return $e->getMessage();
+		}
+	}
+	
 
 	/*=============================================
 	EDITAR USUARIO
@@ -208,47 +220,6 @@ class ModeloUsuarios
 	}
 
 
-	/**
-	 * Ver Empresas Por usuario
-	 */
 
-	public static function mdlDecuentosPorUsuario($idUsuario)
-	{
-
-		$query = "SELECT
-                id AS idEmpresa,
-                a.NombreEmpresa,
-                
-                IFNULL(
-                    (
-                    SELECT
-                        b.permiteVer
-                    FROM
-                        empresasPorUsuario b
-                    WHERE
-                        a.id = b.idEmpresa AND b.idUsuario = :idUsuario
-                ),
-                'NO'
-                ) AS permiteVer
-     
-          
-                FROM
-                datosempresa a;";
-
-		$con = Conexion::conectar()->prepare($query);
-
-		$con->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
-
-
-		try {
-
-			$con->execute();
-
-			return $con->fetchAll();
-		} catch (PDOException $ex) {
-
-			return $ex->getMessage();
-		}
-	}
 
 }

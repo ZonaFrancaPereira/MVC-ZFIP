@@ -91,19 +91,24 @@ class ControladorUsuarios{
 	static public function ctrCrearUsuario(){
 
 
-		if(isset($_POST["nuevoUsuario"])){
+		if(isset($_POST["correo_usuario"])){
+
+
+
 
 			if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevoNombre"]) &&
-				preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["apellidos_usuario"]) && // Agregar validación de apellidos
-				preg_match('/^[a-zA-Z0-9]+$/', $_POST["nuevoUsuario"]) &&
-				preg_match('/^[a-zA-Z0-9]+$/', $_POST["nuevoPassword"])) {
-
+			   preg_match('/^[a-zA-Z0-9]+$/', $_POST["apellidos_usuario"]) &&
+			   preg_match('/^[a-zA-Z0-9]+$/', $_POST["correo_usuario"]) &&
+			   preg_match('/^[a-zA-Z0-9]+$/', $_POST["nuevoPassword"])){
 
 			   	/*=============================================
 				VALIDAR IMAGEN
 				=============================================*/
 
 				$ruta = "";
+
+
+
 				if(isset($_FILES["nuevaFoto"]["tmp_name"]) && $_FILES["nuevaFoto"]["tmp_name"]!=""){
 
 					list($ancho, $alto) = getimagesize($_FILES["nuevaFoto"]["tmp_name"]);
@@ -115,7 +120,7 @@ class ControladorUsuarios{
 					CREAMOS EL DIRECTORIO DONDE VAMOS A GUARDAR LA FOTO DEL USUARIO
 					=============================================*/
 
-					$directorio = "vistas/img/usuarios/".$_POST["nuevoUsuario"];
+					$directorio = "vistas/img/usuarios/".$_POST["correo_usuario"];
 
 					mkdir($directorio, 0755);
 
@@ -131,7 +136,7 @@ class ControladorUsuarios{
 
 						$aleatorio = mt_rand(100,999);
 
-						$ruta = "vistas/img/usuarios/".$_POST["nuevoUsuario"]."/".$aleatorio.".jpg";
+						$ruta = "vistas/img/usuarios/".$_POST["correo_usuario"]."/".$aleatorio.".jpg";
 
 						$origen = imagecreatefromjpeg($_FILES["nuevaFoto"]["tmp_name"]);
 
@@ -151,7 +156,7 @@ class ControladorUsuarios{
 
 						$aleatorio = mt_rand(100,999);
 
-						$ruta = "vistas/img/usuarios/".$_POST["nuevoUsuario"]."/".$aleatorio.".png";
+						$ruta = "vistas/img/usuarios/".$_POST["correo_usuario"]."/".$aleatorio.".png";
 
 						$origen = imagecreatefrompng($_FILES["nuevaFoto"]["tmp_name"]);
 
@@ -169,23 +174,27 @@ class ControladorUsuarios{
 
 				$tabla = "usuarios";
 
-				$encriptar = crypt($_POST["nuevoPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+				//$encriptar = crypt($_POST["nuevoPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
 
 				$datos = array("nombre" => $_POST["nuevoNombre"],
-							   "apellidos_usuario" => $_POST["apellidos_usuario"],
-					           "correo_usuario" => $_POST["nuevoUsuario"],
-					           "password" => $encriptar,
+					           "apellidos_usuario" => $_POST["apellidos_usuario"],
+							   "correo_usuario" => $_POST["correo_usuario"],
+					           "password" => $_POST["nuevoPassword"],
 					           "perfil" => $_POST["nuevoPerfil"],
-					           "foto"=>$ruta
-							);
+					           "foto"=>$ruta);
+
+
+
 
 				$respuesta = ModeloUsuarios::mdlIngresarUsuario($tabla, $datos);
+
+
 
 				if($respuesta == "ok"){
 
 					echo '<script>
 
-					swal({
+					Swal.fire({
 
 						type: "success",
 						title: "¡El usuario ha sido guardado correctamente!",
@@ -213,7 +222,7 @@ class ControladorUsuarios{
 
 				echo '<script>
 
-					swal({
+					Swal.fire({
 
 						type: "error",
 						title: "¡El usuario no puede ir vacío o llevar caracteres especiales!",
@@ -423,7 +432,7 @@ static public function ctrMostrarUsuariosCorreo($item, $valor){
 
 				echo'<script>
 
-					swal({
+					Swal.fire({
 						  type: "error",
 						  title: "¡El nombre no puede ir vacío o llevar caracteres especiales!",
 						  showConfirmButton: true,
