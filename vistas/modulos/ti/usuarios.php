@@ -125,7 +125,7 @@ MODAL AGREGAR USUARIO
 
                   <div class="modal-content ui-draggable-handle">
 
-                    <form method="POST" enctype="multipart/form-data">
+                    <form method="POST" enctype="multipart/form-data" action="">
 
                       <!--=====================================
         CABEZA DEL MODAL
@@ -168,7 +168,7 @@ MODAL AGREGAR USUARIO
 
                               <span class="input-group-addon"><i class="fa fa-user"></i></span>
 
-                              <input type="text" class="form-control input-lg" name="apellidos_usuario" placeholder="Ingresar nombre" required>
+                              <input type="text" class="form-control input-lg" name="apellidos_usuario" placeholder="Apellidos" required>
 
                             </div>
 
@@ -182,7 +182,7 @@ MODAL AGREGAR USUARIO
 
                               <span class="input-group-addon"><i class="fa fa-key"></i></span>
 
-                              <input type="text" class="form-control input-lg" name="nuevoUsuario" placeholder="Ingresar usuario" id="nuevoUsuario" required>
+                              <input type="text" class="form-control input-lg" name="correo_usuario" placeholder="Ingresar usuario" id="correo_usuario" required>
 
                             </div>
 
