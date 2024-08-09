@@ -42,10 +42,12 @@ class ControladorUsuarios{
 						$_SESSION["iniciarSesion"] = "ok";
 						$_SESSION["id"] = $respuesta["id"];
 						$_SESSION["nombre"] = $respuesta["nombre"];
+						$_SESSION["apellidos_usuario"] = $respuesta["apellidos_usuario"];
 						$_SESSION["correo_usuario"] = $respuesta["correo_usuario"];
 						$_SESSION["foto"] = $respuesta["foto"];
 						$_SESSION["perfil"] = $respuesta["perfil"];
 						$_SESSION["id_proceso_fk"] = $respuesta["id_proceso_fk"];
+						$_SESSION["id_cargo_fk"] = $respuesta["id_cargo_fk"];
 						$_SESSION["descripcionPerfil"] = $acceso["descripcion"];
 	
 						// DERECHOS MENU CONFIGURACION
