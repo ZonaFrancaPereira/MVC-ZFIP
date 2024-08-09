@@ -459,15 +459,15 @@ static public function ctrMostrarUsuariosCorreo($item, $valor){
 
 	static public function ctrBorrarUsuario(){
 
-		if(isset($_GET["idUsuario"])){
+		if(isset($_POST["idUsuario"])){
 
 			$tabla ="usuarios";
-			$datos = $_GET["idUsuario"];
+			$datos = $_POST["idUsuario"];
 
-			if($_GET["fotoUsuario"] != ""){
+			if($_POST["fotoUsuario"] != ""){
 
-				unlink($_GET["fotoUsuario"]);
-				rmdir('vistas/img/usuarios/'.$_GET["usuario"]);
+				unlink($_POST["fotoUsuario"]);
+				rmdir('vistas/img/usuarios/'.$_POST["correo_usuario"]);
 
 			}
 
@@ -477,7 +477,7 @@ static public function ctrMostrarUsuariosCorreo($item, $valor){
 
 				echo'<script>
 
-				swal({
+				Swal.fire({
 					  type: "success",
 					  title: "El usuario ha sido borrado correctamente",
 					  showConfirmButton: true,
@@ -486,7 +486,7 @@ static public function ctrMostrarUsuariosCorreo($item, $valor){
 					  }).then(function(result) {
 								if (result.value) {
 
-								window.location = "usuarios";
+								window.location = "ti";
 
 								}
 							})

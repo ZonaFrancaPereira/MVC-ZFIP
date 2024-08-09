@@ -156,6 +156,12 @@ if ($_SESSION["ti"] == "off") {
                             <div class="col-md-12">
                                 <?php require "ti/usuarios.php"; ?>
                             </div>
+                            <?php
+
+$borrarUsuario = new ControladorUsuarios();
+$borrarUsuario->ctrBorrarUsuario();
+
+?>
                         </div>
                     </div>
                     
