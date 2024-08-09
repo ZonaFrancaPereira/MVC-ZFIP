@@ -1,4 +1,43 @@
+var tablaUsuarios = $(".tabla-usuarios").DataTable({
 
+	"language":{
+	  "sProcessing":     "Procesando...",
+	  "sLengthMenu":     "Mostrar _MENU_ registros",
+	  "sZeroRecords":    "No se encontraron resultados",
+	  "sEmptyTable":     "Ningún dato disponible en esta tabla",
+	  "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+	  "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+	  "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+	  "sSearch":         "Buscar:",
+	  "sInfoThousands":  ",",
+	  "sLoadingRecords": "Cargando...",
+	  "oPaginate": {
+		"sFirst":    "Primero",
+		"sLast":     "Último",
+		"sNext":     "Siguiente",
+		"sPrevious": "Anterior"
+	  },
+	  "oAria": {
+		"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+		"sSortDescending": ": Activar para ordenar la columna de manera descendente"
+	  },
+	  "buttons": {
+		"copy": "Copiar",
+		"colvis": "Visibilidad"
+	  }
+	},
+	responsive:"true",
+	dom:"Bfrtilp",
+	
+	
+	"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+	
+	
+	
+	"order":[[0,'desc']],
+	autoWidth: true
+	
+	});
 
 /*=============================================
 SUBIENDO LA FOTO DEL USUARIO
@@ -53,7 +92,7 @@ $(".nuevaFoto").change(function(){
 /*=============================================
 EDITAR USUARIO
 =============================================*/
-$(".tablas").on("click", ".btnEditarUsuario", function(){
+$(".tabla-usuarios").on("click", ".btnEditarUsuario", function(){
 
 	var idUsuario = $(this).attr("idUsuario");
 
@@ -105,7 +144,7 @@ $(".tablas").on("click", ".btnEditarUsuario", function(){
 /*=============================================
 ACTIVAR USUARIO
 =============================================*/
-$(".tablas").on("click", ".btnActivar", function(){
+$(".tabla-usuarios").on("click", ".btnActivar", function(){
 
 	var idUsuario = $(this).attr("idUsuario");
 	var estadoUsuario = $(this).attr("estadoUsuario");
@@ -203,29 +242,51 @@ $("#nuevoUsuario").change(function(){
 /*=============================================
 ELIMINAR USUARIO
 =============================================*/
-$(".tablas").on("click", ".btnEliminarUsuario", function(){
+$(".tabla-usuarios").on("click", ".btnEliminarUsuario", function(){
 
-  var idUsuario = $(this).attr("idUsuario");
-  var fotoUsuario = $(this).attr("fotoUsuario");
-  var usuario = $(this).attr("usuario");
+	var idUsuario = $(this).attr("idUsuario");
+	var fotoUsuario = $(this).attr("fotoUsuario");
+	var correo_usuario = $(this).attr("correo_usuario");
+	var fila = $(this).closest("tr");  // Selecciona la fila que contiene el botón
+  
+	Swal.fire({
+	  title: '¿Está seguro de borrar el usuario?',
+	  text: "¡Si no lo está puede cancelar la acción!",
+	  icon: 'warning',  // Cambiado de 'type' a 'icon'
+	  showCancelButton: true,
+	  confirmButtonColor: '#3085d6',
+	  cancelButtonColor: '#d33',
+	  cancelButtonText: 'Cancelar',
+	  confirmButtonText: 'Sí, borrar usuario!'
+	}).then(function(result){
+  
+	  if(result.isConfirmed){
+		$.ajax({
+		  url: 'ti',  // Cambiar por la URL correcta para eliminar el usuario
+		  type: 'POST',
+		  data: { idUsuario: idUsuario, fotoUsuario: fotoUsuario, correo_usuario: correo_usuario },
+		  success: function(response) {
+			Swal.fire(
+			  'Eliminado!',
+			  'El usuario ha sido eliminado.',
+			  'success'
+			).then(function() {
+			  // Eliminar la fila de la tabla
+			  tablaUsuarios.row(fila).remove().draw();
+			});
+		  },
+		  error: function() {
+			Swal.fire(
+			  'Error!',
+			  'Hubo un problema al eliminar el usuario.',
+			  'error'
+			);
+		  }
+		});
+	  }
+  
+	});
+  
+  });
+  
 
-  swal({
-    title: '¿Está seguro de borrar el usuario?',
-    text: "¡Si no lo está puede cancelar la accíón!",
-    type: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      cancelButtonText: 'Cancelar',
-      confirmButtonText: 'Si, borrar usuario!'
-  }).then(function(result){
-
-    if(result.value){
-
-      window.location = "index.php?ruta=usuarios&idUsuario="+idUsuario+"&usuario="+usuario+"&fotoUsuario="+fotoUsuario;
-
-    }
-
-  })
-
-})
