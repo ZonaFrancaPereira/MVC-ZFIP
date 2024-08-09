@@ -1,9 +1,5 @@
 <?php
 require_once "configuracion.php";
-
-
-
-
 ?>
 <nav class="mt-2">
   <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -15,37 +11,49 @@ require_once "configuracion.php";
     </li>
 
     <li class="nav-item">
-      <a  href="sadoc" class="nav-link">
-      <i class="nav-icon fas fa-qrcode"></i>
+      <a href="sadoc" class="nav-link">
+        <i class="nav-icon fas fa-qrcode"></i>
         <p>
           SADOC
-         
         </p>
       </a>
-      </li>
-      
-        <li class="nav-item">
-          <a data-toggle="tab" href="#qr" class="nav-link ">
-            <i class="nav-icon fas fa-qrcode"></i>
-            <p>
-              ACPM
-            </p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a data-toggle="tab" href="#manual_activos" class="nav-link ">
-            <i class="nav-icon fas fa-book"></i>
-            <p>
-              Manual
-            </p>
-          </a>
+    </li>
 
-        </li>
-    
-   
+    <li class="nav-item">
+      <a data-toggle="tab" href="#acpm" class="nav-link ">
+        <i class="nav-icon fas fa-qrcode"></i>
+        <p>
+          ACPM
+        </p>
+      </a>
+    </li>
 
+    <li class="nav-item">
+      <a data-toggle="tab" href="#manual_activos" class="nav-link ">
+        <i class="nav-icon fas fa-book"></i>
+        <p>
+          Manual
+        </p>
+      </a>
+
+    </li>
   </ul>
 </nav>
+
+<?php
+
+if ($_SESSION["ti"] == "off") {
+
+  echo '<script>
+
+    window.location = "inicio";
+
+  </script>';
+
+  return;
+}
+
+?>
 </div>
 <!-- /.sidebar -->
 </aside>
@@ -55,24 +63,16 @@ require_once "configuracion.php";
     <div id="page-content-wrapper">
       <div class="container-fluid">
         <div class="tab-content card">
-          <!-- /.PANEL PRINCIPAL PARA MOSTRAR INFORMACIÓN RELACIONADA CON EL AREA CONTABLE-->
 
           <div id="panelsig" class="active tab-pane">
             <?php require "sig/panel_sig.php"; ?>
 
           </div>
 
-        
-          <!-- /. CIERRA CONSULTAR CODIGOS QR DE MIS ACTIVOS FIJOS -->
-          <!-- /. CONSULTAR LOS ACTIVOS FIJOS DEL USUARIO QUE INICIO SESION -->
           <div id="acpm" class="tab-pane">
-            <?php require "ct/consultar_activos.php"; ?>
 
+                <?php require "sig/acpm.php"; ?>
           </div>
-          <!-- /. CIERRE DE CONSULTA DE LOS ACTIVOS FIJOS DEL USUARIO QUE INICIO SESION -->
-
-          
-
 
           <!-- /. MANUAL DE USO ACTIVOS FIJOS -->
           <div id="manual_activos" class="tab-pane">
@@ -93,14 +93,12 @@ require_once "configuracion.php";
           </div>
           <!-- CIERRE DE MANUAL DE USO ACTIVOS FIJOS -->
 
+
         </div>
       </div>
     </div>
   </div>
 </div>
-
-
-
 </body>
 
 </html>
