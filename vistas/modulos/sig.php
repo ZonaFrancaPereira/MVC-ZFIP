@@ -37,35 +37,54 @@ require_once "configuracion.php";
           </a>
         </li>
         <li class="nav-item" name="verificacion">
-          <a data-toggle="tab" href="#verificacion" class="nav-link">
+          <a data-toggle="tab" href="#acciones_verificacion" class="nav-link">
             <i class="nav-icon fas fa-sync-alt"></i>
             <p>Acciones en Verificación</p>
           </a>
         </li>
         <li class="nav-item">
-          <a data-toggle="tab" href="#abiertas" class="nav-link">
+          <a data-toggle="tab" href="#acciones_abiertas" class="nav-link">
             <i class="nav-icon far fa-question-circle"></i>
             <p>Acciones Abiertas</p>
           </a>
         </li>
-        <li class="nav-item" name="cerradas">
-          <a data-toggle="tab" href="#cerradas" class="nav-link">
+        <li class="nav-item" name="">
+          <a data-toggle="tab" href="#acciones_cerradas" class="nav-link">
             <i class="nav-icon far fa-check-circle"></i>
             <p>Acciones Cerradas</p>
           </a>
         </li>
         <li class="nav-item" name="rechazadas">
-          <a data-toggle="tab" href="#rechazadas" class="nav-link">
+          <a data-toggle="tab" href="#acciones_rechazadas" class="nav-link">
             <i class="nav-icon far fa-times-circle"></i>
             <p>Acciones Rechazadas</p>
           </a>
         </li>
         <li class="nav-item" name="proceso">
-          <a data-toggle="tab" href="#proceso" class="nav-link">
+          <a data-toggle="tab" href="#acciones_proceso" class="nav-link">
             <i class="nav-icon fas fa-sync-alt"></i>
             <p>Acciones en Proceso</p>
           </a>
         </li>
+         <!-- /.ESTA PARTE PERTENECE SOLO A SIG -->
+      <li class="nav-item">
+        <a data-toggle="tab" href="#aprobacion" class="nav-link ">
+          <i class="nav-icon fas fa-question-circle"></i>
+          <p>
+            Aprobar ACPM
+            <span class="right badge badge-danger">Urgente</span>
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a data-toggle="tab" href="#aceptar_acpm" class="nav-link ">
+          <i class="nav-icon fas fa-clipboard-check"></i>
+          <p>
+            Verificar ACPM
+            <span class="right badge badge-danger">Urgente</span>
+          </p>
+        </a>
+      </li>
 
         <li class="nav-item">
           <a data-toggle="tab" href="#manual_activos" class="nav-link ">
@@ -109,6 +128,67 @@ if ($_SESSION["ti"] == "off") {
               </div>
             </div>
           </div>
+
+          <div id="acciones_abiertas" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/acciones_abiertas.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="acciones_cerradas" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/acciones_cerradas.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          
+          <div id="acciones_proceso" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/acciones_proceso.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          
+          <div id="acciones_rechazadas" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/acciones_rechazadas.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          
+          <div id="acciones_verificacion" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/acciones_verificacion.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="aceptar_acpm" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/aceptar_acpm.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="aprobacion" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/aprobacion.php"; ?>
+              </div>
+            </div>
+          </div>
+
+
         </div>
       </div>
     </div>

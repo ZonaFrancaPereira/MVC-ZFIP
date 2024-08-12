@@ -20,8 +20,8 @@
                 <div class="card">
                     <div class="card-body">
                         <!-- DIV DONDE SE MOSTRARA EL FORMULARIO PARA UNA NUEVA ACPM -->
-                        <div class="tab-pane " id="acpm">
-                            <form method="POST" enctype="multipart/form-data">
+                        <div class="tab-pane ">
+                            <form method="POST" enctype="multipart/form-data"  id="acpm">
                                 <div class="card card-navy">
                                     <div class="card-header">
                                         <center>
@@ -141,7 +141,6 @@
                                 $CrearAcpm->ctrCrearAcpm();
                                 ?>
                             </form>
-                            <!-- /.card -->
                         </div>
                         <!-- DIV DONDE TERMINA EL FORMULARIO DE ACPM-->
                     </div><!-- /.card-body -->

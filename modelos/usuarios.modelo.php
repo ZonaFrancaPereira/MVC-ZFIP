@@ -58,11 +58,13 @@ class ModeloUsuarios
 	{
 		// Consulta con INNER JOIN incluyendo la tabla proceso
 		$stmt = Conexion::conectar()->prepare(
-			"SELECT u.*, s.*, p.* 
-         FROM $tabla u
-         INNER JOIN soporte s ON u.id = s.id_usuario_fk
-         INNER JOIN proceso p ON u.id_proceso_fk = p.id_proceso
-         WHERE u.$item = :valor"
+			"SELECT u.*, s.*, p.*, a.*, b.*
+			FROM $tabla u
+			INNER JOIN soporte s ON u.id = s.id_usuario_fk
+			INNER JOIN proceso p ON u.id_proceso_fk = p.id_proceso
+			INNER JOIN acpm a ON u.id = a.id_usuario_fk
+			INNER JOIN actividades_acpm b ON u.id = b.id_usuario_fk
+			WHERE u.$item = :valor"
 		);
 		$stmt->bindParam(":valor", $valor, PDO::PARAM_INT);
 		$stmt->execute();
