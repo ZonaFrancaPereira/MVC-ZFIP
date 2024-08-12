@@ -37,15 +37,9 @@
 // CONEXIÓN BASE DE DATOS
 CONST BD_HOST = "localhost";
 CONST BD_PUERTO = "3306";
-<<<<<<< HEAD
-CONST BD_NOMBRE = "u446101023_prueba";
-CONST BD_USUARIO = "u446101023_prueba";
-CONST BD_CONTRA = "=g[QsV9=";
-=======
 CONST BD_NOMBRE = "zfip";
 CONST BD_USUARIO = "root";
 CONST BD_CONTRA = "";
->>>>>>> d1b8ff42d47dd8cfd08a07a7eac43b2dc22001cf
 CONST DEBUG = false;
 CONST MOSTRARWARNINGS = false;
 

@@ -622,7 +622,7 @@ function activar_menu_PLE(cargo) {
 		$.ajax({
 			type:'POST',
 			data:json,
-			url:'php/lista_descarga_sadoc.php',
+			url:'ajax/sadoc.ajax.php',
 			success: function (data) {
 				$("#descargas_PLE").html("");
 				$("#descargas_PLE").html(data);

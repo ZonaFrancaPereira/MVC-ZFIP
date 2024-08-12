@@ -68,7 +68,7 @@
                         echo ' <tr>
                   <td>' . ($key + 1) . '</td>
                   <td>' . $value["nombre"] . ' ' . $value["apellidos_usuario"] . '</td>
-                  <td>' . $value["usuario"] . '</td>';
+                  <td>' . $value["correo_usuario"] . '</td>';
 
                         if ($value["foto"] != "") {
 

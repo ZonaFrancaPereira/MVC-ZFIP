@@ -151,7 +151,7 @@ require_once "configuracion.php";
                           <div class="card-body">
                             <div class="tab-content">
                               <div class="active tab-pane" id="gerencia">
-                                   <?php generarTabla(10); ?>
+                                <?php generarTabla(10); ?>
                               </div>
                               <div class=" tab-pane" id="planeacion">
                                 <?php generarTabla(21); ?>
@@ -190,9 +190,7 @@ require_once "configuracion.php";
                         </div><!-- /.card -->
 
                       </div><!-- /.card-body -->
-
                     </div><!-- /.card -->
-
                   </div><!-- /.col-12 -->
                 </div><!-- /.row -->
               </div><!-- /.container-fluid -->
@@ -200,46 +198,11 @@ require_once "configuracion.php";
             </section><!-- /.content -->
           </div><!-- /.tab-pane -->
           <!-- Despliegue de información...#menu1 SIG TERMINADO -->
-
-
           <div id="menu1" class="tab-pane fade">
-                                <div id="sesion_SIG" class="bg-info">
-                                  <div class="borde2 col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+            <?php generarModalConFormulario("modal-lg-1", "Sistema Integrado de Gestión", "Código ej: FO-", 1, "SIG"); ?>
+           
+          </div>
 
-                                    <div id="subida_archivo" class=" pt-3 pb-2">
-                                      <center>
-                                        <form class="form-inline col-md-9 col-lg-8 col-sm-12 col-xs-12" action="#" name="upload" method="POST" enctype="multipart/form-data" >
-                                         <h3>Adjuntar Archivos : </h3>
-                                         <div class="form-group mx-sm-3 mb-2">
-
-                                          <input type="file" name="archivo"  class="form-control" required >
-                                          <input type="hidden" name="id_proceso_fk" value="1" id="archivo_sig" class="form-control" required >
-                                          <input type="hidden" name="proceso" value="SIG" id="proceso_sig" class="form-control" required >
-
-                                        </div>
-                                        <button type="submit" class="btn btn-success mb-2" name="subir">
-                                          <span class=' fa fa-upload' aria-hidden='true'></span>
-                                          Subir Archivo
-                                        </button>
-                                      </form>
-                                    </center>
-                                    <?php 
-                                    include_once("php/upload_sadoc.php");
-                                    ?>
-                                  </div>  
-
-                                </div>
-                                <div id="archivos_SIG" class="borde3 col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                  <div id="include_SIG">
-                                    <?php 
-                                    include_once("php/upload_sadoc_folder.php");
-                                    ?>
-                                  </div>
-                                </div>
-                                <hr>
-                                <legend></legend>
-                              </div>
-          
         </div><!-- /.tab-content card -->
       </div><!-- /.container-fluid -->
     </div><!-- /#page-content-wrapper -->
@@ -249,8 +212,6 @@ require_once "configuracion.php";
 function generarTabla($id_id_proceso_fk)
 {
   $archivos = ControladorSadoc::mostrarArchivosPorProceso($id_id_proceso_fk);
-
-
   echo "<div class='table-responsive'>";
   echo "<table class='display table table-striped table-bordered w-100'>";
   echo "<thead>
@@ -258,37 +219,86 @@ function generarTabla($id_id_proceso_fk)
               <th>#</th>
               <th>Nombre del Archivo</th>
               <th>Fecha de Actualización</th>
-              <th>Ruta</th>
               <th>Opciones</th>
             </tr>
           </thead>";
   echo "<tbody>";
-
   $registros = 1;
   if (count($archivos) > 0) {
     foreach ($archivos as $row) {
       $nombre = basename($row["ruta"]);
       $previo = $row["ruta"];
       $id = $row["id"];
-
       echo "<tr class='sobras'>";
       echo "<td>" . $registros . "</td>";
       echo "<td>" . $nombre . "</td>";
-      echo "<td>" . $row["Fecha_Subida"] . "</td>";
-      echo "<td>" . $row["ruta"] . "</td>";
+      echo "<td>" . $row["fecha_subida"] . "</td>";
       echo "<td>";
-      echo '<a href="php/descarga_Archivos.php?archivo=' . $nombre . '&ruta=' . $previo . '" target="_blank"><button class="btn bg-navy">Vista Previa  <span class="fa fa-eye" aria-hidden="true"></span></button></a>';
+      echo '<a href="vistas/modulos/sig/descarga_archivos.php?archivo=' . $nombre . '&ruta=' . $previo . '" target="_blank"><button class="btn bg-navy">Vista Previa  <span class="fa fa-eye" aria-hidden="true"></span></button></a>';
       echo "</td>";
       echo "</tr>";
       $registros++;
     }
   }
-
   echo "</tbody>";
   echo "</table>";
   echo "</div>";
 }
+
+
+function generarFormulario($codigo, $id_proceso_fk, $proceso)
+{
+  echo '<form class="form-inline col-md-12 col-lg-12 col-sm-12 col-xs-12" action="" method="POST" enctype="multipart/form-data">';
+
+  echo '      <div class="col-md-6"><input type="text" class="form-control" name="codigo" id="codigo" placeholder="' . $codigo . '" required></div>';
+  echo '      <div class="col-md-6"> <input type="file" name="archivo" class="form-control" required></div>';
+  echo '      <div class="col-md-6"> <input type="text" name="id_proceso_fk" value="' . $id_proceso_fk . '" class="form-control" required></div>';
+  echo '      <div class="col-md-6"> <input type="text" name="carpeta" value="' . $proceso . '" class="form-control" required></div>';
+
+
+  echo '  <button type="submit" class="btn bg-success btn-block" name="subir">';
+  echo '      <span class="fa fa-upload" aria-hidden="true"></span> Subir Archivo';
+  echo '  </button>';
+  if (isset($_POST['subir'])) {
+    $crearSadoc = new ControladorSadoc();
+    $crearSadoc->ctrCrearArchivo();
+     }
+  echo '</form>';
+}
+
+
+function generarModalConFormulario($modalId, $tituloModal, $codigo, $id_proceso_fk, $proceso)
+{
+  echo '<!-- Botón para activar el modal -->';
+  echo '<button type="button" class="btn bg-success" data-toggle="modal" data-target="#' . $modalId . '">';
+  echo '  ' . $tituloModal;
+  echo '</button>';
+
+  echo '<!-- Modal -->';
+  echo '<div class="modal fade" id="' . $modalId . '">';
+  echo '    <div class="modal-dialog modal-lg">';
+  echo '        <div class="modal-content">';
+  echo '            <div class="modal-header">';
+  echo '                <h4 class="modal-title">' . $tituloModal . '</h4>';
+  echo '                <button type="button" class="close" data-dismiss="modal" aria-label="Close">';
+  echo '                    <span aria-hidden="true">&times;</span>';
+  echo '                </button>';
+  echo '            </div>';
+  echo '            <div class="modal-body">';
+  generarFormulario($codigo, $id_proceso_fk, $proceso);
+  echo '            </div>';
+
+  echo '        </div>';
+  echo '        <!-- /.modal-content -->';
+  echo '    </div>';
+  echo '    <!-- /.modal-dialog -->';
+  echo '</div>';
+  echo '<!-- /.modal -->';
+}
 ?>
+
+?>
+
 <?php
 
 if ($_SESSION['id_proceso_fk'] == "JR") {
