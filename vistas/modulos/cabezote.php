@@ -129,7 +129,7 @@
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         
         <div class="info">
-          <a href="#" class="brand-text font-weight-light d-block"><?php echo $_SESSION["nombre"]; ?></a>
+          <a href="#" class="brand-text font-weight-light d-block"><?php echo $_SESSION['nombre']?></a>
         </div>
       </div>
 

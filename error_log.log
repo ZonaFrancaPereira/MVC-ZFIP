@@ -1,0 +1,1 @@
+Excepción capturada: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`u446101023_prueba`.`usuarios`, CONSTRAINT `usuarios_ibfk_2` FOREIGN KEY (`id_cargo_fk`) REFERENCES `cargos` (`id_cargo`) ON UPDATE CASCADE)

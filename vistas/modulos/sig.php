@@ -18,26 +18,84 @@ require_once "configuracion.php";
         </p>
       </a>
     </li>
-
     <li class="nav-item">
-      <a data-toggle="tab" href="#acpm" class="nav-link ">
+      <a data-toggle="tab" href="" class="nav-link">
         <i class="nav-icon fas fa-qrcode"></i>
         <p>
           ACPM
+          <i class="fas fa-angle-left right"></i>
         </p>
       </a>
-    </li>
+      <ul class="nav nav-treeview">
+        <li class="nav-item">
+          <a data-toggle="tab" href="#acpm" class="nav-link ">
+            <i class="nav-icon fas fa-file-medical"></i>
+            <p>
+              Nueva ACPM
+              <span class="right badge badge-success">Nueva</span>
+            </p>
+          </a>
+        </li>
+        <li class="nav-item" name="verificacion">
+          <a data-toggle="tab" href="#acciones_verificacion" class="nav-link">
+            <i class="nav-icon fas fa-sync-alt"></i>
+            <p>Acciones en Verificación</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a data-toggle="tab" href="#acciones_abiertas" class="nav-link">
+            <i class="nav-icon far fa-question-circle"></i>
+            <p>Acciones Abiertas</p>
+          </a>
+        </li>
+        <li class="nav-item" name="">
+          <a data-toggle="tab" href="#acciones_cerradas" class="nav-link">
+            <i class="nav-icon far fa-check-circle"></i>
+            <p>Acciones Cerradas</p>
+          </a>
+        </li>
+        <li class="nav-item" name="rechazadas">
+          <a data-toggle="tab" href="#acciones_rechazadas" class="nav-link">
+            <i class="nav-icon far fa-times-circle"></i>
+            <p>Acciones Rechazadas</p>
+          </a>
+        </li>
+        <li class="nav-item" name="proceso">
+          <a data-toggle="tab" href="#acciones_proceso" class="nav-link">
+            <i class="nav-icon fas fa-sync-alt"></i>
+            <p>Acciones en Proceso</p>
+          </a>
+        </li>
+         <!-- /.ESTA PARTE PERTENECE SOLO A SIG -->
+      <li class="nav-item">
+        <a data-toggle="tab" href="#aprobacion" class="nav-link ">
+          <i class="nav-icon fas fa-question-circle"></i>
+          <p>
+            Aprobar ACPM
+            <span class="right badge badge-danger">Urgente</span>
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a data-toggle="tab" href="#aceptar_acpm" class="nav-link ">
+          <i class="nav-icon fas fa-clipboard-check"></i>
+          <p>
+            Verificar ACPM
+            <span class="right badge badge-danger">Urgente</span>
+          </p>
+        </a>
+      </li>
 
-    <li class="nav-item">
-      <a data-toggle="tab" href="#manual_activos" class="nav-link ">
-        <i class="nav-icon fas fa-book"></i>
-        <p>
-          Manual
-        </p>
-      </a>
+        <li class="nav-item">
+          <a data-toggle="tab" href="#manual_activos" class="nav-link ">
+            <i class="nav-icon fas fa-book"></i>
+            <p>
+              Manual
+            </p>
+          </a>
 
-    </li>
-  </ul>
+        </li>
+      </ul>
 </nav>
 
 <?php
@@ -63,35 +121,72 @@ if ($_SESSION["ti"] == "off") {
     <div id="page-content-wrapper">
       <div class="container-fluid">
         <div class="tab-content card">
-
-          <div id="panelsig" class="active tab-pane">
-            <?php require "sig/panel_sig.php"; ?>
-
-          </div>
-
           <div id="acpm" class="tab-pane">
-
-                <?php require "sig/acpm.php"; ?>
-          </div>
-
-          <!-- /. MANUAL DE USO ACTIVOS FIJOS -->
-          <div id="manual_activos" class="tab-pane">
             <div class="row">
-              <div class="col-lg-12 ">
-                <!-- Button trigger modal -->
-                <div class="card">
-                  <!-- /.card-header -->
-                  <div style="position: relative; width: 100%; height: 0; padding-top: 56.2225%;
-                    padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
-                    border-radius: 8px; will-change: transform;">
-                    <iframe loading="lazy" style="position: absolute; width: 100%; height: 80%; top: 0; left: 0; border: none; padding: 0;margin: 0;" src="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAF2tA6dWWs&#x2F;view?embed" allowfullscreen="allowfullscreen" allow="fullscreen">
-                    </iframe>
-                  </div>
-                </div>
+              <div class="col-md-12">
+                <?php require "sig/acpm.php"; ?>
               </div>
             </div>
           </div>
-          <!-- CIERRE DE MANUAL DE USO ACTIVOS FIJOS -->
+
+          <div id="acciones_abiertas" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/acciones_abiertas.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="acciones_cerradas" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/acciones_cerradas.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          
+          <div id="acciones_proceso" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/acciones_proceso.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          
+          <div id="acciones_rechazadas" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/acciones_rechazadas.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          
+          <div id="acciones_verificacion" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/acciones_verificacion.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="aceptar_acpm" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/aceptar_acpm.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="aprobacion" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/aprobacion.php"; ?>
+              </div>
+            </div>
+          </div>
 
 
         </div>
