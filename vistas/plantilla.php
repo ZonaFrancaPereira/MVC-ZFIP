@@ -139,13 +139,14 @@ session_start();
 CUERPO DOCUMENTO
 ======================================-->
 
-<body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+
 
   <?php
 
   if (isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] == "ok") {
 
-    echo '<div class="wrapper">';
+    echo '<body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+    <div class="wrapper">';
 
     /*=============================================
     CABEZOTE
@@ -210,7 +211,8 @@ CUERPO DOCUMENTO
 
     echo '</div>';
   } else {
-
+    echo '<body class="hold-transition  sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+    ';
     include "modulos/login.php";
   }
 

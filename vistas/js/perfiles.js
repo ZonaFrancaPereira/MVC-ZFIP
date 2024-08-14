@@ -87,23 +87,24 @@ $(".table").on("click", ".btnEliminarPerfil", function(){
 	var idPerfil = $(this).attr("idPerfil");
   
 	Swal.fire({
-	  title: '¿Está seguro de borrar el Perfil?',
-	  text: "¡Si no lo está puede cancelar la acción!",
-	  type: 'warning',
-	  showCancelButton: true,
-	  confirmButtonColor: '#3085d6',
-	  cancelButtonColor: '#d33',
-	  cancelButtonText: 'Cancelar',
-	  confirmButtonText: 'Sí, borrar perfil!'
+		title: '¿Está seguro de borrar el perfil?',
+		text: "¡Si no lo está puede cancelar la acción!",
+		icon: "question",
+		showCancelButton: true,
+		confirmButtonColor: '#27ae60',
+		cancelButtonColor: '#d33',
+		cancelButtonText: 'Cancelar',
+		confirmButtonText: 'Sí, borrar Perfil!'
 	}).then(function(result){
 	  if(result.value){
+
 		$.ajax({
 		  url: 'ti',
 		  type: 'POST',
 		  data: { idPerfil: idPerfil, eliminar: 'si' },
 		  success: function(response) {
 			Swal.fire(
-			  'Eliminado!',
+			  '¡Eliminado!',
 			  'El perfil ha sido eliminado.',
 			  'success'
 			).then(function() {
@@ -115,7 +116,7 @@ $(".table").on("click", ".btnEliminarPerfil", function(){
 		  },
 		  error: function() {
 			Swal.fire(
-			  'Error!',
+			  '¡Error!',
 			  'Hubo un problema al eliminar el perfil.',
 			  'error'
 			);
