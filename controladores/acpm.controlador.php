@@ -164,6 +164,32 @@ class ControladorAcpm
             }
         }
     }
+
+   /*=============================================
+    APROBAR ACPM
+    =============================================*/
+    static public function ctrAprobarAcpm() {
+        if (isset($_POST["id_consecutivo"]) && isset($_POST["estado_acpm"])) {
+            $datos = array(
+                "id_consecutivo" => $_POST["id_consecutivo"],
+                "estado_acpm" => $_POST["estado_acpm"]
+            );
+            
+            echo "Datos recibidos: ";
+            print_r($datos);
+            
+            $resultado = ModeloAcpm::mdlAprobarAcpm($datos);
+            
+            if ($resultado) {
+                echo 'ok'; // Devolver 'ok' como respuesta exitosa
+            } else {
+                echo 'error'; // Devolver 'error' como respuesta de error
+            }
+        }
+    }
+    
+    
+}
     
 
-}
+

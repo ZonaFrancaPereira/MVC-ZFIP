@@ -206,4 +206,26 @@ class ModeloAcpm
     }
 }
 
+public static function mdlAprobarAcpm($datos) {
+    try {
+        $stmt = Conexion::conectar()->prepare("UPDATE acpm SET estado_acpm = 'Abierta' WHERE id_consecutivo = :id_consecutivo");
+        $stmt->bindParam(":id_consecutivo", $datos["id_consecutivo"], PDO::PARAM_INT);
+        
+        echo "Consulta preparada: ";
+        print_r($stmt);
+        
+        if ($stmt->execute()) {
+            return 'ok';
+        } else {
+            return 'error';
+        }
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+        return false;
+    } finally {
+        $stmt->closeCursor();
+        $stmt = null;
+    }
+}
+
 }

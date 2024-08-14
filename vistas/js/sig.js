@@ -1,9 +1,11 @@
-$(document).ready(function() {
+$(document).ready();
+
     $("#similares").hide();
     $("#fuente").hide();
     $("#riesgos").hide();
     $("#correccion").hide();
 
+  
 
     $("#nc_similar").change(function() {
       var seleccion = $(this).val();
@@ -41,7 +43,6 @@ $(document).ready(function() {
         $("#correccion").hide();
       }
     });
-  });
 
   var tablaAcpm = $("#tabla-verificacion-sig").DataTable({
     "ajax": {
@@ -162,3 +163,56 @@ $(document).ready(function() {
     autoWidth: true
   
   });
+  
+  $(document).on('click', '.aprobarAcpm', function() {
+    var id_consecutivo = $(this).data('id');
+    console.log('ID Consecutivo desde delegación:', id_consecutivo);
+
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "¡Vas a aprobar esta acción!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, aprobar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            type: 'POST',
+            url: 'controladores/acpm.controlador.php',
+            data: {
+                id_consecutivo: id_consecutivo,
+                estado_acpm: 'Abierta'
+            },
+            success: function(response) {
+                console.log('Respuesta del servidor:', response.trim());
+        
+                if (response.trim() === 'ok') {
+                    Swal.fire(
+                        '¡Aprobado!',
+                        'La acción ha sido aprobada.',
+                        'success'
+                    ).then(() => {
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire(
+                        'Error',
+                        'Hubo un problema al aprobar la acción: ' + response,
+                        'error'
+                    );
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log('Error en la solicitud AJAX:', error);
+                Swal.fire(
+                    'Error',
+                    'Hubo un problema con la solicitud. Inténtalo de nuevo más tarde.',
+                    'error'
+                );
+            }
+        });
+        }
+    });
+});

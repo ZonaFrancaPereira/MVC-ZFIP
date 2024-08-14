@@ -8,7 +8,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
-                    <li class="breadcrumb-item active">aPROBAR acpm </li>
+                    <li class="breadcrumb-item active">Aprobar acpm </li>
                 </ol>
             </div>
         </div>
@@ -47,3 +47,8 @@
         </div>
     </div>
 </section>
+
+<script>
+
+
+</script>

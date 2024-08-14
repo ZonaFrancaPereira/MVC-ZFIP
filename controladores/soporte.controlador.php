@@ -142,7 +142,7 @@ class ControladorSoporte
                 echo '<script>
                     Swal.fire({
                         type: "error",
-                        title: "¡La discrición del perfil no puede ir vacío o llevar caracteres especiales!",
+                        title: "¡La descrición del perfil no puede ir vacío o llevar caracteres especiales!",
                         showConfirmButton: true,
                         confirmButtonText: "Cerrar"
 
@@ -221,5 +221,7 @@ class ControladorSoporte
         }
     }
 }
+
+
 
 }

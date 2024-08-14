@@ -2,9 +2,12 @@ $(document).ready(iniciar_ct);
 
 function iniciar_ct() {
 	$(".ReporteInventario").on("click", informe_inventario);
+	  $(".aprobarAcpm").on("click", aprobarAcpm);
 	
 }
-
+function aprobarAcpm(){
+    alert("dgdffg");
+  }
 function informe_inventario(){
 	var id_inventario = $(this).data('id_inventario');
     //alert('ID de Inventario: ' + id_inventario);
