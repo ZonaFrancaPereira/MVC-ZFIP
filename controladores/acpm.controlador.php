@@ -95,6 +95,7 @@ class ControladorAcpm
 
         return $respuesta;
     }
+    
 
      /*=============================================
 	CREAR ACTIVIDAD
@@ -143,7 +144,7 @@ class ControladorAcpm
                         }
                     });
                     // Resetear el formulario y agregar la clase al elemento después del AJAX
-                    document.getElementById("acciones_verificacion").reset();
+                    document.getElementById("form_actividades").reset();
                     $("#acciones_verificacion").addClass("active");
                 });
               </script>';
@@ -166,4 +167,62 @@ class ControladorAcpm
     }
     
 
+   /*=============================================
+    APROBAR Y RECHAZAR ACPM
+    =============================================*/
+
+    public static function ctrAprobarAcpm() 
+    {
+        if (isset($_POST["id_consecutivo"])) {
+            $tabla = "acpm";
+            $datos = array(
+                "id_consecutivo" => $_POST["id_consecutivo"],
+                "estado_acpm" => $_POST["estado_acpm"]
+            );
+    
+            $respuesta = ModeloAcpm::mdlAprobarAcpm($tabla, $datos);
+    
+            if ($_POST["estado_acpm"] == "Rechazada" && isset($_POST["motivo_rechazo"])) {
+                $tabla = "acpm_rechazada";
+                $datosRechazo = array(
+                 
+                    "descripcion_rechazo" => $_POST["motivo_rechazo"],
+                    "id_consecutivo_fk" => $_POST["id_consecutivo"]
+                );
+                $respuestaRechazo = ModeloAcpm::mdlRechazarAcpm($tabla,$datosRechazo);
+            }
+    
+            if ($respuesta == "ok") {
+                echo '<script>
+                        Swal.fire(
+                        "Buen Trabajo!",
+                        "Su respuesta se ha registrado con éxito.",
+                        "success"
+                        ).then(function() {
+                        document.getElementById("form_aprobar_acpm").reset(); // Reemplaza con el ID correcto de tu formulario
+                        $("#aprobacion").addClass("active");
+                        });
+                    </script>
+                ';
+            } else {
+                echo '<script>
+                    Swal.fire({
+                        type: "error",
+                        title: "¡La Respuesta no pudo ser guardada!",
+                        showConfirmButton: true,
+                        confirmButtonText: "Cerrar"
+                    }).then(function(result){
+                        if(result.value){
+                            $("#aprobacion").addClass("active");
+                        }
+                    });
+                </script>';
+            }
+        }
+    }
+    
+    
 }
+    
+
+

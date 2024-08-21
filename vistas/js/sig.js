@@ -1,9 +1,11 @@
-$(document).ready(function() {
+$(document).ready();
+
     $("#similares").hide();
     $("#fuente").hide();
     $("#riesgos").hide();
     $("#correccion").hide();
 
+  
 
     $("#nc_similar").change(function() {
       var seleccion = $(this).val();
@@ -41,7 +43,6 @@ $(document).ready(function() {
         $("#correccion").hide();
       }
     });
-  });
 
   var tablaAcpm = $("#tabla-verificacion-sig").DataTable({
     "ajax": {
@@ -108,23 +109,90 @@ $(document).ready(function() {
     modal.find('.modal-body #id_acpm_fk').val(id_acpm_fk);
   });
 
-  var tablaAprobar = $("#tabla-aprobar-sig").DataTable({
-    "ajax": {
-      "url": "ajax/datatable-acpm.ajax.php", // Ruta a tu archivo PHP que devuelve los datos JSON
-      "type": "POST", // Método de solicitud POST
+
+
+    var tablaAprobar = $("#tabla-aprobar-sig").DataTable({
+        "ajax": {
+            "url": "ajax/datatable-acpm.ajax.php",
+            "type": "POST",
+            "data": function (d) {
+                d.especifico = "aprobar";
+                console.log("Valor de específico:", d.especifico);
+            },
+            "dataSrc": "data"
+        },
+        "deferRender": true,
+        "serverSide": true,
+        "retrieve": true,
+        "processing": true,
+        "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sSearch": "Buscar:",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            },
+            "buttons": {
+                "copy": "Copiar",
+                "colvis": "Visibilidad"
+            }
+        },
+        responsive: true,
+        dom: "Bfrtilp",
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+        "order": [[0, 'desc']],
+        autoWidth: true
+    });
+
+    // Manejo de clic en el botón "Aprobar"
+   // Abre el modal y establece el ID en el formulario
+   $('#modal-aprobar').on('show.bs.modal', function(event) {
+    var button = $(event.relatedTarget); // Botón que activó el modal
+    var id_consecutivo = button.data('id'); // Extrae el ID del atributo data-id
+
+    var modal = $(this);
+    modal.find('#id_consecutivo').val(id_consecutivo); // Establece el ID en el campo oculto del formulario
+});
+
+$(document).ready(function() {
+  $('#estado_acpm').on('change', function() {
+      if ($(this).val() === 'Rechazada') {
+          $('#motivo_rechazo_container').show();
+      } else {
+          $('#motivo_rechazo_container').hide();
+      }
+  });
+});
+
+var tablaAbierta = $("#tabla-abierta-sig").DataTable({
+  "ajax": {
+      "url": "ajax/datatable-acpm.ajax.php",
+      "type": "POST",
       "data": function (d) {
-  
-        // Puedes enviar parámetros adicionales si es necesario
-        d.especifico = "aprobar"; // Ejemplo de parámetro, ajusta según tu lógica
-        console.log("Valor de específico:", d.especifico);
+          d.especifico = "abierta";
+          console.log("Valor de específico:", d.especifico);
       },
-      "dataSrc": "data" // Nombre del objeto JSON que contiene los datos para DataTable
-    },
-    "deferRender": true,
-    "serverSide": true,
-    "retrieve": true,
-    "processing": true,
-    "language": {
+      "dataSrc": "data"
+  },
+  "deferRender": true,
+  "serverSide": true,
+  "retrieve": true,
+  "processing": true,
+  "language": {
       "sProcessing": "Procesando...",
       "sLengthMenu": "Mostrar _MENU_ registros",
       "sZeroRecords": "No se encontraron resultados",
@@ -136,29 +204,81 @@ $(document).ready(function() {
       "sInfoThousands": ",",
       "sLoadingRecords": "Cargando...",
       "oPaginate": {
-        "sFirst": "Primero",
-        "sLast": "Último",
-        "sNext": "Siguiente",
-        "sPrevious": "Anterior"
+          "sFirst": "Primero",
+          "sLast": "Último",
+          "sNext": "Siguiente",
+          "sPrevious": "Anterior"
       },
       "oAria": {
-        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+          "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
       },
       "buttons": {
-        "copy": "Copiar",
-        "colvis": "Visibilidad"
+          "copy": "Copiar",
+          "colvis": "Visibilidad"
       }
-    },
-    responsive: "true",
-    dom: "Bfrtilp",
+  },
+  responsive: true,
+  dom: "Bfrtilp",
+  "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+  "order": [[0, 'desc']],
+  autoWidth: true
+});
   
+var tablaActividades = $("#tabla-actividades-sig").DataTable({
+  "ajax": {
+      "url": "ajax/datatable-acpm.ajax.php",
+      "type": "POST",
+      "data": function (d) {
+          d.especifico = "actividades";
+          console.log("Valor de específico:", d.especifico);
+      },
+      "dataSrc": "data"
+  },
+  "deferRender": true,
+  "serverSide": true,
+  "retrieve": true,
+  "processing": true,
+  "language": {
+      "sProcessing": "Procesando...",
+      "sLengthMenu": "Mostrar _MENU_ registros",
+      "sZeroRecords": "No se encontraron resultados",
+      "sEmptyTable": "Ningún dato disponible en esta tabla",
+      "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+      "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+      "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+      "sSearch": "Buscar:",
+      "sInfoThousands": ",",
+      "sLoadingRecords": "Cargando...",
+      "oPaginate": {
+          "sFirst": "Primero",
+          "sLast": "Último",
+          "sNext": "Siguiente",
+          "sPrevious": "Anterior"
+      },
+      "oAria": {
+          "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+      },
+      "buttons": {
+          "copy": "Copiar",
+          "colvis": "Visibilidad"
+      }
+  },
+  responsive: true,
+  dom: "Bfrtilp",
+  "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+  "order": [[0, 'desc']],
+  autoWidth: true
+});
   
-    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
-  
-  
-  
-    "order": [[0, 'desc']],
-    autoWidth: true
-  
-  });
+function cambiarPestana(actividades_acpm, id_consecutivo) {
+  // Cambia la pestaña activa
+  $('a[data-toggle="tab"][href="#' + actividades_acpm + '"]').tab('show');
+
+  // Si es necesario, podrías realizar alguna acción adicional con el idConsecutivo aquí
+  console.log('ID Consecutivo:',id_consecutivo)
+};
+
+
+
