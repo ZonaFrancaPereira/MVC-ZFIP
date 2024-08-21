@@ -8,37 +8,31 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
-                    <li class="breadcrumb-item active">Acciones Abiertas </li>
+                    <li class="breadcrumb-item active">Actividades</li>
                 </ol>
             </div>
         </div>
     </div>
 </section>
-
 <!-- Sección de Contenido Principal -->
 <section class="content">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header bg-info">
-                        <h3 class="card-title">Acciones Abiertas 
-                        </h3>
+                <div class="card" >
+                    <div class="card-header bg-info" >
+                        <h3 class="card-title">Actividades</h3>
                     </div>
                     <div class="card-body">
-                        <table id="tabla-abierta-sig" class="table table-bordered table-striped dt-responsive" width="100%">
+                        <table id="tabla-actividades-sig" class="table table-bordered table-striped dt-responsive" width="100%">
                             <thead class="bg-dark">
                                 <tr>
                                     <th>#</th>
-                                    <th>Nombre del responsable</th>
-                                    <th>Origen ACPM</th>
-                                    <th>Fuente</th>
-                                    <th>Tipo de Reporte</th>
-                                    <th>Descripción ACPM</th>
-                                    <th>Fecha Finalización</th>
-                                    <th>Estado</th>
-                                    <th>Informe</th>
-                                    <th>Actividades</th>
+                                    <th>Fecha Actividad</th>
+                                    <th>Descripcion Actividad</th>
+                                    <th>Estado Actividad</th>
+                                    <th>Visualizar Evidencia</th>
+                                    <th>Subir evidencia</th>
                                 </tr>
                             </thead>
                         </table>
