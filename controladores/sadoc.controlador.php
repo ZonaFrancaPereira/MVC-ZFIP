@@ -13,21 +13,21 @@ class ControladorSadoc
 				$carpeta = $_POST["carpeta"];
 				$archivoTmp = $_FILES["archivo"]["tmp_name"];
 				$nombreArchivo = basename($_FILES["archivo"]["name"]);
-				$ruta_principal = "files/" . $carpeta . "/";
+				$ruta_principal = "vistas/modulos/files/" . $carpeta . "/";
 				$ruta = $ruta_principal . $nombreArchivo;
 				$estado = "activo";
 				$id_proceso_fk = $_POST["id_proceso_fk"];
 				$sub_carpeta = "No";
-		
+	
 				// Asegúrate de que la carpeta de destino exista
 				if (!is_dir($ruta_principal)) {
 					mkdir($ruta_principal, 0777, true);
 				}
-		
+	
 				// Mover archivo al directorio de destino
 				if (move_uploaded_file($archivoTmp, $ruta)) {
 					echo "Archivo subido correctamente.";
-					
+	
 					// Aquí va la lógica para guardar los datos en la base de datos
 					$tabla = "sadoc";
 					$datos = array(
@@ -39,17 +39,40 @@ class ControladorSadoc
 						"id_proceso_fk" => $id_proceso_fk
 					);
 					$respuesta = ModeloSadoc::mdlIngresarArchivo($tabla, $datos);
-					
-					if (is_numeric($respuesta)) {
-						echo "El formulario se ha registrado con éxito.";
+	
+					if (is_array($respuesta)) {
+						$ruta = $respuesta["ruta"];
+						$ruta_principal = $respuesta["ruta_principal"];
+						$nombreArchivo = basename($ruta);
+	
+						echo '<script>
+							Swal.fire(
+							"Buen Trabajo!",
+							"El archivo ha sido registrado con éxito.",
+							"success"
+							).then(function() {
+							
+							document.querySelector(".FormArchivos").reset();
+								$("#accesoRapido").addClass("active");
+								// Abrir una nueva ventana con la vista previa del archivo
+								window.open("vistas/modulos/sig/descarga_archivos.php?archivo=' . $nombreArchivo . '&ruta=' . $ruta . '", "_blank");
+							});
+						</script>';
 					} else {
-						echo "Error al registrar el formulario.";
+							echo '<script>
+						Swal.fire({
+							icon: "error",
+							title: "Oops...",
+							text: "No funciono correctamente",
+							footer: "<a href="ti">Soporte TI</a>"
+						  });
+						  </script>';
 					}
 				} else {
-					echo "Error al mover el archivo.";
+					//echo "Error al mover el archivo.";
 				}
 			} else {
-				echo "Error en la carga del archivo: " . $_FILES["archivo"]["error"];
+				//echo "Error en la carga del archivo: " . $_FILES["archivo"]["error"];
 			}
 		}
 	}
@@ -63,3 +86,35 @@ class ControladorSadoc
 		return $respuesta;
     }
 }
+
+function obtener_estructura_directorios($ruta, $direc){
+    // Se comprueba que realmente sea la ruta de un directorio
+        if (is_dir($ruta)){
+            // Abre un gestor de directorios para la ruta indicada
+            $gestor = opendir($ruta);
+            // Recorre todos los elementos del directorio
+            echo "<option value='".$direc."'>Carpeta Principal/</option>";
+            while (($archivo = readdir($gestor)) !== false)  {
+                    
+                $ruta_completa = $ruta . $archivo;
+
+                // Se muestran todos los archivos y carpetas excepto "." y ".."
+                if ($archivo != "." && $archivo != "..") {
+                    // Si es un directorio se recorre recursivamente
+                    if (is_dir($ruta_completa)) {
+                    	$direccion = $direc.$archivo."/";
+                        echo "<option value='".$direccion."'>". $archivo ."/</option>";
+                        
+                        //obtener_estructura_directorios($ruta_completa);
+                    }
+                }
+            }
+            // Cierra el gestor de directorios
+            closedir($gestor);
+        } else {
+            echo "No es una ruta de directorio valida<br/>";
+        }
+    }
+    $consulta = $_POST['consulta'];
+    $direc = $_POST['ruta'];
+    obtener_estructura_directorios($consulta,$direc);

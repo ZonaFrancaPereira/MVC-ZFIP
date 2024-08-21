@@ -87,7 +87,7 @@ function activar_menus(cargo) {
 	activar_menu_SST(cargo);
 	activar_menu_PLE(cargo);
 	activar_menu_JR(cargo);
-	$(".Matriz").hide();
+	
 
 	
 
