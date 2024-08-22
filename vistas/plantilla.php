@@ -179,8 +179,19 @@ CUERPO DOCUMENTO
 
       if (
         $_GET["ruta"] == "inicio" ||
-       
+        $_GET["ruta"] == "ti" ||
+        $_GET["ruta"] == "soporte" ||
+        $_GET["ruta"] == "perfiles" ||
+        $_GET["ruta"] == "usuarios" ||
+        $_GET["ruta"] == "operaciones" ||
+        $_GET["ruta"] == "formulario_pesaje" ||
+        $_GET["ruta"] == "contabilidad" ||
+        $_GET["ruta"] == "panel_contabilidad" ||
+        $_GET["ruta"] == "notificacion" ||
+        $_GET["ruta"] == "sig" ||
+        $_GET["ruta"] == "sadoc" ||
         $_GET["ruta"] == "salir"
+
       ) {
 
         include "modulos/" . $_GET["ruta"] . ".php";
