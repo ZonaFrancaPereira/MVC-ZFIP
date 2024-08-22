@@ -39,7 +39,7 @@ class TablaAcpm {
         $data = array();
 
         foreach ($acpm as $s) {
-            if ($consulta === 'acpm') {
+            if ($consulta === 'acpm' && $s["estado_acpm"] === 'Verificacion') {
                 // Solo se muestra si el estado es "En Verificación"
                 $asignar_actividades = "<button type='button' class='btn btn-outline-info aprobarAcpm' data-id='{$s["id_consecutivo"]}' data-toggle='modal' data-target='#modal-aprobar'>Aprobar</button>";
                 $informe_acpm = "<a href='extensiones/tcpdf/pdf/acpmpdf.php?id=" . $s["id_consecutivo"] . "' class='btn btn-outline-success'>
