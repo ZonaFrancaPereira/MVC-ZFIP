@@ -127,18 +127,18 @@ class ModeloAcpm
                         $stmt = null;
                         break;
 
-                case 'actividades':
-                    // Consulta con filtro
-                    $stmt = Conexion::conectar()->prepare("SELECT $tabla.*,actividades_acpm.*
-                                                FROM $tabla
-                                                INNER JOIN usuarios ON $tabla.id_usuario_fk = usuarios.id
-                                                LEFT JOIN actividades_acpm ON $tabla.id_consecutivo = actividades_acpm.id_acpm_fk
-                                                WHERE $tabla.$item = :valor");
-                    $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
-                    $stmt->execute();
-                    return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
-                    $stmt = null;
-                    break;
+                        case 'actividades':
+                            // Consulta con filtro
+                            $stmt = Conexion::conectar()->prepare("SELECT actividades_acpm.*, usuarios.*
+                                                                    FROM actividades_acpm
+                                                                    INNER JOIN usuarios ON actividades_acpm.id_usuario_fk = usuarios.id
+                                                                    WHERE actividades_acpm.id_usuario_fk = :valor");
+                            $stmt->bindParam(":valor", $valor, PDO::PARAM_INT);
+                            $stmt->execute();
+                            return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
+                            $stmt = null;
+                            break;
+                        
 
             default:
                 $consulta = null;

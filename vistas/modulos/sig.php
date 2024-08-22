@@ -60,12 +60,6 @@ require_once "configuracion.php";
             <p>Acciones Rechazadas</p>
           </a>
         </li>
-        <li class="nav-item" name="actividades_acpm">
-          <a data-toggle="tab" href="#actividades_acpm" class="nav-link">
-            <i class="nav-icon far fa-times-circle"></i>
-            <p>Actividades ACPM</p>
-          </a>
-        </li>
         <li class="nav-item" name="proceso">
           <a data-toggle="tab" href="#acciones_proceso" class="nav-link">
             <i class="nav-icon fas fa-sync-alt"></i>
@@ -177,13 +171,7 @@ if ($_SESSION["ti"] == "off") {
               </div>
             </div>
           </div>
-          <div id="actividades_acpm" class="tab-pane">
-            <div class="row">
-              <div class="col-md-12">
-                <?php require "sig/actividades_acpm.php"; ?>
-              </div>
-            </div>
-          </div>
+         
 
           <div id="aceptar_acpm" class="tab-pane">
             <div class="row">

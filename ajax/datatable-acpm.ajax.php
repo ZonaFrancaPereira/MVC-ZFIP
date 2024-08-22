@@ -68,10 +68,10 @@ class TablaAcpm {
                 $data[] = $columns;
             } elseif ($consulta === 'abierta' && $s["estado_acpm"] === 'Abierta') {
                 // Solo se muestra si el estado es "Abierta"
-                $informe_acpm = "<a href='extensiones/tcpdf/pdf/acpmpdf.php?id=" . $s["id_consecutivo"] . "' class='btn btn-outline-success'>
+                $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id=" . $s["id_consecutivo"] . "' class='btn btn-outline-success'>
                     <i class='fas fa-file-signature'></i> Formato
                 </a>";
-                $actividades = "<button type='button' class='btn btn-outline-warning' onclick='cambiarPestana(\"actividades_acpm\", \"" . $s["id_consecutivo"] . "\")'>Actividades</button>";
+                $actividades = "<a target='_blank' type='button' class='btn btn-outline-warning' href='vistas/modulos/sig/gestionar_acpm.php?id=" . $s["id_consecutivo"] . "'>Gestionar ACPM</a>";
 
                 $columns = [
                     $s["id_consecutivo"],
@@ -84,46 +84,6 @@ class TablaAcpm {
                     $s["estado_acpm"],
                     $informe_acpm,
                     $actividades
-                ];
-
-                $data[] = $columns;
-            }elseif ($consulta === 'actividades') {
-                // Solo se muestra si el estado es "Abierta"
-                $visualizar_actividad = "<a href='' class='btn btn-outline-success'>
-                    <i class='fas fa-file-signature'></i> Visualizar
-                </a>";
-                $subir_evidencia = "<button type='button' class='btn btn-outline-warning'>Subir Evidencia</button>";
-
-                $columns = [
-                    $s["id_actividad"],
-                    $s["fecha_actividad"],
-                    $s["descripcion_actividad"],
-                    $s["estado_actividad"],
-                    $visualizar_actividad,
-                    $subir_evidencia
-                ];
-
-                $data[] = $columns;
-                } elseif ($consulta !== 'aprobar' && $consulta !== 'abierta' && $s["estado_acpm"] === 'Verificacion') {
-                // Otras consultas (que no son 'aprobar' o 'abierta')
-                $asignar_actividad = "<button type='button' class='btn btn-outline-danger' data-toggle='modal' data-target='#modal-success' data-id_acpm_fk='{$s["id_consecutivo"]}'>
-                    <i class='fas fa-hourglass-half'></i> Asignar Actividad
-                </button>";
-                $informe_acpm = "<a href='extensiones/tcpdf/pdf/acpmpdf.php?id=" . $s["id_consecutivo"] . "' class='btn btn-outline-success'>
-                    <i class='fas fa-file-signature'></i> Formato
-                </a>";
-
-                $columns = [
-                    $s["id_consecutivo"],
-                    $s["nombre"],
-                    $s["origen_acpm"],
-                    $s["fuente_acpm"],
-                    $s["tipo_acpm"],
-                    $s["descripcion_acpm"],
-                    $s["fecha_finalizacion"],
-                    $informe_acpm,
-                    $asignar_actividad,
-                    $s["estado_acpm"]
                 ];
 
                 $data[] = $columns;
