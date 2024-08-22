@@ -190,6 +190,10 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "notificacion" ||
         $_GET["ruta"] == "sig" ||
         $_GET["ruta"] == "sadoc" ||
+<<<<<<< HEAD
+=======
+        $_GET["ruta"] == "acpm" ||
+>>>>>>> 6e170922d897fa8feefba1e418808faffaf546ed
         $_GET["ruta"] == "salir"
 
       ) {
@@ -218,6 +222,7 @@ CUERPO DOCUMENTO
   }
 
   ?>
+
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
