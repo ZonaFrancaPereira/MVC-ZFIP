@@ -179,11 +179,7 @@ CUERPO DOCUMENTO
 
       if (
         $_GET["ruta"] == "inicio" ||
-        $_GET["ruta"] == "ti" ||
-        $_GET["ruta"] == "operaciones" ||
-        $_GET["ruta"] == "contabilidad" ||
-        $_GET["ruta"] == "sig" ||
-        $_GET["ruta"] == "sadoc" ||
+       
         $_GET["ruta"] == "salir"
       ) {
 

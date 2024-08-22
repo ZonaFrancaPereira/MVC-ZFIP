@@ -2,9 +2,4 @@ Options All -Indexes
 
 RewriteEngine On
 
-# Excluir archivos y directorios existentes de la reescritura
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-
-# Redirigir todas las demás solicitudes a index.php
 RewriteRule ^([-a-zA-Z0-9]+)$ index.php?ruta=$1
