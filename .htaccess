@@ -7,4 +7,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
 # Redirigir todas las demás solicitudes a index.php
-RewriteRule ^([-a-zA-Z0-9]+)$ index.php?ruta=$1
+# Redirigir todas las demás solicitudes a index.php
+RewriteRule ^(.*)$ index.php?ruta=$1 [L]
+
+
