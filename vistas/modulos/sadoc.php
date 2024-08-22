@@ -199,8 +199,16 @@ require_once "configuracion.php";
           </div><!-- /.tab-pane -->
           <!-- Despliegue de información...#menu1 SIG TERMINADO -->
           <div id="menu1" class="tab-pane fade">
-            <?php generarModalConFormulario("modal-lg-1", "Sistema Integrado de Gestión", "Código ej: FO-", 1, "SIG"); ?>
-           
+            <div class="callout callout-success text-center">
+              <?php generarModalConFormulario("modal-SIG", " Archivos Sistema Integrado de Gestión", "Código ej: FO-", 1, "SIG"); ?>
+            </div>
+            
+          </div>
+          <!-- Despliegue de información...#menu1 SIG TERMINADO -->
+          <div id="menu2" class="tab-pane fade">
+          <div class="callout callout-success text-center">
+            <?php generarModalConFormulario("modal-TI", "Archivos Gestión TI", "Código ej: FO-", 2, "TI"); ?>
+            </div>
           </div>
 
         </div><!-- /.tab-content card -->
@@ -211,59 +219,92 @@ require_once "configuracion.php";
 <?php
 function generarTabla($id_id_proceso_fk)
 {
-  $archivos = ControladorSadoc::mostrarArchivosPorProceso($id_id_proceso_fk);
-  echo "<div class='table-responsive'>";
-  echo "<table class='display table table-striped table-bordered w-100'>";
-  echo "<thead>
-            <tr>
-              <th>#</th>
-              <th>Nombre del Archivo</th>
-              <th>Fecha de Actualización</th>
-              <th>Opciones</th>
-            </tr>
+    $archivos = ControladorSadoc::mostrarArchivosPorProceso($id_id_proceso_fk);
+    echo "<div class='table-responsive'>";
+    echo "<table class='display table table-striped table-bordered w-100'>";
+    echo "<thead class='text-center'>
+              <tr>
+                <th>Código</th>
+                <th>Nombre del Archivo</th>
+                <th>Fecha de Actualización</th>
+                <th>Opciones</th>
+              </tr>
           </thead>";
-  echo "<tbody>";
-  $registros = 1;
-  if (count($archivos) > 0) {
-    foreach ($archivos as $row) {
-      $nombre = basename($row["ruta"]);
-      $previo = $row["ruta"];
-      $id = $row["id"];
-      echo "<tr class='sobras'>";
-      echo "<td>" . $registros . "</td>";
-      echo "<td>" . $nombre . "</td>";
-      echo "<td>" . $row["fecha_subida"] . "</td>";
-      echo "<td>";
-      echo '<a href="vistas/modulos/sig/descarga_archivos.php?archivo=' . $nombre . '&ruta=' . $previo . '" target="_blank"><button class="btn bg-navy">Vista Previa  <span class="fa fa-eye" aria-hidden="true"></span></button></a>';
-      echo "</td>";
-      echo "</tr>";
-      $registros++;
+    echo "<tbody>";
+
+    if (count($archivos) > 0) {
+        foreach ($archivos as $row) {
+            $nombre = basename($row["ruta"]);
+            $previo = $row["ruta"];
+            $codigo = $row["codigo"];
+            $id = $row["id"];
+
+            // Obtener la extensión del archivo
+            $ext = strtolower(pathinfo($nombre, PATHINFO_EXTENSION));
+
+            // Determinar el ícono según la extensión
+            $icon = "";
+            switch ($ext) {
+                case 'pdf':
+                    $icon = '<button class="btn bg-danger"><i class="fas fa-file-pdf" aria-hidden="true"></i></button>';
+                    break;
+                case 'xls':
+                case 'xlsx':
+                    $icon = '<button class="btn bg-success"><i class="fas fa-file-excel" aria-hidden="true"></i></button>';
+                    break;
+                case 'doc':
+                case 'docx':
+                    $icon = '<button class="btn bg-primary"><i class="fas fa-file-word" aria-hidden="true"></i></button>';
+                    break;
+                case 'ppt':
+                case 'pptx':
+                    $icon = '<button class="btn bg-warning"><i class="fas fa-file-powerpoint" aria-hidden="true"></i></button>';
+                    break;
+                default:
+                    $icon = '<button class="btn bg-secondary"><i class="fas fa-file" aria-hidden="true"></i></button>';
+                    break;
+            }
+
+            echo "<tr class='sobras'>";
+            echo "<td class='text-center'>" . $codigo . "</td>";
+            echo "<td>" . $nombre . "</td>";
+            echo "<td class='text-center'>" . $row["fecha_subida"] . "</td>";
+            echo "<td class='text-center'>";
+            echo '<a href="vistas/modulos/sig/descarga_archivos.php?archivo=' . $nombre . '&ruta=' . $previo . '" target="_blank"> ' . $icon . '</a>';
+            echo "</td>";
+            echo "</tr>";
+        }
     }
-  }
-  echo "</tbody>";
-  echo "</table>";
-  echo "</div>";
+
+    echo "</tbody>";
+    echo "</table>";
+    echo "</div>";
 }
 
 
 function generarFormulario($codigo, $id_proceso_fk, $proceso)
 {
-  echo '<form class="form-inline col-md-12 col-lg-12 col-sm-12 col-xs-12" action="" method="POST" enctype="multipart/form-data">';
+  echo '<form class="FormArchivos" action="" method="POST" enctype="multipart/form-data">';
 
-  echo '      <div class="col-md-6"><input type="text" class="form-control" name="codigo" id="codigo" placeholder="' . $codigo . '" required></div>';
-  echo '      <div class="col-md-6"> <input type="file" name="archivo" class="form-control" required></div>';
-  echo '      <div class="col-md-6"> <input type="text" name="id_proceso_fk" value="' . $id_proceso_fk . '" class="form-control" required></div>';
-  echo '      <div class="col-md-6"> <input type="text" name="carpeta" value="' . $proceso . '" class="form-control" required></div>';
+  echo '  <div class="row">';
+  echo '  <div class="col-md-6"><input type="text" class="form-control" name="codigo" id="codigo" placeholder="' . $codigo . '" required></div>';
+  echo '      <div class="col-md-6"> <input type="file"  class="form-control" name="archivo" required></div>';
+  echo '      <div class="col-md-6"> <input type="hidden" name="id_proceso_fk" value="' . $id_proceso_fk . '" class="form-control" required></div>';
+  echo '      <div class="col-md-6"> <input type="hidden" name="carpeta" value="' . $proceso . '" class="form-control" required></div>';
+    echo ' </div><br>';
 
 
   echo '  <button type="submit" class="btn bg-success btn-block" name="subir">';
   echo '      <span class="fa fa-upload" aria-hidden="true"></span> Subir Archivo';
-  echo '  </button>';
+  echo '  </button>
+  
+  ';
   if (isset($_POST['subir'])) {
     $crearSadoc = new ControladorSadoc();
     $crearSadoc->ctrCrearArchivo();
-     }
-  echo '</form>';
+  }
+  echo '</form>
+  ';
 }
 
 
@@ -272,7 +313,11 @@ function generarModalConFormulario($modalId, $tituloModal, $codigo, $id_proceso_
   echo '<!-- Botón para activar el modal -->';
   echo '<button type="button" class="btn bg-success" data-toggle="modal" data-target="#' . $modalId . '">';
   echo '  ' . $tituloModal;
-  echo '</button>';
+  echo '</button>
+  <div class="row">
+              <div class="col-md-6 pt-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita nam sunt quaerat eveniet voluptatum delectus totam ullam quisquam, accusamus, eligendi nulla maiores magnam cum dicta dolorum voluptates fuga architecto. Ullam!</div>
+              <div class="col-md-6 pt-3">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Soluta rerum, modi suscipit assumenda qui aliquam, fuga deserunt id quidem quas alias ipsa saepe. Ullam in tempore neque, veritatis excepturi tenetur?</div>
+            </div>';
 
   echo '<!-- Modal -->';
   echo '<div class="modal fade" id="' . $modalId . '">';
