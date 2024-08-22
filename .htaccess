@@ -2,6 +2,7 @@ Options All -Indexes
 
 RewriteEngine On
 
+<<<<<<< HEAD
 # Excluir archivos y directorios existentes de la reescritura
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
@@ -11,3 +12,6 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php?ruta=$1 [L]
 
 
+=======
+RewriteRule ^([-a-zA-Z0-9]+)$ index.php?ruta=$1
+>>>>>>> 8a122984e78a2818c03064147a7a300a94ad3d1b

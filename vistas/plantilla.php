@@ -143,8 +143,8 @@ CUERPO DOCUMENTO
 
   <?php
 
+  
   if (isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] == "ok") {
-
     echo '<body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
     <div class="wrapper">';
 
@@ -179,6 +179,7 @@ CUERPO DOCUMENTO
 
       if (
         $_GET["ruta"] == "inicio" ||
+<<<<<<< HEAD
         $_GET["ruta"] == "ti" ||
         $_GET["ruta"] == "soporte" ||
         $_GET["ruta"] == "perfiles" ||
@@ -191,6 +192,9 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "sig" ||
         $_GET["ruta"] == "sadoc" ||
         $_GET["ruta"] == "acpm" ||
+=======
+       
+>>>>>>> 8a122984e78a2818c03064147a7a300a94ad3d1b
         $_GET["ruta"] == "salir"
       ) {
 
@@ -231,8 +235,8 @@ CUERPO DOCUMENTO
   <script src="vistas/js/op.js"></script>
   <script src="vistas/js/clientes.js"></script>
   <script src="vistas/js/contabilidad.js"></script>
-
   <script src="vistas/js/sig.js"></script>
+  <script src="vistas/js/sadoc.js"></script>
   <script>
 
 
