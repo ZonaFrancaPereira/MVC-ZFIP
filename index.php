@@ -39,5 +39,3 @@ foreach ($clases as $key => $value) {
 
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();
-$controlador = new ControladorPlantilla();
-$controlador->gestion();

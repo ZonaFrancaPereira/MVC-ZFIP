@@ -87,7 +87,4 @@ class ControladorSadoc
     }
 }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 6e170922d897fa8feefba1e418808faffaf546ed

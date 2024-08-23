@@ -47,7 +47,9 @@ class ControladorUsuarios{
 						$_SESSION["foto"] = $respuesta["foto"];
 						$_SESSION["perfil"] = $respuesta["perfil"];
 						$_SESSION["id_proceso_fk"] = $respuesta["id_proceso_fk"];
+						$_SESSION["siglas_proceso"] = $respuesta["siglas_proceso"];
 						$_SESSION["id_cargo_fk"] = $respuesta["id_cargo_fk"];
+						$_SESSION["nombre_cargo"] = $respuesta["nombre_cargo"];
 						$_SESSION["descripcionPerfil"] = $acceso["descripcion"];
 	
 						// DERECHOS MENU CONFIGURACION

@@ -208,6 +208,7 @@ require_once "configuracion.php";
           <div id="menu2" class="tab-pane fade">
           <div class="callout callout-success text-center">
             <?php generarModalConFormulario("modal-TI", "Archivos Gestión TI", "Código ej: FO-", 2, "TI"); ?>
+
             </div>
           </div>
 
@@ -346,7 +347,7 @@ function generarModalConFormulario($modalId, $tituloModal, $codigo, $id_proceso_
 
 <?php
 
-if ($_SESSION['id_proceso_fk'] == "JR") {
+if ($_SESSION['siglas_proceso'] == "JR") {
 ?>
   <script language='javascript'>
     activar_menus("JR");
@@ -356,7 +357,7 @@ if ($_SESSION['id_proceso_fk'] == "JR") {
 } else {
 
 
-  if ($_SESSION['id_proceso_fk'] == "TI") {
+  if ($_SESSION['siglas_proceso'] == "TI") {
   ?>
     <script language='javascript'>
       activar_menus("TI");
@@ -365,7 +366,7 @@ if ($_SESSION['id_proceso_fk'] == "JR") {
 
   } else {
 
-    if ($_SESSION['id_proceso_fk'] == "CT") {
+    if ($_SESSION['siglas_proceso'] == "CT") {
     ?>
       <script language='javascript'>
         activar_menus("CT");
@@ -374,7 +375,7 @@ if ($_SESSION['id_proceso_fk'] == "JR") {
 
     } else {
 
-      if ($_SESSION['id_proceso_fk'] == "TEC") {
+      if ($_SESSION['siglas_proceso'] == "TEC") {
       ?>
         <script language='javascript'>
           activar_menus("TEC");
@@ -383,7 +384,7 @@ if ($_SESSION['id_proceso_fk'] == "JR") {
 
       } else {
 
-        if ($_SESSION['id_proceso_fk'] == "GH") {
+        if ($_SESSION['siglas_proceso'] == "GH") {
         ?>
           <script language='javascript'>
             activar_menus("GH");
@@ -392,7 +393,7 @@ if ($_SESSION['id_proceso_fk'] == "JR") {
 
         } else {
 
-          if ($_SESSION['id_proceso_fk'] == "GD") {
+          if ($_SESSION['siglas_proceso'] == "GD") {
           ?>
             <script language='javascript'>
               activar_menus("GD");
@@ -401,7 +402,7 @@ if ($_SESSION['id_proceso_fk'] == "JR") {
 
           } else {
 
-            if ($_SESSION['id_proceso_fk'] == "OP") {
+            if ($_SESSION['siglas_proceso'] == "OP") {
             ?>
               <script language='javascript'>
                 activar_menus("OP");
@@ -410,7 +411,7 @@ if ($_SESSION['id_proceso_fk'] == "JR") {
 
             } else {
 
-              if ($_SESSION['id_proceso_fk'] == "PH") {
+              if ($_SESSION['siglas_proceso'] == "PH") {
               ?>
                 <script language='javascript'>
                   activar_menus("PH");
@@ -419,7 +420,7 @@ if ($_SESSION['id_proceso_fk'] == "JR") {
 
               } else {
 
-                if ($_SESSION['id_proceso_fk'] == "GR") {
+                if ($_SESSION['siglas_proceso'] == "GR") {
                 ?>
                   <script language='javascript'>
                     activar_menus("GR");
@@ -428,7 +429,7 @@ if ($_SESSION['id_proceso_fk'] == "JR") {
 
                 } else {
 
-                  if ($_SESSION['id_proceso_fk'] == "SST") {
+                  if ($_SESSION['siglas_proceso'] == "SST") {
                   ?>
                     <script language='javascript'>
                       activar_menus("SST");
@@ -437,7 +438,7 @@ if ($_SESSION['id_proceso_fk'] == "JR") {
 
                   } else {
 
-                    if ($_SESSION['id_proceso_fk'] == "SIG") {
+                    if ($_SESSION['siglas_proceso'] == "SIG") {
                     ?>
                       <script language='javascript'>
                         activar_menus("SIG");
@@ -446,10 +447,10 @@ if ($_SESSION['id_proceso_fk'] == "JR") {
 
                     } else {
 
-                      if ($_SESSION['id_proceso_fk'] != "SIG" && $_SESSION['id_proceso_fk'] != "SST" && $_SESSION['id_proceso_fk'] != "GR" && $_SESSION['id_proceso_fk'] != "PH" && $_SESSION['id_proceso_fk'] != "OP" && $_SESSION['id_proceso_fk'] != "GD" && $_SESSION['id_proceso_fk'] != "GH" && $_SESSION['id_proceso_fk'] != "TEC" && $_SESSION['id_proceso_fk'] != "CT" && $_SESSION['id_proceso_fk'] != "TI" && $_SESSION['id_proceso_fk'] != "JR") {
+                      if ($_SESSION['siglas_proceso'] != "SIG" && $_SESSION['siglas_proceso'] != "SST" && $_SESSION['siglas_proceso'] != "GR" && $_SESSION['siglas_proceso'] != "PH" && $_SESSION['siglas_proceso'] != "OP" && $_SESSION['siglas_proceso'] != "GD" && $_SESSION['siglas_proceso'] != "GH" && $_SESSION['siglas_proceso'] != "TEC" && $_SESSION['siglas_proceso'] != "CT" && $_SESSION['siglas_proceso'] != "TI" && $_SESSION['siglas_proceso'] != "JR") {
                       ?>
                         <script language='javascript'>
-                          Desactivar_listado("<?php echo $_SESSION['id_proceso_fk']; ?>");
+                          Desactivar_listado("<?php echo $_SESSION['siglas_proceso']; ?>");
                         </script>
 <?php
 
