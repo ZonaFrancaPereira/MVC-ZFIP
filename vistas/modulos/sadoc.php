@@ -208,7 +208,7 @@ require_once "configuracion.php";
           <div id="menu2" class="tab-pane fade">
           <div class="callout callout-success text-center">
             <?php generarModalConFormulario("modal-TI", "Archivos Gestión TI", "Código ej: FO-", 2, "TI"); ?>
-
+PRUEBA DE QUE GIT FUNCIONE EN HOSTINGER
             </div>
           </div>
 
