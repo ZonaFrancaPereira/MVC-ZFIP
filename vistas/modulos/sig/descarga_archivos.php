@@ -22,8 +22,8 @@ $archivo = basename($_GET['archivo']);
 $direc = $_GET['ruta'];
 
 // Generar la ruta absoluta del archivo en el sistema de archivos del servidor.
-//$ruta = $_SERVER['DOCUMENT_ROOT'] . '/' . $direc;
-$ruta = $_SERVER['DOCUMENT_ROOT'] . '/MVC-ZFIP/' . $direc;
+$ruta = $_SERVER['DOCUMENT_ROOT'] . '/' . $direc;
+//$ruta = $_SERVER['DOCUMENT_ROOT'] . '/MVC-ZFIP/' . $direc;
 
 // PATCHINFO: sirve para extraer la extensión del archivo y así crear la condición para visualizarlo.
 $ext = pathinfo($direc, PATHINFO_EXTENSION);
