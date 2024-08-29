@@ -33,8 +33,23 @@
 
   }
  */
+// CONEXIÓN BASE DE DATOS
+// CONST BD_HOST = "localhost";
+//  CONST BD_PUERTO = "3306";
+//  CONST BD_NOMBRE = "zfip";
+//  CONST BD_USUARIO = "root";
+//  CONST BD_CONTRA = "";
+//  CONST DEBUG = false;
+//  CONST MOSTRARWARNINGS = false;
+
+// if (!MOSTRARWARNINGS) {
+//     error_reporting(0);
+// }
+
 
 // CONEXIÓN BASE DE DATOS
+
+/* HOSTINGER*/
 CONST BD_HOST = "195.35.61.58";
 CONST BD_PUERTO = "3306";
 CONST BD_NOMBRE = "u446101023_prueba";
@@ -46,20 +61,3 @@ CONST MOSTRARWARNINGS = false;
 if (!MOSTRARWARNINGS) {
     error_reporting(0);
 }
-
-
-// CONEXIÓN BASE DE DATOS
-
-/* HOSTINGER
-CONST BD_HOST = "195.35.61.58";
-CONST BD_PUERTO = "3306";
-CONST BD_NOMBRE = "u446101023_prueba";
-CONST BD_USUARIO = "u446101023_prueba";
-CONST BD_CONTRA = "=g[QsV9=";
-CONST DEBUG = false;
-CONST MOSTRARWARNINGS = false;
-
-if (!MOSTRARWARNINGS) {
-    error_reporting(0);
-}
-*/

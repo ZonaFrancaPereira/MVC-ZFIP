@@ -8,48 +8,49 @@ class ModeloUsuarios
 	/*=============================================
 	MOSTRAR USUARIOS
 	=============================================*/
+	
 
 	static public function mdlMostrarUsuarios($tabla, $item, $valor)
-	{
+{
+    // Conexión a la base de datos
+    $db = Conexion::conectar();
 
-		if ($item != null) {
+    // Construir la consulta SQL base
+    $sql = "SELECT a.*, 
+                   (SELECT b.descripcion 
+                    FROM perfiles b 
+                    WHERE b.perfil = a.perfil) AS nombrePerfil,
+                   p.*
+            FROM $tabla a
+            INNER JOIN proceso p ON a.id_proceso_fk = p.id_proceso";
 
-			$stmt = Conexion::conectar()->prepare("SELECT * 
+    // Si se proporciona un ítem y un valor, añadir una cláusula WHERE
+    if ($item != null && $valor != null) {
+        $sql .= " WHERE a.$item = :$item";
+    }
 
-													,(select b.descripcion 
-														from perfiles b
-														where b.perfil=a.perfil
+    // Preparar la consulta
+    $stmt = $db->prepare($sql);
 
-													) as nombrePerfil
-													FROM $tabla a WHERE $item = :$item");
+    // Si hay un ítem y un valor, enlazar el valor con el parámetro de la consulta
+    if ($item != null && $valor != null) {
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+    }
 
-			$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+    // Ejecutar la consulta
+    $stmt->execute();
 
-			$stmt->execute();
+    // Retorna un único registro si se proporcionó un ítem, o todos los registros si no se proporcionó ítem
+    $result = ($item != null && $valor != null) ? $stmt->fetch() : $stmt->fetchAll();
 
-			return $stmt->fetch();
-		} else {
+    // Cierre del statement
+    $stmt = null;
 
-			$stmt = Conexion::conectar()->prepare("SELECT * 
+    // Retorna el resultado
+    return $result;
+}
 
-													,(select b.descripcion 
-														from perfiles b
-														where b.perfil=a.perfil
-
-													) as nombrePerfil
-
-													FROM $tabla a");
-
-			$stmt->execute();
-
-			return $stmt->fetchAll();
-		}
-
-
-
-
-		$stmt = null;
-	}
+	
 
 	/*=============================================
 		MOSTRAR USUARIOS CORREO

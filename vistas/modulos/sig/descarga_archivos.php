@@ -22,8 +22,8 @@ $archivo = basename($_GET['archivo']);
 $direc = $_GET['ruta'];
 
 // Generar la ruta absoluta del archivo en el sistema de archivos del servidor.
-//$ruta = $_SERVER['DOCUMENT_ROOT'] . '/' . $direc;
-$ruta = $_SERVER['DOCUMENT_ROOT'] . '/MVC-ZFIP/' . $direc;
+$ruta = $_SERVER['DOCUMENT_ROOT'] . '/' . $direc;
+//$ruta = $_SERVER['DOCUMENT_ROOT'] . '/MVC-ZFIP/' . $direc;
 
 // PATCHINFO: sirve para extraer la extensión del archivo y así crear la condición para visualizarlo.
 $ext = pathinfo($direc, PATHINFO_EXTENSION);
@@ -40,12 +40,11 @@ if ($ext == "pdf") {
     header("Content-Length: " . filesize($ruta));
     readfile($ruta);
 } else {
-    // Leer archivos Excel, Word, PowerPoint
-    $url = 'http://localhost/MVC-ZFIP/' . $direc;
-    echo '<center>
-    <a href="descarga_final.php?archivo=' . $archivo . '&ruta=' . $direc . '" ><button class="boton">Descargar</button></a>
-    </center><hr>';
-    $encoded_url = urlencode("http://localhost/MVC-ZFIP/" . $direc); // Asegúrate de que la URL sea accesible
-echo '<iframe src="https://docs.google.com/gview?url=' . urlencode($encoded_url) . '&embedded=true" style="width:100%; height:100%;" frameborder="0"></iframe>';
+//Leer archivos Excel,Word, Powerpoint
+echo '<center>
+<a href="descarga_final.php?archivo='.$archivo.'&ruta='.$direc.'"  ><button class="boton">Descargar</button></a></center><hr>
+
+<iframe src="http://docs.google.com/gview?url=https://beta.zonafrancadepereira.com/' . urlencode($direc) . '&embedded=true" style="width:100%; height:100%;" frameborder="0"></iframe>';
+   
 }
 ?>

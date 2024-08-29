@@ -193,6 +193,7 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "sadoc" ||
         $_GET["ruta"] == "acpm" ||
         $_GET["ruta"] == "salir"
+
       ) {
 
         include "modulos/" . $_GET["ruta"] . ".php";

@@ -31,7 +31,7 @@
                 <?= $qr ?>
             </div>
             <div class="product-info">
-                <img src="vistas/img/logo_zf.png" width="25%"><br>
+                <img src="vistas/img/plantilla/logo_zf.png" width="25%"><br>
                 <a href="javascript:void(0)" class="product-title">INVENTARIO GENERAL</a>
                 <p style="color:black;">Consulta todos los activos que tienes asignados aquí.</p>
             </div>
@@ -57,7 +57,7 @@
                     <?= $qr ?>
                 </div>
                 <div class="product-info">
-                    <img src="vistas/img/logo_zf.png" width="25%"><br>
+                    <img src="vistas/img/plantilla/logo_zf.png" width="25%"><br>
                     <a href="javascript:void(0)" class="product-title"><?= htmlspecialchars($nombre_articulo) ?></a>
                     <span class="product-description" style="color:black;"><?= htmlspecialchars($id_activo) ?></span>
                 </div>
