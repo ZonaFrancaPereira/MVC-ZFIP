@@ -221,7 +221,99 @@ class ControladorAcpm
         }
     }
     
+   /*=============================================
+        SUBIR EVIDENCIA
+    =============================================*/
+
+    static public function ctrSubirEvidencia() {
+        if (isset($_POST["fecha_evidencia"])) { // Verificar si el formulario ha sido enviado
+            $tablaEvidencia = "detalle_actividad";
+            $datosEvidencia = array(
+                "fecha_evidencia" => $_POST["fecha_evidencia"],
+                "evidencia" => $_POST["evidencia"],
+                "recursos" => $_POST["recursos"],
+                "id_actividad_fk" => $_POST["id_actividad_fk"],
+                "id_usuario_e_fk" => $_POST["id_usuario_e_fk"]
+            );
+
+            // Guardar la evidencia
+            $respuestaEvidencia = ModeloAcpm::mdlIngresarEvidenciaActividad($tablaEvidencia, $datosEvidencia);
+
+            if ($respuestaEvidencia == "ok") {
+                // Cambiar el estado de la actividad a "Completa"
+                $estadoRespuesta = ModeloAcpm::mdlActualizarEstadoActividad($_POST["id_actividad_fk"], "Completa");
+
+                if ($estadoRespuesta == "ok") {
+                    echo '<script>
+                            Swal.fire(
+                                "Buen Trabajo!",
+                                "Su evidencia y el estado de la actividad se han actualizado con éxito.",
+                                "success"
+                            ).then(function() {
+                            window.location = ""; // Redirige a la página actual o a la vista correcta
+                        });
+                        </script>';
+                } else {
+                    echo '<script>
+                        Swal.fire({
+                            icon: "error",
+                            title: "¡El estado de la actividad no pudo ser actualizado!",
+                            text: "Por favor, intente nuevamente.",
+                            confirmButtonText: "Cerrar"
+                        }).then(function() {
+                            window.location = ""; // Redirige a la página actual o a la vista correcta
+                        });
+                    </script>';
+                }
+            } else {
+                echo '<script>
+                    Swal.fire({
+                        icon: "error",
+                        title: "¡La evidencia no pudo ser guardada!",
+                        text: "Por favor, intente nuevamente.",
+                        confirmButtonText: "Cerrar"
+                    }).then(function() {
+                            window.location = ""; // Redirige a la página actual o a la vista correcta
+                        });
+                </script>';
+            }
+        }
+    }
+
+    static public function ctrEliminarActividad() {
+        if (isset($_POST["id_actividad"])) {
+            $idActividad = $_POST["id_actividad"];
     
+            // Llamar al modelo para eliminar la actividad
+            $respuesta = ModeloAcpm::mdlEliminarActividad($idActividad);
+    
+            if ($respuesta == "ok") {
+                echo '<script>
+                        Swal.fire(
+                            "Eliminado!",
+                            "La actividad ha sido eliminada con éxito.",
+                            "success"
+                        ).then(function() {
+                            window.location = ""; // Redirige a la página actual o a la vista correcta
+                        });
+                      </script>';
+            } else {
+                echo '<script>
+                        Swal.fire({
+                            icon: "error",
+                            title: "¡Error!",
+                            text: "No se pudo eliminar la actividad. Por favor, intente nuevamente.",
+                            confirmButtonText: "Cerrar"
+                        });
+                      </script>';
+            }
+        }
+    }
+    
+    
+    
+    
+     
 }
     
 

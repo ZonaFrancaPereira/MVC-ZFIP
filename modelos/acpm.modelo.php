@@ -126,6 +126,7 @@ class ModeloAcpm
                         return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
                         $stmt = null;
                         break;
+                        
             default:
                 $consulta = null;
                 $item = null;
@@ -133,8 +134,6 @@ class ModeloAcpm
                 break;
         }
     }
-
-      
     /*=============================================
 	INGRESAR ACTIVIDA
 	=============================================*/
@@ -274,4 +273,83 @@ class ModeloAcpm
         }
     }
 
+
+     /*=============================================
+	subir evidencia
+	=============================================*/
+    public static function mdlIngresarEvidenciaActividad($tabla, $datos) 
+    {
+        try {
+            $pdo = Conexion::conectar();
+            $stmt = $pdo->prepare("INSERT INTO $tabla (
+                fecha_evidencia, 
+                evidencia, 
+                recursos, 
+                id_actividad_fk, 
+                id_usuario_e_fk 
+            ) VALUES (
+                :fecha_evidencia, 
+                :evidencia, 
+                :recursos, 
+                :id_actividad_fk, 
+                :id_usuario_e_fk 
+            )");
+            $stmt->bindParam(":fecha_evidencia", $datos["fecha_evidencia"], PDO::PARAM_STR);
+            $stmt->bindParam(":evidencia", $datos["evidencia"], PDO::PARAM_STR);
+            $stmt->bindParam(":recursos", $datos["recursos"], PDO::PARAM_STR);
+            $stmt->bindParam(":id_actividad_fk", $datos["id_actividad_fk"], PDO::PARAM_INT);
+            $stmt->bindParam(":id_usuario_e_fk", $datos["id_usuario_e_fk"], PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                return "ok";
+            } else {
+                return "error";
+            }
+        } catch (PDOException $e) {
+            error_log("Error en la consulta SQL: " . $e->getMessage());
+            return "error: " . $e->getMessage();
+        }
+    }
+
+    /*=============================================
+	actualizar estado actividad
+	=============================================*/
+
+    public static function mdlActualizarEstadoActividad($id_actividad, $nuevo_estado) 
+    {
+        try {
+            $pdo = Conexion::conectar();
+            $stmt = $pdo->prepare("UPDATE actividades_acpm SET estado_actividad = :nuevo_estado WHERE id_actividad = :id_actividad");
+            $stmt->bindParam(":nuevo_estado", $nuevo_estado, PDO::PARAM_STR);
+            $stmt->bindParam(":id_actividad", $id_actividad, PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                return "ok";
+            } else {
+                return "error";
+            }
+        } catch (PDOException $e) {
+            error_log("Error en la consulta SQL: " . $e->getMessage());
+            return "error: " . $e->getMessage();
+        }
+    }
+    
+     /*=============================================
+	actualizar estado actividad
+	=============================================*/
+    static public function mdlEliminarActividad($idActividad) {
+        $stmt = Conexion::conectar()->prepare("DELETE FROM actividades_acpm WHERE id_actividad = :id_actividad");
+        $stmt->bindParam(":id_actividad", $idActividad, PDO::PARAM_INT);
+    
+        if ($stmt->execute()) {
+            return "ok";
+        } else {
+            return "error";
+        }
+    
+        $stmt = null; // Cierra la conexión de la consulta
+    }
+    
+    
 }
+    
