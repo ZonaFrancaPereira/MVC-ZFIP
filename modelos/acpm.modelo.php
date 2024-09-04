@@ -169,7 +169,87 @@ class ModeloAcpm
                 return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
                 $stmt = null;
                 break;
-
+            case 'tecnica':
+                // Consulta sin filtro
+                $stmt = Conexion::conectar()->prepare("SELECT acpm.*, usuarios.nombre, usuarios.apellidos_usuario
+                FROM acpm
+                INNER JOIN usuarios ON acpm.id_usuario_fk = usuarios.id");
+                $stmt->execute();
+                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
+                $stmt = null;
+                break;
+            case 'sig':
+                // Consulta sin filtro
+                $stmt = Conexion::conectar()->prepare("SELECT acpm.*, usuarios.nombre, usuarios.apellidos_usuario
+                    FROM acpm
+                    INNER JOIN usuarios ON acpm.id_usuario_fk = usuarios.id");
+                $stmt->execute();
+                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
+                $stmt = null;
+                break;
+            case 'administrativa':
+                // Consulta sin filtro
+                $stmt = Conexion::conectar()->prepare("SELECT acpm.*, usuarios.nombre, usuarios.apellidos_usuario
+                        FROM acpm
+                        INNER JOIN usuarios ON acpm.id_usuario_fk = usuarios.id");
+                $stmt->execute();
+                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
+                $stmt = null;
+                break;
+            case 'contable':
+                // Consulta sin filtro
+                $stmt = Conexion::conectar()->prepare("SELECT acpm.*, usuarios.nombre, usuarios.apellidos_usuario
+                            FROM acpm
+                            INNER JOIN usuarios ON acpm.id_usuario_fk = usuarios.id");
+                $stmt->execute();
+                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
+                $stmt = null;
+                break;
+            case 'juridica':
+                // Consulta sin filtro
+                $stmt = Conexion::conectar()->prepare("SELECT acpm.*, usuarios.nombre, usuarios.apellidos_usuario
+                                FROM acpm
+                                INNER JOIN usuarios ON acpm.id_usuario_fk = usuarios.id");
+                $stmt->execute();
+                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
+                $stmt = null;
+                break;
+            case 'informatica':
+                // Consulta sin filtro
+                $stmt = Conexion::conectar()->prepare("SELECT acpm.*, usuarios.nombre, usuarios.apellidos_usuario
+                                    FROM acpm
+                                    INNER JOIN usuarios ON acpm.id_usuario_fk = usuarios.id");
+                $stmt->execute();
+                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
+                $stmt = null;
+                break;
+            case 'operaciones':
+                // Consulta sin filtro
+                $stmt = Conexion::conectar()->prepare("SELECT acpm.*, usuarios.nombre, usuarios.apellidos_usuario
+                                        FROM acpm
+                                        INNER JOIN usuarios ON acpm.id_usuario_fk = usuarios.id");
+                $stmt->execute();
+                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
+                $stmt = null;
+                break;
+            case 'gerencia':
+                // Consulta sin filtro
+                $stmt = Conexion::conectar()->prepare("SELECT acpm.*, usuarios.nombre, usuarios.apellidos_usuario
+                FROM acpm
+                INNER JOIN usuarios ON acpm.id_usuario_fk = usuarios.id");
+                $stmt->execute();
+                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
+                $stmt = null;
+                break;
+            case 'seguridad':
+                // Consulta sin filtro
+                $stmt = Conexion::conectar()->prepare("SELECT acpm.*, usuarios.nombre, usuarios.apellidos_usuario
+                    FROM acpm
+                    INNER JOIN usuarios ON acpm.id_usuario_fk = usuarios.id");
+                $stmt->execute();
+                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
+                $stmt = null;
+                break;
             default:
                 $consulta = null;
                 $item = null;
@@ -432,11 +512,11 @@ class ModeloAcpm
     }
 
     static public function mdlActualizarEficacia($tabla, $datos)
-{
-    try {
-        // Actualizar eficacia
-        $stmt = Conexion::conectar()->prepare(
-            "UPDATE $tabla SET 
+    {
+        try {
+            // Actualizar eficacia
+            $stmt = Conexion::conectar()->prepare(
+                "UPDATE $tabla SET 
                 riesgo_acpm = :riesgo_acpm, 
                 justificacion_riesgo = :justificacion_riesgo,
                 cambios_sig = :cambios_sig,
@@ -445,67 +525,64 @@ class ModeloAcpm
                 justificacion_conforme_sig = :justificacion_conforme_sig,
                 fecha_estado = :fecha_estado 
             WHERE id_consecutivo = :id_consecutivo"
-        );
-
-        $stmt->bindParam(":riesgo_acpm", $datos["riesgo_acpm"], PDO::PARAM_STR);
-        $stmt->bindParam(":justificacion_riesgo", $datos["justificacion_riesgo"], PDO::PARAM_STR);
-        $stmt->bindParam(":cambios_sig", $datos["cambios_sig"], PDO::PARAM_STR);
-        $stmt->bindParam(":justificacion_sig", $datos["justificacion_sig"], PDO::PARAM_STR);
-        $stmt->bindParam(":conforme_sig", $datos["conforme_sig"], PDO::PARAM_STR);
-        $stmt->bindParam(":justificacion_conforme_sig", $datos["justificacion_conforme_sig"], PDO::PARAM_STR);
-        $stmt->bindParam(":fecha_estado", $datos["fecha_estado"], PDO::PARAM_STR);
-        $stmt->bindParam(":id_consecutivo", $datos["id_consecutivo"], PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-            // Cambiar el estado_acpm a 'Cerrada'
-            $stmt2 = Conexion::conectar()->prepare(
-                "UPDATE $tabla SET estado_acpm = 'Cerrada' WHERE id_consecutivo = :id_consecutivo"
             );
-            $stmt2->bindParam(":id_consecutivo", $datos["id_consecutivo"], PDO::PARAM_INT);
-            $stmt2->execute();
-            
-            return "ok";
-        } else {
-            return "error";
+
+            $stmt->bindParam(":riesgo_acpm", $datos["riesgo_acpm"], PDO::PARAM_STR);
+            $stmt->bindParam(":justificacion_riesgo", $datos["justificacion_riesgo"], PDO::PARAM_STR);
+            $stmt->bindParam(":cambios_sig", $datos["cambios_sig"], PDO::PARAM_STR);
+            $stmt->bindParam(":justificacion_sig", $datos["justificacion_sig"], PDO::PARAM_STR);
+            $stmt->bindParam(":conforme_sig", $datos["conforme_sig"], PDO::PARAM_STR);
+            $stmt->bindParam(":justificacion_conforme_sig", $datos["justificacion_conforme_sig"], PDO::PARAM_STR);
+            $stmt->bindParam(":fecha_estado", $datos["fecha_estado"], PDO::PARAM_STR);
+            $stmt->bindParam(":id_consecutivo", $datos["id_consecutivo"], PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                // Cambiar el estado_acpm a 'Cerrada'
+                $stmt2 = Conexion::conectar()->prepare(
+                    "UPDATE $tabla SET estado_acpm = 'Cerrada' WHERE id_consecutivo = :id_consecutivo"
+                );
+                $stmt2->bindParam(":id_consecutivo", $datos["id_consecutivo"], PDO::PARAM_INT);
+                $stmt2->execute();
+
+                return "ok";
+            } else {
+                return "error";
+            }
+        } catch (Exception $e) {
+            return "error: " . $e->getMessage();
         }
-    } catch (Exception $e) {
-        return "error: " . $e->getMessage();
     }
-}
 
 
 
-static public function mdlGuardarRechazo($datos)
-{
-    try {
-        // Insertar en acpm_rechazada
-        $stmt = Conexion::conectar()->prepare(
-            "INSERT INTO acpm_rechazada 
+    static public function mdlGuardarRechazo($datos)
+    {
+        try {
+            // Insertar en acpm_rechazada
+            $stmt = Conexion::conectar()->prepare(
+                "INSERT INTO acpm_rechazada 
             (fecha_rechazo, descripcion_rechazo, id_consecutivo_fk) 
             VALUES 
             (NOW(), :descripcion_rechazo, :id_consecutivo_fk)"
-        );
-
-        $stmt->bindParam(":descripcion_rechazo", $datos["descripcion_rechazo"], PDO::PARAM_STR);
-        $stmt->bindParam(":id_consecutivo_fk", $datos["id_consecutivo_fk"], PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-            // Cambiar el estado_acpm a 'Rechazada'
-            $stmt2 = Conexion::conectar()->prepare(
-                "UPDATE acpm SET estado_acpm = 'Rechazada' WHERE id_consecutivo = :id_consecutivo"
             );
-            $stmt2->bindParam(":id_consecutivo", $datos["id_consecutivo_fk"], PDO::PARAM_INT);
-            $stmt2->execute();
-            
-            return "ok";
-        } else {
-            return "error";
+
+            $stmt->bindParam(":descripcion_rechazo", $datos["descripcion_rechazo"], PDO::PARAM_STR);
+            $stmt->bindParam(":id_consecutivo_fk", $datos["id_consecutivo_fk"], PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                // Cambiar el estado_acpm a 'Rechazada'
+                $stmt2 = Conexion::conectar()->prepare(
+                    "UPDATE acpm SET estado_acpm = 'Rechazada' WHERE id_consecutivo = :id_consecutivo"
+                );
+                $stmt2->bindParam(":id_consecutivo", $datos["id_consecutivo_fk"], PDO::PARAM_INT);
+                $stmt2->execute();
+
+                return "ok";
+            } else {
+                return "error";
+            }
+        } catch (Exception $e) {
+            return "error: " . $e->getMessage();
         }
-    } catch (Exception $e) {
-        return "error: " . $e->getMessage();
     }
-}
-
-
-  
 }
