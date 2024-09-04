@@ -1,4 +1,3 @@
-
 <nav class="mt-2">
   <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
     <li class="nav-item">
@@ -64,25 +63,25 @@
             <p>Acciones en Proceso</p>
           </a>
         </li>
-         <!-- /.ESTA PARTE PERTENECE SOLO A SIG -->
-      <li class="nav-item">
-        <a data-toggle="tab" href="#aprobacion" class="nav-link ">
-          <i class="nav-icon fas fa-question-circle"></i>
-          <p>
-            Aprobar ACPM
-            <span class="right badge badge-danger">Urgente</span>
-          </p>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a data-toggle="tab" href="#aceptar_acpm" class="nav-link ">
-          <i class="nav-icon fas fa-clipboard-check"></i>
-          <p>
-            Verificar ACPM
-            <span class="right badge badge-danger">Urgente</span>
-          </p>
-        </a>
-      </li>
+        <!-- /.ESTA PARTE PERTENECE SOLO A SIG -->
+        <li class="nav-item">
+          <a data-toggle="tab" href="#aprobacion" class="nav-link ">
+            <i class="nav-icon fas fa-question-circle"></i>
+            <p>
+              Aprobar ACPM
+              <span class="right badge badge-danger">Urgente</span>
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a data-toggle="tab" href="#aceptar_acpm" class="nav-link ">
+            <i class="nav-icon fas fa-clipboard-check"></i>
+            <p>
+              Verificar ACPM
+              <span class="right badge badge-danger">Urgente</span>
+            </p>
+          </a>
+        </li>
 
         <li class="nav-item">
           <a data-toggle="tab" href="#manual_activos" class="nav-link ">
@@ -91,9 +90,80 @@
               Manual
             </p>
           </a>
-
         </li>
+        <li class="nav-item">
+      <a data-toggle="tab" href="" class="nav-link">
+        <i class="nav-icon fas fa-qrcode"></i>
+        <p>
+          AREAS
+          <i class="fas fa-angle-left right"></i>
+        </p>
+      </a>
+      <ul class="nav nav-treeview">
+          <li class="nav-item" name="">
+            <a data-toggle="tab" href="#seguimiento" class="nav-link">
+            <i class="fas fa-desktop"></i>
+              <p>Seguimiento ACPM</p>
+            </a>
+          </li>
+          <li class="nav-item" name="">
+            <a data-toggle="tab" href="#tecnica" class="nav-link">
+              <i class="fas fa-tools"></i>
+              <p>Técnica</p>
+            </a>
+          </li>
+          <li class="nav-item" name="">
+            <a data-toggle="tab" href="#sig" class="nav-link">
+              <i class="fas fa-tools"></i>
+              <p>Sig</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a data-toggle="tab" href="#gestion_administrativa" class="nav-link">
+              <i class="fas fa-users"></i>
+              <p>Gestión Administrativa</p>
+            </a>
+          </li>
+          <li class="nav-item" name="">
+            <a data-toggle="tab" href="#gestion_contable" class="nav-link">
+              <i class="fas fa-file-csv"></i>
+              <p>Gestión Contable</p>
+            </a>
+          </li>
+          <li class="nav-item" name="">
+            <a data-toggle="tab" href="#gestion_juridica" class="nav-link">
+              <i class="fas fa-gavel"></i>
+              <p>Gestión Jurídica</p>
+            </a>
+          </li>
+          <li class="nav-item" name="">
+            <a data-toggle="tab" href="#tecnologia_informatica" class="nav-link">
+              <i class="fas fa-laptop-code"></i>
+              <p>Gestión de Tecnología e Informática</p>
+            </a>
+          </li>
+          <li class="nav-item" name="">
+            <a data-toggle="tab" href="#operaciones" class="nav-link">
+              <i class="fas fa-clipboard-check"></i>
+              <p>Operaciones</p>
+            </a>
+          </li>
+          <li class="nav-item" name="">
+            <a data-toggle="tab" href="#gerencia" class="nav-link">
+              <i class="fas fa-user-shield"></i>
+              <p>Gerencia</p>
+            </a>
+          </li>
+          <li class="nav-item" name="">
+            <a data-toggle="tab" href="#seguridad" class="nav-link">
+              <i class="fas fa-user-shield"></i>
+              <p>Seguridad</p>
+            </a>
+          </li>
+        </ul>
+    </li>
       </ul>
+    </li>
 </nav>
 
 <?php
@@ -143,7 +213,7 @@ if ($_SESSION["ti"] == "off") {
             </div>
           </div>
 
-          
+
           <div id="acciones_proceso" class="tab-pane">
             <div class="row">
               <div class="col-md-12">
@@ -152,7 +222,7 @@ if ($_SESSION["ti"] == "off") {
             </div>
           </div>
 
-          
+
           <div id="acciones_rechazadas" class="tab-pane">
             <div class="row">
               <div class="col-md-12">
@@ -161,7 +231,7 @@ if ($_SESSION["ti"] == "off") {
             </div>
           </div>
 
-          
+
           <div id="acciones_verificacion" class="tab-pane">
             <div class="row">
               <div class="col-md-12">
@@ -169,7 +239,7 @@ if ($_SESSION["ti"] == "off") {
               </div>
             </div>
           </div>
-         
+
 
           <div id="aceptar_acpm" class="tab-pane">
             <div class="row">
@@ -187,7 +257,85 @@ if ($_SESSION["ti"] == "off") {
             </div>
           </div>
 
+          <div id="tecnica" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/tecnica.php"; ?>
+              </div>
+            </div>
+          </div>
 
+          <div id="sig" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/sig.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="gestion_administrativa" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/gestion_administrativa.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="gestion_contable" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/gestion_contable.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="gestion_juridica" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/gestion_juridica.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="tecnologia_informatica" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/tecnologia_informatica.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="operaciones" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/operaciones.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="gerencia" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/gerencia.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="seguridad" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/seguridad.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="seguimiento" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/seguimiento.php"; ?>
+              </div>
+            </div>
+          </div>
 
         </div>
       </div>

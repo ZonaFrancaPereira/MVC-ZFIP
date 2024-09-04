@@ -280,6 +280,10 @@ class ControladorAcpm
         }
     }
 
+      /*=============================================
+        ELIMINAR ACTIVIDAD
+    =============================================*/
+
     static public function ctrEliminarActividad() {
         if (isset($_POST["id_actividad"])) {
             $idActividad = $_POST["id_actividad"];
@@ -310,7 +314,132 @@ class ControladorAcpm
         }
     }
     
+      /*=============================================
+        VERIFICAR SI TODAS LAS ACTIVIDADES ESTAN COMPLETAS
+    =============================================*/
+    static public function ctrVerificarActividadesCompletas($id_acpm) {
+        return ModeloAcpm::mdlVerificarActividadesCompletas($id_acpm);
+    }
+
+      /*=============================================
+       ACTUALIZAR ESTADO
+    =============================================*/
+
+    static public function ctrActualizarEstadoAcpm($id_acpm, $nuevoEstado) {
+        return ModeloAcpm::mdlActualizarEstadoAcpm($id_acpm, $nuevoEstado);
+    }
+
+
+      /*=============================================
+        ENVIAR A SIG
+    =============================================*/
+   
+    static public function ctrEnviarASig() {
+        if (isset($_POST['id_acpm'])) {
+            $id_acpm = $_POST['id_acpm'];
+            $respuesta = self::ctrActualizarEstadoAcpm($id_acpm, 'Proceso');
+
+            if ($respuesta == "ok") {
+                echo '<script>
+                        Swal.fire(
+                            "Enviado!",
+                            "La ACPM ha sido enviada satisfactoriamente a SIG.",
+                            "success"
+                        ).then(function() {
+                            window.location = "sig"; // Redirige a la página actual o a la vista correcta
+                        });
+                      </script>';
+            } else {
+                echo '<script>
+                        Swal.fire({
+                            icon: "error",
+                            title: "¡Error!",
+                            text: "No se pudo ENVIAR A SIG. Por favor, intente nuevamente.",
+                            confirmButtonText: "Cerrar"
+                        });
+                      </script>';
+            }
+        }
+    }
     
+     /*=============================================
+    APROBAR Y RECHAZAR ACPM
+    =============================================*/
+
+    static public function ctrGuardarAccion() {
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["accion_acpm"])) {
+            $accion = $_POST["accion_acpm"];
+    
+            // Manejo de la acción de "Eficacia"
+            if ($accion == "eficacia") {
+                $tabla = "acpm";
+                $datos = array(
+                    "id_consecutivo" => $_POST["id_acpm_fk_sig1"],
+                    "riesgo_acpm" => $_POST["riesgo_acpm"],
+                    "justificacion_riesgo" => $_POST["justificacion_riesgo"],
+                    "cambios_sig" => $_POST["cambios_sig"],
+                    "justificacion_sig" => $_POST["justificacion_sig"],
+                    "conforme_sig" => $_POST["conforme_sig"],
+                    "justificacion_conforme_sig" => $_POST["justificacion_conforme_sig"],
+                    "fecha_estado" => $_POST["fecha_estado"]
+                );
+    
+                $respuesta = ModeloAcpm::mdlActualizarEficacia($tabla, $datos);
+    
+                if ($respuesta == "ok") {
+                    echo '<script>
+                        Swal.fire(
+                            "Enviado!",
+                            "La Respuesta ha sido Guardada Correctamente.",
+                            "success"
+                        ).then(function() {
+                            window.location = "sig"; // Redirige a la página actual o a la vista correcta
+                        });
+                      </script>';
+                } else {
+                    echo '<script>
+                        Swal.fire({
+                            icon: "error",
+                            title: "¡Error!",
+                            text: "No se pudo Guardar la Respuesta.",
+                            confirmButtonText: "Cerrar"
+                        });
+                      </script>';
+                }
+            }
+    
+            // Manejo de la acción de "Rechazo"
+            elseif ($accion == "rechazo") {
+                $datosRechazo = array(
+                    "id_consecutivo_fk" => $_POST["id_acpm_fk_sig1"],
+                    "descripcion_rechazo" => $_POST["descripcion_rechazo"]
+                );
+    
+                $respuesta = ModeloAcpm::mdlGuardarRechazo($datosRechazo);
+    
+                if ($respuesta == "ok") {
+                    echo '<script>
+                        Swal.fire(
+                            "Enviado!",
+                            "La Respuesta ha sido Guardada Correctamente.",
+                            "success"
+                        ).then(function() {
+                            window.location = "sig"; // Redirige a la página actual o a la vista correcta
+                        });
+                      </script>';
+                } else {
+                    echo '<script>
+                        Swal.fire({
+                            icon: "error",
+                            title: "¡Error!",
+                            text: "No se pudo Guardar la Respuesta.",
+                            confirmButtonText: "Cerrar"
+                        });
+                      </script>';
+                }
+            }
+        }
+    }
     
     
      

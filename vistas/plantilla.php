@@ -192,6 +192,7 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "sig" ||
         $_GET["ruta"] == "sadoc" ||
         $_GET["ruta"] == "acpm" ||
+        $_GET["ruta"] == "acciones_verificacion" ||
         $_GET["ruta"] == "salir"
 
       ) {

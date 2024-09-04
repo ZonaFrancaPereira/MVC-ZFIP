@@ -5,7 +5,7 @@ require_once "conexion.php";
 class ModeloAcpm
 {
 
-        
+
     /*=============================================
 	INGRESAR ACPM
 	=============================================*/
@@ -67,7 +67,7 @@ class ModeloAcpm
             $stmt->bindParam(":justificacion_riesgo", $datos["justificacion_riesgo"], PDO::PARAM_STR);
             $stmt->bindParam(":fecha_finalizacion", $datos["fecha_finalizacion"], PDO::PARAM_STR);
             $stmt->bindParam(":id_usuario_fk", $datos["id_usuario_fk"], PDO::PARAM_INT);
-            
+
 
 
             if ($stmt->execute()) {
@@ -83,7 +83,7 @@ class ModeloAcpm
         }
     }
 
-    
+
     /*=============================================
 	MOSTRAR ACPM
 	=============================================*/
@@ -103,30 +103,73 @@ class ModeloAcpm
                 $stmt = null;
                 break;
 
-                case 'aprobar':
-                    // Consulta con filtro
-                    $stmt = Conexion::conectar()->prepare("SELECT $tabla.*, usuarios.nombre, usuarios.apellidos_usuario
+            case 'aprobar':
+                // Consulta con filtro
+                $stmt = Conexion::conectar()->prepare("SELECT $tabla.*, usuarios.nombre, usuarios.apellidos_usuario
                                                FROM $tabla
                                                INNER JOIN usuarios ON $tabla.id_usuario_fk = usuarios.id
                                                WHERE $tabla.$item = :valor");
-                    $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
-                    $stmt->execute();
-                    return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
-                    $stmt = null;
-                    break;
+                $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
+                $stmt->execute();
+                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
+                $stmt = null;
+                break;
 
-                case 'abierta':
-                        // Consulta con filtro
-                        $stmt = Conexion::conectar()->prepare("SELECT $tabla.*, usuarios.nombre, usuarios.apellidos_usuario
+            case 'abierta':
+                // Consulta con filtro
+                $stmt = Conexion::conectar()->prepare("SELECT $tabla.*, usuarios.nombre, usuarios.apellidos_usuario
                                                    FROM $tabla
                                                    INNER JOIN usuarios ON $tabla.id_usuario_fk = usuarios.id
                                                    WHERE $tabla.$item = :valor");
-                        $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
-                        $stmt->execute();
-                        return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
-                        $stmt = null;
-                        break;
-                        
+                $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
+                $stmt->execute();
+                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
+                $stmt = null;
+                break;
+            case 'proceso':
+                // Consulta con filtro
+                $stmt = Conexion::conectar()->prepare("SELECT $tabla.*, usuarios.nombre, usuarios.apellidos_usuario
+                                                FROM $tabla
+                                                INNER JOIN usuarios ON $tabla.id_usuario_fk = usuarios.id
+                                                WHERE $tabla.$item = :valor");
+                $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
+                $stmt->execute();
+                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
+                $stmt = null;
+                break;
+            case 'cerrada':
+                // Consulta con filtro
+                $stmt = Conexion::conectar()->prepare("SELECT $tabla.*, usuarios.nombre, usuarios.apellidos_usuario
+                                                FROM $tabla
+                                                INNER JOIN usuarios ON $tabla.id_usuario_fk = usuarios.id
+                                                WHERE $tabla.$item = :valor");
+                $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
+                $stmt->execute();
+                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
+                $stmt = null;
+                break;
+            case 'rechazada':
+                // Consulta con filtro
+                $stmt = Conexion::conectar()->prepare("SELECT $tabla.*, usuarios.nombre, usuarios.apellidos_usuario
+                                                FROM $tabla
+                                                INNER JOIN usuarios ON $tabla.id_usuario_fk = usuarios.id
+                                                WHERE $tabla.$item = :valor");
+                $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
+                $stmt->execute();
+                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
+                $stmt = null;
+                break;
+            case 'aceptar':
+                // Consulta sin filtro
+                $stmt = Conexion::conectar()->prepare("SELECT acpm.*, usuarios.nombre, usuarios.apellidos_usuario
+                            FROM acpm
+                            INNER JOIN usuarios ON acpm.id_usuario_fk = usuarios.id
+                            WHERE acpm.estado_acpm = 'Proceso';");
+                $stmt->execute();
+                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
+                $stmt = null;
+                break;
+
             default:
                 $consulta = null;
                 $item = null;
@@ -161,14 +204,14 @@ class ModeloAcpm
                 :id_usuario_fk, 
                 :id_acpm_fk
             )");
-    
+
             $stmt->bindParam(":fecha_actividad", $datos["fecha_actividad"], PDO::PARAM_STR);
             $stmt->bindParam(":descripcion_actividad", $datos["descripcion_actividad"], PDO::PARAM_STR);
             $stmt->bindParam(":tipo_actividad", $datos["tipo_actividad"], PDO::PARAM_STR);
             $stmt->bindParam(":estado_actividad", $datos["estado_actividad"], PDO::PARAM_STR);
             $stmt->bindParam(":id_usuario_fk", $datos["id_usuario_fk"], PDO::PARAM_INT);
             $stmt->bindParam(":id_acpm_fk", $datos["id_acpm_fk"], PDO::PARAM_INT);
-            
+
             if ($stmt->execute()) {
                 return "ok";
             } else {
@@ -218,36 +261,35 @@ class ModeloAcpm
     }
 
 
-    public static function mdlAprobarAcpm($tabla, $datos) 
+    public static function mdlAprobarAcpm($tabla, $datos)
 
     {
 
-            $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET
                         estado_acpm = :estado_acpm
                         WHERE id_consecutivo = :id_consecutivo");
 
-                    $stmt->bindParam(":estado_acpm", $datos["estado_acpm"], PDO::PARAM_STR);
-                    $stmt->bindParam(":id_consecutivo", $datos["id_consecutivo"], PDO::PARAM_INT);
+        $stmt->bindParam(":estado_acpm", $datos["estado_acpm"], PDO::PARAM_STR);
+        $stmt->bindParam(":id_consecutivo", $datos["id_consecutivo"], PDO::PARAM_INT);
 
-                    if ($stmt->execute()) {
-                        return "ok";
-                    } else {
-                        return "error";
-                    }
+        if ($stmt->execute()) {
+            return "ok";
+        } else {
+            return "error";
+        }
 
-                    $stmt->closeCursor();
-                    $stmt = null;
-
+        $stmt->closeCursor();
+        $stmt = null;
     }
 
     public static function mdlRechazarAcpm($tabla, $datosRechazo)
     {
 
-            try {
-                // Obtener la conexión PDO
-                $pdo = Conexion::conectar();
-                // Preparar la consulta de inserción
-                $stmt = $pdo->prepare("INSERT INTO $tabla (
+        try {
+            // Obtener la conexión PDO
+            $pdo = Conexion::conectar();
+            // Preparar la consulta de inserción
+            $stmt = $pdo->prepare("INSERT INTO $tabla (
                     
                     descripcion_rechazo, 
                     id_consecutivo_fk 
@@ -258,10 +300,10 @@ class ModeloAcpm
                     :id_consecutivo_fk
 
                 )");
-                
+
             $stmt->bindParam(":descripcion_rechazo", $datosRechazo["descripcion_rechazo"], PDO::PARAM_STR);
             $stmt->bindParam(":id_consecutivo_fk", $datosRechazo["id_consecutivo_fk"], PDO::PARAM_INT);
-        
+
             if ($stmt->execute()) {
                 return "ok";
             } else {
@@ -274,10 +316,10 @@ class ModeloAcpm
     }
 
 
-     /*=============================================
+    /*=============================================
 	subir evidencia
 	=============================================*/
-    public static function mdlIngresarEvidenciaActividad($tabla, $datos) 
+    public static function mdlIngresarEvidenciaActividad($tabla, $datos)
     {
         try {
             $pdo = Conexion::conectar();
@@ -315,7 +357,7 @@ class ModeloAcpm
 	actualizar estado actividad
 	=============================================*/
 
-    public static function mdlActualizarEstadoActividad($id_actividad, $nuevo_estado) 
+    public static function mdlActualizarEstadoActividad($id_actividad, $nuevo_estado)
     {
         try {
             $pdo = Conexion::conectar();
@@ -333,23 +375,137 @@ class ModeloAcpm
             return "error: " . $e->getMessage();
         }
     }
-    
-     /*=============================================
-	actualizar estado actividad
+
+    /*=============================================
+	ELIMINAR ACTIVIDAD
 	=============================================*/
-    static public function mdlEliminarActividad($idActividad) {
+    static public function mdlEliminarActividad($idActividad)
+    {
         $stmt = Conexion::conectar()->prepare("DELETE FROM actividades_acpm WHERE id_actividad = :id_actividad");
         $stmt->bindParam(":id_actividad", $idActividad, PDO::PARAM_INT);
-    
+
         if ($stmt->execute()) {
             return "ok";
         } else {
             return "error";
         }
-    
+
         $stmt = null; // Cierra la conexión de la consulta
     }
-    
-    
+
+    /*=============================================
+	ACTIVIDADES COMPLETAS
+	=============================================*/
+
+    static public function mdlVerificarActividadesCompletas($id_acpm)
+    {
+        $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) as total 
+                                               FROM actividades_acpm 
+                                               WHERE id_acpm_fk = :id_acpm AND estado_actividad != 'Completa'");
+        $stmt->bindParam(":id_acpm", $id_acpm, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return ($resultado['total'] == 0); // Retorna true si todas están "Completas"
+    }
+
+
+    /*=============================================
+	ACTUALIZAR ESTADO A PROCESO
+	=============================================*/
+    static public function mdlActualizarEstadoAcpm($id_acpm, $nuevoEstado)
+    {
+        $stmt = Conexion::conectar()->prepare("UPDATE acpm 
+                                               SET estado_acpm = :estado 
+                                               WHERE id_consecutivo = :id_acpm");
+        $stmt->bindParam(":estado", $nuevoEstado, PDO::PARAM_STR);
+        $stmt->bindParam(":id_acpm", $id_acpm, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return "ok";
+        } else {
+            return "error";
+        }
+
+        $stmt = null;
+    }
+
+    static public function mdlActualizarEficacia($tabla, $datos)
+{
+    try {
+        // Actualizar eficacia
+        $stmt = Conexion::conectar()->prepare(
+            "UPDATE $tabla SET 
+                riesgo_acpm = :riesgo_acpm, 
+                justificacion_riesgo = :justificacion_riesgo,
+                cambios_sig = :cambios_sig,
+                justificacion_sig = :justificacion_sig,
+                conforme_sig = :conforme_sig,
+                justificacion_conforme_sig = :justificacion_conforme_sig,
+                fecha_estado = :fecha_estado 
+            WHERE id_consecutivo = :id_consecutivo"
+        );
+
+        $stmt->bindParam(":riesgo_acpm", $datos["riesgo_acpm"], PDO::PARAM_STR);
+        $stmt->bindParam(":justificacion_riesgo", $datos["justificacion_riesgo"], PDO::PARAM_STR);
+        $stmt->bindParam(":cambios_sig", $datos["cambios_sig"], PDO::PARAM_STR);
+        $stmt->bindParam(":justificacion_sig", $datos["justificacion_sig"], PDO::PARAM_STR);
+        $stmt->bindParam(":conforme_sig", $datos["conforme_sig"], PDO::PARAM_STR);
+        $stmt->bindParam(":justificacion_conforme_sig", $datos["justificacion_conforme_sig"], PDO::PARAM_STR);
+        $stmt->bindParam(":fecha_estado", $datos["fecha_estado"], PDO::PARAM_STR);
+        $stmt->bindParam(":id_consecutivo", $datos["id_consecutivo"], PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            // Cambiar el estado_acpm a 'Cerrada'
+            $stmt2 = Conexion::conectar()->prepare(
+                "UPDATE $tabla SET estado_acpm = 'Cerrada' WHERE id_consecutivo = :id_consecutivo"
+            );
+            $stmt2->bindParam(":id_consecutivo", $datos["id_consecutivo"], PDO::PARAM_INT);
+            $stmt2->execute();
+            
+            return "ok";
+        } else {
+            return "error";
+        }
+    } catch (Exception $e) {
+        return "error: " . $e->getMessage();
+    }
 }
-    
+
+
+
+static public function mdlGuardarRechazo($datos)
+{
+    try {
+        // Insertar en acpm_rechazada
+        $stmt = Conexion::conectar()->prepare(
+            "INSERT INTO acpm_rechazada 
+            (fecha_rechazo, descripcion_rechazo, id_consecutivo_fk) 
+            VALUES 
+            (NOW(), :descripcion_rechazo, :id_consecutivo_fk)"
+        );
+
+        $stmt->bindParam(":descripcion_rechazo", $datos["descripcion_rechazo"], PDO::PARAM_STR);
+        $stmt->bindParam(":id_consecutivo_fk", $datos["id_consecutivo_fk"], PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            // Cambiar el estado_acpm a 'Rechazada'
+            $stmt2 = Conexion::conectar()->prepare(
+                "UPDATE acpm SET estado_acpm = 'Rechazada' WHERE id_consecutivo = :id_consecutivo"
+            );
+            $stmt2->bindParam(":id_consecutivo", $datos["id_consecutivo_fk"], PDO::PARAM_INT);
+            $stmt2->execute();
+            
+            return "ok";
+        } else {
+            return "error";
+        }
+    } catch (Exception $e) {
+        return "error: " . $e->getMessage();
+    }
+}
+
+
+  
+}

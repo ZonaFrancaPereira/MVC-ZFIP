@@ -37,7 +37,7 @@
                                     <th>Fecha Finalización</th>
                                     <th>Estado</th>
                                     <th>Informe</th>
-                                    <th>Aprobar</th>
+                                    <th>Respuesta</th>
                                 </tr>
                             </thead>
                         </table>

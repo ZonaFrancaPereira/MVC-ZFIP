@@ -40,7 +40,7 @@
                                             </div>
                                             <div class="col-md-12 col-xs-12 col-sm-12">
                                                 <label>Origen ACPM</label>
-                                                <textarea class="form-control" id="origen_acpm" name="origen_acpm" rows="3" required></textarea>
+                                                <input class="form-control" id="origen_acpm" name="origen_acpm" rows="3" required></input>
                                             </div>
                                             <div class="col-2 col-xs-12 col-sm-12">
                                                 <label>Fuente</label>
