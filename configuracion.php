@@ -33,6 +33,7 @@
 
   }
  */
+/*
 // CONEXIÓN BASE DE DATOS
  CONST BD_HOST = "localhost";
   CONST BD_PUERTO = "3306";
@@ -45,11 +46,11 @@
  if (!MOSTRARWARNINGS) {
      error_reporting(0);
  }
-
+ */
 
 // CONEXIÓN BASE DE DATOS
 
-/* HOSTINGER
+/* HOSTINGER */
 CONST BD_HOST = "195.35.61.58";
 CONST BD_PUERTO = "3306";
 CONST BD_NOMBRE = "u446101023_prueba";
@@ -61,4 +62,3 @@ CONST MOSTRARWARNINGS = false;
 if (!MOSTRARWARNINGS) {
     error_reporting(0);
 }
-*/
