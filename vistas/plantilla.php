@@ -58,6 +58,7 @@ session_start();
   <!-- iCheck for checkboxes and radio inputs -->
   <link rel="stylesheet" href="vistas/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
 
+  <link rel="stylesheet" href="vistas/dist/css/acpm.css">
    <!-- Control Sidebar -->
    <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
@@ -192,6 +193,7 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "sig" ||
         $_GET["ruta"] == "sadoc" ||
         $_GET["ruta"] == "acpm" ||
+        $_GET["ruta"] == "acciones_verificacion" ||
         $_GET["ruta"] == "salir"
 
       ) {
