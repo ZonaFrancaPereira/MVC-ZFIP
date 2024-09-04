@@ -134,6 +134,7 @@ session_start();
   <!-- Summernote -->
 <script src="vistas/plugins/summernote/summernote-bs4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
 </head>
 
 <!--=====================================

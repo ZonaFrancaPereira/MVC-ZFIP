@@ -3,6 +3,7 @@ require_once "configuracion.php";
 ?>
 <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+ 
         <li class="nav-item">
             <a data-toggle="tab" href="#asignacion_equipos" class="nav-link">
                 <i class="fas fa-desktop"></i>
@@ -13,6 +14,24 @@ require_once "configuracion.php";
             <a data-toggle="tab" href="#backup" class="nav-link">
                 <i class="far fa-save"></i>
                 <p>Backup</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a data-toggle="tab" href="#actualizacion_pw" class="nav-link">
+                <i class="fas fa-key"></i>
+                <p>Contraseñas</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a data-toggle="tab" href="#consumibles" class="nav-link">
+                <i class="fas fa-print"></i>
+                <p>Consumibles</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a data-toggle="tab" href="#criticidad" class="nav-link">
+                <i class="fas fa-user-tie"></i>
+                <p>Matriz de Usuarios y Criticidad</p>
             </a>
         </li>
         <li class="nav-item">
@@ -27,7 +46,6 @@ require_once "configuracion.php";
                 <p>Licencias</p>
             </a>
         </li>
-
         <li class="nav-item">
             <a data-toggle="tab" href="" class="nav-link">
                 <i class="fas fa-laptop-code"></i>
@@ -37,18 +55,6 @@ require_once "configuracion.php";
                 </p>
             </a>
             <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a data-toggle="tab" href="#mantenimientos" class="nav-link">
-                        <i class="nav-icon far fa-question-circle"></i>
-                        <p>Principal</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a data-toggle="tab" href="#impresora" class="nav-link">
-                        <i class="nav-icon far fa-question-circle"></i>
-                        <p>Impresora</p>
-                    </a>
-                </li>
                 <li class="nav-item">
                     <a data-toggle="tab" href="#equipo" class="nav-link">
                         <i class="nav-icon fas fa-sync-alt"></i>
@@ -61,19 +67,19 @@ require_once "configuracion.php";
                         <p>General</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a data-toggle="tab" href="#impresora" class="nav-link">
+                        <i class="nav-icon far fa-question-circle"></i>
+                        <p>Impresora</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a data-toggle="tab" href="#mantenimientos" class="nav-link">
+                        <i class="nav-icon far fa-question-circle"></i>
+                        <p>Principal</p>
+                    </a>
+                </li>
             </ul>
-        </li>
-        <li class="nav-item">
-            <a data-toggle="tab" href="#criticidad" class="nav-link">
-                <i class="fas fa-user-tie"></i>
-                <p>Matriz de Usuarios y Criticidad</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a data-toggle="tab" href="#usuarios" class="nav-link">
-                <i class="fas fa-users"></i>
-                <p>Usuarios</p>
-            </a>
         </li>
         <li class="nav-item">
             <a data-toggle="tab" href="#perfiles" class="nav-link">
@@ -103,21 +109,28 @@ require_once "configuracion.php";
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a data-toggle="tab" href="#solicitudes_soporte" class="nav-link">
-                        <i class="nav-icon fas fa-sync-alt"></i>
-                        <p>Solicitudes de Soporte</p>
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a data-toggle="tab" href="#solicitudes_finalizadas" class="nav-link">
                         <i class="nav-icon fas fa-sync-alt"></i>
                         <p>Solicitudes Finalizadas</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a data-toggle="tab" href="#solicitudes_soporte" class="nav-link">
+                        <i class="nav-icon fas fa-sync-alt"></i>
+                        <p>Solicitudes de Soporte</p>
+                    </a>
+                </li>
             </ul>
+        </li>
+        <li class="nav-item">
+            <a data-toggle="tab" href="#usuarios" class="nav-link">
+                <i class="fas fa-users"></i>
+                <p>Usuarios</p>
+            </a>
         </li>
     </ul>
 </nav>
+
 
 <?php
 
@@ -142,7 +155,21 @@ if ($_SESSION["ti"] == "off") {
         <div id="page-content-wrapper">
             <div class="container-fluid">
                 <div class="tab-content card">
-
+                
+                <div id="actualizacion_pw" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/actualizacion_pw.php"; ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="consumibles" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/consumibles.php"; ?>
+                            </div>
+                        </div>
+                    </div>
                     <div id="inventario" class="tab-pane">
                         <div class="row">
                             <div class="col-md-12">
@@ -158,13 +185,13 @@ if ($_SESSION["ti"] == "off") {
                             </div>
                             <?php
 
-$borrarUsuario = new ControladorUsuarios();
-$borrarUsuario->ctrBorrarUsuario();
+                            $borrarUsuario = new ControladorUsuarios();
+                            $borrarUsuario->ctrBorrarUsuario();
 
-?>
+                            ?>
                         </div>
                     </div>
-                    
+
                     <div id="backup" class="tab-pane">
                         <div class="row">
                             <div class="col-md-12">
