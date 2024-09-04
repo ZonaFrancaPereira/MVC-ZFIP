@@ -38,6 +38,7 @@
                                     <th>Fecha Finalización</th>
                                     <th>Estado</th>
                                     <th>Informe</th>
+                                    <th>Modificar Fecha</th>
                                 </tr>
                             </thead>
                         </table>
@@ -47,3 +48,39 @@
         </div>
     </div>
 </section>
+<!-- /.EDITAR FECHA ACPM -->
+<section class="content">
+            <div class="modal fade" id="modal-modificar">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header btn bg-info btn-block">
+                    <h4 class="modal-title">Modificar Fecha</h4>
+                  </div>
+                  <div class="modal-body">
+                    <div class="row">
+                      <form id="form_modificar_sig" method="POST">
+                        <div class="card">
+                          <div class="card-header">
+                            <label>Desea Modificar la fecha de la siguiente ACPM:</label><input type="text" class="form-control" value="" name="id_acpm_fk1" id="id_acpm_fk1" readonly>
+                          </div>
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col-md-12 col-xs-12 col-sm-12">
+                                <label for="fecha_modificar">Modificar fecha de vencimiento de la ACPM</label>
+                                <input type="date" name="fecha_modificar" class="form-control" id="fecha_modificar" required>
+                              </div>
+                              <div class="col-md-12 col-xs-12 col-sm-12"><br>
+                                <br>
+                                <button type="button" class="btn bg-info btn-block" id="modificar_fecha" name="modificar_fecha">Actualizar Fecha</button>
+                              </div>
+                            </div>
+                      </form>
+                      <!-- /.modal-content -->
+                      <!-- /.card-body -->
+                    </div>
+                  </div>
+                  <!-- /.modal-dialog -->
+                </div>
+              </div>
+              <!-- /.modal -->
+          </section>

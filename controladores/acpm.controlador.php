@@ -225,7 +225,8 @@ class ControladorAcpm
         SUBIR EVIDENCIA
     =============================================*/
 
-    static public function ctrSubirEvidencia() {
+    static public function ctrSubirEvidencia() 
+    {
         if (isset($_POST["fecha_evidencia"])) { // Verificar si el formulario ha sido enviado
             $tablaEvidencia = "detalle_actividad";
             $datosEvidencia = array(
@@ -284,7 +285,8 @@ class ControladorAcpm
         ELIMINAR ACTIVIDAD
     =============================================*/
 
-    static public function ctrEliminarActividad() {
+    static public function ctrEliminarActividad() 
+    {
         if (isset($_POST["id_actividad"])) {
             $idActividad = $_POST["id_actividad"];
     
@@ -317,7 +319,8 @@ class ControladorAcpm
       /*=============================================
         VERIFICAR SI TODAS LAS ACTIVIDADES ESTAN COMPLETAS
     =============================================*/
-    static public function ctrVerificarActividadesCompletas($id_acpm) {
+    static public function ctrVerificarActividadesCompletas($id_acpm) 
+    {
         return ModeloAcpm::mdlVerificarActividadesCompletas($id_acpm);
     }
 
@@ -325,7 +328,8 @@ class ControladorAcpm
        ACTUALIZAR ESTADO
     =============================================*/
 
-    static public function ctrActualizarEstadoAcpm($id_acpm, $nuevoEstado) {
+    static public function ctrActualizarEstadoAcpm($id_acpm, $nuevoEstado) 
+    {
         return ModeloAcpm::mdlActualizarEstadoAcpm($id_acpm, $nuevoEstado);
     }
 
@@ -334,7 +338,8 @@ class ControladorAcpm
         ENVIAR A SIG
     =============================================*/
    
-    static public function ctrEnviarASig() {
+    static public function ctrEnviarASig() 
+    {
         if (isset($_POST['id_acpm'])) {
             $id_acpm = $_POST['id_acpm'];
             $respuesta = self::ctrActualizarEstadoAcpm($id_acpm, 'Proceso');
@@ -363,10 +368,11 @@ class ControladorAcpm
     }
     
      /*=============================================
-    APROBAR Y RECHAZAR ACPM
+    APROBAR Y RECHAZAR ACPM POR PARTE DE SIG
     =============================================*/
 
-    static public function ctrGuardarAccion() {
+    static public function ctrGuardarAccion() 
+    {
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["accion_acpm"])) {
             $accion = $_POST["accion_acpm"];
     

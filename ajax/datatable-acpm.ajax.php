@@ -3,9 +3,11 @@ require_once "../controladores/acpm.controlador.php";
 require_once "../modelos/acpm.modelo.php";
 session_start();
 
-class TablaAcpm {
+class TablaAcpm
+{
 
-    public function mostrarTablaAcpm() {
+    public function mostrarTablaAcpm()
+    {
         $especifico = isset($_POST['especifico']) ? $_POST['especifico'] : '';
         $item = 'id_usuario_fk';
         $valor = $_SESSION['id'];
@@ -32,13 +34,42 @@ class TablaAcpm {
             case 'aceptar':
                 $this->mostrarTabla($item, $valor, "aceptar");
                 break;
+            case 'tecnica':
+                $this->mostrarTabla($item, $valor, "tecnica");
+                break;
+            case 'sig':
+                $this->mostrarTabla($item, $valor, "sig");
+                break;
+                case 'administrativa':
+                    $this->mostrarTabla($item, $valor, "administrativa");
+                    break;
+                    case 'contable':
+                        $this->mostrarTabla($item, $valor, "contable");
+                        break;
+                        case 'juridica':
+                            $this->mostrarTabla($item, $valor, "juridica");
+                            break;
+                            case 'informatica':
+                                $this->mostrarTabla($item, $valor, "informatica");
+                                break;
+                                case 'operaciones':
+                                    $this->mostrarTabla($item, $valor, "operaciones");
+                                    break;
+                                    
+            case 'gerencia':
+                $this->mostrarTabla($item, $valor, "gerencia");
+                break;
+                case 'seguridad':
+                    $this->mostrarTabla($item, $valor, "seguridad");
+                    break;
             default:
                 echo json_encode(["data" => []]);
                 break;
         }
     }
 
-    private function mostrarTabla($item, $valor, $consulta) {
+    private function mostrarTabla($item, $valor, $consulta)
+    {
         $acpm = ControladorAcpm::ctrMostrarAcpm($item, $valor, $consulta);
         $data = [];
 
@@ -52,7 +83,8 @@ class TablaAcpm {
         echo json_encode(["data" => $data]);
     }
 
-    private function prepararDatos($s, $consulta) {
+    private function prepararDatos($s, $consulta)
+    {
         switch ($consulta) {
             case 'acpm':
                 if ($s["estado_acpm"] !== 'Verificacion') return null;
@@ -103,74 +135,221 @@ class TablaAcpm {
                     $aprobar
                 ];
 
-                case 'proceso':
-                    if ($s["estado_acpm"] !== 'Proceso') return null;
-                    $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
-                    return [
-                        $s["id_consecutivo"],
-                        $s["nombre"],
-                        $s["origen_acpm"],
-                        $s["fuente_acpm"],
-                        $s["tipo_acpm"],
-                        $s["descripcion_acpm"],
-                        $s["fecha_finalizacion"],
-                        $s["estado_acpm"],
-                        $informe_acpm
-                    ];
-                    case 'cerrada':
-                        if ($s["estado_acpm"] !== 'Cerrada') return null;
-                        $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
-                        return [
-                            $s["id_consecutivo"],
-                            $s["nombre"],
-                            $s["origen_acpm"],
-                            $s["fuente_acpm"],
-                            $s["tipo_acpm"],
-                            $s["descripcion_acpm"],
-                            $s["fecha_finalizacion"],
-                            $s["estado_acpm"],
-                            $informe_acpm
-                        ];
-                        case 'rechazada':
-                            if ($s["estado_acpm"] !== 'Rechazada') return null;
-                            $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
-                            return [
-                                $s["id_consecutivo"],
-                                $s["nombre"],
-                                $s["origen_acpm"],
-                                $s["fuente_acpm"],
-                                $s["tipo_acpm"],
-                                $s["descripcion_acpm"],
-                                $s["fecha_finalizacion"],
-                                $s["estado_acpm"],
-                                $informe_acpm
-                            ];
-                            case 'aceptar':
-                                if ($s["estado_acpm"] !== 'Proceso') return null;
-                                
-                                // Crear enlaces para el informe y el botón de respuesta
-                                $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
-                                $responder = "<button type='button' class='btn btn-outline-info' data-id_acpm_fk_sig1='{$s["id_consecutivo"]}' data-toggle='modal' data-target='#modal-unificado'>Responder</button>";
-                                
-                                // Limitar la longitud de descripcion_acpm a 100 caracteres
-                                $descripcion_limited = strlen($s["descripcion_acpm"]) > 100 ? substr($s["descripcion_acpm"], 0, 100) . '...' : $s["descripcion_acpm"];
-                                
-                                // Limitar la longitud de origen_acpm a 50 caracteres
-                                $origen_limited = strlen($s["origen_acpm"]) > 50 ? substr($s["origen_acpm"], 0, 50) . '...' : $s["origen_acpm"];
-                                
-                                return [
-                                    $s["id_consecutivo"],
-                                    $s["nombre"],
-                                    "<span style='max-width: 300px; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;'>{$origen_limited}</span>", // Estilo en línea
-                                    $s["fuente_acpm"],
-                                    $s["tipo_acpm"],
-                                    "<span style='max-width: 300px; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;'>{$descripcion_limited}</span>", // Estilo en línea
-                                    $s["fecha_finalizacion"],
-                                    $s["estado_acpm"],
-                                    $informe_acpm,
-                                    $responder
-                                ];
-                            
+            case 'proceso':
+                if ($s["estado_acpm"] !== 'Proceso') return null;
+                $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
+                return [
+                    $s["id_consecutivo"],
+                    $s["nombre"],
+                    $s["origen_acpm"],
+                    $s["fuente_acpm"],
+                    $s["tipo_acpm"],
+                    $s["descripcion_acpm"],
+                    $s["fecha_finalizacion"],
+                    $s["estado_acpm"],
+                    $informe_acpm
+                ];
+            case 'cerrada':
+                if ($s["estado_acpm"] !== 'Cerrada') return null;
+                $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
+                return [
+                    $s["id_consecutivo"],
+                    $s["nombre"],
+                    $s["origen_acpm"],
+                    $s["fuente_acpm"],
+                    $s["tipo_acpm"],
+                    $s["descripcion_acpm"],
+                    $s["fecha_finalizacion"],
+                    $s["estado_acpm"],
+                    $informe_acpm
+                ];
+            case 'rechazada':
+                if ($s["estado_acpm"] !== 'Rechazada') return null;
+                $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
+                return [
+                    $s["id_consecutivo"],
+                    $s["nombre"],
+                    $s["origen_acpm"],
+                    $s["fuente_acpm"],
+                    $s["tipo_acpm"],
+                    $s["descripcion_acpm"],
+                    $s["fecha_finalizacion"],
+                    $s["estado_acpm"],
+                    $informe_acpm
+                ];
+            case 'aceptar':
+                if ($s["estado_acpm"] !== 'Proceso') return null;
+
+                // Crear enlaces para el informe y el botón de respuesta
+                $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
+                $responder = "<button type='button' class='btn btn-outline-info' data-id_acpm_fk_sig1='{$s["id_consecutivo"]}' data-toggle='modal' data-target='#modal-unificado'>Responder</button>";
+
+                // Limitar la longitud de descripcion_acpm a 100 caracteres
+                $descripcion_limited = strlen($s["descripcion_acpm"]) > 100 ? substr($s["descripcion_acpm"], 0, 100) . '...' : $s["descripcion_acpm"];
+
+                // Limitar la longitud de origen_acpm a 50 caracteres
+                $origen_limited = strlen($s["origen_acpm"]) > 50 ? substr($s["origen_acpm"], 0, 50) . '...' : $s["origen_acpm"];
+
+                return [
+                    $s["id_consecutivo"],
+                    $s["nombre"],
+                    "<span style='max-width: 300px; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;'>{$origen_limited}</span>", // Estilo en línea
+                    $s["fuente_acpm"],
+                    $s["tipo_acpm"],
+                    "<span style='max-width: 300px; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;'>{$descripcion_limited}</span>", // Estilo en línea
+                    $s["fecha_finalizacion"],
+                    $s["estado_acpm"],
+                    $informe_acpm,
+                    $responder
+                ];
+            case 'tecnica':
+                if ($s["id_usuario_fk"] !== '14') return null;
+
+                // Crear enlaces para el informe y el botón de respuesta
+                $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
+                $fecha ="<button type='button' class='btn btn-outline-info'  data-toggle='modal' data-target='#modal-modificar'  data-id_acpm_fk1='{$s["id_consecutivo"]}'>Modificar</button>";
+                return [
+                    $s["id_consecutivo"],
+                    $s["nombre"],
+                    $s["origen_acpm"],
+                    $s["fuente_acpm"],
+                    $s["tipo_acpm"],
+                    $s["descripcion_acpm"],
+                    $s["fecha_finalizacion"],
+                    $s["estado_acpm"],
+                    $informe_acpm,
+                    $fecha
+                ];
+            case 'sig':
+                if ($s["id_usuario_fk"] !== '17') return null;
+
+                // Crear enlaces para el informe y el botón de respuesta
+                $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
+                return [
+                    $s["id_consecutivo"],
+                    $s["nombre"],
+                    $s["origen_acpm"],
+                    $s["fuente_acpm"],
+                    $s["tipo_acpm"],
+                    $s["descripcion_acpm"],
+                    $s["fecha_finalizacion"],
+                    $s["estado_acpm"],
+                    $informe_acpm
+                ];
+            case 'administrativa':
+                if ($s["id_usuario_fk"] !== '27') return null;
+
+                // Crear enlaces para el informe y el botón de respuesta
+                $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
+                return [
+                    $s["id_consecutivo"],
+                    $s["nombre"],
+                    $s["origen_acpm"],
+                    $s["fuente_acpm"],
+                    $s["tipo_acpm"],
+                    $s["descripcion_acpm"],
+                    $s["fecha_finalizacion"],
+                    $s["estado_acpm"],
+                    $informe_acpm
+                ];
+            case 'contable':
+                if ($s["id_usuario_fk"] !== '6') return null;
+
+                // Crear enlaces para el informe y el botón de respuesta
+                $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
+                return [
+                    $s["id_consecutivo"],
+                    $s["nombre"],
+                    $s["origen_acpm"],
+                    $s["fuente_acpm"],
+                    $s["tipo_acpm"],
+                    $s["descripcion_acpm"],
+                    $s["fecha_finalizacion"],
+                    $s["estado_acpm"],
+                    $informe_acpm
+                ];
+            case 'juridica':
+                if ($s["id_usuario_fk"] !== '24') return null;
+
+                // Crear enlaces para el informe y el botón de respuesta
+                $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
+                return [
+                    $s["id_consecutivo"],
+                    $s["nombre"],
+                    $s["origen_acpm"],
+                    $s["fuente_acpm"],
+                    $s["tipo_acpm"],
+                    $s["descripcion_acpm"],
+                    $s["fecha_finalizacion"],
+                    $s["estado_acpm"],
+                    $informe_acpm
+                ];
+            case 'informatica':
+                if ($s["id_usuario_fk"] !== '2') return null;
+
+                // Crear enlaces para el informe y el botón de respuesta
+                $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
+                return [
+                    $s["id_consecutivo"],
+                    $s["nombre"],
+                    $s["origen_acpm"],
+                    $s["fuente_acpm"],
+                    $s["tipo_acpm"],
+                    $s["descripcion_acpm"],
+                    $s["fecha_finalizacion"],
+                    $s["estado_acpm"],
+                    $informe_acpm
+                ];
+            case 'operaciones':
+                if ($s["id_usuario_fk"] !== '7') return null;
+
+                // Crear enlaces para el informe y el botón de respuesta
+                $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
+                return [
+                    $s["id_consecutivo"],
+                    $s["nombre"],
+                    $s["origen_acpm"],
+                    $s["fuente_acpm"],
+                    $s["tipo_acpm"],
+                    $s["descripcion_acpm"],
+                    $s["fecha_finalizacion"],
+                    $s["estado_acpm"],
+                    $informe_acpm
+                ];
+
+            case 'gerencia':
+                if ($s["id_usuario_fk"] !== '11') return null;
+
+                // Crear enlaces para el informe y el botón de respuesta
+                $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
+                return [
+                    $s["id_consecutivo"],
+                    $s["nombre"],
+                    $s["origen_acpm"],
+                    $s["fuente_acpm"],
+                    $s["tipo_acpm"],
+                    $s["descripcion_acpm"],
+                    $s["fecha_finalizacion"],
+                    $s["estado_acpm"],
+                    $informe_acpm
+                ];
+            case 'seguridad':
+                if ($s["id_usuario_fk"] !== '59') return null;
+
+                // Crear enlaces para el informe y el botón de respuesta
+                $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
+                return [
+                    $s["id_consecutivo"],
+                    $s["nombre"],
+                    $s["origen_acpm"],
+                    $s["fuente_acpm"],
+                    $s["tipo_acpm"],
+                    $s["descripcion_acpm"],
+                    $s["fecha_finalizacion"],
+                    $s["estado_acpm"],
+                    $informe_acpm
+                ];
+
             default:
                 return null;
         }
