@@ -11,8 +11,8 @@ $archivo = basename($_GET['archivo']);
 $direc = $_GET['ruta'];
 
 // Generar la ruta absoluta del archivo en el sistema de archivos del servidor.
-//$ruta = $_SERVER['DOCUMENT_ROOT'] . '/' . $direc;
-$ruta = $_SERVER['DOCUMENT_ROOT'] . '/MVC-ZFIP/' . $direc;
+$ruta = $_SERVER['DOCUMENT_ROOT'] . '/' . $direc;
+//$ruta = $_SERVER['DOCUMENT_ROOT'] . '/MVC-ZFIP/' . $direc;
 
  if (is_file($ruta)) {
 	

@@ -25,15 +25,15 @@
 
                 <div class="box-header with-border">
 
-                  <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarUsuario">
+                  <button class="btn bg-primary" data-toggle="modal" data-target="#modalAgregarUsuario">
 
-                    Agregar usuario
+                    Agregar Usuario
 
                   </button>
 
                 </div>
 
-                <div class="box-body">
+                <div class="box-body pt-5">
 
                   <table class="table table-bordered table-striped dt-responsive tabla-usuarios" width="100%">
 

@@ -28,4 +28,5 @@ INSERT INTO `clases` (`id`, `clase`) VALUES
 (27, 'controladores/mantenimiento.controlador.php');
 (28, 'modelos/mantenimiento.modelo.php');
 
-
+(27, 'controladores/actualizarPw.controlador.php');
+(28, 'modelos/actualizarPw.modelo.php');
