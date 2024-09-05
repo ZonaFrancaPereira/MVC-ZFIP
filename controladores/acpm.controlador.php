@@ -4,11 +4,11 @@
 class ControladorAcpm
 {
 
-     /*=============================================
+    /*=============================================
 	CREAR ACPM
 	=============================================*/
-    
-    static public function ctrCrearAcpm() 
+
+    static public function ctrCrearAcpm()
     {
 
         if (isset($_POST["fecha_finalizacion"])) {
@@ -33,7 +33,7 @@ class ControladorAcpm
             );
 
             $respuesta = ModeloAcpm::mdlIngresarAcpm($tabla, $datos);
-            
+
             if ($respuesta == "ok") {
                 echo '<script>
                 // Mostrar mensaje de éxito con SweetAlert
@@ -83,7 +83,7 @@ class ControladorAcpm
         }
     }
 
-     /*=============================================
+    /*=============================================
 	MOSTRAR ACPM
 	=============================================*/
 
@@ -95,12 +95,12 @@ class ControladorAcpm
 
         return $respuesta;
     }
-    
 
-     /*=============================================
+
+    /*=============================================
 	CREAR ACTIVIDAD
 	=============================================*/
-    static public function ctrCrearActividad() 
+    static public function ctrCrearActividad()
     {
         if (isset($_POST["fecha_actividad"])) {
             //...
@@ -113,11 +113,11 @@ class ControladorAcpm
                 "id_usuario_fk" => $_POST["id_usuario_fk_6"],
                 "id_acpm_fk" => $_POST["id_acpm_fk"]
             );
-    
+
             $respuesta = ModeloAcpm::mdlIngresarActividad($tabla, $datos);
-            
+
             if ($respuesta == "ok") {
-                echo 
+                echo
                 '<script>
                 // Mostrar mensaje de éxito con SweetAlert
                 Swal.fire({
@@ -165,13 +165,13 @@ class ControladorAcpm
             }
         }
     }
-    
 
-   /*=============================================
+
+    /*=============================================
     APROBAR Y RECHAZAR ACPM
     =============================================*/
 
-    public static function ctrAprobarAcpm() 
+    public static function ctrAprobarAcpm()
     {
         if (isset($_POST["id_consecutivo"])) {
             $tabla = "acpm";
@@ -179,19 +179,19 @@ class ControladorAcpm
                 "id_consecutivo" => $_POST["id_consecutivo"],
                 "estado_acpm" => $_POST["estado_acpm"]
             );
-    
+
             $respuesta = ModeloAcpm::mdlAprobarAcpm($tabla, $datos);
-    
+
             if ($_POST["estado_acpm"] == "Rechazada" && isset($_POST["motivo_rechazo"])) {
                 $tabla = "acpm_rechazada";
                 $datosRechazo = array(
-                 
+
                     "descripcion_rechazo" => $_POST["motivo_rechazo"],
                     "id_consecutivo_fk" => $_POST["id_consecutivo"]
                 );
-                $respuestaRechazo = ModeloAcpm::mdlRechazarAcpm($tabla,$datosRechazo);
+                $respuestaRechazo = ModeloAcpm::mdlRechazarAcpm($tabla, $datosRechazo);
             }
-    
+
             if ($respuesta == "ok") {
                 echo '<script>
                         Swal.fire(
@@ -220,12 +220,12 @@ class ControladorAcpm
             }
         }
     }
-    
-   /*=============================================
+
+    /*=============================================
         SUBIR EVIDENCIA
     =============================================*/
 
-    static public function ctrSubirEvidencia() 
+    static public function ctrSubirEvidencia()
     {
         if (isset($_POST["fecha_evidencia"])) { // Verificar si el formulario ha sido enviado
             $tablaEvidencia = "detalle_actividad";
@@ -281,18 +281,18 @@ class ControladorAcpm
         }
     }
 
-      /*=============================================
+    /*=============================================
         ELIMINAR ACTIVIDAD
     =============================================*/
 
-    static public function ctrEliminarActividad() 
+    static public function ctrEliminarActividad()
     {
         if (isset($_POST["id_actividad"])) {
             $idActividad = $_POST["id_actividad"];
-    
+
             // Llamar al modelo para eliminar la actividad
             $respuesta = ModeloAcpm::mdlEliminarActividad($idActividad);
-    
+
             if ($respuesta == "ok") {
                 echo '<script>
                         Swal.fire(
@@ -315,30 +315,30 @@ class ControladorAcpm
             }
         }
     }
-    
-      /*=============================================
+
+    /*=============================================
         VERIFICAR SI TODAS LAS ACTIVIDADES ESTAN COMPLETAS
     =============================================*/
-    static public function ctrVerificarActividadesCompletas($id_acpm) 
+    static public function ctrVerificarActividadesCompletas($id_acpm)
     {
         return ModeloAcpm::mdlVerificarActividadesCompletas($id_acpm);
     }
 
-      /*=============================================
+    /*=============================================
        ACTUALIZAR ESTADO
     =============================================*/
 
-    static public function ctrActualizarEstadoAcpm($id_acpm, $nuevoEstado) 
+    static public function ctrActualizarEstadoAcpm($id_acpm, $nuevoEstado)
     {
         return ModeloAcpm::mdlActualizarEstadoAcpm($id_acpm, $nuevoEstado);
     }
 
 
-      /*=============================================
+    /*=============================================
         ENVIAR A SIG
     =============================================*/
-   
-    static public function ctrEnviarASig() 
+
+    static public function ctrEnviarASig()
     {
         if (isset($_POST['id_acpm'])) {
             $id_acpm = $_POST['id_acpm'];
@@ -366,16 +366,16 @@ class ControladorAcpm
             }
         }
     }
-    
-     /*=============================================
+
+    /*=============================================
     APROBAR Y RECHAZAR ACPM POR PARTE DE SIG
     =============================================*/
 
-    static public function ctrGuardarAccion() 
+    static public function ctrGuardarAccion()
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["accion_acpm"])) {
             $accion = $_POST["accion_acpm"];
-    
+
             // Manejo de la acción de "Eficacia"
             if ($accion == "eficacia") {
                 $tabla = "acpm";
@@ -389,9 +389,9 @@ class ControladorAcpm
                     "justificacion_conforme_sig" => $_POST["justificacion_conforme_sig"],
                     "fecha_estado" => $_POST["fecha_estado"]
                 );
-    
+
                 $respuesta = ModeloAcpm::mdlActualizarEficacia($tabla, $datos);
-    
+
                 if ($respuesta == "ok") {
                     echo '<script>
                         Swal.fire(
@@ -413,16 +413,16 @@ class ControladorAcpm
                       </script>';
                 }
             }
-    
+
             // Manejo de la acción de "Rechazo"
             elseif ($accion == "rechazo") {
                 $datosRechazo = array(
                     "id_consecutivo_fk" => $_POST["id_acpm_fk_sig1"],
                     "descripcion_rechazo" => $_POST["descripcion_rechazo"]
                 );
-    
+
                 $respuesta = ModeloAcpm::mdlGuardarRechazo($datosRechazo);
-    
+
                 if ($respuesta == "ok") {
                     echo '<script>
                         Swal.fire(
@@ -446,10 +446,378 @@ class ControladorAcpm
             }
         }
     }
-    
-    
-     
+
+
+    /*=============================================
+    ACTUALIZAR FECHA DE FINALIZACIÓN DE ACPM TECNICO
+    =============================================*/
+    public static function ctrActualizarFechaAcpm()
+    {
+        if (isset($_POST["modificar_fecha_tecnica"])) { // Cambiado a "modificar_fecha_tecnica"
+            // Capturar datos desde el formulario
+            $datos = array(
+                "id_acpm" => $_POST["id_acpm_fk1"],
+                "fecha_finalizacion" => $_POST["fecha_modificar"]
+            );
+
+            // Llamar al modelo para actualizar la fecha
+            $respuesta = ModeloAcpm::mdlActualizarFechaAcpm($datos);
+
+            // Manejar la respuesta del modelo
+            if ($respuesta == "ok") {
+                echo '<script>
+                    Swal.fire(
+                        "Actualizado!",
+                        "La fecha ha sido actualizada con éxito.",
+                        "success"
+                    ).then(function() {
+                        document.getElementById("form_modificar_tecnica").reset(); // Reemplaza con el ID correcto de tu formulario
+                        $("#tecnica").addClass("active");
+                    });
+                  </script>';
+            } else {
+                echo '<script>
+                    Swal.fire(
+                        "ERROR!",
+                        "Error al actualizar la fecha de la ACPM.",
+                        "error"
+                    ).then(function() {
+                        window.location = ""; // Redirige a la página actual o a la vista correcta
+                    });
+                  </script>';
+            }
+        }
+    }
+
+
+    /*=============================================
+    ACTUALIZAR FECHA DE FINALIZACIÓN DE SIG
+    =============================================*/
+    public static function ctrActualizarFechaSig()
+    {
+        if (isset($_POST["modificar_fecha_sig"])) { // Cambiado a "modificar_fecha_sig"
+            // Capturar datos desde el formulario
+            $datos = array(
+                "id_acpm" => $_POST["sig"],
+                "fecha_finalizacion" => $_POST["modificar_fecha_sig"]
+            );
+
+            // Llamar al modelo para actualizar la fecha
+            $respuesta = ModeloAcpm::mdlActualizarFechaSig($datos);
+
+            // Manejar la respuesta del modelo
+            if ($respuesta == "ok") {
+                echo '<script>
+                    Swal.fire(
+                        "Actualizado!",
+                        "La fecha ha sido actualizada con éxito.",
+                        "success"
+                    ).then(function() {
+                        document.getElementById("form_modificar_sig").reset(); // Reemplaza con el ID correcto de tu formulario
+                        $("#sig").addClass("active");
+                    });
+                  </script>';
+            } else {
+                echo '<script>
+                    Swal.fire(
+                        "ERROR!",
+                        "Error al actualizar la fecha de la ACPM.",
+                        "error"
+                    ).then(function() {
+                        window.location = ""; // Redirige a la página actual o a la vista correcta
+                    });
+                  </script>';
+            }
+        }
+    }
+
+     /*=============================================
+    ACTUALIZAR FECHA DE FINALIZACIÓN DE ADMINISTRATIVA
+    =============================================*/
+    public static function ctrActualizarFechaAdministrativa()
+    {
+        if (isset($_POST["modificar_fecha_administrativa"])) { // Cambiado a "modificar_fecha_administrativa"
+            // Capturar datos desde el formulario
+            $datos = array(
+                "id_acpm" => $_POST["administrativa"],
+                "fecha_finalizacion" => $_POST["modificar_fecha_administrativa"]
+            );
+
+            // Llamar al modelo para actualizar la fecha
+            $respuesta = ModeloAcpm::mdlActualizarFechaAdministrativa($datos);
+
+            // Manejar la respuesta del modelo
+            if ($respuesta == "ok") {
+                echo '<script>
+                    Swal.fire(
+                        "Actualizado!",
+                        "La fecha ha sido actualizada con éxito.",
+                        "success"
+                    ).then(function() {
+                        document.getElementById("form_modificar_administrativa").reset(); // Reemplaza con el ID correcto de tu formulario
+                        $("#gestion_administrativa").addClass("active");
+                    });
+                  </script>';
+            } else {
+                echo '<script>
+                    Swal.fire(
+                        "ERROR!",
+                        "Error al actualizar la fecha de la ACPM.",
+                        "error"
+                    ).then(function() {
+                        window.location = ""; // Redirige a la página actual o a la vista correcta
+                    });
+                  </script>';
+            }
+        }
+    }
+
+     /*=============================================
+    ACTUALIZAR FECHA DE FINALIZACIÓN DE CONTABLE
+    =============================================*/
+    public static function ctrActualizarFechaContable()
+    {
+        if (isset($_POST["modificar_fecha_contable"])) { // Cambiado a "modificar_fecha_contable"
+            // Capturar datos desde el formulario
+            $datos = array(
+                "id_acpm" => $_POST["contable"],
+                "fecha_finalizacion" => $_POST["modificar_fecha_contable"]
+            );
+
+            // Llamar al modelo para actualizar la fecha
+            $respuesta = ModeloAcpm::mdlActualizarFechaContable($datos);
+
+            // Manejar la respuesta del modelo
+            if ($respuesta == "ok") {
+                echo '<script>
+                    Swal.fire(
+                        "Actualizado!",
+                        "La fecha ha sido actualizada con éxito.",
+                        "success"
+                    ).then(function() {
+                        document.getElementById("form_modificar_contable").reset(); // Reemplaza con el ID correcto de tu formulario
+                        $("#gestion_contable").addClass("active");
+                    });
+                  </script>';
+            } else {
+                echo '<script>
+                    Swal.fire(
+                        "ERROR!",
+                        "Error al actualizar la fecha de la ACPM.",
+                        "error"
+                    ).then(function() {
+                        window.location = ""; // Redirige a la página actual o a la vista correcta
+                    });
+                  </script>';
+            }
+        }
+    }
+
+      /*=============================================
+    ACTUALIZAR FECHA DE FINALIZACIÓN DE JURIDICA
+    =============================================*/
+    public static function ctrActualizarFechaJuridica()
+    {
+        if (isset($_POST["modificar_fecha_juridica"])) { // Cambiado a "modificar_fecha_juridica"
+            // Capturar datos desde el formulario
+            $datos = array(
+                "id_acpm" => $_POST["juridica"],
+                "fecha_finalizacion" => $_POST["modificar_fecha_juridica"]
+            );
+
+            // Llamar al modelo para actualizar la fecha
+            $respuesta = ModeloAcpm::mdlActualizarFechaJuridica($datos);
+
+            // Manejar la respuesta del modelo
+            if ($respuesta == "ok") {
+                echo '<script>
+                    Swal.fire(
+                        "Actualizado!",
+                        "La fecha ha sido actualizada con éxito.",
+                        "success"
+                    ).then(function() {
+                        document.getElementById("form_modificar_juridica").reset(); // Reemplaza con el ID correcto de tu formulario
+                        $("#gestion_juridica").addClass("active");
+                    });
+                  </script>';
+            } else {
+                echo '<script>
+                    Swal.fire(
+                        "ERROR!",
+                        "Error al actualizar la fecha de la ACPM.",
+                        "error"
+                    ).then(function() {
+                        window.location = ""; // Redirige a la página actual o a la vista correcta
+                    });
+                  </script>';
+            }
+        }
+    }
+
+          /*=============================================
+    ACTUALIZAR FECHA DE FINALIZACIÓN DE INFORMATICA
+    =============================================*/
+    public static function ctrActualizarFechaInformatica()
+    {
+        if (isset($_POST["modificar_fecha_informatica"])) { // Cambiado a "modificar_fecha_informatica"
+            // Capturar datos desde el formulario
+            $datos = array(
+                "id_acpm" => $_POST["informatica"],
+                "fecha_finalizacion" => $_POST["modificar_fecha_informatica"]
+            );
+
+            // Llamar al modelo para actualizar la fecha
+            $respuesta = ModeloAcpm::mdlActualizarFechaInformatica($datos);
+
+            // Manejar la respuesta del modelo
+            if ($respuesta == "ok") {
+                echo '<script>
+                    Swal.fire(
+                        "Actualizado!",
+                        "La fecha ha sido actualizada con éxito.",
+                        "success"
+                    ).then(function() {
+                        document.getElementById("form_modificar_informatica").reset(); // Reemplaza con el ID correcto de tu formulario
+                        $("#tecnologia_informatica").addClass("active");
+                    });
+                  </script>';
+            } else {
+                echo '<script>
+                    Swal.fire(
+                        "ERROR!",
+                        "Error al actualizar la fecha de la ACPM.",
+                        "error"
+                    ).then(function() {
+                        window.location = ""; // Redirige a la página actual o a la vista correcta
+                    });
+                  </script>';
+            }
+        }
+    }
+
+
+        /*=============================================
+    ACTUALIZAR FECHA DE FINALIZACIÓN DE OPERACIONES
+    =============================================*/
+    public static function ctrActualizarFechaOperaciones()
+    {
+        if (isset($_POST["modificar_fecha_operaciones"])) { // Cambiado a "modificar_fecha_operaciones"
+            // Capturar datos desde el formulario
+            $datos = array(
+                "id_acpm" => $_POST["operaciones"],
+                "fecha_finalizacion" => $_POST["modificar_fecha_operaciones"]
+            );
+
+            // Llamar al modelo para actualizar la fecha
+            $respuesta = ModeloAcpm::mdlActualizarFechaOperaciones($datos);
+
+            // Manejar la respuesta del modelo
+            if ($respuesta == "ok") {
+                echo '<script>
+                    Swal.fire(
+                        "Actualizado!",
+                        "La fecha ha sido actualizada con éxito.",
+                        "success"
+                    ).then(function() {
+                        document.getElementById("form_modificar_operaciones").reset(); // Reemplaza con el ID correcto de tu formulario
+                        $("#operaciones").addClass("active");
+                    });
+                  </script>';
+            } else {
+                echo '<script>
+                    Swal.fire(
+                        "ERROR!",
+                        "Error al actualizar la fecha de la ACPM.",
+                        "error"
+                    ).then(function() {
+                        window.location = ""; // Redirige a la página actual o a la vista correcta
+                    });
+                  </script>';
+            }
+        }
+    }
+
+        /*=============================================
+    ACTUALIZAR FECHA DE FINALIZACIÓN DE GERENCIA
+    =============================================*/
+    public static function ctrActualizarFechaGerencia()
+    {
+        if (isset($_POST["modificar_fecha_gerencia"])) { // Cambiado a "modificar_fecha_gerencia"
+            // Capturar datos desde el formulario
+            $datos = array(
+                "id_acpm" => $_POST["gerencia"],
+                "fecha_finalizacion" => $_POST["modificar_fecha_gerencia"]
+            );
+
+            // Llamar al modelo para actualizar la fecha
+            $respuesta = ModeloAcpm::mdlActualizarFechaGerencia($datos);
+
+            // Manejar la respuesta del modelo
+            if ($respuesta == "ok") {
+                echo '<script>
+                    Swal.fire(
+                        "Actualizado!",
+                        "La fecha ha sido actualizada con éxito.",
+                        "success"
+                    ).then(function() {
+                        document.getElementById("form_modificar_gerencia").reset(); // Reemplaza con el ID correcto de tu formulario
+                        $("#gerencia").addClass("active");
+                    });
+                  </script>';
+            } else {
+                echo '<script>
+                    Swal.fire(
+                        "ERROR!",
+                        "Error al actualizar la fecha de la ACPM.",
+                        "error"
+                    ).then(function() {
+                        window.location = ""; // Redirige a la página actual o a la vista correcta
+                    });
+                  </script>';
+            }
+        }
+    }
+
+       /*=============================================
+    ACTUALIZAR FECHA DE FINALIZACIÓN DE SEGURIDAD
+    =============================================*/
+    public static function ctrActualizarFechaSeguridad()
+    {
+        if (isset($_POST["modificar_fecha_seguridad"])) { // Cambiado a "modificar_fecha_seguridad"
+            // Capturar datos desde el formulario
+            $datos = array(
+                "id_acpm" => $_POST["seguridad"],
+                "fecha_finalizacion" => $_POST["modificar_fecha_seguridad"]
+            );
+
+            // Llamar al modelo para actualizar la fecha
+            $respuesta = ModeloAcpm::mdlActualizarFechaSeguridad($datos);
+
+            // Manejar la respuesta del modelo
+            if ($respuesta == "ok") {
+                echo '<script>
+                    Swal.fire(
+                        "Actualizado!",
+                        "La fecha ha sido actualizada con éxito.",
+                        "success"
+                    ).then(function() {
+                        document.getElementById("form_modificar_seguridad").reset(); // Reemplaza con el ID correcto de tu formulario
+                        $("#seguridad").addClass("active");
+                    });
+                  </script>';
+            } else {
+                echo '<script>
+                    Swal.fire(
+                        "ERROR!",
+                        "Error al actualizar la fecha de la ACPM.",
+                        "error"
+                    ).then(function() {
+                        window.location = ""; // Redirige a la página actual o a la vista correcta
+                    });
+                  </script>';
+            }
+        }
+    }
+
+
 }
-    
-
-

@@ -225,6 +225,8 @@ class TablaAcpm
 
                 // Crear enlaces para el informe y el botón de respuesta
                 $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
+               $fecha = "<button type='button' class='btn btn-outline-info' data-toggle='modal' data-target='#modal-modificar-sig' data-sig='{$s["id_consecutivo"]}'>Modificar</button>";
+
                 return [
                     $s["id_consecutivo"],
                     $s["nombre"],
@@ -234,13 +236,16 @@ class TablaAcpm
                     $s["descripcion_acpm"],
                     $s["fecha_finalizacion"],
                     $s["estado_acpm"],
-                    $informe_acpm
+                    $informe_acpm,
+                    $fecha
                 ];
             case 'administrativa':
                 if ($s["id_usuario_fk"] !== '27') return null;
 
                 // Crear enlaces para el informe y el botón de respuesta
                 $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
+                $fecha = "<button type='button' class='btn btn-outline-info' data-toggle='modal' data-target='#modal-modificar-administrativa' data-administrativa='{$s["id_consecutivo"]}'>Modificar</button>";
+
                 return [
                     $s["id_consecutivo"],
                     $s["nombre"],
@@ -250,13 +255,15 @@ class TablaAcpm
                     $s["descripcion_acpm"],
                     $s["fecha_finalizacion"],
                     $s["estado_acpm"],
-                    $informe_acpm
+                    $informe_acpm,
+                    $fecha
                 ];
             case 'contable':
                 if ($s["id_usuario_fk"] !== '6') return null;
 
                 // Crear enlaces para el informe y el botón de respuesta
                 $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
+                $fecha ="<button type='button' class='btn btn-outline-info'  data-toggle='modal' data-target='#modal-modificar-contable'  data-contable='{$s["id_consecutivo"]}'>Modificar</button>";
                 return [
                     $s["id_consecutivo"],
                     $s["nombre"],
@@ -266,13 +273,15 @@ class TablaAcpm
                     $s["descripcion_acpm"],
                     $s["fecha_finalizacion"],
                     $s["estado_acpm"],
-                    $informe_acpm
+                    $informe_acpm,
+                    $fecha
                 ];
             case 'juridica':
                 if ($s["id_usuario_fk"] !== '24') return null;
 
                 // Crear enlaces para el informe y el botón de respuesta
                 $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
+                $fecha ="<button type='button' class='btn btn-outline-info'  data-toggle='modal' data-target='#modal-modificar-juridica'  data-juridica='{$s["id_consecutivo"]}'>Modificar</button>";
                 return [
                     $s["id_consecutivo"],
                     $s["nombre"],
@@ -282,13 +291,15 @@ class TablaAcpm
                     $s["descripcion_acpm"],
                     $s["fecha_finalizacion"],
                     $s["estado_acpm"],
-                    $informe_acpm
+                    $informe_acpm,
+                    $fecha
                 ];
             case 'informatica':
                 if ($s["id_usuario_fk"] !== '2') return null;
 
                 // Crear enlaces para el informe y el botón de respuesta
                 $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
+                $fecha ="<button type='button' class='btn btn-outline-info'  data-toggle='modal' data-target='#modal-modificar-informatica'  data-informatica='{$s["id_consecutivo"]}'>Modificar</button>";
                 return [
                     $s["id_consecutivo"],
                     $s["nombre"],
@@ -298,13 +309,15 @@ class TablaAcpm
                     $s["descripcion_acpm"],
                     $s["fecha_finalizacion"],
                     $s["estado_acpm"],
-                    $informe_acpm
+                    $informe_acpm,
+                    $fecha
                 ];
             case 'operaciones':
                 if ($s["id_usuario_fk"] !== '7') return null;
 
                 // Crear enlaces para el informe y el botón de respuesta
                 $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
+                $fecha ="<button type='button' class='btn btn-outline-info'  data-toggle='modal' data-target='#modal-modificar-operaciones'  data-operaciones='{$s["id_consecutivo"]}'>Modificar</button>";
                 return [
                     $s["id_consecutivo"],
                     $s["nombre"],
@@ -314,7 +327,8 @@ class TablaAcpm
                     $s["descripcion_acpm"],
                     $s["fecha_finalizacion"],
                     $s["estado_acpm"],
-                    $informe_acpm
+                    $informe_acpm,
+                    $fecha
                 ];
 
             case 'gerencia':
@@ -322,6 +336,7 @@ class TablaAcpm
 
                 // Crear enlaces para el informe y el botón de respuesta
                 $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
+                $fecha ="<button type='button' class='btn btn-outline-info'  data-toggle='modal' data-target='#modal-modificar-gerencia'  data-gerencia='{$s["id_consecutivo"]}'>Modificar</button>";
                 return [
                     $s["id_consecutivo"],
                     $s["nombre"],
@@ -331,13 +346,15 @@ class TablaAcpm
                     $s["descripcion_acpm"],
                     $s["fecha_finalizacion"],
                     $s["estado_acpm"],
-                    $informe_acpm
+                    $informe_acpm,
+                    $fecha
                 ];
             case 'seguridad':
                 if ($s["id_usuario_fk"] !== '59') return null;
 
                 // Crear enlaces para el informe y el botón de respuesta
                 $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
+                $fecha ="<button type='button' class='btn btn-outline-info'  data-toggle='modal' data-target='#modal-modificar-seguridad'  data-seguridad='{$s["id_consecutivo"]}'>Modificar</button>";
                 return [
                     $s["id_consecutivo"],
                     $s["nombre"],
@@ -347,7 +364,8 @@ class TablaAcpm
                     $s["descripcion_acpm"],
                     $s["fecha_finalizacion"],
                     $s["estado_acpm"],
-                    $informe_acpm
+                    $informe_acpm,
+                    $fecha
                 ];
 
             default:

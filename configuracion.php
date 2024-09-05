@@ -33,14 +33,8 @@
 
   }
  */
-<<<<<<< HEAD
 // CONEXIÓN BASE DE DATOS
  CONST BD_HOST = "195.35.61.58";
-=======
-/* 
-// CONEXIÓN BASE DE DATOS*/
- CONST BD_HOST = "localhost";
->>>>>>> 2dcb15658da6eb39bae4720b191c7542e5276b54
   CONST BD_PUERTO = "3306";
   CONST BD_NOMBRE = "u446101023_prueba";
   CONST BD_USUARIO = "u446101023_prueba";

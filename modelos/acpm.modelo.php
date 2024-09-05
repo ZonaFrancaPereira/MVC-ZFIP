@@ -309,37 +309,54 @@ class ModeloAcpm
 
     public static function mdlMostrarAcpmpdf($tabla, $item, $valor, $consulta)
     {
-        if ($consulta == 'acpm') {
-            // Consulta con filtro
-            $stmt = Conexion::conectar()->prepare(
-                "SELECT a.*, u.*, p.*, c.*, b.* 
-                FROM acpm a
+        try {
+            // Conectar a la base de datos
+            $stmt = Conexion::conectar()->prepare("SELECT 
+                    a.id_consecutivo,
+                    u.nombre,
+                    u.apellidos_usuario,
+                    a.fecha_acpm,
+                    p.nombre_proceso,
+                    c.nombre_cargo,
+                    a.origen_acpm,
+                    a.fuente_acpm,
+                    a.descripcion_fuente,
+                    a.tipo_acpm,
+                    a.causa_acpm,
+                    a.nc_similar,
+                    a.descripcion_nsc,
+                    a.estado_acpm,
+                    a.riesgo_acpm,
+                    a.justificacion_riesgo,
+                    a.cambios_sig,
+                    a.justificacion_sig,
+                    a.conforme_sig,
+                    a.justificacion_conforme_sig,
+                    a.fecha_estado,
+                    a.fecha_finalizacion
+                FROM $tabla a
                 INNER JOIN usuarios u ON a.id_usuario_fk = u.id
-                INNER JOIN proceso p ON p.id_proceso = u.id_proceso_fk
-                INNER JOIN cargos c ON c.id_cargo = u.id_cargo_fk
-                INNER JOIN actividades_acpm b ON b.id_usuario_fk = u.id
-                WHERE $item = :valor"
-            );
+                INNER JOIN proceso p ON u.id_proceso_fk = p.id_proceso
+                INNER JOIN cargos c ON u.id_cargo_fk = c.id_cargo
+                WHERE $item = :$item");
 
-            // Vinculamos el parámetro con el valor correspondiente
-            $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
+            // Vincular el parámetro de la consulta
+            $stmt->bindParam(":$item", $valor, PDO::PARAM_INT);
 
-            // Ejecutamos la consulta
+            // Ejecutar la consulta
             $stmt->execute();
 
-            // Obtenemos todos los resultados
-            $result = $stmt->fetchAll();
-
-            // Liberamos la consulta
-            $stmt = null;
-
-            // Devolvemos los resultados
-            return $result;
-        } else {
-            return null;
+            // Devolver los resultados
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            // Manejo de errores
+            die("Error al obtener datos del ACPM: " . $e->getMessage());
         }
     }
 
+    /*=============================================
+	APROBAR ACPM
+	=============================================*/
 
     public static function mdlAprobarAcpm($tabla, $datos)
 
@@ -361,6 +378,10 @@ class ModeloAcpm
         $stmt->closeCursor();
         $stmt = null;
     }
+
+    /*=============================================
+	RECHAZAR ACPM POR ACTIVIDADES
+	=============================================*/
 
     public static function mdlRechazarAcpm($tabla, $datosRechazo)
     {
@@ -511,6 +532,9 @@ class ModeloAcpm
         $stmt = null;
     }
 
+    /*=============================================
+	INSERTAR EFICACIA   
+	=============================================*/
     static public function mdlActualizarEficacia($tabla, $datos)
     {
         try {
@@ -553,8 +577,9 @@ class ModeloAcpm
         }
     }
 
-
-
+    /*=============================================
+	GUARDAR RECHAZO ACPM FINAL
+	=============================================*/
     static public function mdlGuardarRechazo($datos)
     {
         try {
@@ -585,4 +610,232 @@ class ModeloAcpm
             return "error: " . $e->getMessage();
         }
     }
+
+    /*=============================================
+    ACTUALIZAR FECHA DE FINALIZACIÓN DE ACPM
+    =============================================*/
+    static public function mdlActualizarFechaAcpm($datos)
+    {
+        try {
+            $stmt = Conexion::conectar()->prepare("UPDATE acpm 
+        SET fecha_finalizacion = :fecha_finalizacion 
+        WHERE id_consecutivo = :id_acpm");
+
+            $stmt->bindParam(":fecha_finalizacion", $datos["fecha_finalizacion"], PDO::PARAM_STR);
+            $stmt->bindParam(":id_acpm", $datos["id_acpm"], PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                return "ok";
+            } else {
+                return "error";
+            }
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        } finally {
+            $stmt = null;
+        }
+    }
+
+    /*=============================================
+    ACTUALIZAR FECHA DE FINALIZACIÓN DE ACPM SIG
+    =============================================*/
+    static public function mdlActualizarFechaSig($datos)
+    {
+        try {
+            $stmt = Conexion::conectar()->prepare("UPDATE acpm 
+        SET fecha_finalizacion = :fecha_finalizacion 
+        WHERE id_consecutivo = :id_acpm");
+
+            $stmt->bindParam(":fecha_finalizacion", $datos["fecha_finalizacion"], PDO::PARAM_STR);
+            $stmt->bindParam(":id_acpm", $datos["id_acpm"], PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                return "ok";
+            } else {
+                return "error";
+            }
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        } finally {
+            $stmt = null;
+        }
+    }
+
+    /*=============================================
+    ACTUALIZAR FECHA DE FINALIZACIÓN DE ACPM ADMINISTRATIVA
+    =============================================*/
+    static public function mdlActualizarFechaAdministrativa($datos)
+    {
+        try {
+            $stmt = Conexion::conectar()->prepare("UPDATE acpm 
+        SET fecha_finalizacion = :fecha_finalizacion 
+        WHERE id_consecutivo = :id_acpm");
+
+            $stmt->bindParam(":fecha_finalizacion", $datos["fecha_finalizacion"], PDO::PARAM_STR);
+            $stmt->bindParam(":id_acpm", $datos["id_acpm"], PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                return "ok";
+            } else {
+                return "error";
+            }
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        } finally {
+            $stmt = null;
+        }
+    }
+
+    /*=============================================
+    ACTUALIZAR FECHA DE FINALIZACIÓN DE ACPM CONTABLE
+    =============================================*/
+    static public function mdlActualizarFechaContable($datos)
+    {
+        try {
+            $stmt = Conexion::conectar()->prepare("UPDATE acpm 
+    SET fecha_finalizacion = :fecha_finalizacion 
+    WHERE id_consecutivo = :id_acpm");
+
+            $stmt->bindParam(":fecha_finalizacion", $datos["fecha_finalizacion"], PDO::PARAM_STR);
+            $stmt->bindParam(":id_acpm", $datos["id_acpm"], PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                return "ok";
+            } else {
+                return "error";
+            }
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        } finally {
+            $stmt = null;
+        }
+    }
+
+     /*=============================================
+    ACTUALIZAR FECHA DE FINALIZACIÓN DE ACPM JURIDICA
+    =============================================*/
+    static public function mdlActualizarFechaJuridica($datos)
+    {
+        try {
+            $stmt = Conexion::conectar()->prepare("UPDATE acpm 
+    SET fecha_finalizacion = :fecha_finalizacion 
+    WHERE id_consecutivo = :id_acpm");
+
+            $stmt->bindParam(":fecha_finalizacion", $datos["fecha_finalizacion"], PDO::PARAM_STR);
+            $stmt->bindParam(":id_acpm", $datos["id_acpm"], PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                return "ok";
+            } else {
+                return "error";
+            }
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        } finally {
+            $stmt = null;
+        }
+    }
+
+      /*=============================================
+    ACTUALIZAR FECHA DE FINALIZACIÓN DE ACPM INFORMATICA
+    =============================================*/
+    static public function mdlActualizarFechaInformatica($datos)
+    {
+        try {
+            $stmt = Conexion::conectar()->prepare("UPDATE acpm 
+    SET fecha_finalizacion = :fecha_finalizacion 
+    WHERE id_consecutivo = :id_acpm");
+
+            $stmt->bindParam(":fecha_finalizacion", $datos["fecha_finalizacion"], PDO::PARAM_STR);
+            $stmt->bindParam(":id_acpm", $datos["id_acpm"], PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                return "ok";
+            } else {
+                return "error";
+            }
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        } finally {
+            $stmt = null;
+        }
+    }
+
+      /*=============================================
+    ACTUALIZAR FECHA DE FINALIZACIÓN DE ACPM OPERACIONES
+    =============================================*/
+    static public function mdlActualizarFechaOperaciones($datos)
+    {
+        try {
+            $stmt = Conexion::conectar()->prepare("UPDATE acpm 
+    SET fecha_finalizacion = :fecha_finalizacion 
+    WHERE id_consecutivo = :id_acpm");
+
+            $stmt->bindParam(":fecha_finalizacion", $datos["fecha_finalizacion"], PDO::PARAM_STR);
+            $stmt->bindParam(":id_acpm", $datos["id_acpm"], PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                return "ok";
+            } else {
+                return "error";
+            }
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        } finally {
+            $stmt = null;
+        }
+    }
+
+    
+      /*=============================================
+    ACTUALIZAR FECHA DE FINALIZACIÓN DE ACPM GERENCIA
+    =============================================*/
+    static public function mdlActualizarFechaGerencia($datos)
+    {
+        try {
+            $stmt = Conexion::conectar()->prepare("UPDATE acpm 
+    SET fecha_finalizacion = :fecha_finalizacion 
+    WHERE id_consecutivo = :id_acpm");
+
+            $stmt->bindParam(":fecha_finalizacion", $datos["fecha_finalizacion"], PDO::PARAM_STR);
+            $stmt->bindParam(":id_acpm", $datos["id_acpm"], PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                return "ok";
+            } else {
+                return "error";
+            }
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        } finally {
+            $stmt = null;
+        }
+    }
+
+      /*=============================================
+    ACTUALIZAR FECHA DE FINALIZACIÓN DE ACPM GERENCIA
+    =============================================*/
+    static public function mdlActualizarFechaSeguridad($datos)
+    {
+        try {
+            $stmt = Conexion::conectar()->prepare("UPDATE acpm 
+    SET fecha_finalizacion = :fecha_finalizacion 
+    WHERE id_consecutivo = :id_acpm");
+
+            $stmt->bindParam(":fecha_finalizacion", $datos["fecha_finalizacion"], PDO::PARAM_STR);
+            $stmt->bindParam(":id_acpm", $datos["id_acpm"], PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                return "ok";
+            } else {
+                return "error";
+            }
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        } finally {
+            $stmt = null;
+        }
+    }
+
+
 }
