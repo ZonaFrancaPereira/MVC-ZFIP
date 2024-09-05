@@ -117,6 +117,19 @@ class ControladorPw
         }
     }
     /*=============================================
+	MOSTRAR TABLA DETALLE POR USUARIO
+	=============================================*/
+    static public function ctrMostrarPwGeneral($item, $valor)
+    {
+        $tabla = "detalle_pw"; // Definir el nombre de la tabla
+
+        // Llamar al modelo y pasar los parámetros
+        $respuesta = ModeloPw::mdlMostrarPwGeneral($tabla, $item, $valor);
+
+        return $respuesta; // Devolver la respuesta del modelo
+    }
+
+        /*=============================================
 	MOSTRAR TABLA DETALLE 
 	=============================================*/
     static public function ctrMostrarPwIndividual($item, $valor)
