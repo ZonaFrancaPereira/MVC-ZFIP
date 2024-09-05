@@ -117,6 +117,19 @@ if (isset($_POST['form_submitted']) && $_POST['form_submitted'] === 'true') {
 }
     }
     /*=============================================
+	MOSTRAR TABLA DETALLE POR USUARIO
+	=============================================*/
+    static public function ctrMostrarPwGeneral($item, $valor)
+    {
+        $tabla = "detalle_pw";
+       
+
+        $respuesta = ModeloPw::mdlMostrarPwGeneral($tabla,$item, $valor);
+
+        return $respuesta;
+    }
+
+        /*=============================================
 	MOSTRAR TABLA DETALLE 
 	=============================================*/
     static public function ctrMostrarPwIndividual($item, $valor)
