@@ -97,9 +97,10 @@ static public function mdlCambioPw($tabla_pw, $datos) {
 /*=============================================
 MOSTRAR PW TRAER TODOS LOS DATOS
 =============================================*/
-static public function mdlMostrarPwGeneral($tabla,$item, $valor)
+static public function mdlMostrarPwGeneral($tabla, $item, $valor)
 {
-    $pdo = Conexion::conectar(); // Crear instancia de conexión una vez
+    // Crear instancia de conexión una vez
+    $pdo = Conexion::conectar();
 
     $stmt = $pdo->prepare("SELECT 
             u1.id AS usuario_principal_id,

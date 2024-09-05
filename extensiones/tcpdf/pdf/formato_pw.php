@@ -9,7 +9,7 @@ require_once('tcpdf_include.php');
 
 // Obtener el ID de mantenimiento desde la URL
 $id_detalle = $_GET['codigo'];
-
+echo $id_detalle;
 // Codificar la imagen en base64
 $nombreImagen = "images/logo_zf.png";
 $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($nombreImagen));

@@ -16,7 +16,7 @@ $datos = ModeloAcpm::mdlMostrarAcpmpdf($tabla, $item, $valor, $consulta);
 
 // Verificar si se obtuvieron datos
 if (empty($datos)) {
-    die('No se encontraron datos para el ID de ACPM proporcionado.');
+    die('No se encontraron datos para el ID de ACPM proporcionado.' );
 }
 
 // Crear una instancia de TCPDF

@@ -121,12 +121,12 @@ if (isset($_POST['form_submitted']) && $_POST['form_submitted'] === 'true') {
 	=============================================*/
     static public function ctrMostrarPwGeneral($item, $valor)
     {
-        $tabla = "detalle_pw";
-       
+        $tabla = "detalle_pw"; // Definir el nombre de la tabla
 
-        $respuesta = ModeloPw::mdlMostrarPwGeneral($tabla,$item, $valor);
+        // Llamar al modelo y pasar los parámetros
+        $respuesta = ModeloPw::mdlMostrarPwGeneral($tabla, $item, $valor);
 
-        return $respuesta;
+        return $respuesta; // Devolver la respuesta del modelo
     }
 
         /*=============================================
