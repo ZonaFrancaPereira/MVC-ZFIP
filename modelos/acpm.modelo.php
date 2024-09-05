@@ -693,8 +693,8 @@ class ModeloAcpm
     {
         try {
             $stmt = Conexion::conectar()->prepare("UPDATE acpm 
-    SET fecha_finalizacion = :fecha_finalizacion 
-    WHERE id_consecutivo = :id_acpm");
+        SET fecha_finalizacion = :fecha_finalizacion 
+        WHERE id_consecutivo = :id_acpm");
 
             $stmt->bindParam(":fecha_finalizacion", $datos["fecha_finalizacion"], PDO::PARAM_STR);
             $stmt->bindParam(":id_acpm", $datos["id_acpm"], PDO::PARAM_INT);
@@ -711,15 +711,15 @@ class ModeloAcpm
         }
     }
 
-     /*=============================================
+    /*=============================================
     ACTUALIZAR FECHA DE FINALIZACIÓN DE ACPM JURIDICA
     =============================================*/
     static public function mdlActualizarFechaJuridica($datos)
     {
         try {
             $stmt = Conexion::conectar()->prepare("UPDATE acpm 
-    SET fecha_finalizacion = :fecha_finalizacion 
-    WHERE id_consecutivo = :id_acpm");
+        SET fecha_finalizacion = :fecha_finalizacion 
+        WHERE id_consecutivo = :id_acpm");
 
             $stmt->bindParam(":fecha_finalizacion", $datos["fecha_finalizacion"], PDO::PARAM_STR);
             $stmt->bindParam(":id_acpm", $datos["id_acpm"], PDO::PARAM_INT);
@@ -736,15 +736,15 @@ class ModeloAcpm
         }
     }
 
-      /*=============================================
+    /*=============================================
     ACTUALIZAR FECHA DE FINALIZACIÓN DE ACPM INFORMATICA
     =============================================*/
     static public function mdlActualizarFechaInformatica($datos)
     {
         try {
             $stmt = Conexion::conectar()->prepare("UPDATE acpm 
-    SET fecha_finalizacion = :fecha_finalizacion 
-    WHERE id_consecutivo = :id_acpm");
+        SET fecha_finalizacion = :fecha_finalizacion 
+        WHERE id_consecutivo = :id_acpm");
 
             $stmt->bindParam(":fecha_finalizacion", $datos["fecha_finalizacion"], PDO::PARAM_STR);
             $stmt->bindParam(":id_acpm", $datos["id_acpm"], PDO::PARAM_INT);
@@ -761,15 +761,15 @@ class ModeloAcpm
         }
     }
 
-      /*=============================================
+    /*=============================================
     ACTUALIZAR FECHA DE FINALIZACIÓN DE ACPM OPERACIONES
     =============================================*/
     static public function mdlActualizarFechaOperaciones($datos)
     {
         try {
             $stmt = Conexion::conectar()->prepare("UPDATE acpm 
-    SET fecha_finalizacion = :fecha_finalizacion 
-    WHERE id_consecutivo = :id_acpm");
+        SET fecha_finalizacion = :fecha_finalizacion 
+        WHERE id_consecutivo = :id_acpm");
 
             $stmt->bindParam(":fecha_finalizacion", $datos["fecha_finalizacion"], PDO::PARAM_STR);
             $stmt->bindParam(":id_acpm", $datos["id_acpm"], PDO::PARAM_INT);
@@ -786,16 +786,16 @@ class ModeloAcpm
         }
     }
 
-    
-      /*=============================================
+
+    /*=============================================
     ACTUALIZAR FECHA DE FINALIZACIÓN DE ACPM GERENCIA
     =============================================*/
     static public function mdlActualizarFechaGerencia($datos)
     {
         try {
             $stmt = Conexion::conectar()->prepare("UPDATE acpm 
-    SET fecha_finalizacion = :fecha_finalizacion 
-    WHERE id_consecutivo = :id_acpm");
+        SET fecha_finalizacion = :fecha_finalizacion 
+        WHERE id_consecutivo = :id_acpm");
 
             $stmt->bindParam(":fecha_finalizacion", $datos["fecha_finalizacion"], PDO::PARAM_STR);
             $stmt->bindParam(":id_acpm", $datos["id_acpm"], PDO::PARAM_INT);
@@ -812,15 +812,15 @@ class ModeloAcpm
         }
     }
 
-      /*=============================================
-    ACTUALIZAR FECHA DE FINALIZACIÓN DE ACPM GERENCIA
+    /*=============================================
+    ACTUALIZAR FECHA DE FINALIZACIÓN DE ACPM seguridad
     =============================================*/
     static public function mdlActualizarFechaSeguridad($datos)
     {
         try {
             $stmt = Conexion::conectar()->prepare("UPDATE acpm 
-    SET fecha_finalizacion = :fecha_finalizacion 
-    WHERE id_consecutivo = :id_acpm");
+        SET fecha_finalizacion = :fecha_finalizacion 
+        WHERE id_consecutivo = :id_acpm");
 
             $stmt->bindParam(":fecha_finalizacion", $datos["fecha_finalizacion"], PDO::PARAM_STR);
             $stmt->bindParam(":id_acpm", $datos["id_acpm"], PDO::PARAM_INT);
@@ -836,6 +836,4 @@ class ModeloAcpm
             $stmt = null;
         }
     }
-
-
 }
