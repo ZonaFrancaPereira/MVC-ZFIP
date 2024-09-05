@@ -84,7 +84,7 @@
 
                             <!-- TAB PARA CONSULTAR LAS CONTRASEÑAS -->
                             <div class="tab-pane" id="ConsultarPw">
-                                <table class="display table table-bordered table-striped dt-responsive " width="100%">
+                                <table class="display table table-bordered  dt-responsive " width="100%">
                                     <thead>
                                         <tr>
                                             <th style="width:10px">#</th>
@@ -103,13 +103,38 @@
                                         $MostrarPw = ControladorPw::ctrMostrarPwIndividual($item, $valor);
 
                                         foreach ($MostrarPw as $key => $value) {
+                                            $estado=$value["estado_pw"];
+                                            switch ($estado) {
+                                                case 'Proceso':
+                                                    $estado_pw = "<span class='badge badge-info'>Proceso</span>";
+                                                    $informe="<button type='button' class='btn bg-danger ReporteInventario' data-id_inventario='{$i["id_inventario"]}'>
+                                                   <i class='far fa-file-pdf'></i>
+                                                  </button>";
+                                                    $boton="<button type='button' class='btn bg-warning' data-toggle='modal' data-target='#modalCerrarInventario' data-id_inventario='{$i["id_inventario"]}' title='Cerrar Inventario'>
+                                                            <i class='far fa-edit'></i>
+                                                          </button>";
+                                                    break;
+                                                case 'Verificado':
+                                                    $estado_pw = "<span class='badge badge-success'>Verificado</span>";
+                                                    $informe="<button type='button' class='btn bg-danger ReporteInventario' data-id_inventario='{$i["id_inventario"]}'>
+                                                   <i class='far fa-file-pdf'></i>
+                                                  </button>";
+                                                  $boton="<button type='button' class='btn bg-success'>
+                                                    <i class='far fa-calendar-check'></i>
+                                                  </button>";
+                                                    break;
+                                              
+                                                default:
+                                                    $estado_pw = "<span class='badge badge-secondary'>Desconocido</span>";
+                                                    break;
+                                            }
 
                                             echo ' <tr>
                                             <td>' . ($key + 1) . '</td>
                                             <td>' . $value["fecha_pw"] . '</td>
-                                            <td>' . $value["estado_pw"] . '</td>
-                                             <td>informe</td>
-                                             <td>Botones</td>
+                                            <td>' . $estado_pw . '</td>
+                                             <td>'.$informe.'</td>
+                                             <td>'.$boton.'</td>
                                              ';
 
                                         }
