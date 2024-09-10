@@ -837,5 +837,231 @@ class ModeloAcpm
         }
     }
 
-    
+    // Contar ACPM Abiertas
+    public static function contarAcpmAbiertas($id_usuario_fk,)
+    {
+        $db = Conexion::conectar();
+        $sql = "SELECT COUNT(id_consecutivo) AS abiertas
+            FROM acpm
+            WHERE estado_acpm = 'Abierta' AND id_usuario_fk = :id_usuario_fk";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':id_usuario_fk', $id_usuario_fk, PDO::PARAM_INT);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['abiertas'];
+    }
+
+    // Contar ACPM Cerradas
+    public static function contarAcpmCerradas($id_usuario_fk)
+    {
+        $db = Conexion::conectar();
+        $sql = "SELECT COUNT(id_consecutivo) AS cerradas
+            FROM acpm
+            WHERE estado_acpm = 'Cerrada' AND id_usuario_fk = :id_usuario_fk";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':id_usuario_fk', $id_usuario_fk, PDO::PARAM_INT);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['cerradas'];
+    }
+
+    // Contar ACPM en Verificación
+    public static function contarAcpmVerificacion($id_usuario_fk)
+    {
+        $db = Conexion::conectar();
+        $sql = "SELECT COUNT(id_consecutivo) AS verificacion
+            FROM acpm
+            WHERE estado_acpm = 'Verificación' AND id_usuario_fk = :id_usuario_fk";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':id_usuario_fk', $id_usuario_fk, PDO::PARAM_INT);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['verificacion'];
+    }
+
+    // Contar ACPM en Proceso
+    public static function contarAcpmProceso($id_usuario_fk)
+    {
+        $db = Conexion::conectar();
+        $sql = "SELECT COUNT(id_consecutivo) AS proceso
+            FROM acpm
+            WHERE estado_acpm = 'Proceso' AND id_usuario_fk = :id_usuario_fk";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':id_usuario_fk', $id_usuario_fk, PDO::PARAM_INT);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['proceso'];
+    }
+
+    // Contar ACPM de mejora abiertas
+    public static function contarAcpmMejoraAbierta($id_usuario_fk)
+    {
+        $db = Conexion::conectar();
+        $sql = "SELECT COUNT(id_consecutivo) AS total
+            FROM acpm
+            WHERE tipo_acpm = 'AM' AND estado_acpm = 'Abierta' AND id_usuario_fk = :id_usuario_fk";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':id_usuario_fk', $id_usuario_fk, PDO::PARAM_INT);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total'];
+    }
+
+    // Contar ACPM de mejora cerradas
+    public static function contarAcpmMejoraCerrada($id_usuario_fk)
+    {
+        $db = Conexion::conectar();
+        $sql = "SELECT COUNT(id_consecutivo) AS total
+            FROM acpm
+            WHERE tipo_acpm = 'AM' AND estado_acpm = 'Cerrada' AND id_usuario_fk = :id_usuario_fk";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':id_usuario_fk', $id_usuario_fk, PDO::PARAM_INT);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total'];
+    }
+
+    // Contar ACPM preventiva abiertas
+    public static function contarAcpmPreventivaAbierta($id_usuario_fk)
+    {
+        $db = Conexion::conectar();
+        $sql = "SELECT COUNT(id_consecutivo) AS total
+            FROM acpm
+            WHERE tipo_acpm = 'AP' AND estado_acpm = 'Abierta' AND id_usuario_fk = :id_usuario_fk";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':id_usuario_fk', $id_usuario_fk, PDO::PARAM_INT);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total'];
+    }
+
+    // Contar ACPM preventiva cerradas
+    public static function contarAcpmPreventivaCerrada($id_usuario_fk)
+    {
+        $db = Conexion::conectar();
+        $sql = "SELECT COUNT(id_consecutivo) AS total
+            FROM acpm
+            WHERE tipo_acpm = 'AP' AND estado_acpm = 'Cerrada' AND id_usuario_fk = :id_usuario_fk";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':id_usuario_fk', $id_usuario_fk, PDO::PARAM_INT);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total'];
+    }
+
+
+    /*=============================================
+    CONTAR ACPM ABIERTAS EN GENERAL
+    =============================================*/
+    public static function contarAcpmAbiertasGeneral($tabla)
+    {
+        try {
+            $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) AS total FROM $tabla WHERE estado_acpm = 'Abierta'");
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+        } catch (Exception $e) {
+            return 0;
+        }
+    }
+
+    /*=============================================
+    CONTAR ACPM CERRADAS EN GENERAL
+    =============================================*/
+    public static function contarAcpmCerradasGeneral($tabla)
+    {
+        try {
+            $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) AS total FROM $tabla WHERE estado_acpm = 'Cerrada'");
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+        } catch (Exception $e) {
+            return 0;
+        }
+    }
+
+    /*=============================================
+    CONTAR ACPM EN VERIFICACION EN GENERAL
+    =============================================*/
+    public static function contarAcpmVerificacionGeneral($tabla)
+    {
+        try {
+            $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) AS total FROM $tabla WHERE estado_acpm = 'Verificacion'");
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+        } catch (Exception $e) {
+            return 0;
+        }
+    }
+
+    /*=============================================
+    CONTAR ACPM EN PROCESO EN GENERAL
+    =============================================*/
+    public static function contarAcpmProcesoGeneral($tabla)
+    {
+        try {
+            $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) AS total FROM $tabla WHERE estado_acpm = 'Proceso'");
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+        } catch (Exception $e) {
+            return 0;
+        }
+    }
+
+    /*=============================================
+    CONTAR ACCIONES DE MEJORA ABIERTAS EN GENERAL
+    =============================================*/
+    public static function contarAcpmMejoraAbiertaGeneral($tabla)
+    {
+        try {
+            $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) AS total FROM $tabla WHERE tipo_acpm = 'AM' AND estado_acpm = 'Abierta'");
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+        } catch (Exception $e) {
+            return 0;
+        }
+    }
+
+    /*=============================================
+    CONTAR ACCIONES DE MEJORA CERRADAS EN GENERAL
+    =============================================*/
+    public static function contarAcpmMejoraCerradaGeneral($tabla)
+    {
+        try {
+            $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) AS total FROM $tabla WHERE tipo_acpm = 'AM' AND estado_acpm = 'Cerrada'");
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+        } catch (Exception $e) {
+            return 0;
+        }
+    }
+
+    /*=============================================
+    CONTAR ACCIONES PREVENTIVAS ABIERTAS EN GENERAL
+    =============================================*/
+    public static function contarAcpmPreventivaAbiertaGeneral($tabla)
+    {
+        try {
+            $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) AS total FROM $tabla WHERE tipo_acpm = 'AP' AND estado_acpm = 'Abierta'");
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+        } catch (Exception $e) {
+            return 0;
+        }
+    }
+
+    /*=============================================
+    CONTAR ACCIONES PREVENTIVAS CERRADAS EN GENERAL
+    =============================================*/
+    public static function contarAcpmPreventivaCerradaGeneral($tabla)
+    {
+        try {
+            $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) AS total FROM $tabla WHERE tipo_acpm = 'AP' AND estado_acpm = 'Cerrada'");
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+        } catch (Exception $e) {
+            return 0;
+        }
+    }
+
+ 
+
 }

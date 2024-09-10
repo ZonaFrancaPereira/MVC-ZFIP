@@ -40,28 +40,28 @@ class TablaAcpm
             case 'sig':
                 $this->mostrarTabla($item, $valor, "sig");
                 break;
-                case 'administrativa':
-                    $this->mostrarTabla($item, $valor, "administrativa");
-                    break;
-                    case 'contable':
-                        $this->mostrarTabla($item, $valor, "contable");
-                        break;
-                        case 'juridica':
-                            $this->mostrarTabla($item, $valor, "juridica");
-                            break;
-                            case 'informatica':
-                                $this->mostrarTabla($item, $valor, "informatica");
-                                break;
-                                case 'operaciones':
-                                    $this->mostrarTabla($item, $valor, "operaciones");
-                                    break;
-                                    
+            case 'administrativa':
+                $this->mostrarTabla($item, $valor, "administrativa");
+                break;
+            case 'contable':
+                $this->mostrarTabla($item, $valor, "contable");
+                break;
+            case 'juridica':
+                $this->mostrarTabla($item, $valor, "juridica");
+                break;
+            case 'informatica':
+                $this->mostrarTabla($item, $valor, "informatica");
+                break;
+            case 'operaciones':
+                $this->mostrarTabla($item, $valor, "operaciones");
+                break;
+
             case 'gerencia':
                 $this->mostrarTabla($item, $valor, "gerencia");
                 break;
-                case 'seguridad':
-                    $this->mostrarTabla($item, $valor, "seguridad");
-                    break;
+            case 'seguridad':
+                $this->mostrarTabla($item, $valor, "seguridad");
+                break;
             default:
                 echo json_encode(["data" => []]);
                 break;
@@ -207,7 +207,7 @@ class TablaAcpm
 
                 // Crear enlaces para el informe y el botón de respuesta
                 $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
-                $fecha ="<button type='button' class='btn btn-outline-info'  data-toggle='modal' data-target='#modal-modificar'  data-id_acpm_fk1='{$s["id_consecutivo"]}'>Modificar</button>";
+                $fecha = "<button type='button' class='btn btn-outline-info'  data-toggle='modal' data-target='#modal-modificar'  data-id_acpm_fk1='{$s["id_consecutivo"]}'>Modificar</button>";
                 return [
                     $s["id_consecutivo"],
                     $s["nombre"],
@@ -225,7 +225,7 @@ class TablaAcpm
 
                 // Crear enlaces para el informe y el botón de respuesta
                 $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
-               $fecha = "<button type='button' class='btn btn-outline-info' data-toggle='modal' data-target='#modal-modificar-sig' data-sig='{$s["id_consecutivo"]}'>Modificar</button>";
+                $fecha = "<button type='button' class='btn btn-outline-info' data-toggle='modal' data-target='#modal-modificar-sig' data-sig='{$s["id_consecutivo"]}'>Modificar</button>";
 
                 return [
                     $s["id_consecutivo"],
@@ -263,7 +263,7 @@ class TablaAcpm
 
                 // Crear enlaces para el informe y el botón de respuesta
                 $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
-                $fecha ="<button type='button' class='btn btn-outline-info'  data-toggle='modal' data-target='#modal-modificar-contable'  data-contable='{$s["id_consecutivo"]}'>Modificar</button>";
+                $fecha = "<button type='button' class='btn btn-outline-info'  data-toggle='modal' data-target='#modal-modificar-contable'  data-contable='{$s["id_consecutivo"]}'>Modificar</button>";
                 return [
                     $s["id_consecutivo"],
                     $s["nombre"],
@@ -281,7 +281,7 @@ class TablaAcpm
 
                 // Crear enlaces para el informe y el botón de respuesta
                 $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
-                $fecha ="<button type='button' class='btn btn-outline-info'  data-toggle='modal' data-target='#modal-modificar-juridica'  data-juridica='{$s["id_consecutivo"]}'>Modificar</button>";
+                $fecha = "<button type='button' class='btn btn-outline-info'  data-toggle='modal' data-target='#modal-modificar-juridica'  data-juridica='{$s["id_consecutivo"]}'>Modificar</button>";
                 return [
                     $s["id_consecutivo"],
                     $s["nombre"],
@@ -299,7 +299,7 @@ class TablaAcpm
 
                 // Crear enlaces para el informe y el botón de respuesta
                 $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
-                $fecha ="<button type='button' class='btn btn-outline-info'  data-toggle='modal' data-target='#modal-modificar-informatica'  data-informatica='{$s["id_consecutivo"]}'>Modificar</button>";
+                $fecha = "<button type='button' class='btn btn-outline-info'  data-toggle='modal' data-target='#modal-modificar-informatica'  data-informatica='{$s["id_consecutivo"]}'>Modificar</button>";
                 return [
                     $s["id_consecutivo"],
                     $s["nombre"],
@@ -317,7 +317,7 @@ class TablaAcpm
 
                 // Crear enlaces para el informe y el botón de respuesta
                 $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
-                $fecha ="<button type='button' class='btn btn-outline-info'  data-toggle='modal' data-target='#modal-modificar-operaciones'  data-operaciones='{$s["id_consecutivo"]}'>Modificar</button>";
+                $fecha = "<button type='button' class='btn btn-outline-info'  data-toggle='modal' data-target='#modal-modificar-operaciones'  data-operaciones='{$s["id_consecutivo"]}'>Modificar</button>";
                 return [
                     $s["id_consecutivo"],
                     $s["nombre"],
@@ -336,7 +336,7 @@ class TablaAcpm
 
                 // Crear enlaces para el informe y el botón de respuesta
                 $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
-                $fecha ="<button type='button' class='btn btn-outline-info'  data-toggle='modal' data-target='#modal-modificar-gerencia'  data-gerencia='{$s["id_consecutivo"]}'>Modificar</button>";
+                $fecha = "<button type='button' class='btn btn-outline-info'  data-toggle='modal' data-target='#modal-modificar-gerencia'  data-gerencia='{$s["id_consecutivo"]}'>Modificar</button>";
                 return [
                     $s["id_consecutivo"],
                     $s["nombre"],
@@ -354,7 +354,7 @@ class TablaAcpm
 
                 // Crear enlaces para el informe y el botón de respuesta
                 $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
-                $fecha ="<button type='button' class='btn btn-outline-info'  data-toggle='modal' data-target='#modal-modificar-seguridad'  data-seguridad='{$s["id_consecutivo"]}'>Modificar</button>";
+                $fecha = "<button type='button' class='btn btn-outline-info'  data-toggle='modal' data-target='#modal-modificar-seguridad'  data-seguridad='{$s["id_consecutivo"]}'>Modificar</button>";
                 return [
                     $s["id_consecutivo"],
                     $s["nombre"],
