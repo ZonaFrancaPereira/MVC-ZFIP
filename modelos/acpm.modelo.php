@@ -115,12 +115,46 @@ class ModeloAcpm
                 $stmt = null;
                 break;
 
-            case 'abierta':
+                case 'abierta':
+                    // Conexión a la base de datos
+                    $conexion = Conexion::conectar();
+                
+                    // Actualizar el estado a 'Abierta Vencida' para las ACPM que cumplan con la condición
+                    $updateStmt = $conexion->prepare("UPDATE $tabla 
+                        SET estado_acpm = 'Abierta Vencida' 
+                        WHERE estado_acpm = 'Abierta' 
+                          AND fecha_finalizacion IS NOT NULL 
+                          AND fecha_finalizacion < CURDATE()
+                    ");
+                    $updateStmt->execute();
+                
+                    // Consulta con filtro para mostrar las ACPM abiertas y no vencidas
+                    $stmt = $conexion->prepare("SELECT $tabla.*, usuarios.nombre, usuarios.apellidos_usuario
+                        FROM $tabla
+                        INNER JOIN usuarios ON $tabla.id_usuario_fk = usuarios.id
+                        WHERE $tabla.$item = :valor
+                          AND ($tabla.estado_acpm = 'Abierta' OR $tabla.estado_acpm = 'Abierta Vencida')
+                          AND ($tabla.fecha_finalizacion IS NULL OR $tabla.fecha_finalizacion >= CURDATE())
+                    ");
+                
+                    $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
+                    $stmt->execute();
+                    $resultados = $stmt->fetchAll(); // Obtener todos los resultados
+                
+                    // Cerrar la conexión
+                    $stmt = null;
+                    $updateStmt = null;
+                
+                    // Retornar los resultados obtenidos
+                    return $resultados;
+                    break;
+                
+            case 'vencida':
                 // Consulta con filtro
                 $stmt = Conexion::conectar()->prepare("SELECT $tabla.*, usuarios.nombre, usuarios.apellidos_usuario
-                                                   FROM $tabla
-                                                   INNER JOIN usuarios ON $tabla.id_usuario_fk = usuarios.id
-                                                   WHERE $tabla.$item = :valor");
+                                                    FROM $tabla
+                                                    INNER JOIN usuarios ON $tabla.id_usuario_fk = usuarios.id
+                                                    WHERE $tabla.$item = :valor");
                 $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
                 $stmt->execute();
                 return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
@@ -999,6 +1033,20 @@ class ModeloAcpm
     {
         try {
             $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) AS total FROM $tabla WHERE estado_acpm = 'Proceso'");
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+        } catch (Exception $e) {
+            return 0;
+        }
+    }
+
+    /*=============================================
+    CONTAR ACPM EN PROCESO EN GENERAL
+    =============================================*/
+    public static function contarAcpmVencidaGeneral($tabla)
+    {
+        try {
+            $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) AS total FROM $tabla WHERE estado_acpm = 'Abierta Vencida'");
             $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
         } catch (Exception $e) {

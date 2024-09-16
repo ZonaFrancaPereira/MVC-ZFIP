@@ -22,6 +22,9 @@ class TablaAcpm
             case 'abierta':
                 $this->mostrarTabla($item, $valor, "abierta");
                 break;
+            case 'vencida':
+                $this->mostrarTabla($item, $valor, "vencida");
+                break;
             case 'proceso':
                 $this->mostrarTabla($item, $valor, "proceso");
                 break;
@@ -118,6 +121,22 @@ class TablaAcpm
                     $informe_acpm,
                     $actividades
                 ];
+                case 'vencida':
+                    if ($s["estado_acpm"] !== 'Abierta Vencida') return null;
+                    $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
+                    $actividades = "<a target='_blank' class='btn btn-outline-warning' href='index.php?ruta=acpm&id={$s["id_consecutivo"]}'>Gestionar ACPM</a>";
+                    return [
+                        $s["id_consecutivo"],
+                        $s["nombre"],
+                        $s["origen_acpm"],
+                        $s["fuente_acpm"],
+                        $s["tipo_acpm"],
+                        $s["descripcion_acpm"],
+                        $s["fecha_finalizacion"],
+                        $s["estado_acpm"],
+                        $informe_acpm,
+                        $actividades
+                    ];
             case 'aprobar':
                 if ($s["estado_acpm"] !== 'Verificacion') return null;
                 $aprobar = "<button type='button' class='btn btn-outline-info aprobarAcpm' data-id='{$s["id_consecutivo"]}' data-toggle='modal' data-target='#modal-aprobar'>Responder</button>";

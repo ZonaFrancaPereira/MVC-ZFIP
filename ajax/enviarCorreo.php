@@ -178,30 +178,30 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
                     </body></html>";
                 break;
 
-                case 'acciones_verificacion':
-                    // Capturar el id del usuario desde la variable $id_usuario_fk
-                    $item = 'id';
-                    $valor = $id_usuario_fk;
-                    $usuarios = ControladorUsuarios::ctrMostrarUsuariosCorreo($item, $valor);
-                
-                    if (!empty($usuarios)) {
-                        // Asignar valores obtenidos de la consulta
-                        foreach ($usuarios as $value) {
-                            $nombre_usuario = $value['nombre'];
-                            $apellidos_usuario = $value['apellidos_usuario'];
-                            $correo_usuario = $value['correo_usuario'];
-                            $siglas_proceso = $value['siglas_proceso'];
-                            $descripcion_actividad = $value['descripcion_actividad'];
-                            $fecha_actividad = $value['fecha_actividad'];
-                            $id_acpm = $value['id_acpm_fk'];
-                        }
-                
-                        // Asignar la dirección de correo del usuario
-                        $mail->addAddress($correo_usuario);
-                
-                        // Preparar el título y el cuerpo del mensaje de correo electrónico
-                        $titulo_correo = "Nueva Actividad Proceso del " . $siglas_proceso . " / " . $fecha_actividad;
-                        $message = "
+            case 'acciones_verificacion':
+                // Capturar el id del usuario desde la variable $id_usuario_fk
+                $item = 'id';
+                $valor = $id_usuario_fk;
+                $usuarios = ControladorUsuarios::ctrMostrarUsuariosCorreo($item, $valor);
+
+                if (!empty($usuarios)) {
+                    // Asignar valores obtenidos de la consulta
+                    foreach ($usuarios as $value) {
+                        $nombre_usuario = $value['nombre'];
+                        $apellidos_usuario = $value['apellidos_usuario'];
+                        $correo_usuario = $value['correo_usuario'];
+                        $siglas_proceso = $value['siglas_proceso'];
+                        $descripcion_actividad = $value['descripcion_actividad'];
+                        $fecha_actividad = $value['fecha_actividad'];
+                        $id_acpm = $value['id_acpm_fk'];
+                    }
+
+                    // Asignar la dirección de correo del usuario
+                    $mail->addAddress($correo_usuario);
+
+                    // Preparar el título y el cuerpo del mensaje de correo electrónico
+                    $titulo_correo = "Nueva Actividad Proceso del " . $siglas_proceso . " / " . $fecha_actividad;
+                    $message = "
                             <html><body>
                             <div style='max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px;'>
                                 <div style='background-color: #F8F9F9; color: black; text-align: center; padding: 10px; border-radius: 5px 5px 0 0;'>
@@ -223,12 +223,12 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
                                 </div>
                             </div>
                             </body></html>";
-                    } else {
-                        // Manejar el caso en el que no se encuentre ningún usuario
-                        echo "No se encontró el usuario con ID: $id_usuario_fk";
-                    }
-                    break;
-                
+                } else {
+                    // Manejar el caso en el que no se encuentre ningún usuario
+                    echo "No se encontró el usuario con ID: $id_usuario_fk";
+                }
+                break;
+
 
             default:
                 // Lógica para otros módulos si es necesario
@@ -264,7 +264,7 @@ if ($data) {
     $modulo = $data['modulo'];
     $id_consulta = $data['id_consulta'];
     $destinatario = $data['destinatario'];
-    $correo_usuario =$data['correo_usuario'];
+    $correo_usuario = $data['correo_usuario'];
 
     // Llamar a la función EnviarCorreo con los parámetros obtenidos
     EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario, $correo_usuario);

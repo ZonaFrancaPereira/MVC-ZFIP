@@ -6,7 +6,7 @@ require_once('tcpdf_include.php');
 
 // Obtener el ID de ACPM desde la URL
 $id_acpm = $_GET['id'];
-echo $id_acpm;
+
 // Obtener los datos del ACPM desde la base de datos
 $tabla = 'acpm';
 $item = 'id_consecutivo';

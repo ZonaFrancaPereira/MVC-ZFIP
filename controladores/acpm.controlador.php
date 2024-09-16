@@ -103,16 +103,19 @@ class ControladorAcpm
     static public function ctrCrearActividad()
     {
         if (isset($_POST["fecha_actividad"])) {
-            //...
-            $tabla = "actividades_acpm";
-            $datos = array(
-                "fecha_actividad" => $_POST["fecha_actividad"],
-                "descripcion_actividad" => $_POST["descripcion_actividad"],
-                "tipo_actividad" => $_POST["tipo_actividad"],
-                "estado_actividad" => $_POST["estado_actividad"],
-                "id_usuario_fk" => $_POST["id_usuario_fk_6"],
-                "id_acpm_fk" => $_POST["id_acpm_fk"]
-            );
+            // Capturamos el ID del usuario desde el formulario
+        $id_usuario_fk = $_POST["id_usuario_fk_6"];
+
+        // Datos de la actividad a insertar en la base de datos
+        $tabla = "actividades_acpm";
+        $datos = array(
+            "fecha_actividad" => $_POST["fecha_actividad"],
+            "descripcion_actividad" => $_POST["descripcion_actividad"],
+            "tipo_actividad" => $_POST["tipo_actividad"],
+            "estado_actividad" => $_POST["estado_actividad"],
+            "id_usuario_fk" => $id_usuario_fk,
+            "id_acpm_fk" => $_POST["id_acpm_fk"]
+        );
 
             $respuesta = ModeloAcpm::mdlIngresarActividad($tabla, $datos);
 
@@ -127,7 +130,7 @@ class ControladorAcpm
                 }).then(function() {
                     // Enviar datos por AJAX después de cerrar la alerta
                     var datosCorreo = {
-                        id_usuario_fk: "' . $_SESSION["id"] . '",
+                        id_usuario_fk: "' . $id_usuario_fk . '", // Capturando el ID del formulario
                         modulo: "acciones_verificacion",
                         id_consulta: "' . $respuesta . '",
                         destinatario: "ninguno"
@@ -1269,13 +1272,15 @@ class ControladorAcpm
         $cerradas = ModeloAcpm::contarAcpmCerradasGeneral($tabla);
         $verificacion = ModeloAcpm::contarAcpmVerificacionGeneral($tabla);
         $proceso = ModeloAcpm::contarAcpmProcesoGeneral($tabla);
+        $vencida = ModeloAcpm::contarAcpmVencidaGeneral($tabla);
 
         // Preparar datos para la vista
         $data = [
             'abiertas' => $abiertas,
             'cerradas' => $cerradas,
             'verificacion' => $verificacion,
-            'proceso' => $proceso
+            'proceso' => $proceso,
+            'vencida' => $vencida
         ];
 
         echo json_encode($data);

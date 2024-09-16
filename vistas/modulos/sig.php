@@ -45,6 +45,12 @@
             <p>Acciones Abiertas</p>
           </a>
         </li>
+        <li class="nav-item">
+          <a data-toggle="tab" href="#acciones_abiertas_vencidas" class="nav-link">
+            <i class="nav-icon far fa-question-circle"></i>
+            <p>Acciones Abiertas Vencidas</p>
+          </a>
+        </li>
         <li class="nav-item" name="">
           <a data-toggle="tab" href="#acciones_cerradas" class="nav-link">
             <i class="nav-icon far fa-check-circle"></i>
@@ -201,6 +207,13 @@ if ($_SESSION["ti"] == "off") {
             <div class="row">
               <div class="col-md-12">
                 <?php require "sig/acciones_abiertas.php"; ?>
+              </div>
+            </div>
+          </div>
+          <div id="acciones_abiertas_vencidas" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/acciones_abiertas_vencidas.php"; ?>
               </div>
             </div>
           </div>

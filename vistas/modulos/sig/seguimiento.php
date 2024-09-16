@@ -65,6 +65,12 @@
                     <span>Proceso</span>
                   </p>
                 </div>
+                <div class="d-flex justify-content-between">
+                  <p class="d-flex flex-column">
+                    <span class="text-bold text-lg" id="abiertavencidageneral"></span>
+                    <span>Abierta Vencida</span>
+                  </p>
+                </div>
                 <div class="mt-3">
                   <canvas id="graficaVerificacionAcpmGeneral" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                 </div>
@@ -132,15 +138,16 @@
             document.getElementById('cerradasgeneral').textContent = data.cerradas;
             document.getElementById('verificaciongeneral').textContent = data.verificacion;
             document.getElementById('procesogeneral').textContent = data.proceso;
+            document.getElementById('abiertavencidageneral').textContent = data.vencida;
 
             // Crear la gráfica
             var pieChartCanvas = document.getElementById('graficaVerificacionAcpmGeneral').getContext('2d');
             var pieData = {
-              labels: ['Abiertas', 'Cerradas', 'Verificación', 'Proceso'],
+              labels: ['Abiertas', 'Cerradas', 'Verificación', 'Proceso' , 'Abierta Vencida'],
               datasets: [{
-                data: [data.abiertas, data.cerradas, data.verificacion, data.proceso],
-                backgroundColor: ['#007bff', '#28a745', '#ffc107', '#17a2b8'],
-                borderColor: ['#007bff', '#28a745', '#ffc107', '#17a2b8']
+                data: [data.abiertas, data.cerradas, data.verificacion, data.proceso, data.vencida],
+                backgroundColor: ['#007bff', '#28a745', '#ffc107', '#17a2b8', '#f90606'],
+                borderColor: ['#007bff', '#28a745', '#ffc107', '#17a2b8', '#f90606']
               }]
             };
             var pieOptions = {
