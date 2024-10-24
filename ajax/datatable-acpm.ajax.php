@@ -106,6 +106,7 @@ class TablaAcpm
                     $s["estado_acpm"]
                 ];
             case 'abierta':
+                
                 if ($s["estado_acpm"] !== 'Abierta') return null;
                 $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_consecutivo"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
                 $actividades = "<a target='_blank' class='btn btn-outline-warning' href='index.php?ruta=acpm&id={$s["id_consecutivo"]}'>Gestionar ACPM</a>";

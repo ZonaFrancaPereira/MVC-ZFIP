@@ -25,13 +25,13 @@
           <a href="ti" class="nav-link">G-TI</a>
         </li>
         <li class="nav-item dropdown">
-          <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle" title="Gestión Jurídica">JU</a>
-          <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-            <li><a href="asociados_ju.php" class="dropdown-item">Asociados de Negocios</a></li>
-          </ul>
+          <a href="juridico" class="nav-link">JU</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block " hidden>
           <a href="operaciones" class="nav-link">G-OP</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block " hidden>
+          <a href="tecnica" class="nav-link">G-Tecnica</a>
         </li>
       </ul>
       <!-- Right navbar links -->

@@ -131,6 +131,12 @@
                                         <span>Proceso</span>
                                     </p>
                                 </div>
+                                <div class="d-flex justify-content-between">
+                                <p class="d-flex flex-column text-right">
+                                        <span class="text-warning text-lg" id="vencida"></span>
+                                        <span>Abierta Vencida</span>
+                                    </p>
+                                </div>
                                 <div class="mt-3">
                                     <canvas id="graficaVerificacionAcpm" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                 </div>
@@ -202,16 +208,17 @@
             document.getElementById('cerradas').textContent = data.cerradas;
             document.getElementById('verificacion').textContent = data.verificacion;
             document.getElementById('proceso').textContent = data.proceso;
+            document.getElementById('vencida').textContent = data.vencida;
 
-            // Crear la gráfica
+           // Crear la gráfica
             var pieChartCanvas = document.getElementById('graficaVerificacionAcpm').getContext('2d');
             var pieData = {
-              labels: ['Abiertas', 'Cerradas', 'Verificación', 'Proceso'],
-              datasets: [{
-                data: [data.abiertas, data.cerradas, data.verificacion, data.proceso],
-                backgroundColor: ['#007bff', '#28a745', '#ffc107', '#17a2b8'],
-                borderColor: ['#007bff', '#28a745', '#ffc107', '#17a2b8']
-              }]
+            labels: ['Abiertas', 'Cerradas', 'Verificación', 'Proceso', 'Vencida'],
+            datasets: [{
+                data: [data.abiertas, data.cerradas, data.verificacion, data.proceso, data.vencida], // Asegúrate de incluir data.vencida aquí
+                backgroundColor: ['#007bff', '#28a745', '#ffc107', '#17a2b8', '#dc3545'], // Cambia los colores si lo deseas
+                borderColor: ['#007bff', '#28a745', '#ffc107', '#17a2b8', '#dc3545']
+            }]
             };
             var pieOptions = {
               maintainAspectRatio: false,

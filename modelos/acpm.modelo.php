@@ -292,7 +292,7 @@ class ModeloAcpm
         }
     }
     /*=============================================
-	INGRESAR ACTIVIDA
+	INGRESAR ACTIVIDAD
 	=============================================*/
 
     public static function mdlIngresarActividad($tabla, $datos)
@@ -927,6 +927,20 @@ class ModeloAcpm
         return $row['proceso'];
     }
 
+     // Contar ACPM en Proceso
+     public static function contarAcpmAbiertaVencida($id_usuario_fk)
+     {
+         $db = Conexion::conectar();
+         $sql = "SELECT COUNT(id_consecutivo) AS vencida
+             FROM acpm
+             WHERE estado_acpm = 'Abierta Vencida' AND id_usuario_fk = :id_usuario_fk";
+         $stmt = $db->prepare($sql);
+         $stmt->bindParam(':id_usuario_fk', $id_usuario_fk, PDO::PARAM_INT);
+         $stmt->execute();
+         $row = $stmt->fetch(PDO::FETCH_ASSOC);
+         return $row['vencida'];
+     }
+
     // Contar ACPM de mejora abiertas
     public static function contarAcpmMejoraAbierta($id_usuario_fk)
     {
@@ -1060,7 +1074,11 @@ class ModeloAcpm
     public static function contarAcpmMejoraAbiertaGeneral($tabla)
     {
         try {
-            $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) AS total FROM $tabla WHERE tipo_acpm = 'AM' AND estado_acpm = 'Abierta'");
+            $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) AS total 
+             FROM $tabla 
+             WHERE tipo_acpm = 'AM' 
+             AND estado_acpm = 'Abierta' 
+             AND fuente_acpm = 'Otros'");
             $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
         } catch (Exception $e) {
@@ -1074,7 +1092,7 @@ class ModeloAcpm
     public static function contarAcpmMejoraCerradaGeneral($tabla)
     {
         try {
-            $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) AS total FROM $tabla WHERE tipo_acpm = 'AM' AND estado_acpm = 'Cerrada'");
+            $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) AS total FROM $tabla WHERE tipo_acpm = 'AM' AND estado_acpm = 'Cerrada' AND fuente_acpm = 'Otros'");
             $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
         } catch (Exception $e) {
@@ -1088,7 +1106,7 @@ class ModeloAcpm
     public static function contarAcpmPreventivaAbiertaGeneral($tabla)
     {
         try {
-            $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) AS total FROM $tabla WHERE tipo_acpm = 'AP' AND estado_acpm = 'Abierta'");
+            $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) AS total FROM $tabla WHERE tipo_acpm = 'AP' AND estado_acpm = 'Abierta' AND fuente_acpm = 'Otros'");
             $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
         } catch (Exception $e) {
@@ -1102,7 +1120,7 @@ class ModeloAcpm
     public static function contarAcpmPreventivaCerradaGeneral($tabla)
     {
         try {
-            $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) AS total FROM $tabla WHERE tipo_acpm = 'AP' AND estado_acpm = 'Cerrada'");
+            $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) AS total FROM $tabla WHERE tipo_acpm = 'AP' AND estado_acpm = 'Cerrada' AND fuente_acpm = 'Otros'");
             $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
         } catch (Exception $e) {

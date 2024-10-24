@@ -22,6 +22,7 @@
     <a class="nav-link" id="acpm-sig-tab" data-toggle="tab" href="#acpm-sig" role="tab" aria-controls="acpm-sig" aria-selected="false">ACPM Sig</a>
   </li>
   <li class="nav-item">
+
     <a class="nav-link" id="estadisticas-acpm-sig-tab" data-toggle="tab" href="#estadisticas-acpm-sig" role="tab" aria-controls="estadisticas-acpm-sig" aria-selected="false">Estadísticas ACPM</a>
   </li>
   <li class="nav-item">
@@ -144,6 +145,12 @@
                     <span>Proceso</span>
                   </p>
                 </div>
+                <div class="d-flex justify-content-between">
+                  <p class="d-flex flex-column text-right">
+                    <span class="text-warning text-lg" id="vencidasig"></span>
+                    <span>Abierta Vencida</span>
+                  </p>
+                </div>
                 <div class="mt-3">
                   <canvas id="graficaVerificacionAcpmSig" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                 </div>
@@ -213,15 +220,16 @@
             document.getElementById('cerradassig').textContent = data.cerradas;
             document.getElementById('verificacionsig').textContent = data.verificacion;
             document.getElementById('procesosig').textContent = data.proceso;
+            document.getElementById('vencidasig').textContent = data.vencida;
 
             // Crear la gráfica
             var pieChartCanvas = document.getElementById('graficaVerificacionAcpmSig').getContext('2d');
             var pieData = {
-              labels: ['Abiertas', 'Cerradas', 'Verificación', 'Proceso'],
+              labels: ['Abiertas', 'Cerradas', 'Verificación', 'Proceso', 'Vencida'],
               datasets: [{
-                data: [data.abiertas, data.cerradas, data.verificacion, data.proceso],
-                backgroundColor: ['#007bff', '#28a745', '#ffc107', '#17a2b8'],
-                borderColor: ['#007bff', '#28a745', '#ffc107', '#17a2b8']
+                data: [data.abiertas, data.cerradas, data.verificacion, data.proceso, data.vencida],
+                backgroundColor: ['#007bff', '#28a745', '#ffc107', '#17a2b8', '#dc3545'],
+                borderColor: ['#007bff', '#28a745', '#ffc107', '#17a2b8', '#dc3545']
               }]
             };
             var pieOptions = {

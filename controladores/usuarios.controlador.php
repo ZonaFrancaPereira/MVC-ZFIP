@@ -270,6 +270,55 @@ MOSTRAR USUARIO CORREO
 		return $respuesta;
 	}
 
+		/*=============================================
+MOSTRAR USUARIO CORREO
+=============================================*/
+static public function ctrMostrarUsuariosCorreoActividad($item, $valor)
+{
+	$tabla = "usuarios";
+	$respuesta = ModeloUsuarios::mdlMostrarUsuariosCorreoActividad($tabla, $item, $valor);
+	return $respuesta;
+}
+
+		/*=============================================
+MOSTRAR USUARIO CORREO
+=============================================*/
+static public function ctrMostrarUsuariosCorreoTecnico($item, $valor)
+{
+	$tabla = "usuarios";
+	$respuesta = ModeloUsuarios::mdlMostrarUsuariosCorreoSolicitud($tabla, $item, $valor);
+	return $respuesta;
+}
+
+		/*=============================================
+MOSTRAR USUARIO CORREO
+=============================================*/
+static public function ctrMostrarUsuariosCorreoJuridico($item, $valor)
+{
+	$tabla = "usuarios";
+	$respuesta = ModeloUsuarios::mdlMostrarUsuariosCorreoJuridico($tabla, $item, $valor);
+	return $respuesta;
+}
+
+		/*=============================================
+MOSTRAR USUARIO CORREO
+=============================================*/
+static public function ctrMostrarUsuariosCorreoSolucion($item, $valor)
+{
+	$tabla = "soporte_juridico";
+	$respuesta = ModeloUsuarios::mdlEnviarSolucion($tabla, $item, $valor);
+	return $respuesta;
+}
+
+			/*=============================================
+	MOSTRAR USUARIO CORREO
+	=============================================*/
+	static public function ctrMostrarUsuariosSolicitud($item, $valor)
+	{
+		$tabla = "usuarios";
+		$respuesta = ModeloUsuarios::mdlMostrarUsuariosCorreoJuridico($tabla, $item, $valor);
+		return $respuesta;
+	}
 	/*=============================================
 	EDITAR USUARIO
 	=============================================*/

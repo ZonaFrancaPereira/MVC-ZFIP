@@ -193,6 +193,8 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "sig" ||
         $_GET["ruta"] == "sadoc" ||
         $_GET["ruta"] == "acpm" ||
+        $_GET["ruta"] == "tecnica" ||
+        $_GET["ruta"] == "juridico" ||
         $_GET["ruta"] == "acciones_verificacion" ||
         $_GET["ruta"] == "salir"
 
@@ -237,6 +239,8 @@ CUERPO DOCUMENTO
   <script src="vistas/js/contabilidad.js"></script>
   <script src="vistas/js/sig.js"></script>
   <script src="vistas/js/sadoc.js"></script>
+  <script src="vistas/js/tecnica.js"></script>
+  <script src="vistas/js/juridico.js"></script>
   <script>
 
 

@@ -1,7 +1,7 @@
 <nav class="mt-2">
   <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
     <li class="nav-item">
-      <a data-toggle="tab" href="#panelsig" class="active nav-link">
+      <a data-toggle="tab" href="#" class="active nav-link">
         <i class="fas fa-desktop"></i>
         <p>Panel de Control</p>
       </a>
@@ -24,6 +24,12 @@
         </p>
       </a>
       <ul class="nav nav-treeview">
+      <li class="nav-item">
+      <a data-toggle="tab" href="#panelsig" class="active nav-link">
+        <i class="fas fa-desktop"></i>
+        <p>Panel de Control</p>
+      </a>
+    </li>
         <li class="nav-item">
           <a data-toggle="tab" href="#acpm" class="nav-link ">
             <i class="nav-icon fas fa-file-medical"></i>
@@ -195,6 +201,15 @@ if ($_SESSION["ti"] == "off") {
     <div id="page-content-wrapper">
       <div class="container-fluid">
         <div class="tab-content card">
+
+        <div id="panelsig" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/panel_control_usuarios.php"; ?>
+              </div>
+            </div>
+          </div>
+
           <div id="acpm" class="tab-pane">
             <div class="row">
               <div class="col-md-12">
