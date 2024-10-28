@@ -2,6 +2,9 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
+// Iniciar el buffer de salida para evitar cualquier salida antes de generar el PDF
+ob_start();
 require_once "../../../configuracion.php";
 require_once "../../../controladores/actualizarPw.controlador.php";
 require_once "../../../modelos/actualizarPw.modelo.php";
@@ -16,14 +19,8 @@ $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($nomb
 $item = null;
 $valor = $id_detalle;
 
-$MostrarPw = ControladorPw::ctrMostrarPwGeneral($item,$valor);
+$MostrarPw = ControladorPw::ctrMostrarPwGeneral($valor);
 
-foreach ($MostrarPw as $key => $value) {
-    $estado = $value["estado_pw"];
-    $fecha_pw = $value["fecha_pw"];
-    $nombre = $value["usuario_principal_nombre"];
-    $apellidos_usuario = $value["usuario_principal_apellidos"];
-}
 // Crear una instancia de TCPDF
 $pdf = new TCPDF('P', 'mm', array(210, 297), true, 'UTF-8', false);
 
@@ -58,14 +55,14 @@ $html = <<<EOF
         width: 100%;
         margin-bottom: 1rem;
         color: #212529;
-        border-collapse: separate; /* Cambiado a separate para soportar el padding */
-        border-spacing: 0; /* Eliminar el espacio entre celdas */
+        border-collapse: separate;
+        border-spacing: 0;
     }
     .table th, .table td {
-        padding: 15px; /* Incrementar el padding para crear espacio dentro de las celdas */
+        padding: 15px;
         vertical-align: top;
         border-top: 1px solid #dee2e6;
-        line-height: 1.8; /* Ajustar el line-height para aumentar el espacio vertical */
+        line-height: 1.8;
     }
     .table thead th {
         vertical-align: bottom;
@@ -87,7 +84,12 @@ $html = <<<EOF
         font-weight: bold;
     }
     .bottom-line {
-        border-bottom: 1px solid #000; /* Línea en la parte inferior */
+        border-bottom: 1px solid #000;
+    }
+    .highlight {
+        background-color: yellow;
+        color: black;
+        font-weight: bold;
     }
 </style>
 
@@ -109,20 +111,64 @@ $html = <<<EOF
     </tr>
     <tr>
         <td class="font-weight-bold">Nombre de quien actualiza la contraseña</td>
-        <td>$nombre $apellidos_usuario</td>
+        <td>$nombre_usuario $apellidos_usuario</td>
     </tr>
     <tr>
-        <td class="font-weight-bold">Verificación TI</td>
+        <td class="font-weight-bold">Estado</td>
         <td>$estado</td>
     </tr>
     <tr>
-        <td colspan="2" class="font-weight-bold">Las contraseñas deberán estar compuestas por: mayúsculas, minúsculas, números y caracteres, según los criterios requeridos en el listado a su cargo. A continuación por favor subraye la contraseña de su elección.</td>
+        <td class="font-weight-bold">Verificación TI</td>
+        <td>$nombre_ti $apellidos_ti - $fecha_verificacion</td>
+    </tr>
+    <tr>
+        <td class="font-weight-bold">Firma TI</td>
+        <td><img src="$firma_ti" height="30"></td>
+    </tr>
+    <tr>
+        <td colspan="2" class="">Las contraseñas deberán estar compuestas por: mayúsculas, minúsculas, números y caracteres, según los criterios requeridos en el listado a su cargo. A continuación por favor subraye la contraseña de su elección.</td>
     </tr>
 </table>
 EOF;
 
+
+// Generar la tabla de caracteres resaltados para cada contraseña
+foreach ($MostrarPw as $key => $value2) {
+    $password = $value2["pw_app"]; // Asumiendo que el campo de la contraseña es "contraseña"
+
+    // Definir los caracteres posibles
+    $charLines = [
+        'A B C D E F G H I J K L M',
+        'N O P Q R S T U V W X Y Z',
+        'a b c d e f g h i j k l m',
+        'n o p q r s t u v w x y z',
+        '0 1 2 3 4 5 6 7 8 9 ! ¡ "',
+        '# $ % & / ( ) = ? ¿ * + [',
+        '] { } > < . _ - \\ @ , ; °'
+    ];
+
+    // Iniciar la tabla de caracteres
+    $html .= '<h4>Contraseña: ' . htmlspecialchars($password) . '</h4>';
+    $html .= '<table class="table table-bordered" style="margin-top: 10px;">';
+
+    foreach ($charLines as $line) {
+        $html .= '<tr>';
+        $chars = explode(' ', $line);
+        foreach ($chars as $char) {
+            $class = strpos($password, $char) !== false ? 'highlight' : '';
+            $html .= "<td class='$class'>$char</td>";
+        }
+        $html .= '</tr>';
+    }
+    
+    $html .= '</table>';
+}
+
 // Escribir el contenido HTML en el documento PDF
 $pdf->writeHTML($html, true, false, true, false, '');
+
+// Limpiar el buffer de salida para evitar errores de envío de encabezado
+ob_end_clean();
 
 // Salida del PDF
 $pdf->Output('documento.pdf', 'I');

@@ -97,24 +97,23 @@ static public function mdlCambioPw($tabla_pw, $datos) {
 /*=============================================
 MOSTRAR PW TRAER TODOS LOS DATOS
 =============================================*/
-static public function mdlMostrarPwGeneral($tabla, $item, $valor)
+static public function mdlMostrarPwGeneral($tabla, $valor)
 {
-    // Crear instancia de conexión una vez
-    $pdo = Conexion::conectar();
-
-    $stmt = $pdo->prepare("SELECT 
-            u1.id AS usuario_principal_id,
-            u1.nombre AS usuario_principal_nombre,
-            u1.apellidos_usuario AS usuario_principal_apellidos,
-            u1.correo_usuario AS usuario_principal_correo,
-            u1.perfil AS usuario_principal_perfil,
-            u1.foto AS usuario_principal_foto,
-            u1.estado AS usuario_principal_estado,
-            u1.id_cargo_fk AS usuario_principal_cargo,
-            u1.id_proceso_fk AS usuario_principal_proceso,
-            u1.ultimo_login AS usuario_principal_ultimo_login,
-            u1.fecha AS usuario_principal_fecha,
-            u1.intentos AS usuario_principal_intentos,
+    try {
+        // Conectar a la base de datos
+        $stmt = Conexion::conectar()->prepare("SELECT 
+            u1.id, 
+            u1.nombre,
+            u1.apellidos_usuario,
+            u1.correo_usuario,
+            u1.perfil,
+            u1.foto,
+            u1.estado,
+            u1.id_cargo_fk,
+            u1.id_proceso_fk,
+            u1.ultimo_login,
+            u1.fecha,
+            u1.intentos,
             d.id_detalle_pw,
             d.fecha_pw,
             d.estado_pw,
@@ -127,32 +126,37 @@ static public function mdlMostrarPwGeneral($tabla, $item, $valor)
             a.pw_app,
             a.id_pw_fk,
             u2.id AS usuario_ti_id,
-            u2.nombre AS usuario_ti_nombre,
-            u2.apellidos_usuario AS usuario_ti_apellidos,
-            u2.correo_usuario AS usuario_ti_correo,
-            u2.perfil AS usuario_ti_perfil,
-            u2.foto AS usuario_ti_foto,
-            u2.estado AS usuario_ti_estado,
-            u2.id_cargo_fk AS usuario_ti_cargo,
-            u2.id_proceso_fk AS usuario_ti_proceso,
-            u2.ultimo_login AS usuario_ti_ultimo_login,
-            u2.fecha AS usuario_ti_fecha,
-            u2.intentos AS usuario_ti_intentos
+            u2.nombre AS nombre_ti,
+            u2.apellidos_usuario AS apellidos_ti,
+            u2.correo_usuario AS correo_ti,
+            u2.perfil AS perfil_ti,
+            u2.foto AS foto_ti,
+            u2.estado AS estado_ti,
+            u2.id_cargo_fk AS cargo_ti,
+            u2.id_proceso_fk AS proceso_ti,
+            u2.ultimo_login AS login_ti,
+            u2.fecha AS fecha_ti,
+            u2.intentos AS intentaos_ti
         FROM detalle_pw d
         INNER JOIN usuarios u1 ON d.id_usuario_fk = u1.id
         INNER JOIN actualizacion_pw a ON d.id_detalle_pw = a.id_pw_fk
         LEFT JOIN usuarios u2 ON d.id_usuario_ti = u2.id
-        WHERE d.id_detalle_pw = :valor
-    ");
+        WHERE d.id_detalle_pw = :valor");
 
-    // Asignación del parámetro correctamente
-    $stmt->bindParam(":valor", $valor, PDO::PARAM_INT); // Cambia a PDO::PARAM_STR si el valor no es un número entero
+        // Vincular el parámetro de la consulta
+        $stmt->bindParam(":valor", $valor, PDO::PARAM_INT);
 
-    $stmt->execute();
+        // Ejecutar la consulta
+        $stmt->execute();
 
-    // Recupera una fila como un array asociativo
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+        // Devolver los resultados
+        return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        // Manejo de errores
+        die("Error al obtener datos del ACPM: " . $e->getMessage());
+    }
 }
+
 
 
 static public function mdlMostrarPwIndividual($tabla, $item, $valor)
