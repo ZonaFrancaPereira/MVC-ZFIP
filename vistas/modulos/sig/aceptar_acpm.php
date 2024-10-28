@@ -129,7 +129,7 @@
                                 <div id="seccion-rechazo" class="p-3 border rounded bg-light" style="display: none;">
                                     <h5 class="text-danger"><i class="fas fa-times-circle"></i> Rechazo</h5>
                                     <hr>
-                                    <input type="text" name="id_acpm_fk_sig1" id="id_acpm_fk_sig1" >
+                                    <input type="text" name="id_acpm_fk_sig1" id="id_acpm_fk_sig1" hidden>
                                     <div class="form-group">
                                         <label>Describa el porqué del rechazo</label>
                                         <textarea id="descripcion_rechazo" name="descripcion_rechazo" class="form-control" rows="4" ></textarea>

@@ -1,7 +1,7 @@
 <nav class="mt-2">
   <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
     <li class="nav-item">
-      <a data-toggle="tab" href="#panelsig" class="active nav-link">
+      <a data-toggle="tab" href="#" class="active nav-link">
         <i class="fas fa-desktop"></i>
         <p>Panel de Control</p>
       </a>
@@ -24,6 +24,18 @@
         </p>
       </a>
       <ul class="nav nav-treeview">
+      <li class="nav-item">
+      <a data-toggle="tab" href="#panelsig" class="active nav-link">
+        <i class="fas fa-desktop"></i>
+        <p>Panel de Control</p>
+      </a>
+    </li>
+    <li class="nav-item" name="">
+          <a data-toggle="tab" href="#actividades_asignadas" class="nav-link">
+            <i class="nav-icon far fa-check-circle"></i>
+            <p>Actividades Asignadas</p>
+          </a>
+        </li>
         <li class="nav-item">
           <a data-toggle="tab" href="#acpm" class="nav-link ">
             <i class="nav-icon fas fa-file-medical"></i>
@@ -43,6 +55,12 @@
           <a data-toggle="tab" href="#acciones_abiertas" class="nav-link">
             <i class="nav-icon far fa-question-circle"></i>
             <p>Acciones Abiertas</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a data-toggle="tab" href="#acciones_abiertas_vencidas" class="nav-link">
+            <i class="nav-icon far fa-question-circle"></i>
+            <p>Acciones Abiertas Vencidas</p>
           </a>
         </li>
         <li class="nav-item" name="">
@@ -189,6 +207,23 @@ if ($_SESSION["ti"] == "off") {
     <div id="page-content-wrapper">
       <div class="container-fluid">
         <div class="tab-content card">
+
+        <div id="panelsig" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/panel_control_usuarios.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="actividades_asignadas" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/actividades_asignadas.php"; ?>
+              </div>
+            </div>
+          </div>
+
           <div id="acpm" class="tab-pane">
             <div class="row">
               <div class="col-md-12">
@@ -201,6 +236,13 @@ if ($_SESSION["ti"] == "off") {
             <div class="row">
               <div class="col-md-12">
                 <?php require "sig/acciones_abiertas.php"; ?>
+              </div>
+            </div>
+          </div>
+          <div id="acciones_abiertas_vencidas" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/acciones_abiertas_vencidas.php"; ?>
               </div>
             </div>
           </div>

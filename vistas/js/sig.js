@@ -802,6 +802,100 @@ var tablaSeguridad = $("#tabla-seguridad-sig").DataTable({
     autoWidth: true
 });
 
+var tablaVencida = $("#tabla-vencida-sig").DataTable({
+    "ajax": {
+        "url": "ajax/datatable-acpm.ajax.php",
+        "type": "POST",
+        "data": function (d) {
+            d.especifico = "vencida";
+            console.log("Valor de específico:", d.especifico);
+        },
+        "dataSrc": "data"
+    },
+    "deferRender": true,
+    "serverSide": true,
+    "retrieve": true,
+    "processing": true,
+    "language": {
+        "sProcessing": "Procesando...",
+        "sLengthMenu": "Mostrar _MENU_ registros",
+        "sZeroRecords": "No se encontraron resultados",
+        "sEmptyTable": "Ningún dato disponible en esta tabla",
+        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+        "sSearch": "Buscar:",
+        "sInfoThousands": ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+            "sFirst": "Primero",
+            "sLast": "Último",
+            "sNext": "Siguiente",
+            "sPrevious": "Anterior"
+        },
+        "oAria": {
+            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        },
+        "buttons": {
+            "copy": "Copiar",
+            "colvis": "Visibilidad"
+        }
+    },
+    responsive: true,
+    dom: "Bfrtilp",
+    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+    "order": [[0, 'desc']],
+    autoWidth: true
+});
+
+var tablaActividades = $("#tabla-actividades-asignadas").DataTable({
+    "ajax": {
+        "url": "ajax/datatable-actividades.ajax.php",
+        "type": "POST",
+        "data": function (d) {
+            d.especifico = "actividadesAbiertas";
+            console.log("Valor de específico:", d.especifico);
+        },
+        "dataSrc": "data"
+    },
+    "deferRender": true,
+    "serverSide": true,
+    "retrieve": true,
+    "processing": true,
+    "language": {
+        "sProcessing": "Procesando...",
+        "sLengthMenu": "Mostrar _MENU_ registros",
+        "sZeroRecords": "No se encontraron resultados",
+        "sEmptyTable": "Ningún dato disponible en esta tabla",
+        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+        "sSearch": "Buscar:",
+        "sInfoThousands": ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+            "sFirst": "Primero",
+            "sLast": "Último",
+            "sNext": "Siguiente",
+            "sPrevious": "Anterior"
+        },
+        "oAria": {
+            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        },
+        "buttons": {
+            "copy": "Copiar",
+            "colvis": "Visibilidad"
+        }
+    },
+    responsive: true,
+    dom: "Bfrtilp",
+    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+    "order": [[0, 'desc']],
+    autoWidth: true
+});
+
 $(document).ready(function () {
     $('#estado_acpm').on('change', function () {
         if ($(this).val() === 'Rechazada') {
@@ -956,33 +1050,3 @@ $(document).ready(function () {
     });
 });
 
-
-// Get context with jQuery - using jQuery's .get() method.
-var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
-var donutData        = {
-  labels: [
-      'Chrome',
-      'IE',
-      'FireFox',
-      'Safari',
-      'Opera',
-      'Navigator',
-  ],
-  datasets: [
-    {
-      data: [700,500,400,600,300,100],
-      backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
-    }
-  ]
-}
-var donutOptions     = {
-  maintainAspectRatio : false,
-  responsive : true,
-}
-//Create pie or douhnut chart
-// You can switch between pie and douhnut using the method below.
-new Chart(donutChartCanvas, {
-  type: 'doughnut',
-  data: donutData,
-  options: donutOptions
-})

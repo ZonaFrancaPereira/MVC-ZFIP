@@ -1,45 +1,27 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
-                    <li class="breadcrumb-item active">SEGUIMIENTO</li>
-                </ol>
-            </div>
-        </div>
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6"></div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
+          <li class="breadcrumb-item active">ACPM</li>
+        </ol>
+      </div>
     </div>
+  </div>
 </section>
 
-<!-- Nav Tabs -->
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-  <li class="nav-item">
-    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Inicio</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="estadisticas-acpm-general-tab" data-toggle="tab" href="#estadisticas-acpm-general" role="tab" aria-controls="estadisticas-acpm-general" aria-selected="false">Estadísticas ACPM</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="estadisticas-adicionales-general-tab" data-toggle="tab" href="#estadisticas-adicionales-general" role="tab" aria-controls="estadisticas-adicionales-general" aria-selected="false">Estadísticas Adicionales</a>
-  </li>
-</ul>
 <!-- Tab Content -->
 <div class="tab-content" id="myTabContent">
-  <!-- Home Tab -->
-  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-    <!-- Content for Home tab can go here -->
-  </div>
-
- <!-- Estadísticas ACPM Tab -->
- <div class="tab-pane fade" id="estadisticas-acpm-general" role="tabpanel" aria-labelledby="estadisticas-acpm-general-tab">
+  <!-- Estadísticas ACPM Tab -->
+  <div class="" id="" aria-labelledby="estadisticas-acpm-sig-tab">
     <section class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-md-12">
+          <!-- Columna para Estadísticas ACPM -->
+          <div class="col-md-6">
             <div class="card">
               <div class="card-header bg-primary text-white">
                 <h3 class="card-title">Estadísticas ACPM</h3>
@@ -47,48 +29,33 @@
               <div class="card-body">
                 <div class="d-flex justify-content-between">
                   <p class="d-flex flex-column">
-                    <span class="text-bold text-lg" id="abiertasgeneral"></span>
+                    <span class="text-bold text-lg" id="abiertasusuario"></span>
                     <span>ACPM Abiertas</span>
                   </p>
                   <p class="d-flex flex-column text-right">
-                    <span class="text-success text-lg" id="cerradasgeneral"></span>
+                    <span class="text-success text-lg" id="cerradasusuario"></span>
                     <span>ACPM Cerradas</span>
                   </p>
                 </div>
                 <div class="d-flex justify-content-between">
                   <p class="d-flex flex-column">
-                    <span class="text-bold text-lg" id="verificaciongeneral"></span>
+                    <span class="text-bold text-lg" id="verificacionusuario"></span>
                     <span>En Verificación</span>
                   </p>
                   <p class="d-flex flex-column text-right">
-                    <span class="text-warning text-lg" id="procesogeneral"></span>
+                    <span class="text-warning text-lg" id="procesousuario"></span>
                     <span>Proceso</span>
                   </p>
                 </div>
-                <div class="d-flex justify-content-between">
-                  <p class="d-flex flex-column">
-                    <span class="text-bold text-lg" id="abiertavencidageneral"></span>
-                    <span>Abierta Vencida</span>
-                  </p>
-                </div>
                 <div class="mt-3">
-                  <canvas id="graficaVerificacionAcpmGeneral" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                  <canvas id="graficaVerificacionAcpmUsuario" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
-  </div>
 
-   <!-- Estadísticas Adicionales Tab -->
-   <div class="tab-pane fade" id="estadisticas-adicionales-general" role="tabpanel" aria-labelledby="estadisticas-adicionales-general-tab">
-    <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <!-- Estadísticas Adicionales Card -->
-          <div class="col-md-12">
+          <!-- Columna para Estadísticas Adicionales -->
+          <div class="col-md-6">
             <div class="card">
               <div class="card-header bg-secondary text-white">
                 <h3 class="card-title">Estadísticas Adicionales</h3>
@@ -96,58 +63,59 @@
               <div class="card-body">
                 <div class="d-flex justify-content-between">
                   <p class="d-flex flex-column">
-                    <span class="text-bold text-lg" id="AM_abiertogeneral"></span>
+                    <span class="text-bold text-lg" id="AM_abiertousuario"></span>
                     <span>ACCIÓN DE MEJORA Abierta</span>
                   </p>
                   <p class="d-flex flex-column">
-                    <span class="text-bold text-lg" id="AM_cerradogeneral"></span>
+                    <span class="text-bold text-lg" id="AM_cerradousuario"></span>
                     <span>ACCIÓN DE MEJORA Cerrada</span>
                   </p>
                   <p class="d-flex flex-column text-right">
-                    <span class="text-info text-lg" id="AP_abiertogeneral"></span>
+                    <span class="text-info text-lg" id="AP_abiertousuario"></span>
                     <span>ACCIÓN PREVENTIVA Abierta</span>
                   </p>
                   <p class="d-flex flex-column text-right">
-                    <span class="text-info text-lg" id="AP_cerradogeneral"></span>
+                    <span class="text-info text-lg" id="AP_cerradousuario"></span>
                     <span>ACCIÓN PREVENTIVA Cerrada</span>
                   </p>
                 </div>
                 <div class="mt-3">
-                  <canvas id="graficaVerificacionAccionesGeneral" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                  <canvas id="graficaVerificacionAccionesUsuario" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                 </div>
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </section>
   </div>
-
 </div>
+
+
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     function cargarGrafica() {
-      fetch('controladores/acpm.controlador.php?action=graficaVerificacionAcpmGeneral')
+      fetch('controladores/acpm.controlador.php?action=graficaVerificacionAcpmUsuario')
         .then(response => response.json())
         .then(data => {
           if (data.error) {
             console.error('Error en los datos:', data.error);
           } else {
             // Actualizar los elementos HTML con los valores obtenidos
-            document.getElementById('abiertasgeneral').textContent = data.abiertas;
-            document.getElementById('cerradasgeneral').textContent = data.cerradas;
-            document.getElementById('verificaciongeneral').textContent = data.verificacion;
-            document.getElementById('procesogeneral').textContent = data.proceso;
-            document.getElementById('abiertavencidageneral').textContent = data.vencida;
+            document.getElementById('abiertasusuario').textContent = data.abiertas;
+            document.getElementById('cerradasusuario').textContent = data.cerradas;
+            document.getElementById('verificacionusuario').textContent = data.verificacion;
+            document.getElementById('procesousuario').textContent = data.proceso;
 
             // Crear la gráfica
-            var pieChartCanvas = document.getElementById('graficaVerificacionAcpmGeneral').getContext('2d');
+            var pieChartCanvas = document.getElementById('graficaVerificacionAcpmUsuario').getContext('2d');
             var pieData = {
-              labels: ['Abiertas', 'Cerradas', 'Verificación', 'Proceso' , 'Abierta Vencida'],
+              labels: ['Abiertas', 'Cerradas', 'Verificación', 'Proceso'],
               datasets: [{
-                data: [data.abiertas, data.cerradas, data.verificacion, data.proceso, data.vencida],
-                backgroundColor: ['#007bff', '#28a745', '#ffc107', '#17a2b8', '#f90606'],
-                borderColor: ['#007bff', '#28a745', '#ffc107', '#17a2b8', '#f90606']
+                data: [data.abiertas, data.cerradas, data.verificacion, data.proceso],
+                backgroundColor: ['#007bff', '#28a745', '#ffc107', '#17a2b8'],
+                borderColor: ['#007bff', '#28a745', '#ffc107', '#17a2b8']
               }]
             };
             var pieOptions = {
@@ -174,10 +142,9 @@
     cargarGrafica();
   });
 
-  
   document.addEventListener('DOMContentLoaded', function() {
     function cargarGrafica() {
-      fetch('controladores/acpm.controlador.php?action=graficaVerificacionAccionesGeneral')
+      fetch('controladores/acpm.controlador.php?action=graficaVerificacionAccionesUsuario')
         .then(response => response.json())
         .then(data => {
           console.log('Datos recibidos:', data); // Depuración de la respuesta completa
@@ -185,13 +152,13 @@
             console.error('Error en los datos:', data.error);
           } else {
             // Actualizar los elementos HTML con los valores obtenidos
-            document.getElementById('AM_abiertogeneral').textContent = data.AM_abierto;
-            document.getElementById('AM_cerradogeneral').textContent = data.AM_cerrado;
-            document.getElementById('AP_abiertogeneral').textContent = data.AP_abierto;
-            document.getElementById('AP_cerradogeneral').textContent = data.AP_cerrado;
+            document.getElementById('AM_abiertousuario').textContent = data.AM_abierto;
+            document.getElementById('AM_cerradousuario').textContent = data.AM_cerrado;
+            document.getElementById('AP_abiertousuario').textContent = data.AP_abierto;
+            document.getElementById('AP_cerradousuario').textContent = data.AP_cerrado;
 
             // Crear la gráfica
-            var pieChartCanvas = document.getElementById('graficaVerificacionAccionesGeneral').getContext('2d');
+            var pieChartCanvas = document.getElementById('graficaVerificacionAccionesUsuario').getContext('2d');
             var pieData = {
               labels: ['AM Abierta', 'AM Cerrada', 'AP Abierta', 'AP Cerrada'],
               datasets: [{
