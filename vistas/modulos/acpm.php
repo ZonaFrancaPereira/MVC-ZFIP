@@ -270,30 +270,30 @@ if ($id_acpm > 0) {
               </div>
 
               <!-- Modal -->
-             <!-- Modal -->
+              <!-- Modal -->
               <div class="modal fade" id="modalEliminar" tabindex="-1" role="dialog" aria-labelledby="modalEliminarLabel" aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered" role="document">
-                      <div class="modal-content">
-                          <div class="modal-header bg-danger text-white">
-                              <h5 class="modal-title" id="modalEliminarLabel">Confirmar Eliminación</h5>
-                              <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                              </button>
-                          </div>
-                          <div class="modal-body text-center">
-                              <p class="mb-4">¿Está seguro de que desea eliminar esta actividad?</p>
-                              <form method="POST" enctype="multipart/form-data"> <!-- Cambia 'ruta-a-tu-controlador.php' por la ruta correcta -->
-                                  <input type="hidden" name="id_actividad" id="idActividadEliminar">
-                                  <button type="button" class="btn btn-secondary mr-2" data-dismiss="modal">Cancelar</button>
-                                  <button type="submit" class="btn btn-danger">Eliminar</button>
-                                  <?php
-                                  $eliminarActividad = new ControladorAcpm();
-                                  $eliminarActividad->ctrEliminarActividad();
-                                  ?>
-                              </form>
-                          </div>
-                      </div>
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                      <h5 class="modal-title" id="modalEliminarLabel">Confirmar Eliminación</h5>
+                      <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body text-center">
+                      <p class="mb-4">¿Está seguro de que desea eliminar esta actividad?</p>
+                      <form method="POST" enctype="multipart/form-data"> <!-- Cambia 'ruta-a-tu-controlador.php' por la ruta correcta -->
+                        <input type="hidden" name="id_actividad" id="idActividadEliminar">
+                        <button type="button" class="btn btn-secondary mr-2" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                        <?php
+                        $eliminarActividad = new ControladorAcpm();
+                        $eliminarActividad->ctrEliminarActividad();
+                        ?>
+                      </form>
+                    </div>
                   </div>
+                </div>
               </div>
 
               <?php
@@ -302,22 +302,22 @@ if ($id_acpm > 0) {
               $actividadesCompletas = ControladorAcpm::ctrVerificarActividadesCompletas($id_acpm);
               ?>
 
-              <form method="POST"  enctype="multipart/form-data">
-                  <input type="hidden" name="id_acpm" value="<?php echo $id_acpm; ?>">
+              <form method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="id_acpm" value="<?php echo $id_acpm; ?>">
 
-                  <!-- Botón "Enviar a SIG" -->
-                  <button id="btnEnviarSig" type="submit" class="btn btn-primary" 
-                          <?php echo ($actividadesCompletas ? '' : 'disabled'); ?>>
-                      Enviar a SIG
-                  </button>
+                <!-- Botón "Enviar a SIG" -->
+                <button id="btnEnviarSig" type="submit" class="btn btn-primary"
+                  <?php echo ($actividadesCompletas ? '' : 'disabled'); ?>>
+                  Enviar a SIG
+                </button>
               </form>
 
               <?php
               // Llama a la función para manejar la solicitud de envío a SIG
               $enviarSig = new ControladorAcpm();
               $enviarSig->ctrEnviarASig();
-           
-?>
+
+              ?>
 
 
             </div>

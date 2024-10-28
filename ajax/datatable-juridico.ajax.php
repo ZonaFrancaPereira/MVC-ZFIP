@@ -88,7 +88,7 @@ class TablaSoporteJuridico
                     ];
 
                     case 'solicitudjuridicorealizada':
-
+                        
                         return [
                             $s["id_soporte_juridico"],
                             $s["nombre_solicitante"],

@@ -32,7 +32,7 @@
                                         <br>
                                         <label for="nombre_solicitante">Nombre</label>
                                         <input type="text" class="form-control select2" id="nombre_solicitante" name="nombre_solicitante" required style="width: 100%;"
-                                            value="<?php echo $_SESSION["nombre"]; ?>" readonly> <!-- El nombre del usuario logueado -->
+                                            value="<?php echo $_SESSION["id"]; ?>" readonly> <!-- El nombre del usuario logueado -->
                                     </div>
                                     <div class="col-6" hidden>
                                         <br>

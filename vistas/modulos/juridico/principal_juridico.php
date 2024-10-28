@@ -21,7 +21,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header bg-info">
-                        <h3 class="card-title">Solicitudes</h3>
+                        <h3 class="card-title">Solicitudes Realizadas</h3>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">

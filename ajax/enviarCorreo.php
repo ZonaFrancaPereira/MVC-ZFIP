@@ -284,7 +284,7 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
                 break;
 
             case 'soporte_juridico':
-                $mail->addAddress('ygarciaz@zonafrancadepereira.com');
+                $mail->addAddress('malvarez@zonafrancadepereira.com');
                 // Capturar el id del usuario desde la variable $id_usuario_fk
                 $item = 'id';
                 $valor = $id_usuario_fk;
@@ -337,11 +337,11 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
                     echo "No se encontró el usuario con ID: $id_usuario_fk";
                 }
                 break;
-                case 'solicitudes_juridico':
+            case 'solicitudes_juridico':
 
                     // Capturar el id del usuario desde la variable $id_usuario_fk
                     $item = 'id';
-                    $valor = $id_consulta; // Cambiar esto a id_consulta para obtener el soporte jurídico relacionado
+                    $valor = $id_usuario_fk;; // Cambiar esto a id_consulta para obtener el soporte jurídico relacionado
                 
                     // Consulta para obtener el correo del solicitante y detalles de la solicitud
                     $usuarios = ControladorUsuarios::ctrMostrarUsuariosCorreoSolucion($item, $valor);
@@ -386,11 +386,8 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
                             </div>
                         </div>
                         </body></html>";
-                
-                        // Enviar correo
-                        $mail->Subject = $titulo_correo;
-                        $mail->Body    = $message;
-                        $mail->send();
+
+
                     }
                     break;
                 

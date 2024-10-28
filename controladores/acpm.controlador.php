@@ -96,6 +96,19 @@ class ControladorAcpm
         return $respuesta;
     }
 
+     /*=============================================
+	MOSTRAR ACPM
+	=============================================*/
+
+    static public function ctrMostrarActividades($item, $valor, $consulta)
+    {
+        $tabla = "actividades_acpm";
+
+        $respuesta = ModeloAcpm::mdlMostrarActividades($tabla, $item, $valor, $consulta);
+
+        return $respuesta;
+    }
+
 
    /*=============================================
 CREAR ACTIVIDAD

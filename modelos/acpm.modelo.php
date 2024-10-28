@@ -284,6 +284,7 @@ class ModeloAcpm
                 return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
                 $stmt = null;
                 break;
+
             default:
                 $consulta = null;
                 $item = null;
@@ -291,6 +292,34 @@ class ModeloAcpm
                 break;
         }
     }
+
+    
+    /*=============================================
+	MOSTRAR ACPM
+	=============================================*/
+
+    public static function mdlMostrarActividades($tabla, $item, $valor, $consulta)
+    {
+        switch ($consulta) {
+          
+            case 'actividadesAbiertas':
+                $stmt = Conexion::conectar()->prepare("SELECT actividades_acpm.*, usuarios.nombre, usuarios.apellidos_usuario
+                            FROM actividades_acpm
+                            INNER JOIN usuarios ON actividades_acpm.id_usuario_fk = usuarios.id
+                            ");
+                $stmt->execute();
+                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
+                $stmt = null;
+                break;
+
+                default:
+                $consulta = null;
+                $item = null;
+                $valor = null;
+                break;
+        }
+    }
+    
     /*=============================================
 	INGRESAR ACTIVIDAD
 	=============================================*/

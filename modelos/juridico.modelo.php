@@ -94,7 +94,7 @@ class ModeloSoporteJuridico
                     // Verificar si se tiene el valor del nombre del usuario en la sesión
                     if (isset($_SESSION['nombre'])) {
                         // Obtener el nombre del usuario desde la sesión
-                        $nombreUsuario = $_SESSION['nombre'];
+                        $nombreUsuario = $_SESSION['id'];
                 
                         // Consulta para obtener las solicitudes realizadas por el usuario logueado (basado en el nombre)
                         $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE nombre_solicitante = :nombre_usuario");

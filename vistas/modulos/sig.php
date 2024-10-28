@@ -30,6 +30,12 @@
         <p>Panel de Control</p>
       </a>
     </li>
+    <li class="nav-item" name="">
+          <a data-toggle="tab" href="#actividades_asignadas" class="nav-link">
+            <i class="nav-icon far fa-check-circle"></i>
+            <p>Actividades Asignadas</p>
+          </a>
+        </li>
         <li class="nav-item">
           <a data-toggle="tab" href="#acpm" class="nav-link ">
             <i class="nav-icon fas fa-file-medical"></i>
@@ -206,6 +212,14 @@ if ($_SESSION["ti"] == "off") {
             <div class="row">
               <div class="col-md-12">
                 <?php require "sig/panel_control_usuarios.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="actividades_asignadas" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/actividades_asignadas.php"; ?>
               </div>
             </div>
           </div>

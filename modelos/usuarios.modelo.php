@@ -122,9 +122,9 @@ class ModeloUsuarios
 		static public function mdlMostrarUsuariosCorreoJuridico($tabla, $item, $valor)
 			{
 				// Consulta con INNER JOIN entre usuarios y actividades_acpm
-						$stmt = Conexion::conectar()->prepare("SELECT u.nombre, u.apellidos_usuario, a.descripcion_solicitud_juridico,a.correo_solicitante, p.*, a.*
+						$stmt = Conexion::conectar()->prepare("SELECT u.nombre, u.apellidos_usuario, u.correo_usuario, a.descripcion_solicitud_juridico,a.correo_solicitante, p.*, a.*
 						FROM $tabla u
-						INNER JOIN soporte_juridico a ON u.nombre = a.nombre_solicitante
+						INNER JOIN soporte_juridico a ON u.id = a.nombre_solicitante
 						INNER JOIN proceso p ON u.id_proceso_fk = p.id_proceso
 						WHERE u.$item = :valor"
 					);
@@ -137,14 +137,17 @@ class ModeloUsuarios
 
 			static public function mdlEnviarSolucion($tabla, $item, $valor)
 			{
-				$stmt = Conexion::conectar()->prepare("SELECT u.correo_solicitante, u.fecha_solucion_juridico, u.solucion_juridico, u.id_soporte_juridico
-													   FROM $tabla u
-													   WHERE u.$item = :valor");
-				$stmt->bindParam(":valor", $valor, PDO::PARAM_INT);
-				$stmt->execute();
-			
-				// Retornar todos los resultados usando fetchAll
-				return $stmt->fetchAll();
+				// Consulta con INNER JOIN entre usuarios y actividades_acpm
+				$stmt = Conexion::conectar()->prepare("SELECT u.nombre, u.apellidos_usuario, u.correo_usuario, a.descripcion_solicitud_juridico,a.correo_solicitante, a.*
+				FROM $tabla u
+				INNER JOIN soporte_juridico a ON u.id = a.nombre_solicitante
+				WHERE u.$item = :valor"
+			);
+			$stmt->bindParam(":valor", $valor, PDO::PARAM_INT);
+			$stmt->execute();
+		
+			// Utilizar fetchAll para obtener todos los resultados
+			return $stmt->fetchAll();
 			}
 			
 

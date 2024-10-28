@@ -305,7 +305,7 @@ MOSTRAR USUARIO CORREO
 =============================================*/
 static public function ctrMostrarUsuariosCorreoSolucion($item, $valor)
 {
-	$tabla = "soporte_juridico";
+	$tabla = "usuarios";
 	$respuesta = ModeloUsuarios::mdlEnviarSolucion($tabla, $item, $valor);
 	return $respuesta;
 }
