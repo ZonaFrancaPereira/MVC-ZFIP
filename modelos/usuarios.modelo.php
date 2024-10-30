@@ -135,20 +135,26 @@ class ModeloUsuarios
 					return $stmt->fetchAll();
 			}
 
-			static public function mdlEnviarSolucion($tabla, $item, $valor)
-			{
-				// Consulta con INNER JOIN entre usuarios y actividades_acpm
-				$stmt = Conexion::conectar()->prepare("SELECT u.nombre, u.apellidos_usuario, u.correo_usuario, a.descripcion_solicitud_juridico,a.correo_solicitante, a.*
-				FROM $tabla u
-				INNER JOIN soporte_juridico a ON u.id = a.nombre_solicitante
-				WHERE u.$item = :valor"
-			);
-			$stmt->bindParam(":valor", $valor, PDO::PARAM_INT);
-			$stmt->execute();
-		
-			// Utilizar fetchAll para obtener todos los resultados
-			return $stmt->fetchAll();
-			}
+			static public function mdlEnviarSolucion($tabla)
+{
+    try {
+        $stmt = Conexion::conectar()->prepare(
+            "SELECT u.nombre, u.apellidos_usuario, u.correo_usuario, 
+                    a.descripcion_solicitud_juridico, a.correo_solicitante, a.*
+             FROM $tabla u
+             INNER JOIN soporte_juridico a ON u.id = a.nombre_solicitante"
+        );
+
+        $stmt->execute();
+        
+        return $stmt->fetchAll(); // Obtener todos los resultados
+    } catch (PDOException $e) {
+        // Manejar el error, si ocurre
+        echo "Error en la consulta: " . $e->getMessage();
+        return [];
+    }
+}
+
 			
 
 

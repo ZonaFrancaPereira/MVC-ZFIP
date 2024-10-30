@@ -896,6 +896,53 @@ var tablaActividades = $("#tabla-actividades-asignadas").DataTable({
     autoWidth: true
 });
 
+var tablaActividadesCompletas = $("#tabla-actividades-completas").DataTable({
+    "ajax": {
+        "url": "ajax/datatable-actividades.ajax.php",
+        "type": "POST",
+        "data": function (d) {
+            d.especifico = "actividadesCompletas";
+            console.log("Valor de específico:", d.especifico);
+        },
+        "dataSrc": "data"
+    },
+    "deferRender": true,
+    "serverSide": true,
+    "retrieve": true,
+    "processing": true,
+    "language": {
+        "sProcessing": "Procesando...",
+        "sLengthMenu": "Mostrar _MENU_ registros",
+        "sZeroRecords": "No se encontraron resultados",
+        "sEmptyTable": "Ningún dato disponible en esta tabla",
+        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+        "sSearch": "Buscar:",
+        "sInfoThousands": ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+            "sFirst": "Primero",
+            "sLast": "Último",
+            "sNext": "Siguiente",
+            "sPrevious": "Anterior"
+        },
+        "oAria": {
+            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        },
+        "buttons": {
+            "copy": "Copiar",
+            "colvis": "Visibilidad"
+        }
+    },
+    responsive: true,
+    dom: "Bfrtilp",
+    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+    "order": [[0, 'desc']],
+    autoWidth: true
+});
+
 $(document).ready(function () {
     $('#estado_acpm').on('change', function () {
         if ($(this).val() === 'Rechazada') {
@@ -914,6 +961,33 @@ $('#modal-aprobar').on('show.bs.modal', function (event) {
     modal.find('#id_consecutivo').val(id_consecutivo); // Establece el ID en el campo oculto del formulario
 });
 
+// Abre el modal y establece el ID en el formulario
+$('#modal-evidencia').on('show.bs.modal', function(event) {
+    var button = $(event.relatedTarget); // Button that triggered the modal
+    var id_actividad = button.data('id_actividad'); // Extract info from data-* attributes
+
+    // Update the modal's content
+    var modal = $(this);
+    modal.find('.modal-body #id_actividad_fk').val(id_actividad);
+  });
+
+  $('#modal-visualizar').on('show.bs.modal', function(event) {
+    var button = $(event.relatedTarget); // Button that triggered the modal
+    var id_actividad1 = button.data('id_actividad1'); // Extract info from data-* attributes
+
+    // Update the modal's content
+    var modal = $(this);
+    modal.find('.modal-body #evidencia').val(id_actividad1);
+  });
+
+  // Escucha el evento de clic en los botones que abren el modal
+$(document).on('click', '[data-target="#modal-visualizar"]', function() {
+    // Obtén el id_actividad desde el atributo data-id_actividad1 del botón
+    const idActividad = $(this).data('id_actividad1');
+    
+    // Actualiza el título del modal con el número de actividad
+    $('#modal-title-actividad').text('NUMERO DE ACTIVIDAD: ' + idActividad);
+});
 
 $('#modal-success').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget); // Button that triggered the modal

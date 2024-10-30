@@ -303,10 +303,10 @@ static public function ctrMostrarUsuariosCorreoJuridico($item, $valor)
 		/*=============================================
 MOSTRAR USUARIO CORREO
 =============================================*/
-static public function ctrMostrarUsuariosCorreoSolucion($item, $valor)
+static public function ctrMostrarUsuariosCorreoSolucion($item)
 {
 	$tabla = "usuarios";
-	$respuesta = ModeloUsuarios::mdlEnviarSolucion($tabla, $item, $valor);
+	$respuesta = ModeloUsuarios::mdlEnviarSolucion($tabla, $item);
 	return $respuesta;
 }
 

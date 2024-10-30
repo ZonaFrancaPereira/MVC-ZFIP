@@ -303,14 +303,41 @@ class ModeloAcpm
         switch ($consulta) {
           
             case 'actividadesAbiertas':
+                // Obtener el ID del usuario que inició sesión desde la sesión
+                $id_usuario = $_SESSION["id"];
+                
+                // Preparar y ejecutar la consulta
                 $stmt = Conexion::conectar()->prepare("SELECT actividades_acpm.*, usuarios.nombre, usuarios.apellidos_usuario
-                            FROM actividades_acpm
-                            INNER JOIN usuarios ON actividades_acpm.id_usuario_fk = usuarios.id
-                            ");
+                                                       FROM actividades_acpm
+                                                       INNER JOIN usuarios ON actividades_acpm.id_usuario_fk = usuarios.id
+                                                       WHERE usuarios.id = :id_usuario");
+                // Enlazar el parámetro :id_usuario con el ID del usuario actual
+                $stmt->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
                 $stmt->execute();
-                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
+                
+                // Retornar todos los resultados
+                return $stmt->fetchAll();
                 $stmt = null;
                 break;
+
+                case 'actividadesCompletas':
+                    // Obtener el ID del usuario que inició sesión desde la sesión
+                    $id_usuario = $_SESSION["id"];
+                    
+                    // Preparar y ejecutar la consulta
+                    $stmt = Conexion::conectar()->prepare("SELECT actividades_acpm.*, usuarios.nombre, usuarios.apellidos_usuario
+                                                           FROM actividades_acpm
+                                                           INNER JOIN usuarios ON actividades_acpm.id_usuario_fk = usuarios.id
+                                                           WHERE usuarios.id = :id_usuario");
+                    // Enlazar el parámetro :id_usuario con el ID del usuario actual
+                    $stmt->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
+                    $stmt->execute();
+                    
+                    // Retornar todos los resultados
+                    return $stmt->fetchAll();
+                    $stmt = null;
+                    break;
+            
 
                 default:
                 $consulta = null;
@@ -320,6 +347,7 @@ class ModeloAcpm
         }
     }
     
+
     /*=============================================
 	INGRESAR ACTIVIDAD
 	=============================================*/

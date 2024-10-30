@@ -227,7 +227,7 @@ if ($id_acpm > 0) {
                         <!-- Hidden input for activity ID -->
                         <div class="form-group">
                           <label for="id_actividad_fk">Actividad</label>
-                          <input type="text" id="id_actividad_fk" name="id_actividad_fk" class="form-control" readonly>
+                          <input type="text" id="id_actividad_fk" name="id_actividad_fk" class="form-control"  readonly>
                         </div>
 
                         <div class="form-group">

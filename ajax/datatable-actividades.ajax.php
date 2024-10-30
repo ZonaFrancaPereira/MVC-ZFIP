@@ -16,6 +16,9 @@ class TablaActividades
             case 'actividadesAbiertas':
                 $this->mostrarTabla($item, $valor, "actividadesAbiertas");
                 break;
+                case 'actividadesCompletas':
+                    $this->mostrarTabla($item, $valor, "actividadesCompletas");
+                    break;
             default:
                 echo json_encode(["data" => []]);
                 break;
@@ -40,16 +43,27 @@ class TablaActividades
     private function prepararDatos($s, $consulta)
     {
         switch ($consulta) {
-
+            
             case 'actividadesAbiertas':
-                $asignar_actividades = "<button type='button' class='btn btn-outline-info aprobarAcpm' data-id_acpm_fk='{$s["id_consecutivo"]}' data-toggle='modal' data-target='#modal-success'>Asignar actividades</button>";
+                if ($s["estado_actividad"] !== 'Incompleta') return null;
+                $subir_evidencia = "<button type='button' class='btn btn-outline-info' data-id_actividad='{$s["id_actividad"]}' data-toggle='modal' data-target='#modal-evidencia'>Subir evidencia</button></td>";
                 return [
-                    $s["id_consecutivo"],
-                    $s["nombre"],
-                    $s["origen_acpm"],
-                    $s["fuente_acpm"],
-                    $asignar_actividades
+                    $s["id_actividad"],
+                    $s["fecha_actividad"],
+                    $s["descripcion_actividad"],
+                    $s["estado_actividad"],
+                    $subir_evidencia
                 ];
+                case 'actividadesCompletas':
+                    if ($s["estado_actividad"] !== 'Completa') return null;
+                    $informe_acpm = "<a target='_blank' href='extensiones/tcpdf/pdf/acpmpdf.php?id={$s["id_acpm_fk"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
+                    return [
+                        $s["id_actividad"],
+                        $s["fecha_actividad"],
+                        $s["descripcion_actividad"],
+                        $s["estado_actividad"],
+                        $informe_acpm
+                    ];
             default:
                 return null;
         }
