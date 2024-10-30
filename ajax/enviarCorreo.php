@@ -341,10 +341,9 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
 
                     // Capturar el id del usuario desde la variable $id_usuario_fk
                     $item = 'id';
-                    $valor = $id_usuario_fk;; // Cambiar esto a id_consulta para obtener el soporte jurídico relacionado
                 
                     // Consulta para obtener el correo del solicitante y detalles de la solicitud
-                    $usuarios = ControladorUsuarios::ctrMostrarUsuariosCorreoSolucion($item, $valor);
+                    $usuarios = ControladorUsuarios::ctrMostrarUsuariosCorreoSolucion($item);
                 
                     // Verificar que se obtuvo una respuesta
                     if (!empty($usuarios)) {
