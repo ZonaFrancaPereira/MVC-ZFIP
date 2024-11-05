@@ -65,7 +65,7 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
                     </div>
                     <!-- /. FORMULARIO PARA INGRESAR NUEVO PESAJE -->
                     <div id="formbascula" class="tab-pane">
-                        <?php require "operaciones/formulario_pesaje.php"; ?>
+                        <?php require "operaciones/formulario_inspeccion.php"; ?>
                     </div>
                     <!-- /. CONSULTAR PESAJE Y SUS ESTADOS -->
                     <div id="consultarpesaje" class="tab-pane">

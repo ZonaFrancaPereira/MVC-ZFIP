@@ -20,7 +20,8 @@ session_start();
   <title>PLATAFORMA ZFIP</title>
 
   <!-- Tell the browser to be responsive to screen width -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="icon" href="vistas/img/plantilla/icono-negro.png">
 
@@ -138,6 +139,8 @@ session_start();
 <script src="vistas/plugins/summernote/summernote-bs4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+
 </head>
 
 <!--=====================================
