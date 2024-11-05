@@ -389,6 +389,50 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
 
                     }
                     break;
+            case 'enviar_verificacion_sig':
+
+                $mail->addAddress('yrios@zonafrancadepereira.com');
+                // Capturar el id del usuario desde la variable $id_usuario_fk
+                $item = 'id';
+                $valor = $id_usuario_fk;
+                $usuarios = ControladorUsuarios::ctrMostrarUsuariosCorreo($item, $valor);
+
+                if (!empty($usuarios)) {
+                    // Asignar valores obtenidos de la consulta
+                    foreach ($usuarios as $value) {
+                        $nombre_usuario = $value['nombre'];
+                        $apellidos_usuario = $value['apellidos_usuario'];
+                        $correo_usuario_u = $value['correo_usuario'];
+                        $descripcion_solicitud_juridico = $value['descripcion_solicitud_juridico'];
+                        $correo_soporte = $value['correo_usuario'];
+                        $proceso = $value['siglas_proceso'];
+                        $id_acpm = $value['id_consecutivo'];
+                    }
+
+                    // Preparar el título y el cuerpo del mensaje de correo electrónico
+                    $titulo_correo = "NUEVA ACPM PARA REVISION DE: " . $nombre_usuario;
+                    $message = "
+                            <html><body>
+                            <div style='max-width: 600px; margin: 0 auto;padding: 20px;border: 1px solid #ccc;border-radius: 5px;'>
+                            <div style=' background-color: #F8F9F9;color: black;text-align: center;padding: 10px;border-radius: 5px 5px 0 0;'>
+                                <img src='https://zonafrancadepereira.com/wp-content/uploads/2020/11/cropped-ZONA-FRANCA-LOGO-PNG-1-1-1-206x81.png' >  
+                                <h1>Nueva ACPM Esperando Revision #: $id_acpm<h1/>
+                            </div>
+                            <div style='padding: 20px;'>
+                                <p>Hola, Yuly Viviana Rios Castaño</p>
+                                <p>Te informamos que hay una ACPM de $nombre_usuario $apellidos_usuario esperando tu aprobación</p>
+                                <p>Por favor, inicia sesión en nuestro sistema para revisar y procesar la ACPM <br>
+                                <center>
+                                <a href='https://app.zonafrancadepereira.com/' target='_blank'><button style=' border: none;color: white; padding: 14px 28px; cursor: pointer;border-radius: 5px; background: #0b7dda;'>Iniciar Sesion</button></p><a><center>
+                                <p>¡Gracias!</p>
+                            </div>
+                            <div style=' text-align: center; padding: 10px;background-color: #f4f4f4;border-radius: 0 0 5px 5px;'>
+                                <p>Este es un mensaje automático, por favor no respondas a este correo.</p>
+                            </div>
+                        </div>
+                            </body></html>";
+                } 
+                break;
                 
             default:
                 // Lógica para otros módulos si es necesario

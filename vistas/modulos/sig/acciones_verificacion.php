@@ -65,7 +65,7 @@
                                                             <label for="">Descripción de la Actividad</label>
                                                             <textarea class="form-control" id="descripcion_actividad" name="descripcion_actividad"></textarea>
                                                         </div>
-                                                        <div class="col-2 col-xs-12 col-sm-12" hidden>
+                                                        <div class="col-2 col-xs-12 col-sm-12" >
                                                             <label for="">tipo actividad</label>
                                                             <input type="text" class="form-control" value="Actividad" name="tipo_actividad" id="tipo_actividad" readonly>
                                                         </div>

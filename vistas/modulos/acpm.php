@@ -241,7 +241,9 @@ if ($id_acpm > 0) {
 
                         <div class="form-group">
                           <label for="evidencia">Evidencia</label>
-                          <textarea class="textarea form-control" id="evidencia" name="evidencia" rows="3" placeholder="Evidencia" required></textarea>
+                          <textarea class="editor" id="evidencia" name="evidencia" style="display: none;"></textarea>
+                                        <!-- Contenedor para el contenido de Quill -->
+                                        <div class="quill-content"></div>
                         </div>
 
                         <div class="form-group">
@@ -330,6 +332,25 @@ if ($id_acpm > 0) {
 <!-- /.content-wrapper -->
 <?php require('footer.php'); ?>
 <!-- Scripts -->
+
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+  <!-- Control sidebar content goes here -->
+</aside>
+<!-- /.control-sidebar -->
+
+</div>
+
+<style>
+  .ql-toolbar {
+    background-color: white;
+    /* Cambiar el color de fondo de la barra de herramientas */
+    color: white;
+    /* Cambiar el color del texto en la barra de herramientas */
+  }
+</style>
 <script>
   $('#modal-evidencia').on('show.bs.modal', function(event) {
     var button = $(event.relatedTarget); // Button that triggered the modal
@@ -346,5 +367,31 @@ if ($id_acpm > 0) {
 
     var modal = $(this);
     modal.find('#idActividadEliminar').val(idActividad); // Pasar el ID de actividad al campo oculto
+  });
+</script>
+<script>
+  $(document).ready(function() {
+    // Inicializa Quill en el contenedor
+    var quill = new Quill('.quill-content', {
+      theme: 'snow'
+    });
+
+    // Actualiza el contenido del textarea cuando cambia Quill
+    quill.on('text-change', function() {
+      $('.editor').val(quill.root.innerHTML);
+    });
+  });
+</script>
+<script>
+  $(document).ready(function() {
+    // Inicializa Quill en el contenedor
+    var editor1 = new Quill('#editor1', {
+    theme: 'snow'  // o 'bubble' según tu preferencia
+});
+
+    // Actualiza el contenido del textarea cuando cambia Quill
+    quill.on('text-change', function() {
+      $('.editor1').val(quill.root.innerHTML);
+    });
   });
 </script>

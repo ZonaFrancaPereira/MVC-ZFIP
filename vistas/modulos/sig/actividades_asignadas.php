@@ -71,7 +71,6 @@ include 'acpm.css'; // Asegúrate de que el archivo CSS está en la ruta correct
                           <th>Fecha</th>
                           <th>Descripción Actividad</th>
                           <th>Estado</th>
-                          
                           <th>Informe</th>
                         </tr>
                       </thead>
@@ -114,7 +113,9 @@ include 'acpm.css'; // Asegúrate de que el archivo CSS está en la ruta correct
 
                       <div class="form-group">
                         <label for="evidencia">Evidencia</label>
-                        <textarea class="textarea form-control" id="evidencia" name="evidencia" rows="3" placeholder="Evidencia" required></textarea>
+                        <textarea class="editor" id="evidencia" name="evidencia" style="display: none;"></textarea>
+                                        <!-- Contenedor para el contenido de Quill -->
+                                        <div class="quill-content"></div>
                       </div>
 
                       <div class="form-group">
@@ -148,3 +149,39 @@ include 'acpm.css'; // Asegúrate de que el archivo CSS está en la ruta correct
   </div>
   </div>
 </section>
+
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<style>
+  .ql-toolbar {
+    background-color: white;
+    /* Cambiar el color de fondo de la barra de herramientas */
+    color: white;
+    /* Cambiar el color del texto en la barra de herramientas */
+  }
+</style>
+<script>
+  $(document).ready(function() {
+    // Inicializa Quill en el contenedor
+    var quill = new Quill('.quill-content', {
+      theme: 'snow'
+    });
+
+    // Actualiza el contenido del textarea cuando cambia Quill
+    quill.on('text-change', function() {
+      $('.editor').val(quill.root.innerHTML);
+    });
+  });
+</script>
+<script>
+  $(document).ready(function() {
+    // Inicializa Quill en el contenedor
+    var editor1 = new Quill('#editor1', {
+    theme: 'snow'  // o 'bubble' según tu preferencia
+});
+
+    // Actualiza el contenido del textarea cuando cambia Quill
+    quill.on('text-change', function() {
+      $('.editor1').val(quill.root.innerHTML);
+    });
+  });
+</script>
