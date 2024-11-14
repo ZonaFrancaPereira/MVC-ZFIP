@@ -55,7 +55,7 @@
                                                             <div class="col-sm-3">
                                                                 <div class="form-group">
                                                                     <label for="usuario_solicitud_cod">Solicitado por</label>
-                                                                    <input type="text" class="form-control" id="usuario_solicitud_cod" value="<?php echo $_SESSION['nombre_usuario'] . " " . $_SESSION['apellidos_usuario'] ?>" name="usuario_solicitud_cod" readonly>
+                                                                    <input type="text" class="form-control" id="usuario_solicitud_cod" value="<?php echo $_SESSION['nombre'] ?>" name="usuario_solicitud_cod" readonly>
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-3">
@@ -70,25 +70,25 @@
                                                             <div class="col-sm-6">
                                                                 <div class="form-group">
                                                                     <label for="nombre_documento">Nombre del Documento</label>
-                                                                    <input type="text" class="form-control" id="nombre_documento" name="nombre_documento" placeholder="Nombre del Documento">
+                                                                    <input type="text" class="form-control" id="nombre_documento" name="nombre_documento" placeholder="Nombre del Documento" required>
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-6">
                                                                 <div class="form-group">
                                                                     <label for="codigo">Código</label>
-                                                                    <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Código">
+                                                                    <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Código" required>
                                                                 </div>
                                                             </div>
                                                         </div>
 
                                                         <div class="form-group mb-3">
                                                             <label for="descripcion_cambio">Descripción del Cambio</label>
-                                                            <textarea class="form-control" id="descripcion_cambio" name="descripcion_cambio" rows="3" placeholder="Descripción"></textarea>
+                                                            <textarea class="form-control" id="descripcion_cambio" name="descripcion_cambio" rows="3" placeholder="Descripción" required></textarea>
                                                         </div>
 
                                                         <div class="form-group mb-3">
                                                             <label for="link_formato_codificacion">Link Documento Modificado</label>
-                                                            <textarea class="textarea" id="link_formato_codificacion" name="link_formato_codificacion" style="display: none;"></textarea>
+                                                            <textarea class="textarea" id="link_formato_codificacion" name="link_formato_codificacion" style="display: none;" required></textarea>
                                                             <div class="quill-content"></div>
                                                         </div>
 
@@ -101,33 +101,33 @@
                                                                 <h6 class="text-center bg-info text-white p-2">ELABORA</h6>
                                                                 <div class="form-group">
                                                                     <label for="elabora_nombre">Nombre</label>
-                                                                    <input type="text" class="form-control" id="elabora_nombre" name="elabora_nombre" placeholder="Nombre">
+                                                                    <input type="text" class="form-control" id="elabora_nombre" name="elabora_nombre" placeholder="Nombre" required>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="elabora_correo">Cargo</label>
-                                                                    <input type="text" class="form-control" id="elabora_correo" name="elabora_correo" placeholder="Cargo">
+                                                                    <input type="text" class="form-control" id="elabora_correo" name="elabora_correo" placeholder="Cargo" required>
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-4">
                                                                 <h6 class="text-center bg-info text-white p-2">REVISA</h6>
                                                                 <div class="form-group">
                                                                     <label for="revisa_nombre">Nombre</label>
-                                                                    <input type="text" class="form-control" id="revisa_nombre" name="revisa_nombre" placeholder="Nombre">
+                                                                    <input type="text" class="form-control" id="revisa_nombre" name="revisa_nombre" placeholder="Nombre" required>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="revisa_correo">Cargo</label>
-                                                                    <input type="text" class="form-control" id="revisa_correo" name="revisa_correo" placeholder="Cargo">
+                                                                    <input type="text" class="form-control" id="revisa_correo" name="revisa_correo" placeholder="Cargo" required>
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-4">
                                                                 <h6 class="text-center bg-info text-white p-2">APRUEBA</h6>
                                                                 <div class="form-group">
                                                                     <label for="aprueba_nombre">Nombre</label>
-                                                                    <input type="text" class="form-control" id="aprueba_nombre" name="aprueba_nombre" placeholder="Nombre">
+                                                                    <input type="text" class="form-control" id="aprueba_nombre" name="aprueba_nombre" placeholder="Nombre" required>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="aprueba_correo">Cargo</label>
-                                                                    <input type="text" class="form-control" id="aprueba_correo" name="aprueba_correo" placeholder="Cargo">
+                                                                    <input type="text" class="form-control" id="aprueba_correo" name="aprueba_correo" placeholder="Cargo" required>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -151,13 +151,13 @@
                                                                 <tbody>
                                                                     <tr class="fila-fija">
                                                                         <td class="col-md-2">
-                                                                            <input type="text" id="codigo_doc_afectado[]" name="codigo_doc_afectado[]" class="codigo_doc_afectado form-control" placeholder="Código" step="any">
+                                                                            <input type="text" id="codigo_doc_afectado" name="codigo_doc_afectado" class="codigo_doc_afectado form-control" placeholder="Código" step="any">
                                                                         </td>
                                                                         <td class="col-md-2">
-                                                                            <input type="text" id="nombre_doc_afectado[]" name="nombre_doc_afectado[]" class="nombre_doc_afectado form-control" placeholder="Nombre" step="any">
+                                                                            <input type="text" id="nombre_doc_afectado" name="nombre_doc_afectado" class="nombre_doc_afectado form-control" placeholder="Nombre" step="any">
                                                                         </td>
                                                                         <td class="col-md-2">
-                                                                            <select class="form-control select2" id="afecta[]" name="afecta[]">
+                                                                            <select class="form-control select2" id="afecta" name="afecta">
                                                                                 <option value=""></option>
                                                                                 <option value="Si">Si</option>
                                                                                 <option value="No">No</option>
@@ -188,19 +188,19 @@
                                                                 <div class="form-group">
                                                                     <label for="">Seleccionar Colaboradores</label>
                                                                     <div class="icheck-success d-inline">
-                                                                        <input type="radio" id="radioAll" name="colaboradores" value="Si" onclick="handleRadioChange()">
+                                                                        <input type="radio" id="radioAll" name="todos_colaboradores" value="Si" onclick="handleRadioChange()">
                                                                         <label for="radioAll">Todos los Colaboradores</label>
                                                                     </div>
                                                                     <div class="icheck-success d-inline">
-                                                                        <input type="radio" id="radioLeaders" name="colaboradores" value="Si" onclick="handleRadioChange()">
+                                                                        <input type="radio" id="radioLeaders" name="solo_lider" value="Si" onclick="handleRadioChange()">
                                                                         <label for="radioLeaders">Sólo Líderes de Proceso</label>
                                                                     </div>
                                                                     <div class="icheck-success d-inline">
-                                                                        <input type="radio" id="radioMembers" name="colaboradores" value="Si" onclick="handleRadioChange()">
+                                                                        <input type="radio" id="radioMembers" name="miembros_proceso" value="Si" onclick="handleRadioChange()">
                                                                         <label for="radioMembers">Sólo Miembros de un Proceso</label>
                                                                     </div>
                                                                     <div class="icheck-success d-inline">
-                                                                        <input type="radio" id="radioSpecific" name="colaboradores" value="Si" onclick="handleRadioChange()">
+                                                                        <input type="radio" id="radioSpecific" name="colaborador_expecifico" value="Si" onclick="handleRadioChange()">
                                                                         <label for="radioSpecific">Colaborador (s) Específico</label>
                                                                     </div>
                                                                 </div>
@@ -210,7 +210,7 @@
                                                                     <label for="nombre_proceso_cod">Especificar Miembros:</label>
                                                                     <input type="text" id="nombre_proceso_cod" name="nombre_proceso_cod" class="form-control" placeholder="Ingrese el nombre del miembro">
                                                                 </div>
-
+         
 
                                                                 <table class="table" id="tabla3">
                                                                     <thead>
@@ -223,10 +223,10 @@
                                                                     <tbody>
                                                                         <tr class="fila-fija3">
                                                                             <td class="col-md-2">
-                                                                                <input type="text" name="nombre_interna[]" class="nombre_interna form-control" placeholder="Nombre" step="any">
+                                                                                <input type="text" name="nombre_interna" class="nombre_interna form-control" placeholder="Nombre" step="any">
                                                                             </td>
                                                                             <td class="col-md-2">
-                                                                                <input type="text" name="correo_interna[]" class="correo_interna form-control" placeholder="Correo" step="any">
+                                                                                <input type="text" name="correo_interna" class="correo_interna form-control" placeholder="Correo" step="any">
                                                                             </td>
                                                                             <td class="eliminar col-md-1">
                                                                                 <input type="button" class="btn btn-danger" value="X" />
@@ -254,10 +254,10 @@
                                                                     <tbody>
                                                                         <tr class="fila-fija2">
                                                                             <td class="col-md-2">
-                                                                                <input type="text" name="nombre_externa[]" class="nombre_externa form-control" placeholder="Nombre" step="any">
+                                                                                <input type="text" name="nombre_externa" class="nombre_externa form-control" placeholder="Nombre" step="any">
                                                                             </td>
                                                                             <td class="col-md-2">
-                                                                                <input type="text" name="correo_externa[]" class="correo_externa form-control" placeholder="Correo" step="any">
+                                                                                <input type="text" name="correo_externa" class="correo_externa form-control" placeholder="Correo" step="any">
                                                                             </td>
                                                                             <td class="eliminar col-md-1">
                                                                                 <input type="button" class="btn btn-danger" value="X" />

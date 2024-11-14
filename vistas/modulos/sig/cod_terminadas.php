@@ -25,19 +25,15 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="" class="table table-bordered table-striped dt-responsive nowrap" style="width:100%">
+                            <table id="tabla-cod-terminadas" class="table table-bordered table-striped dt-responsive nowrap" style="width:100%">
                                 <thead class="bg-dark">
                                     <tr>
-                                        <th>#</th>
-                                        <th>Nombre</th>
-                                        <th>Correo</th>
-                                        <th>Cargo</th>
-                                        <th>Fecha</th>
-                                        <th>Proceso</th>
-                                        <th>Tipo de Solicitud</th>
-                                        <th>Descripción</th>
+                                    <th>#</th>
+                                        <th>Vigencia</th>
+                                        <th>Fecha de Solicitud</th>
+                                        <th>Solicitante</th>
                                         <th>Estado</th>
-                                        <th>Aprobar</th>
+                                        <th>Formato</th>
                                     </tr>
                                 </thead>
                             </table>

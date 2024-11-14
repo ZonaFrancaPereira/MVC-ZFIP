@@ -943,6 +943,150 @@ var tablaActividadesCompletas = $("#tabla-actividades-completas").DataTable({
     autoWidth: true
 });
 
+    /*=============================================
+	TABLAS PAR4A MODULO DE SOLICITUD DE CODIFICACION
+	=============================================*/
+var tablaCodResponder = $("#tabla-cod-responder").DataTable({
+    "ajax": {
+        "url": "ajax/datatable-codificar.ajax.php",
+        "type": "POST",
+        "data": function (d) {
+            d.especifico = "cod_responder";
+            console.log("Valor de específico:", d.especifico);
+        },
+        "dataSrc": "data"
+    },
+    "deferRender": true,
+    "serverSide": true,
+    "retrieve": true,
+    "processing": true,
+    "language": {
+        "sProcessing": "Procesando...",
+        "sLengthMenu": "Mostrar _MENU_ registros",
+        "sZeroRecords": "No se encontraron resultados",
+        "sEmptyTable": "Ningún dato disponible en esta tabla",
+        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+        "sSearch": "Buscar:",
+        "sInfoThousands": ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+            "sFirst": "Primero",
+            "sLast": "Último",
+            "sNext": "Siguiente",
+            "sPrevious": "Anterior"
+        },
+        "oAria": {
+            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        },
+        "buttons": {
+            "copy": "Copiar",
+            "colvis": "Visibilidad"
+        }
+    },
+    responsive: true,
+    dom: "Bfrtilp",
+    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+    "order": [[0, 'desc']],
+    autoWidth: true
+});
+
+var tablaCodTerminadas = $("#tabla-cod-terminadas").DataTable({
+    "ajax": {
+        "url": "ajax/datatable-codificar.ajax.php",
+        "type": "POST",
+        "data": function (d) {
+            d.especifico = "cod_terminadas";
+            console.log("Valor de específico:", d.especifico);
+        },
+        "dataSrc": "data"
+    },
+    "deferRender": true,
+    "serverSide": true,
+    "retrieve": true,
+    "processing": true,
+    "language": {
+        "sProcessing": "Procesando...",
+        "sLengthMenu": "Mostrar _MENU_ registros",
+        "sZeroRecords": "No se encontraron resultados",
+        "sEmptyTable": "Ningún dato disponible en esta tabla",
+        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+        "sSearch": "Buscar:",
+        "sInfoThousands": ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+            "sFirst": "Primero",
+            "sLast": "Último",
+            "sNext": "Siguiente",
+            "sPrevious": "Anterior"
+        },
+        "oAria": {
+            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        },
+        "buttons": {
+            "copy": "Copiar",
+            "colvis": "Visibilidad"
+        }
+    },
+    responsive: true,
+    dom: "Bfrtilp",
+    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+    "order": [[0, 'desc']],
+    autoWidth: true
+});
+
+var tablaCodRealizadas = $("#tabla-cod-realizadas").DataTable({
+    "ajax": {
+        "url": "ajax/datatable-codificar.ajax.php",
+        "type": "POST",
+        "data": function (d) {
+            d.especifico = "cod_realizadas";
+            console.log("Valor de específico:", d.especifico);
+        },
+        "dataSrc": "data"
+    },
+    "deferRender": true,
+    "serverSide": true,
+    "retrieve": true,
+    "processing": true,
+    "language": {
+        "sProcessing": "Procesando...",
+        "sLengthMenu": "Mostrar _MENU_ registros",
+        "sZeroRecords": "No se encontraron resultados",
+        "sEmptyTable": "Ningún dato disponible en esta tabla",
+        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+        "sSearch": "Buscar:",
+        "sInfoThousands": ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+            "sFirst": "Primero",
+            "sLast": "Último",
+            "sNext": "Siguiente",
+            "sPrevious": "Anterior"
+        },
+        "oAria": {
+            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        },
+        "buttons": {
+            "copy": "Copiar",
+            "colvis": "Visibilidad"
+        }
+    },
+    responsive: true,
+    dom: "Bfrtilp",
+    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+    "order": [[0, 'desc']],
+    autoWidth: true
+});
+
 $(document).ready(function () {
     $('#estado_acpm').on('change', function () {
         if ($(this).val() === 'Rechazada') {
@@ -1107,7 +1251,48 @@ $('#modal-modificar-seguridad').on('show.bs.modal', function (event) {
     modal.find('.modal-body #seguridad').val(seguridad);
 });
 
+    /*=============================================
+	            MODAL DE CODIFICAR
+	=============================================*/
+$('#modal-cod_realizadas').on('show.bs.modal', function(event) {
+    var button = $(event.relatedTarget); 
+    var id_codificar = button.data('id_codificar');
+    var modal = $(this);
 
+    modal.find('.modal-body #id_codificar').val(id_codificar);
+});
+
+/*=============================================
+	    SE OCULTA Y SE MUETSRA EL CAMPO DE RECHAZO
+	=============================================*/
+
+    document.getElementById("estado_sig_codificacion").addEventListener("change", function() {
+        const rechazoSection = document.getElementById("rechazo_section");
+        if (this.value === "Rechazado") {
+            rechazoSection.style.display = "block";
+        } else {
+            rechazoSection.style.display = "none";
+        }
+    });
+
+    $(document).ready(function() {
+        // Mostrar/ocultar el campo cuando se carga la página
+        toggleEvidencia();
+
+        // Escuchar el cambio del estado
+        $('#estado_sig_codificacion').on('change', function() {
+            toggleEvidencia();
+        });
+
+        function toggleEvidencia() {
+            // Verificar el valor del select
+            if ($('#estado_sig_codificacion').val() === 'Aprobado') {
+                $('#evidencia_difucion_container').show();  // Mostrar el campo
+            } else {
+                $('#evidencia_difucion_container').hide();  // Ocultar el campo
+            }
+        }
+    });
 
 $(document).ready(function () {
     $("#accion_acpm").change(function () {

@@ -247,6 +247,7 @@ CUERPO DOCUMENTO
   <script src="vistas/js/sadoc.js"></script>
   <script src="vistas/js/tecnica.js"></script>
   <script src="vistas/js/juridico.js"></script>
+  <script src="vistas/js/backup.js"></script>
   <script>
 
 
@@ -368,16 +369,7 @@ autoWidth: true
     });
   });
 </script>
-<script>
-    function resetRadio(currentRadio) {
-        const radios = document.getElementsByName(currentRadio.name);
-        for (let radio of radios) {
-            if (radio !== currentRadio) {
-                radio.checked = false;  // Desmarcar otros radios
-            }
-        }
-    }
-</script>
+
 
 <script>
     function handleRadioChange() {

@@ -25,19 +25,16 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="" class="table table-bordered table-striped dt-responsive nowrap" style="width:100%">
+                            <table id="tabla-cod-realizadas" class="table table-bordered table-striped dt-responsive nowrap" style="width:100%">
                                 <thead class="bg-dark">
                                     <tr>
                                         <th>#</th>
-                                        <th>Nombre</th>
-                                        <th>Correo</th>
-                                        <th>Cargo</th>
-                                        <th>Fecha</th>
-                                        <th>Proceso</th>
-                                        <th>Tipo de Solicitud</th>
-                                        <th>Descripción</th>
-                                        <th>Estado</th>
-                                        <th>Aprobar</th>
+                                        <th>Vigencia</th>
+                                        <th>Fecha de Solicitud</th>
+                                        <th>Solicitante</th>
+                                        <th>Fecha Solucion</th>
+                                        <th>Estado Solicitud</th>
+                                        <th>Formato</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -48,3 +45,5 @@
         </div>
     </div>
 </section>
+
+

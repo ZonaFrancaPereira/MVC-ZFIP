@@ -233,12 +233,6 @@
       </a>
       <ul class="nav nav-treeview collapse show" id="menuCodificacion">
         <li class="nav-item">
-          <a data-toggle="tab" data-target="#panelControl" class="nav-link">
-            <i class="fas fa-th-large"></i>
-            <p>Panel de Control</p>
-          </a>
-        </li>
-        <li class="nav-item">
           <a data-toggle="tab" data-target="#codificacion" class="nav-link">
             <i class="fas fa-file-signature"></i>
             <p>Realizar Solicitud</p>
@@ -250,12 +244,7 @@
             <p>Solicitudes Realizadas</p>
           </a>
         </li>
-        <li class="nav-item">
-          <a data-toggle="tab" data-target="#cod_rechazada" class="nav-link">
-            <i class="fas fa-times-circle"></i>
-            <p>Solicitudes Rechazadas</p>
-          </a>
-        </li>
+        <?php if (isset($_SESSION["id_cargo_fk"]) && $_SESSION["id_cargo_fk"] == 4): ?>
         <li class="nav-item">
           <a data-toggle="tab" data-target="#cod_responder" class="nav-link">
             <i class="fas fa-reply"></i>
@@ -268,6 +257,7 @@
             <p>Solicitudes Terminadas</p>
           </a>
         </li>
+        <?php endif; ?>
       </ul>
     </li>
 
@@ -492,13 +482,7 @@ if ($_SESSION["ti"] == "off") {
             </div>
           </div>
 
-          <div id="cod_rechazada" class="tab-pane">
-            <div class="row">
-              <div class="col-md-12">
-                <?php require "sig/cod_rechazada.php"; ?>
-              </div>
-            </div>
-          </div>
+          
 
           <div id="cod_responder" class="tab-pane">
             <div class="row">
