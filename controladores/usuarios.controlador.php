@@ -260,6 +260,20 @@ class ControladorUsuarios
 		return $respuesta;
 	}
 
+		/*=============================================
+	MOSTRAR USUARIO
+	=============================================*/
+
+	static public function ctrMostrarUsuario($item, $valor)
+	{
+
+		$tabla = "usuarios";
+
+		$respuesta = ModeloUsuarios::MdlMostrarUsuario($tabla, $item, $valor);
+
+		return $respuesta;
+	}
+
 	/*=============================================
 MOSTRAR USUARIO CORREO
 =============================================*/

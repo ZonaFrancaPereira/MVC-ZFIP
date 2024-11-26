@@ -228,6 +228,15 @@ var tablaMantenimiento = $("#tabla-mantenimiento-equipos").DataTable({
 
 });
 
+$('#firmaModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); // Botón que abrió el modal
+    var idMantenimiento = button.data('id'); // Extraemos el id del botón
+
+    var modal = $(this);
+    modal.find('.modal-body #id_mantenimiento').val(idMantenimiento); // Rellenamos el campo oculto con el id
+});
+
+
 var tablaImpresora = $("#tabla-mantenimiento-impresora").DataTable({
 	"ajax": {
 		"url": "ajax/datatable-mantenimiento.ajax.php", // Ruta a tu archivo PHP que devuelve los datos JSON

@@ -83,8 +83,20 @@ $dominio_zfip = $row["dominio_zfip"];
 $apagar_pantalla = $row["apagar_pantalla"];
 $estado_suspension = $row["estado_suspension"];
 $estado_mantenimiento_equipo = $row["estado_mantenimiento_equipo"];
+
+// Define the base URL for your hosting environment
+$baseUrl = "/MVC-ZFIP/"; // Cambia esto según sea necesario para tu entorno de hosting
+
+// Retrieve the relative path from the database
+$rutaRelativa = $row["firma"]; // Esta es la ruta que obtienes de la base de datos
+
+// Construct the full URL
+$foto = $baseUrl . $rutaRelativa; // Combina la base URL con la ruta relativa
+
+
 $nombreImagen = "images/logo_zf.png";
 $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($nombreImagen));
+
 // Contenido del documento
 $html = <<<EOF
 <style>
@@ -281,7 +293,7 @@ $html = <<<EOF
             <b>FIRMA</b>
         </td>
         <td colspan="3" class="signature">
-            <img src="$firmar" alt="" width="180">
+            <img src="$foto" alt="" width="180">
         </td>
     </tr>
 </table>

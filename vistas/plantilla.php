@@ -248,6 +248,7 @@ CUERPO DOCUMENTO
   <script src="vistas/js/tecnica.js"></script>
   <script src="vistas/js/juridico.js"></script>
   <script src="vistas/js/backup.js"></script>
+  <script src="vistas/js/consumibles.js"></script>
   <script>
 
 

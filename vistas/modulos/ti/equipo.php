@@ -34,21 +34,28 @@
                                     </div>
                                     <div class="col-6"><br>
                                         <label for="id_usuario_fk">Responsable</label>
-                                        <input list="usuarios" class="form-control select2 " id="id_usuario_fk" name="id_usuario_fk" required style="width: 100%;">
-                                        <datalist id="usuarios">
+                                        <input list="usuario" class="form-control" id="id_usuario_fk" name="id_usuario_fk" required style="width: 100%;">
+                                        <datalist id="usuario">
                                             <?php
-                                            if ($usuario["id"] <> 0) {
-                                                echo '<option value="' . $value["id"] . '"> ' . $value["nombre"] . $value["apellidos_usuario"] . ' </option>';
-                                            }
                                             $item = null;
                                             $valor = null;
-                                            $usuario = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
-                                            foreach ($usuario as $key => $value) {
-                                                echo '<option value="' . $value["id"] . '"> ' . $value["nombre"] . $value["apellidos_usuario"] . ' </option>';
+                                            
+                                            // Llamada al método del controlador para obtener los usuarios
+                                            $usuarios = ControladorUsuarios::ctrMostrarUsuario($item, $valor);
+
+                                            // Verificar si $usuarios es un array válido
+                                            if (!empty($usuarios) && is_array($usuarios)) {
+                                                foreach ($usuarios as $key => $value) {
+                                                    echo '<option value="' . htmlspecialchars($value["id"]) . '">' . htmlspecialchars($value["nombre"] . ' ' . $value["apellidos_usuario"]) . '</option>';
+                                                }
+                                            } else {
+                                                // Mostrar un mensaje en caso de que no haya datos disponibles
+                                                echo '<option value="">No hay usuarios disponibles</option>';
                                             }
                                             ?>
                                         </datalist>
                                     </div>
+
                                     <div class="col-md-12"><br>
                                         <div class="card card-info collapsed-card">
                                             <div class="card-header">

@@ -206,5 +206,47 @@ class ControladorMantenimiento
     }
    
 
+    static public function ctrFirmarMantenimiento()
+    {
+        if (isset($_POST["firma"])) {
+            var_dump($_POST); // Para depurar
+            $tabla = "mantenimientos";
+            $datos = array(
+                "id_mantenimiento" => $_POST["id_mantenimiento"],
+                "firma" => $_POST["firma"],
+                "estado_mantenimiento_equipo" => "Firmado"
+            );
+    
+            $respuesta = ModeloMantenimiento::mdlFirmarMantenimiento($tabla, $datos);
+    
+            if ($respuesta == "ok") {
+                echo '<script>
+                    Swal.fire(
+                    "Buen Trabajo!",
+                    "El Mantenimiento General fue firmado con éxito.",
+                    "success"
+                    ).then(function() {
+                        // Cambia el selector a un elemento válido
+                        $("#someElement").addClass("active");
+                    });
+                </script>';
+            } else {
+                echo '<script>
+                    Swal.fire({
+                        icon: "error",
+                        title: "¡Error!",
+                        text: "Hubo un problema al firmar el mantenimiento: ' . $respuesta . '",
+                        showConfirmButton: true,
+                        confirmButtonText: "Cerrar"
+                    }).then(function(result){
+                        if(result.value){
+                            $("#someElement").addClass("active");
+                        }
+                    });
+                </script>';
+            }
+        }
+    }
+    
     
 }

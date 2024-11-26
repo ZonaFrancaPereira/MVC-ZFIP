@@ -5,6 +5,27 @@ require_once "conexion.php";
 class ModeloUsuarios
 {
 
+
+	static public function mdlMostrarUsuario($tabla, $item, $valor)
+	{
+		try {
+			// Conectar a la base de datos
+			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+
+			// Ejecutar la consulta
+			$stmt->execute();
+
+			// Retornar todos los resultados
+			return $stmt->fetchAll(PDO::FETCH_ASSOC); // Devuelve un array asociativo de todos los consumibles
+
+		} catch (PDOException $e) {
+			echo 'Error: ' . $e->getMessage(); // Manejo de errores
+			return [];
+		}
+
+		
+	}
+
 	/*=============================================
 	MOSTRAR USUARIOS
 	=============================================*/

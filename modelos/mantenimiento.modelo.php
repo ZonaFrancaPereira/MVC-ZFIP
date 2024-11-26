@@ -280,10 +280,9 @@ class ModeloMantenimiento
     public static function mdlMostrarMantenimiento($tabla, $item, $valor, $consulta)
     {
         switch ($consulta) {
-            case 'mantenimientos':
+            case 'equipo':
                 // Consulta con filtro
-                $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :valor");
-                $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
+                $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
                 $stmt->execute();
                 return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
                 $stmt = null;
@@ -407,4 +406,33 @@ class ModeloMantenimiento
                 break;
         }
     }
+
+
+    public static function mdlFirmarMantenimiento($tabla, $datos)
+    {
+        // Crear la consulta SQL de actualización
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla 
+            SET 
+                firma = :firma, 
+                estado_mantenimiento_equipo = :estado_mantenimiento_equipo 
+            WHERE id_mantenimiento = :id_mantenimiento"); // Usamos id_mantenimiento
+    
+        // Vincular los parámetros a la consulta
+        $stmt->bindParam(":firma", $datos["firma"], PDO::PARAM_STR);
+        $stmt->bindParam(":estado_mantenimiento_equipo", $datos["estado_mantenimiento_equipo"], PDO::PARAM_STR);
+        $stmt->bindParam(":id_mantenimiento", $datos["id_mantenimiento"], PDO::PARAM_INT); // Usamos id_mantenimiento
+    
+        // Ejecutar la consulta
+        if ($stmt->execute()) {
+            return "ok"; // Si la actualización es exitosa
+        } else {
+            return "error"; // Si ocurre un error
+        }
+    
+        // Cerrar la conexión
+        $stmt->close();
+        $stmt = null;
+    }
+    
+    
 }

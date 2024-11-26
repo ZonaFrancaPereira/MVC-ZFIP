@@ -60,10 +60,7 @@ require_once "configuracion.php";
                 <p>Contraseñas</p>
             </a>
         </li>
-        <?php
-                    $cargoTi = [1,2];
-                    if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargoTi)):
-                    ?>
+
         <li class="nav-item">
             <a data-toggle="tab" href="#" class="nav-link">
             <i class="fas fa-print"></i>
@@ -92,17 +89,9 @@ require_once "configuracion.php";
                         <p>Registrar Consumible</p>
                     </a>
                 </li>
-
-                <li class="nav-item">
-                    <a data-toggle="tab" href="#" class="nav-link">
-                        <i class="nav-icon far fa-question-circle"></i>
-                        <p>Realizar Verificacion</p>
-                    </a>
-                </li>
-              
             </ul>
         </li>
-        <?php endif; ?>
+  
         
         <li class="nav-item">
             <a data-toggle="tab" href="#criticidad" class="nav-link">
@@ -131,6 +120,12 @@ require_once "configuracion.php";
                 </p>
             </a>
             <ul class="nav nav-treeview">
+            <li class="nav-item">
+                    <a data-toggle="tab" href="#mantenimientos" class="nav-link">
+                        <i class="nav-icon far fa-question-circle"></i>
+                        <p>Principal</p>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a data-toggle="tab" href="#equipo" class="nav-link">
                         <i class="nav-icon fas fa-sync-alt"></i>
@@ -149,12 +144,7 @@ require_once "configuracion.php";
                         <p>Impresora</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a data-toggle="tab" href="#mantenimientos" class="nav-link">
-                        <i class="nav-icon far fa-question-circle"></i>
-                        <p>Principal</p>
-                    </a>
-                </li>
+               
             </ul>
         </li>
         <li class="nav-item">

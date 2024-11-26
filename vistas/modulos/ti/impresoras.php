@@ -42,7 +42,7 @@
                             <h3 class="card-title">Impresoras</h3>
                         </div>
                         <div class="card-body">
-                            <table id="impresorasTable" class="table table-bordered table-striped dt-responsive" width="100%">
+                            <table id="tabla-impresoras-consumibles" class="table table-bordered table-striped dt-responsive" width="100%">
                                 <thead class="bg-dark">
                                     <tr>
                                         <th>#</th>
@@ -50,6 +50,7 @@
                                         <th>Modelo</th>
                                         <th>Serial</th>
                                         <th>Ubicación</th>
+                                        
                                     </tr>
                                 </thead>
                             </table>
@@ -72,7 +73,7 @@
                             <h3 class="card-title">Formulario para Ingresar Impresora</h3>
                         </div>
                         <div class="card-body">
-                            <form action="procesar_impresora.php" method="POST">
+                            <form method="POST" enctype="multipart/form-data" >
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -102,8 +103,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-primary">Guardar Impresora</button>
+                                    <button type="submit" class="btn btn-primary" id="guardar_impresora">Guardar Impresora</button>
                                 </div>
+                                <?php
+                                    $crearImpresora = new ControladorConsumibles();
+                                    $crearImpresora ->ctrCrearImpresora();
+                                ?>
                             </form>
                         </div>
                     </div>
@@ -113,4 +118,61 @@
     </section>
   </div>
   
+  <!-- Pestaña de Inicio -->
+<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Card de Bienvenida -->
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header bg-info">
+                            <h3 class="card-title">Bienvenido a la Gestión de Impresoras</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Bienvenido al sistema de gestión de impresoras. Este sistema te permitirá:</p>
+                            <ul>
+                                <li>Ver todas las impresoras registradas en el sistema.</li>
+                                <li>Agregar nuevas impresoras a la base de datos.</li>
+                                <li>Gestionar la ubicación y modelo de cada impresora.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Card de Impresoras -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-primary">
+                            <h3 class="card-title">Impresoras</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>En esta pestaña, podrás visualizar todas las impresoras registradas en el sistema, incluyendo su nombre, modelo, número de serie y ubicación.</p>
+                            <p>Además, podrás realizar búsquedas y filtrados para encontrar las impresoras rápidamente.</p>
+                            <a href="#impresoras_consumibles" class="btn btn-info" data-toggle="tab">Ver Impresoras</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card de Ingresar Impresora -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-success">
+                            <h3 class="card-title">Ingresar Impresora</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Si deseas agregar una nueva impresora al sistema, puedes hacerlo desde esta sección.</p>
+                            <p>Completa los campos con la información de la impresora, como nombre, modelo, serial y ubicación, y luego haz clic en "Guardar Impresora".</p>
+                            <a href="#ingresar_impresora" class="btn btn-success" data-toggle="tab">Agregar Impresora</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>
+
 </div>
