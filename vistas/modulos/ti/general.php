@@ -34,17 +34,23 @@
                                     </div>
                                     <div class="col-6"><br>
                                         <label for="id_usuario_fk3">Responsable</label>
-                                        <input list="usuarios" class="form-control select2 " id="id_usuario_fk3" name="id_usuario_fk3" required style="width: 100%;">
-                                        <datalist id="usuarios">
+                                        <input list="usuario" class="form-control select2 " id="id_usuario_fk3" name="id_usuario_fk3" required style="width: 100%;">
+                                        <datalist id="usuario">
                                             <?php
-                                            if ($usuario["id"] <> 0) {
-                                                echo '<option value="' . $value["id"] . '"> ' . $value["nombre"] . $value["apellidos_usuario"] . ' </option>';
-                                            }
                                             $item = null;
                                             $valor = null;
-                                            $usuario = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
-                                            foreach ($usuario as $key => $value) {
-                                                echo '<option value="' . $value["id"] . '"> ' . $value["nombre"] . $value["apellidos_usuario"] . ' </option>';
+                                            
+                                            // Llamada al método del controlador para obtener los usuarios
+                                            $usuarios = ControladorUsuarios::ctrMostrarUsuario($item, $valor);
+
+                                            // Verificar si $usuarios es un array válido
+                                            if (!empty($usuarios) && is_array($usuarios)) {
+                                                foreach ($usuarios as $key => $value) {
+                                                    echo '<option value="' . htmlspecialchars($value["id"]) . '">' . htmlspecialchars($value["nombre"] . ' ' . $value["apellidos_usuario"]) . '</option>';
+                                                }
+                                            } else {
+                                                // Mostrar un mensaje en caso de que no haya datos disponibles
+                                                echo '<option value="">No hay usuarios disponibles</option>';
                                             }
                                             ?>
                                         </datalist>
@@ -81,33 +87,33 @@
                                     </div>
                                     <div class="col-3"><br>
                                         <label for="partes_externas">Soplar y limpiar partes externas (Utilizar insumos adecuadados para el dispositivo / articulo)</label>
-                                        <select class="form-control" id="partes_externas" name="partes_externas">
+                                        <select class="form-control" id="partes_externas" name="partes_externas" style="height: 45px;">
                                             <option value="SI">SI</option>
                                             <option value="NO">NO</option>
                                         </select>
                                     </div>
                                     <div class="col-3"><br><br>
                                         <label for="condiciones_fisicas">Verificar las condiciones fisicas del dispositivo / articulo</label>
-                                        <select class="form-control" id="condiciones_fisicas" name="condiciones_fisicas">
+                                        <select class="form-control" id="condiciones_fisicas" name="condiciones_fisicas" style="height: 45px;">
                                             <option value="SI">SI</option>
                                             <option value="NO">NO</option>
                                         </select>
                                     </div>
                                     <div class="col-3"><br>
                                         <label for="cableado_verificar">Dependiendo del dispositivo si cuenta con cableado verificar su estado, limpiar y organizar cableado.</label>
-                                        <select class="form-control" id="cableado_verificar" name="cableado_verificar">
+                                        <select class="form-control" id="cableado_verificar" name="cableado_verificar" style="height: 45px;">
                                             <option value="SI">SI</option>
                                             <option value="NO">NO</option>
                                         </select>
                                     </div>
                                     <div class="col-3"><br><br>
                                         <label for="dispositivo">Soplar y limpiar lugar donde se encuentra ubicado el dispositivo / articulo </label>
-                                        <select class="form-control" id="dispositivo" name="dispositivo">
+                                        <select class="form-control" id="dispositivo" name="dispositivo" style="height: 45px;">
                                             <option value="SI">SI</option>
                                             <option value="NO">NO</option>
                                         </select>
                                     </div>
-                                    <div class="col-3"><br>
+                                    <div class="col-3" hidden><br>
                                         <label for="estado_general">Estado</label>
                                         <input id="estado_general" name="estado_general" class="form-control" value="Sin Firmar" readonly>
                                     </div>

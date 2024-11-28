@@ -126,17 +126,10 @@
             </p>
           </a>
           <ul class="nav nav-treeview collapse show" id="areasMenu">
-
-            <?php if (isset($_SESSION["id_cargo_fk"]) && $_SESSION["id_cargo_fk"] == 4): ?>
-              <li class="nav-item">
-                <a data-toggle="tab" href="#seguimiento" class="nav-link">
-                  <i class="fas fa-desktop"></i>
-                  <p>Indicadores Generales</p>
-                </a>
-              </li>
-            <?php endif; ?>
-
-            <?php if (isset($_SESSION["id_cargo_fk"]) && $_SESSION["id_cargo_fk"] == 15): ?>
+            <?php
+            $cargosPermitidos = [4, 15];
+            if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargosPermitidos)):
+            ?>
               <li class="nav-item">
                 <a data-toggle="tab" href="#tecnica" class="nav-link">
                   <i class="fas fa-tools"></i>
@@ -153,8 +146,10 @@
                 </a>
               </li>
             <?php endif; ?>
-
-            <?php if (isset($_SESSION["id_cargo_fk"]) && $_SESSION["id_cargo_fk"] == 6): ?>
+            <?php
+            $cargosPermitidos = [4, 6];
+            if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargosPermitidos)):
+            ?>
               <li class="nav-item">
                 <a data-toggle="tab" href="#gestion_administrativa" class="nav-link">
                   <i class="fas fa-users"></i>
@@ -162,8 +157,10 @@
                 </a>
               </li>
             <?php endif; ?>
-
-            <?php if (isset($_SESSION["id_cargo_fk"]) && $_SESSION["id_cargo_fk"] == 12): ?>
+            <?php
+            $cargosPermitidos = [4, 12];
+            if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargosPermitidos)):
+            ?>
               <li class="nav-item">
                 <a data-toggle="tab" href="#gestion_contable" class="nav-link">
                   <i class="fas fa-file-csv"></i>
@@ -172,7 +169,10 @@
               </li>
             <?php endif; ?>
 
-            <?php if (isset($_SESSION["id_cargo_fk"]) && $_SESSION["id_cargo_fk"] == 14): ?>
+            <?php
+            $cargosPermitidos = [4, 14];
+            if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargosPermitidos)):
+            ?>
               <li class="nav-item">
                 <a data-toggle="tab" href="#gestion_juridica" class="nav-link">
                   <i class="fas fa-gavel"></i>
@@ -181,7 +181,10 @@
               </li>
             <?php endif; ?>
 
-            <?php if (isset($_SESSION["id_cargo_fk"]) && $_SESSION["id_cargo_fk"] == 1): ?>
+            <?php
+            $cargosPermitidos = [4, 1];
+            if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargosPermitidos)):
+            ?>
               <li class="nav-item">
                 <a data-toggle="tab" href="#tecnologia_informatica" class="nav-link">
                   <i class="fas fa-laptop-code"></i>
@@ -190,7 +193,10 @@
               </li>
             <?php endif; ?>
 
-            <?php if (isset($_SESSION["id_cargo_fk"]) && $_SESSION["id_cargo_fk"] == 7): ?>
+            <?php
+            $cargosPermitidos = [4, 7];
+            if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargosPermitidos)):
+            ?>
               <li class="nav-item">
                 <a data-toggle="tab" href="#operaciones" class="nav-link">
                   <i class="fas fa-clipboard-check"></i>
@@ -199,7 +205,10 @@
               </li>
             <?php endif; ?>
 
-            <?php if (isset($_SESSION["id_cargo_fk"]) && $_SESSION["id_cargo_fk"] == 19): ?>
+            <?php
+            $cargosPermitidos = [4, 19];
+            if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargosPermitidos)):
+            ?>
               <li class="nav-item">
                 <a data-toggle="tab" href="#gerencia" class="nav-link">
                   <i class="fas fa-user-shield"></i>
@@ -208,7 +217,10 @@
               </li>
             <?php endif; ?>
 
-            <?php if (isset($_SESSION["id_cargo_fk"]) && $_SESSION["id_cargo_fk"] == 22): ?>
+            <?php
+            $cargosPermitidos = [4, 22];
+            if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargosPermitidos)):
+            ?>
               <li class="nav-item">
                 <a data-toggle="tab" href="#seguridad" class="nav-link">
                   <i class="fas fa-user-shield"></i>

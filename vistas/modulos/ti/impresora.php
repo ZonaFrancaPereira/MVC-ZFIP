@@ -33,17 +33,23 @@
                                     </div>
                                     <div class="col-6"><br>
                                         <label for="id_usuario_fk2">Responsable</label>
-                                        <input list="usuarios" class="form-control select2 " id="id_usuario_fk2" name="id_usuario_fk2" required style="width: 100%;">
-                                        <datalist id="usuarios">
+                                        <input list="usuario" class="form-control select2 " id="id_usuario_fk2" name="id_usuario_fk2" required style="width: 100%;">
+                                        <datalist id="usuario">
                                             <?php
-                                            if ($usuario["id"] <> 0) {
-                                                echo '<option value="' . $value["id"] . '"> ' . $value["nombre"] . $value["apellidos_usuario"] . ' </option>';
-                                            }
                                             $item = null;
                                             $valor = null;
-                                            $usuario = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
-                                            foreach ($usuario as $key => $value) {
-                                                echo '<option value="' . $value["id"] . '"> ' . $value["nombre"] . $value["apellidos_usuario"] . ' </option>';
+                                            
+                                            // Llamada al método del controlador para obtener los usuarios
+                                            $usuarios = ControladorUsuarios::ctrMostrarUsuario($item, $valor);
+
+                                            // Verificar si $usuarios es un array válido
+                                            if (!empty($usuarios) && is_array($usuarios)) {
+                                                foreach ($usuarios as $key => $value) {
+                                                    echo '<option value="' . htmlspecialchars($value["id"]) . '">' . htmlspecialchars($value["nombre"] . ' ' . $value["apellidos_usuario"]) . '</option>';
+                                                }
+                                            } else {
+                                                // Mostrar un mensaje en caso de que no haya datos disponibles
+                                                echo '<option value="">No hay usuarios disponibles</option>';
                                             }
                                             ?>
                                         </datalist>
@@ -80,75 +86,75 @@
                                     </div>
                                     <div class="col-3"><br>
                                         <label for="soplar_exterior">Soplar y limpiar el exterior de la impresora</label>
-                                        <select class="form-control" id="soplar_exterior" name="soplar_exterior">
+                                        <select class="form-control" id="soplar_exterior" name="soplar_exterior" style="height: 45px;">
                                             <option value="SI">SI</option>
                                             <option value="NO">NO</option>
                                         </select>
                                     </div>
                                     <div class="col-3"><br>
                                         <label for="isopropilico">Limpiar el interior de la impresora con alcohol isopropilico</label>
-                                        <select class="form-control" id="isopropilico" name="isopropilico">
+                                        <select class="form-control" id="isopropilico" name="isopropilico" style="height: 45px;">
                                             <option value="SI">SI</option>
                                             <option value="NO">NO</option>
                                         </select>
                                     </div>
                                     <div class="col-3"><br><br>
                                         <label for="toner">Revisar los niveles de tinta o tóner.</label>
-                                        <select class="form-control" id="toner" name="toner">
+                                        <select class="form-control" id="toner" name="toner" style="height: 45px;">
                                             <option value="SI">SI</option>
                                             <option value="NO">NO</option>
                                         </select>
                                     </div>
                                     <div class="col-3"><br>
                                         <label for="alinear">Alinear el cabezal de impresión y ajustar la calidad de impresión </label>
-                                        <select class="form-control" id="alinear" name="alinear">
+                                        <select class="form-control" id="alinear" name="alinear" style="height: 45px;">
                                             <option value="SI">SI</option>
                                             <option value="NO">NO</option>
                                         </select>
                                     </div>
                                     <div class="col-3"><br>
                                         <label for="verificar_cableado">Verificar que todos los cables estén correctamente conectados y en buen estado</label>
-                                        <select class="form-control" id="verificar_cableado" name="verificar_cableado">
+                                        <select class="form-control" id="verificar_cableado" name="verificar_cableado" style="height: 45px;">
                                             <option value="SI">SI</option>
                                             <option value="NO">NO</option>
                                         </select>
                                     </div>
                                     <div class="col-3"><br><br>
                                         <label for="rodillos">Limpiar los rodillos de alimentación del papel con un paño húmedo.</label>
-                                        <select class="form-control" id="rodillos" name="rodillos">
+                                        <select class="form-control" id="rodillos" name="rodillos" style="height: 45px;">
                                             <option value="SI">SI</option>
                                             <option value="NO">NO</option>
                                         </select>
                                     </div>
                                     <div class="col-3"><br><br>
                                         <label for="reemplazar">Reemplazar los cartuchos de tinta o tóner según sea necesario</label>
-                                        <select class="form-control" id="reemplazar" name="reemplazar">
+                                        <select class="form-control" id="reemplazar" name="reemplazar" style="height: 45px;">
                                             <option value="SI">SI</option>
                                             <option value="NO">NO</option>
                                         </select>
                                     </div>
                                     <div class="col-3"><br>
                                         <label for="limpiar">Ejecutar la función de limpieza del cabezal de impresión para eliminar posibles obstrucciones.</label>
-                                        <select class="form-control" id="limpiar" name="limpiar">
+                                        <select class="form-control" id="limpiar" name="limpiar" style="height: 45px;">
                                             <option value="SI">SI</option>
                                             <option value="NO">NO</option>
                                         </select>
                                     </div>
                                     <div class="col-3"><br><br>
                                         <label for="imprimir">Imprimir una página de prueba para verificar que la impresora funcione correctamente.</label>
-                                        <select class="form-control" id="imprimir" name="imprimir">
+                                        <select class="form-control" id="imprimir" name="imprimir" style="height: 45px;">
                                             <option value="SI">SI</option>
                                             <option value="NO">NO</option>
                                         </select>
                                     </div>
                                     <div class="col-3"><br>
                                         <label for="verificar">Verificar el funcionamiento de las funciones adicionales de la impresora, como la escaneo o la copia, si están disponibles en los equipos</label>
-                                        <select class="form-control" id="verificar" name="verificar">
+                                        <select class="form-control" id="verificar" name="verificar" style="height: 45px;">
                                             <option value="SI">SI</option>
                                             <option value="NO">NO</option>
                                         </select>
                                     </div>
-                                    <div class="col-3"><br><br><br><br>
+                                    <div class="col-3" hidden><br><br><br><br>
                                         <label for="estado_mantenimiento_impresora">Estado</label>
                                         <input list="browsers" id="estado_mantenimiento_impresora" name="estado_mantenimiento_impresora" class="form-control" value="Sin Firmar" readonly>
                                     </div>

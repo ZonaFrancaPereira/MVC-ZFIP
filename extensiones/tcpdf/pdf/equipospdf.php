@@ -64,9 +64,8 @@ $verificar_usuario = $row["verificar_usuario"];
 $liberar_espacio = $row["liberar_espacio"];
 $actualizar_logos = $row["actualizar_logos"];
 $lubricar_puertos = $row["lubricar_puertos"];
-$verificar_contraseñas = $row["verificar_contraseñas"];
+$verificar_contraseñas = $row["contra"];
 $desinstalar_programas = $row["desinstalar_programas"];
-$organizar_cableado = $row["organizar_cableado"];
 $limpieza_equipo = $row["limpieza_equipo"];
 $formato_asignacion_equipo = $row["formato_asignacion_equipo"];
 $desfragmentar = $row["desfragmentar"];
@@ -84,14 +83,13 @@ $apagar_pantalla = $row["apagar_pantalla"];
 $estado_suspension = $row["estado_suspension"];
 $estado_mantenimiento_equipo = $row["estado_mantenimiento_equipo"];
 
-// Define the base URL for your hosting environment
-$baseUrl = "/MVC-ZFIP/"; // Cambia esto según sea necesario para tu entorno de hosting
+//$baseUrl = "https://beta.zonafrancadepereira.com/"; // Cambia esto según sea necesario para tu entorno de hosting
+$baseUrl = "/MVC-ZFIP/"; 
 
-// Retrieve the relative path from the database
-$rutaRelativa = $row["firma"]; // Esta es la ruta que obtienes de la base de datos
+$rutaRelativa = $row["firma"]; 
 
 // Construct the full URL
-$foto = $baseUrl . $rutaRelativa; // Combina la base URL con la ruta relativa
+$foto = $baseUrl . $rutaRelativa;
 
 
 $nombreImagen = "images/logo_zf.png";
@@ -219,10 +217,6 @@ $html = <<<EOF
     <tr>
         <td colspan="3"><b>Desinstalar programas innecesarios y no licenciados:</b></td>
         <td colspan="3">$desinstalar_programas</td>
-    </tr>
-    <tr>
-        <td colspan="3"><b>Verificar y organizar cableado de red y otros:</b></td>
-        <td colspan="3">$organizar_cableado</td>
     </tr>
     <tr>
         <td colspan="3"><b>Limpieza de equipo completo, cables y accesorios:</b></td>

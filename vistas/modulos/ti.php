@@ -3,7 +3,7 @@ require_once "configuracion.php";
 ?>
 <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
- 
+
         <li class="nav-item">
             <a data-toggle="tab" href="#asignacion_equipos" class="nav-link">
                 <i class="fas fa-desktop"></i>
@@ -19,36 +19,36 @@ require_once "configuracion.php";
 
         <li class="nav-item">
             <a data-toggle="tab" href="" class="nav-link">
-            <i class="far fa-save"></i>
+                <i class="far fa-save"></i>
                 <p>
-                Backup
+                    Backup
                     <i class="fas fa-angle-left right"></i>
                 </p>
             </a>
             <ul class="nav nav-treeview">
-             <li class="nav-item">
+                <li class="nav-item">
                     <a data-toggle="tab" href="#principal_backup" class="nav-link">
                         <i class="nav-icon far fa-question-circle"></i>
                         <p>Principal</p>
                     </a>
                 </li>
                 <?php
-                    $cargoTi = [1,2];
-                    if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargoTi)):
-                    ?>
-                <li class="nav-item">
-                    <a data-toggle="tab" href="#backup" class="nav-link">
-                        <i class="nav-icon far fa-question-circle"></i>
-                        <p>Asignar Ruta</p>
-                    </a>
-                </li>
+                $cargoTi = [1, 2];
+                if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargoTi)):
+                ?>
+                    <li class="nav-item">
+                        <a data-toggle="tab" href="#backup" class="nav-link">
+                            <i class="nav-icon far fa-question-circle"></i>
+                            <p>Asignar Ruta</p>
+                        </a>
+                    </li>
 
-                <li class="nav-item">
-                    <a data-toggle="tab" href="#verificar_backup" class="nav-link">
-                        <i class="nav-icon far fa-question-circle"></i>
-                        <p>Realizar Verificacion</p>
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a data-toggle="tab" href="#verificar_backup" class="nav-link">
+                            <i class="nav-icon far fa-question-circle"></i>
+                            <p>Realizar Verificacion</p>
+                        </a>
+                    </li>
                 <?php endif; ?>
             </ul>
         </li>
@@ -60,17 +60,20 @@ require_once "configuracion.php";
                 <p>Contraseñas</p>
             </a>
         </li>
-
+                <?php
+                $cargoTi = [1, 2];
+                if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargoTi)):
+                ?>
         <li class="nav-item">
             <a data-toggle="tab" href="#" class="nav-link">
-            <i class="fas fa-print"></i>
+                <i class="fas fa-print"></i>
                 <p>
-                Consumibles
+                    Consumibles
                     <i class="fas fa-angle-left right"></i>
                 </p>
             </a>
             <ul class="nav nav-treeview">
-             <li class="nav-item">
+                <li class="nav-item">
                     <a data-toggle="tab" href="#principal_consumibles" class="nav-link">
                         <i class="nav-icon far fa-question-circle"></i>
                         <p>Principal</p>
@@ -82,7 +85,7 @@ require_once "configuracion.php";
                         <p>Impresoras</p>
                     </a>
                 </li>
-                
+
                 <li class="nav-item">
                     <a data-toggle="tab" href="#consumibles" class="nav-link">
                         <i class="nav-icon far fa-question-circle"></i>
@@ -91,8 +94,9 @@ require_once "configuracion.php";
                 </li>
             </ul>
         </li>
-  
-        
+        <?php endif; ?>
+
+
         <li class="nav-item">
             <a data-toggle="tab" href="#criticidad" class="nav-link">
                 <i class="fas fa-user-tie"></i>
@@ -120,12 +124,16 @@ require_once "configuracion.php";
                 </p>
             </a>
             <ul class="nav nav-treeview">
-            <li class="nav-item">
+                <li class="nav-item">
                     <a data-toggle="tab" href="#mantenimientos" class="nav-link">
                         <i class="nav-icon far fa-question-circle"></i>
                         <p>Principal</p>
                     </a>
                 </li>
+                <?php
+                $cargoTi = [1, 2];
+                if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargoTi)):
+                ?>
                 <li class="nav-item">
                     <a data-toggle="tab" href="#equipo" class="nav-link">
                         <i class="nav-icon fas fa-sync-alt"></i>
@@ -144,7 +152,8 @@ require_once "configuracion.php";
                         <p>Impresora</p>
                     </a>
                 </li>
-               
+                <?php endif; ?>
+
             </ul>
         </li>
         <li class="nav-item">
@@ -174,6 +183,10 @@ require_once "configuracion.php";
                         <p>Realizar Solicitud</p>
                     </a>
                 </li>
+                <?php
+                $cargoTi = [1, 2];
+                if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargoTi)):
+                ?>
                 <li class="nav-item">
                     <a data-toggle="tab" href="#solicitudes_finalizadas" class="nav-link">
                         <i class="nav-icon fas fa-sync-alt"></i>
@@ -186,6 +199,7 @@ require_once "configuracion.php";
                         <p>Solicitudes de Soporte</p>
                     </a>
                 </li>
+                <?php endif; ?>
             </ul>
         </li>
         <li class="nav-item">
@@ -221,40 +235,39 @@ if ($_SESSION["ti"] == "off") {
         <div id="page-content-wrapper">
             <div class="container-fluid">
                 <div class="tab-content card">
-                
-                <div id="actualizacion_pw" class="tab-pane">
+
+                    <div id="actualizacion_pw" class="tab-pane">
                         <div class="row">
                             <div class="col-md-12">
                                 <?php require "ti/actualizacion_pw.php"; ?>
                             </div>
                         </div>
-                </div>
-
-                <div id="consumibles" class="tab-pane">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <?php require "ti/consumibles.php"; ?>
+                    </div>
+                        <div id="consumibles" class="tab-pane">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <?php require "ti/consumibles.php"; ?>
+                                </div>
                             </div>
                         </div>
-                </div>
 
-                <div id="impresoras" class="tab-pane">
+                    <div id="impresoras" class="tab-pane">
                         <div class="row">
                             <div class="col-md-12">
                                 <?php require "ti/impresoras.php"; ?>
                             </div>
                         </div>
-                </div>
+                    </div>
 
-                <div id="inventario" class="tab-pane">
+                    <div id="inventario" class="tab-pane">
                         <div class="row">
                             <div class="col-md-12">
                                 <?php require "ti/inventario.php"; ?>
                             </div>
                         </div>
-                </div>
+                    </div>
 
-                <div id="usuarios" class="tab-pane">
+                    <div id="usuarios" class="tab-pane">
                         <div class="row">
                             <div class="col-md-12">
                                 <?php require "ti/usuarios.php"; ?>
@@ -266,127 +279,127 @@ if ($_SESSION["ti"] == "off") {
 
                             ?>
                         </div>
-                </div>
-               
-                <div id="backup" class="tab-pane">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <?php require "ti/backup.php"; ?>
-                        </div>
                     </div>
-                </div>
 
-                <div id="verificar_backup" class="tab-pane">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <?php require "ti/verificacion_backup.php"; ?>
+                    <div id="backup" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/backup.php"; ?>
+                            </div>
                         </div>
                     </div>
-                </div>
-              
-                <div id="principal_backup" class="tab-pane">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <?php require "ti/principal_backup.php"; ?>
-                        </div>
-                    </div>
-                </div>
 
-                <div id="contraseñas_marcar" class="tab-pane">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <?php require "ti/contraseñas.php"; ?>
+                    <div id="verificar_backup" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/verificacion_backup.php"; ?>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div id="asignacion_equipos" class="tab-pane">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <?php require "ti/asignacion_equipos.php"; ?>
+
+                    <div id="principal_backup" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/principal_backup.php"; ?>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div id="mantenimientos" class="tab-pane">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <?php require "ti/mantenimientos.php"; ?>
+
+                    <div id="contraseñas_marcar" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/contraseñas.php"; ?>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div id="equipo" class="tab-pane">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <?php require "ti/equipo.php"; ?>
+                    <div id="asignacion_equipos" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/asignacion_equipos.php"; ?>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div id="impresora" class="tab-pane">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <?php require "ti/impresora.php"; ?>
+                    <div id="mantenimientos" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/mantenimientos.php"; ?>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div id="general" class="tab-pane">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <?php require "ti/general.php"; ?>
+                    <div id="equipo" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/equipo.php"; ?>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div id="licencias" class="tab-pane">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <?php require "ti/licencias.php"; ?>
+                    <div id="impresora" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/impresora.php"; ?>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div id="criticidad" class="tab-pane">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <?php require "ti/criticidad.php"; ?>
+                    <div id="general" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/general.php"; ?>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div id="principal_soporte" class="tab-pane">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <?php require "ti/principal_soporte.php"; ?>
+                    <div id="licencias" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/licencias.php"; ?>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div id="realizar_solicitud" class="tab-pane">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <?php require "ti/soporte.php"; ?>
+                    <div id="criticidad" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/criticidad.php"; ?>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div id="solicitudes_soporte" class="tab-pane">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <?php require "ti/solicitudes_soporte.php"; ?>
+                    <div id="principal_soporte" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/principal_soporte.php"; ?>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div id="solicitudes_finalizadas" class="tab-pane">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <?php require "ti/solicitudes_finalizadas.php"; ?>
+                    <div id="realizar_solicitud" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/soporte.php"; ?>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div id="perfiles" class="tab-pane">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <?php require "ti/perfiles.php"; ?>
-                            <?php
-                            $borrarPerfil = new ControladorPerfiles();
-                            $borrarPerfil->ctrBorrarPerfil();
-                            ?>
+                    <div id="solicitudes_soporte" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/solicitudes_soporte.php"; ?>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <div id="solicitudes_finalizadas" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/solicitudes_finalizadas.php"; ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="perfiles" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/perfiles.php"; ?>
+                                <?php
+                                $borrarPerfil = new ControladorPerfiles();
+                                $borrarPerfil->ctrBorrarPerfil();
+                                ?>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

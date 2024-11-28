@@ -186,26 +186,8 @@ class ControladorMantenimiento
         $respuesta = ModeloMantenimiento::mdlMostrarMantenimiento($tabla, $item, $valor, $consulta);
         return $respuesta;
     }
+
    
-
-    static public function ctrMostrarMantenimientoImpresora($item, $valor, $consulta)
-    {
-        $tabla = "mantenimiento_impresora";
-
-        $respuesta = ModeloMantenimiento::mdlMostrarMantenimientoImpresora($tabla, $item, $valor, $consulta);
-        return $respuesta;
-    }
-
-
-    static public function ctrMostrarMantenimientoGeneral($item, $valor, $consulta)
-    {
-        $tabla = "mantenimiento_general";
-
-        $respuesta = ModeloMantenimiento::mdlMostrarMantenimientoGeneral($tabla, $item, $valor, $consulta);
-        return $respuesta;
-    }
-   
-
     static public function ctrFirmarMantenimiento()
     {
         if (isset($_POST["firma"])) {
@@ -224,6 +206,88 @@ class ControladorMantenimiento
                     Swal.fire(
                     "Buen Trabajo!",
                     "El Mantenimiento General fue firmado con éxito.",
+                    "success"
+                    ).then(function() {
+                        // Cambia el selector a un elemento válido
+                        $("#someElement").addClass("active");
+                    });
+                </script>';
+            } else {
+                echo '<script>
+                    Swal.fire({
+                        icon: "error",
+                        title: "¡Error!",
+                        text: "Hubo un problema al firmar el mantenimiento: ' . $respuesta . '",
+                        showConfirmButton: true,
+                        confirmButtonText: "Cerrar"
+                    }).then(function(result){
+                        if(result.value){
+                            $("#someElement").addClass("active");
+                        }
+                    });
+                </script>';
+            }
+        }
+    }
+
+    static public function ctrFirmarMantenimientoGeneral()
+    {
+        if (isset($_POST["firma_general"])) {
+            $tabla = "mantenimiento_general";
+            $datos = array(
+                "id_general" => $_POST["id_general"],
+                "firma_general" => $_POST["firma_general"],
+                "estado_general" => "Firmado"
+            );
+    
+            $respuesta = ModeloMantenimiento::mdlFirmarMantenimientoGeneral($tabla, $datos);
+    
+            if ($respuesta == "ok") {
+                echo '<script>
+                    Swal.fire(
+                    "Buen Trabajo!",
+                    "El Mantenimiento General fue firmado con éxito.",
+                    "success"
+                    ).then(function() {
+                        // Cambia el selector a un elemento válido
+                        $("#someElement").addClass("active");
+                    });
+                </script>';
+            } else {
+                echo '<script>
+                    Swal.fire({
+                        icon: "error",
+                        title: "¡Error!",
+                        text: "Hubo un problema al firmar el mantenimiento: ' . $respuesta . '",
+                        showConfirmButton: true,
+                        confirmButtonText: "Cerrar"
+                    }).then(function(result){
+                        if(result.value){
+                            $("#someElement").addClass("active");
+                        }
+                    });
+                </script>';
+            }
+        }
+    }
+
+    static public function ctrFirmarMantenimientoImpresora()
+    {
+        if (isset($_POST["firma_impresora"])) {
+            $tabla = "mantenimiento_impresora";
+            $datos = array(
+                "id_impresora" => $_POST["id_impresora"],
+                "firma_impresora" => $_POST["firma_impresora"],
+                "estado_mantenimiento_impresora" => "Firmado"
+            );
+    
+            $respuesta = ModeloMantenimiento::mdlFirmarMantenimientoImpresora($tabla, $datos);
+    
+            if ($respuesta == "ok") {
+                echo '<script>
+                    Swal.fire(
+                    "Buen Trabajo!",
+                    "El Mantenimiento de la Impresora fue firmado con éxito.",
                     "success"
                     ).then(function() {
                         // Cambia el selector a un elemento válido

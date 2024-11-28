@@ -281,12 +281,52 @@ class ModeloMantenimiento
     {
         switch ($consulta) {
             case 'equipo':
-                // Consulta con filtro
-                $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+                $id_usuario_mantenimiento = $_SESSION["id"];
+                $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario_fk = :id_usuario");
+                $stmt->bindParam(':id_usuario', $id_usuario_mantenimiento, PDO::PARAM_INT);
                 $stmt->execute();
-                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
+                return $stmt->fetchAll();
                 $stmt = null;
-                break;
+                    break; case 'general':
+                        $id_usuario_mantenimiento = $_SESSION["id"];
+                        $stmt = Conexion::conectar()->prepare("SELECT * FROM mantenimiento_general WHERE id_usuario_fk3 = :id_usuario");
+                        $stmt->bindParam(':id_usuario', $id_usuario_mantenimiento, PDO::PARAM_INT);
+                        $stmt->execute();
+                        return $stmt->fetchAll();
+                        $stmt = null;
+                        break;
+                        break; case 'impresora':
+                            $id_usuario_mantenimiento = $_SESSION["id"];
+                            $stmt = Conexion::conectar()->prepare("SELECT * FROM mantenimiento_impresora WHERE id_usuario_fk2 = :id_usuario");
+                            $stmt->bindParam(':id_usuario', $id_usuario_mantenimiento, PDO::PARAM_INT);
+                            $stmt->execute();
+                            return $stmt->fetchAll();
+                            $stmt = null;
+                            break;
+                            case 'ti-equipo':
+                                $stmt = Conexion::conectar()->prepare("SELECT b.*, a.nombre, a.apellidos_usuario
+                                FROM mantenimientos b 
+                                INNER JOIN usuarios a ON b.id_usuario_fk = a.id");
+                                $stmt->execute();
+                                return $stmt->fetchAll();
+                                $stmt = null;
+                                break;
+                                case 'ti-impresora':
+                                    $stmt = Conexion::conectar()->prepare("SELECT b.*, a.nombre, a.apellidos_usuario
+                                    FROM mantenimiento_impresora b 
+                                    INNER JOIN usuarios a ON b.id_usuario_fk2 = a.id");
+                                    $stmt->execute();
+                                    return $stmt->fetchAll();
+                                    $stmt = null;
+                                    break;
+                                    case 'ti-general':
+                                        $stmt = Conexion::conectar()->prepare("SELECT b.*, a.nombre, a.apellidos_usuario
+                                        FROM mantenimiento_general b 
+                                        INNER JOIN usuarios a ON b.id_usuario_fk3 = a.id");
+                                        $stmt->execute();
+                                        return $stmt->fetchAll();
+                                        $stmt = null;
+                                        break;
 
             default:
                 $consulta = null;
@@ -320,26 +360,6 @@ class ModeloMantenimiento
     }
 
 
-    public static function mdlMostrarMantenimientoImpresora($tabla, $item, $valor, $consulta)
-    {
-        switch ($consulta) {
-            case 'mantenimiento_impresora':
-                // Consulta con filtro
-                $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :valor");
-                $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
-                $stmt->execute();
-                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
-                $stmt = null;
-                break;
-
-            default:
-                $consulta = null;
-                $item = null;
-                $valor = null;
-                break;
-        }
-    }
-
     public static function mdlMostrarMantenimientoImpresorapdf($tabla, $item, $valor, $consulta)
     {
         switch ($consulta) {
@@ -363,25 +383,7 @@ class ModeloMantenimiento
                 break;
         }
     }
-    public static function mdlMostrarMantenimientoGeneral($tabla, $item, $valor, $consulta)
-    {
-        switch ($consulta) {
-            case 'mantenimiento_general':
-                // Consulta con filtro
-                $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :valor");
-                $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
-                $stmt->execute();
-                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
-                $stmt = null;
-                break;
 
-            default:
-                $consulta = null;
-                $item = null;
-                $valor = null;
-                break;
-        }
-    }
 
     public static function mdlMostrarMantenimientoGeneralpdf($tabla, $item, $valor, $consulta)
     {
@@ -421,6 +423,58 @@ class ModeloMantenimiento
         $stmt->bindParam(":firma", $datos["firma"], PDO::PARAM_STR);
         $stmt->bindParam(":estado_mantenimiento_equipo", $datos["estado_mantenimiento_equipo"], PDO::PARAM_STR);
         $stmt->bindParam(":id_mantenimiento", $datos["id_mantenimiento"], PDO::PARAM_INT); // Usamos id_mantenimiento
+    
+        // Ejecutar la consulta
+        if ($stmt->execute()) {
+            return "ok"; // Si la actualización es exitosa
+        } else {
+            return "error"; // Si ocurre un error
+        }
+    
+        // Cerrar la conexión
+        $stmt->close();
+        $stmt = null;
+    }
+
+    public static function mdlFirmarMantenimientoGeneral($tabla, $datos)
+    {
+        // Crear la consulta SQL de actualización
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla 
+            SET 
+                firma_general = :firma_general, 
+                estado_general = :estado_general 
+            WHERE id_general = :id_general"); // Usamos id_general
+    
+        // Vincular los parámetros a la consulta
+        $stmt->bindParam(":firma_general", $datos["firma_general"], PDO::PARAM_STR);
+        $stmt->bindParam(":estado_general", $datos["estado_general"], PDO::PARAM_STR);
+        $stmt->bindParam(":id_general", $datos["id_general"], PDO::PARAM_INT); // Usamos id_general
+    
+        // Ejecutar la consulta
+        if ($stmt->execute()) {
+            return "ok"; // Si la actualización es exitosa
+        } else {
+            return "error"; // Si ocurre un error
+        }
+    
+        // Cerrar la conexión
+        $stmt->close();
+        $stmt = null;
+    }
+
+    public static function mdlFirmarMantenimientoImpresora($tabla, $datos)
+    {
+        // Crear la consulta SQL de actualización
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla 
+            SET 
+                firma_impresora = :firma_impresora, 
+                estado_mantenimiento_impresora = :estado_mantenimiento_impresora 
+            WHERE id_impresora = :id_impresora"); // Usamos id_impresora
+    
+        // Vincular los parámetros a la consulta
+        $stmt->bindParam(":firma_impresora", $datos["firma_impresora"], PDO::PARAM_STR);
+        $stmt->bindParam(":estado_mantenimiento_impresora", $datos["estado_mantenimiento_impresora"], PDO::PARAM_STR);
+        $stmt->bindParam(":id_impresora", $datos["id_impresora"], PDO::PARAM_INT); // Usamos id_impresora
     
         // Ejecutar la consulta
         if ($stmt->execute()) {
