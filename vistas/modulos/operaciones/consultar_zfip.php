@@ -44,7 +44,6 @@
                                             <th># ARIN</th>
                                             <th>Cantidad de Bultos</th>
                                             <th>Estado</th>
-                
                                             <th>Informe</th>
                                             <th>X</th>
                                         </tr>
@@ -83,7 +82,7 @@
                                             echo '<td><span class="' . $color . ' text-uppercase">' . $estado . '</span></td>';
                                           
                                             echo '<td>
-                                            <button class="btn bg-danger btnEliminarInspeccion" idCliente="' . $value[$i]["id_cliente"] . '" ><i class="fas  fa-file-pdf"></i></button></td>';
+                                            <a target="_blank" href="extensiones/tcpdf/pdf/inspeccionpdf.php?id=' . $value["id_inspeccion"] . '"  class="btn bg-danger"><i class="fas  fa-file-pdf"></i></button></td>';
                                             echo '<td>
                                             <button class="btn btn-danger btnEliminarInspeccion" idCliente="' . $value[$i]["id_cliente"] . '" ><i class="fas fa-trash"></i></button></td>';
                                             echo '</tr>';
