@@ -291,10 +291,10 @@
                 </div>
                 <form id="firmaForm" method="POST" enctype="multipart/form-data">
                     <!-- Campo oculto para el ID del mantenimiento -->
-                    <input name="id_impresora" id="id_impresora" type="" value="<?php echo $id_impresora; ?>">
+                    <input name="id_impresora" id="id_impresora" type="hidden" value="<?php echo $id_impresora; ?>">
 
-                    <div class="form-group">
-                        <label for="firma_impresora" class="font-weight-bold">Firma</label>
+                    <div class="form-group" hidden>
+                        <label for="firma_impresora" class="font-weight-bold" hidden>Firma</label>
                         <!-- Campo de texto oculto o con valor predeterminado de la firma -->
                         <input type="text" class="form-control" id="firma_impresora" name="firma_impresora" value="<?php echo $_SESSION['foto']; ?>" required style="background-color: #f8f9fa; border-radius: 5px; border: 1px solid #ced4da;">
                     </div>
