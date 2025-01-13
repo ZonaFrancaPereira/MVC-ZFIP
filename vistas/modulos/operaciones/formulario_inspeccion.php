@@ -12,7 +12,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fa fa-users"></i></span>
                             </div>
-                            <input type="text" class="form-control" name="id_cliente_fk" id="id_cliente_fk" list="ClientesList" placeholder="Seleccionar Cliente" required>
+                            <input class="form-control" name="id_cliente_fk" id="id_cliente_fk" list="ClientesList" placeholder="Seleccionar Cliente" required>
                         </div>
                         <datalist id="ClientesList">
                             <?php

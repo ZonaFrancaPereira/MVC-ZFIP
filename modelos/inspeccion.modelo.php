@@ -106,5 +106,57 @@ class ModeloInspeccion
 		$stmt = null;
 
 	}
+
+	
+    /*=============================================
+	MOSTRAR PDF INSPECCION
+	=============================================*/
+
+    public static function mdlMostrarInspeccionpdf($tabla, $item, $valor, $consulta)
+    {
+        try {
+            // Conectar a la base de datos
+            $stmt = Conexion::conectar()->prepare("SELECT 
+                    a.id_inspeccion,
+					a.id_cliente_fk, 
+					a.ingreso_salida, 
+					a.id_categoriaop_fk, 
+					a.otro_operacion, 
+					a.transito, 
+					a.fmm, 
+					a.arin, 
+					a.documento, 
+					a.fisico, 
+					a.estado, 
+					a.descripcion_observaciones, 
+					a.nombre_firma, 
+					a.cc_firma, 
+					a.firma_recibido, 
+					a.fecha_inspeccion, 
+					a.id_usuario_fk,
+					j.nombre_categoriaop,
+					k.nombre,
+					k.apellidos_usuario,
+					u.nombre_cliente,
+					u.email_cliente
+                FROM $tabla a
+                INNER JOIN clientes_zfip u ON a.id_cliente_fk = u.id_cliente
+				INNER JOIN categoria_op j ON a.id_categoriaop_fk = j.id_categoriaop
+				INNER JOIN usuarios k ON a.id_usuario_fk = k.id
+                WHERE $item = :$item");
+
+            // Vincular el parámetro de la consulta
+            $stmt->bindParam(":$item", $valor, PDO::PARAM_INT);
+
+            // Ejecutar la consulta
+            $stmt->execute();
+
+            // Devolver los resultados
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            // Manejo de errores
+            die("Error al obtener datos del ACPM: " . $e->getMessage());
+        }
+    }
 	
 }
