@@ -432,6 +432,16 @@ public static function graficaVerificacionActivos() {
     echo json_encode($data); 
 }
 
+  // Método para contar activos por usuario
+  public static function ctrContarActivosPorUsuario($idUsuario) {
+    return ModeloActivos::contarActivosPorUsuario($idUsuario);
+}
+
+// Método para contar activos inactivos por usuario
+public static function ctrContarActivosInactivosPorUsuario($idUsuario) {
+    return ModeloActivos::contarActivosInactivosPorUsuario($idUsuario);
+}
+
 }
 
 

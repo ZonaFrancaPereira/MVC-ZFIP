@@ -29,7 +29,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Fecha</th>
-                                    <th>Descripcion</th>
+                                    <th>Descripción</th>
                                     <th>Urgencia</th>
                                     <th>Solucion</th>
                                     <th>Fecha de Respuesta</th>

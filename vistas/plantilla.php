@@ -74,6 +74,8 @@ session_start();
   <!-- jQuery UI 1.11.4 -->
   <script src="vistas/plugins/jquery-ui/jquery-ui.min.js"></script>
   <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+  <script src="vistas/plugins/jquery/signature_pad.js"></script>
+
   <script>
     $.widget.bridge('uibutton', $.ui.button)
   </script>
@@ -140,16 +142,13 @@ session_start();
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
-
+  
 </head>
 
 <!--=====================================
 CUERPO DOCUMENTO
 ======================================-->
-
-
-
-  <?php
+<?php
 
   
   if (isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] == "ok") {
