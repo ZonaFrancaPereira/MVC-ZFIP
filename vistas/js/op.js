@@ -42,3 +42,5 @@ $(".table").on("click", ".btnEliminarCliente", function(){
 	});
   
   });
+
+

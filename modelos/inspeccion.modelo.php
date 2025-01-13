@@ -76,35 +76,58 @@ class ModeloInspeccion
 
 	}
 
-        /*=============================================
-	MOSTRAR   INSPECCIONES REALIZADAS
-	=============================================*/
+    
 
-	static public function mdlMostrarInspeccion($tabla, $item, $valor){
+/*=============================================
+    MOSTRAR INSPECCIONES REALIZADAS CON INNER JOIN
+=============================================*/
 
-		if($item != null){
-			$stmt = Conexion::conectar()->prepare("SELECT * 
-														FROM 
-														$tabla 
-														WHERE $item = :$item");
+static public function mdlMostrarInspeccion($tabla, $item = null, $valor = null){
 
-			$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
+    // Si se recibe un filtro (item y valor)
+    if($item != null && $valor != null){
+        $stmt = Conexion::conectar()->prepare("SELECT 
+                                                    i.*, 
+                                                    c.*, 
+                                                    cat.*, 
+                                                    u.* 
+                                                FROM 
+                                                    $tabla i
+                                                INNER JOIN 
+                                                    clientes_zfip c ON i.id_cliente_fk = c.id_cliente
+                                                INNER JOIN 
+                                                    categoria_op cat ON i.id_categoriaop_fk = cat.id_categoriaop
+                                                INNER JOIN 
+                                                    usuarios u ON i.id_usuario_fk = u.id
+                                                WHERE 
+                                                    i.$item = :$item");
 
-			$stmt -> execute();
+        $stmt->bindParam(":".$item, $valor, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetch(); // Retorna solo el primer resultado (como en tu ejemplo)
 
-			return $stmt -> fetch();
+    } else {
+        // Si no se recibe filtro, trae todas las inspecciones
+        $stmt = Conexion::conectar()->prepare("SELECT 
+                                                    i.*, 
+                                                    c.*, 
+                                                    cat.*, 
+                                                    u.* 
+                                                FROM 
+                                                    $tabla i
+                                                INNER JOIN 
+                                                    clientes_zfip c ON i.id_cliente_fk = c.id_cliente
+                                                INNER JOIN 
+                                                    categoria_op cat ON i.id_categoriaop_fk = cat.id_categoriaop
+                                                INNER JOIN 
+                                                    usuarios u ON i.id_usuario_fk = u.id");
 
-		}else{
+        $stmt->execute();
+        return $stmt->fetchAll(); // Retorna todos los resultados
+    }
 
-			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+    $stmt = null;
+}
 
-			$stmt -> execute();
-
-			return $stmt -> fetchAll();
-
-		}
-		$stmt = null;
-
-	}
 	
 }

@@ -291,6 +291,12 @@ var ctx = document.getElementById("canvasZonaFranca");
   var image = ctx.toDataURL(); // data:image/png....
   document.getElementById('base64').value = image;
 },false);
+
+document.querySelectorAll('option').forEach(option => {
+  if (!option.textContent.trim()) {
+    option.textContent = option.value;
+  }
+});
 </script>
 
 

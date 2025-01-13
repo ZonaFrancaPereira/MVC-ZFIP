@@ -77,67 +77,69 @@ class ControladorClientes
 	EDITAR CLIENTE
 	=============================================*/
 
-	static public function ctrEditarCliente()
-	{
+	static public function ctrEditarCliente() 
+{
+    // Verificamos si se ha enviado el formulario
+    if (isset($_POST["editarIdCliente"])) {
+            // Tabla donde se va a guardar el cliente editado
+            $tabla = "clientes_zfip";
 
-		if (isset($_POST["editarCliente"])) {
+            // Datos a actualizar (ajustados según los campos de la tabla)
+            $datos = array(
+                "id_cliente" => $_POST["editarIdCliente"], // ID del cliente a editar
+                "nombre_cliente" => $_POST["editarNombreCliente"], // Nombre del cliente
+                "email_cliente" => $_POST["editarEmailCliente"], // Email del cliente
+                "telefono_cliente" => $_POST["editarTelefonoCliente"], // Teléfono del cliente
+                "direccion_cliente" => $_POST["editarDireccionCliente"], // Dirección del cliente
+                "tipo_zf" => $_POST["editarTipoZF"] // Tipo de zona franca
+            );
 
-			if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarCliente"])) {
+            // Llamada al modelo para realizar la actualización
+            $respuesta = ModeloClientes::mdlEditarCliente($tabla, $datos);
 
-				$tabla = "clientes_zfip";
-
-				$datos = array(
-					"id" => $_POST["idCliente"],
-					"nombre" => $_POST["editarCliente"],
-					"documento" => $_POST["editarDocumentoId"],
-					"email" => $_POST["editarEmail"],
-					"telefono" => $_POST["editarTelefono"],
-					"direccion" => $_POST["editarDireccion"],
-					"tipo_zf" => $_POST["editarTipozf"]
-				);
-
-				$respuesta = ModeloClientes::mdlEditarCliente($tabla, $datos);
-
-				if ($respuesta == "ok") {
-
-					echo '<script>
-
-					swal({
-						  type: "success",
-						  title: "El cliente ha sido cambiado correctamente",
-						  showConfirmButton: true,
-						  confirmButtonText: "Cerrar"
-						  }).then(function(result){
-									if (result.value) {
-
-									window.location = "clientes";
-
-									}
-								})
-
-					</script>';
-				}
-			} else {
-
+            // Verificamos la respuesta del modelo
+            if ($respuesta == "ok") {
+                // Si la actualización fue exitosa, mostramos un mensaje
+				echo '<script>
+				Swal.fire(
+				"Buen Trabajo!",
+				"La urgencia ha sido registrada con éxito.",
+				"success"
+				).then(function() {
+				document.getElementById("editarClientes").reset();
+				
+				$("#formclientes").addClass("active");
+				
+				});
+			</script>';
+            }else{
 				echo '<script>
 
-					swal({
-						  type: "error",
-						  title: "¡El cliente no puede ir vacío o llevar caracteres especiales!",
-						  showConfirmButton: true,
-						  confirmButtonText: "Cerrar"
-						  }).then(function(result){
-							if (result.value) {
+					Swal.fire({
 
-							window.location = "clientes";
+						type: "error",
+						title: "¡No se guardaron los cambios del Usuario!",
+						showConfirmButton: true,
+						confirmButtonText: "Cerrar"
 
-							}
-						})
+					}).then(function(result){
 
-			  	</script>';
+						if(result.value){
+
+							window.location = "operaciones";
+
+						}
+
+					});
+
+
+				</script>';
 			}
-		}
-	}
+
+        
+    }
+}
+
 
 	/*=============================================
 	ELIMINAR CLIENTE

@@ -82,30 +82,36 @@ static public function mdlIngresarCliente($tabla, $datos)
 	EDITAR CLIENTE
 	=============================================*/
 
-	static public function mdlEditarCliente($tabla, $datos){
+	static public function mdlEditarCliente($tabla, $datos) {
 
-		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET nombre_cliente = :nombre, email_cliente = :email, telefono_cliente = :telefono, direccion_cliente = :direccion WHERE id_cliente = :id");
-
-		$stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
-		$stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
-		$stmt->bindParam(":documento", $datos["documento"], PDO::PARAM_INT);
-		$stmt->bindParam(":email", $datos["email"], PDO::PARAM_STR);
-		$stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
+		// Preparamos la consulta SQL para actualizar los datos del cliente
+		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET 
+			nombre_cliente = :nombre_cliente, 
+			email_cliente = :email_cliente, 
+			telefono_cliente = :telefono_cliente, 
+			direccion_cliente = :direccion_cliente, 
+			tipo_zf = :tipo_zf 
+			WHERE id_cliente = :id_cliente");
 	
-
-		if($stmt->execute()){
-
-			return "ok";
-
-		}else{
-
-			return "error";
-		
+		// Enlazamos los parámetros con los valores del array $datos
+		$stmt->bindParam(":id_cliente", $datos["id_cliente"], PDO::PARAM_INT);
+		$stmt->bindParam(":nombre_cliente", $datos["nombre_cliente"], PDO::PARAM_STR);
+		$stmt->bindParam(":email_cliente", $datos["email_cliente"], PDO::PARAM_STR);
+		$stmt->bindParam(":telefono_cliente", $datos["telefono_cliente"], PDO::PARAM_STR);
+		$stmt->bindParam(":direccion_cliente", $datos["direccion_cliente"], PDO::PARAM_STR);
+		$stmt->bindParam(":tipo_zf", $datos["tipo_zf"], PDO::PARAM_STR);
+	
+		// Ejecutamos la consulta
+		if ($stmt->execute()) {
+			return "ok"; // Si la consulta se ejecutó correctamente
+		} else {
+			return "error"; // Si ocurrió algún error al ejecutar la consulta
 		}
-
+	
+		// Cerramos la conexión
 		$stmt = null;
-
 	}
+	
 
 	/*=============================================
 	ELIMINAR CLIENTE
