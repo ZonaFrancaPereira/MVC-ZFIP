@@ -71,6 +71,14 @@ $imprimir = $row["imprimir"];
 $verificar = $row["verificar"];
 $estado_mantenimiento = $row["estado_mantenimiento_impresora"];
 
+//$baseUrl = "https://beta.zonafrancadepereira.com/"; // Cambia esto según sea necesario para tu entorno de hosting
+$baseUrl = "/MVC-ZFIP/"; 
+
+$rutaRelativa = $row["firma_impresora"]; 
+
+// Construct the full URL
+$firma_impresora = $baseUrl . $rutaRelativa;
+
 $nombreImagen = "images/logo_zf.png";
 $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($nombreImagen));
 
@@ -218,7 +226,7 @@ $html = <<<EOF
             <b>FIRMA</b>
         </td>
         <td colspan="3" class="signature">
-            <img src="$firmar" alt="" width="180">
+            <img src="$firma_impresora" alt="" width="180">
         </td>
     </tr>
 </table>

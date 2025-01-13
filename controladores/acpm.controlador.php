@@ -34,7 +34,29 @@ class ControladorAcpm
 
             $respuesta = ModeloAcpm::mdlIngresarAcpm($tabla, $datos);
 
-            if ($respuesta == "ok") {
+            if (is_array($respuesta) && $respuesta["status"] === "ok") {
+                // Usar el último ID insertado
+                $id_acpm_fk = $respuesta["id_acpm_fk"];
+            
+                // Insertar actividad si el tipo de ACPM es "AC" o "AP"
+                if ($_POST["tipo_acpm"] == "AC" || $_POST["tipo_acpm"] == "AP") {
+                    $datosActividad = array(
+                        "fecha_actividad" => $_POST["fecha_correccion"],
+                        "descripcion_actividad" => $_POST["correccion_acpm"],
+                        "tipo_actividad" => "Correccion",
+                        "estado_actividad" => "Incompleta",
+                        "id_usuario_fk" => $_POST["id_usuario_fkacpm"],
+                        "id_acpm_fk" => $id_acpm_fk,
+                    );
+            
+                    $respuestaActividad = ModeloAcpm::mdlIngresarActividadCorrecion($datosActividad);
+            
+                    if ($respuestaActividad === "ok") {
+                        echo "La inserción de la actividad fue exitosa.";
+                    } else {
+                        echo "Error al insertar la actividad.";
+                    }
+                }
                 echo '<script>
                 // Mostrar mensaje de éxito con SweetAlert
                 Swal.fire({
@@ -360,7 +382,7 @@ static public function ctrCrearActividad()
         if (isset($_POST['id_acpm'])) {
             $id_acpm = $_POST['id_acpm'];
             $respuesta = self::ctrActualizarEstadoAcpm($id_acpm, 'Proceso');
-
+    
             if ($respuesta == "ok") {
                 echo '<script>
                         Swal.fire(
@@ -368,7 +390,29 @@ static public function ctrCrearActividad()
                             "La ACPM ha sido enviada satisfactoriamente a SIG.",
                             "success"
                         ).then(function() {
-                            window.location = "sig"; // Redirige a la página actual o a la vista correcta
+                            // Enviar datos por AJAX después de cerrar la alerta
+                            var datosCorreo = {
+                                id_usuario_fk: "' . $_SESSION["id"] . '",
+                                modulo: "enviar_verificacion_sig",
+                                id_consulta: "' . $respuesta . '",
+                                destinatario: "ninguno"
+                            };
+                            $.ajax({
+                                url: "ajax/enviarCorreo.php",
+                                method: "POST",
+                                data: JSON.stringify(datosCorreo),
+                                cache: false,
+                                contentType: "application/json",
+                                processData: false,
+                                success: function(respuesta) {
+                                    console.log("respuesta", respuesta);
+                                    // Redirigir después de que se haya enviado el correo por AJAX
+                                    window.location = "sig";
+                                }
+                            });
+                            // Resetear el formulario y agregar la clase al elemento después del AJAX
+                            document.getElementById("form_actividades").reset();
+                            $("#acciones_verificacion").addClass("active");
                         });
                       </script>';
             } else {
@@ -383,6 +427,7 @@ static public function ctrCrearActividad()
             }
         }
     }
+    
 
     /*=============================================
     APROBAR Y RECHAZAR ACPM POR PARTE DE SIG

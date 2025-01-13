@@ -60,6 +60,8 @@ session_start();
   <link rel="stylesheet" href="vistas/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
 
   <link rel="stylesheet" href="vistas/dist/css/acpm.css">
+  
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
    <!-- Control Sidebar -->
    <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
@@ -115,6 +117,7 @@ session_start();
   <script src="vistas/plugins/sweetalert2/sweetalert2.all.js"></script>
   <!-- Bootstrap Switch -->
 <script src="vistas/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
   <!-- Initialize tooltips -->
   <script>
     $(function() {
@@ -243,6 +246,8 @@ CUERPO DOCUMENTO
   <script src="vistas/js/sadoc.js"></script>
   <script src="vistas/js/tecnica.js"></script>
   <script src="vistas/js/juridico.js"></script>
+  <script src="vistas/js/backup.js"></script>
+  <script src="vistas/js/consumibles.js"></script>
   <script>
 
 
@@ -294,7 +299,91 @@ autoWidth: true
  
 </script>
 
- 
+<script>
+  
+    $(function() {
+    /*=============================================
+     Clona la fila oculta que tiene los campos base, y la agrega al final de la tabla
+     =============================================*/
+    $("#adicional").on('click', function() {
+      $("#tabla tbody tr:eq(0)").clone().removeClass('fila-fija').appendTo("#tabla");
+      sumarTotalPrecios()
+      actualizarSuma(); // Actualiza la suma después de eliminar la fila
+
+    });
+    /*=============================================
+    Evento que selecciona la fila y la elimina 
+    =============================================*/
+    $(document).on("click", ".eliminar", function() {
+      var parent = $(this).parents().get(0);
+      $(parent).remove();
+      sumarTotalPrecios()
+      actualizarSuma(); // Actualiza la suma después de eliminar la fila
+
+
+    });
+  });
+  
+  $(function() {
+    /*=============================================
+     Clona la fila oculta que tiene los campos base, y la agrega al final de la tabla
+     =============================================*/
+    $("#adicional2").on('click', function() {
+      $("#tabla2 tbody tr:eq(0)").clone().removeClass('fila-fija2').appendTo("#tabla2");
+      sumarTotalPrecios()
+      actualizarSuma(); // Actualiza la suma después de eliminar la fila
+
+    });
+    /*=============================================
+    Evento que selecciona la fila y la elimina 
+    =============================================*/
+    $(document).on("click", ".eliminar", function() {
+      var parent = $(this).parents().get(0);
+      $(parent).remove();
+      sumarTotalPrecios()
+      actualizarSuma(); // Actualiza la suma después de eliminar la fila
+
+
+    });
+  });
+  $(function() {
+    /*=============================================
+     Clona la fila oculta que tiene los campos base, y la agrega al final de la tabla
+     =============================================*/
+    $("#adicional3").on('click', function() {
+      $("#tabla3 tbody tr:eq(0)").clone().removeClass('fila-fija3').appendTo("#tabla3");
+      sumarTotalPrecios()
+      actualizarSuma(); // Actualiza la suma después de eliminar la fila
+
+    });
+    /*=============================================
+    Evento que selecciona la fila y la elimina 
+    =============================================*/
+    $(document).on("click", ".eliminar", function() {
+      var parent = $(this).parents().get(0);
+      $(parent).remove();
+      sumarTotalPrecios()
+      actualizarSuma(); // Actualiza la suma después de eliminar la fila
+
+
+    });
+  });
+</script>
+
+
+<script>
+    function handleRadioChange() {
+        const memberInput = document.getElementById('memberInput');
+        const radioMembers = document.getElementById('radioMembers');
+
+        // Verifica si "Sólo Miembros de un Proceso" está seleccionado
+        if (radioMembers.checked) {
+            memberInput.style.display = 'block'; // Mostrar el input
+        } else {
+            memberInput.style.display = 'none'; // Ocultar el input
+        }
+    }
+</script>
 </body>
 
 </html>

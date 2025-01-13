@@ -71,19 +71,53 @@ class ModeloAcpm
 
 
             if ($stmt->execute()) {
-
-                return "ok";
+                // Retornar el último ID y el estado "ok"
+                return array("status" => "ok", "id_acpm_fk" => $pdo->lastInsertId());
             } else {
-
                 return "error";
             }
         } catch (PDOException $e) {
-            // Manejar errores
             return "error: " . $e->getMessage();
         }
     }
 
-
+    public static function mdlIngresarActividadCorrecion($datosActividad)
+    {
+        try {
+            $pdo = Conexion::conectar();
+            $stmt = $pdo->prepare("INSERT INTO actividades_acpm (
+                    fecha_actividad, 
+                    descripcion_actividad, 
+                    tipo_actividad, 
+                    estado_actividad, 
+                    id_usuario_fk, 
+                    id_acpm_fk
+            ) VALUES (
+                    :fecha_actividad, 
+                    :descripcion_actividad, 
+                    :tipo_actividad, 
+                    :estado_actividad, 
+                    :id_usuario_fk, 
+                    :id_acpm_fk
+                )");
+    
+            $stmt->bindParam(":fecha_actividad", $datosActividad["fecha_actividad"], PDO::PARAM_STR);
+            $stmt->bindParam(":descripcion_actividad", $datosActividad["descripcion_actividad"], PDO::PARAM_STR);
+            $stmt->bindParam(":tipo_actividad", $datosActividad["tipo_actividad"], PDO::PARAM_STR);
+            $stmt->bindParam(":estado_actividad", $datosActividad["estado_actividad"], PDO::PARAM_STR);
+            $stmt->bindParam(":id_usuario_fk", $datosActividad["id_usuario_fk"], PDO::PARAM_INT);
+            $stmt->bindParam(":id_acpm_fk", $datosActividad["id_acpm_fk"], PDO::PARAM_INT);
+    
+            if ($stmt->execute()) {
+                return "ok";
+            } else {
+                return "error en ejecución SQL";
+            }
+        } catch (PDOException $e) {
+            return "error en consulta: " . $e->getMessage(); // Muestra mensaje de error
+        }
+    }
+    
     /*=============================================
 	MOSTRAR ACPM
 	=============================================*/

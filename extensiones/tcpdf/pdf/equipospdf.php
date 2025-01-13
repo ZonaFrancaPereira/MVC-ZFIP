@@ -64,9 +64,8 @@ $verificar_usuario = $row["verificar_usuario"];
 $liberar_espacio = $row["liberar_espacio"];
 $actualizar_logos = $row["actualizar_logos"];
 $lubricar_puertos = $row["lubricar_puertos"];
-$verificar_contraseñas = $row["verificar_contraseñas"];
+$verificar_contraseñas = $row["contra"];
 $desinstalar_programas = $row["desinstalar_programas"];
-$organizar_cableado = $row["organizar_cableado"];
 $limpieza_equipo = $row["limpieza_equipo"];
 $formato_asignacion_equipo = $row["formato_asignacion_equipo"];
 $desfragmentar = $row["desfragmentar"];
@@ -83,8 +82,19 @@ $dominio_zfip = $row["dominio_zfip"];
 $apagar_pantalla = $row["apagar_pantalla"];
 $estado_suspension = $row["estado_suspension"];
 $estado_mantenimiento_equipo = $row["estado_mantenimiento_equipo"];
+
+//$baseUrl = "https://beta.zonafrancadepereira.com/"; // Cambia esto según sea necesario para tu entorno de hosting
+$baseUrl = "/MVC-ZFIP/"; 
+
+$rutaRelativa = $row["firma"]; 
+
+// Construct the full URL
+$foto = $baseUrl . $rutaRelativa;
+
+
 $nombreImagen = "images/logo_zf.png";
 $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($nombreImagen));
+
 // Contenido del documento
 $html = <<<EOF
 <style>
@@ -209,10 +219,6 @@ $html = <<<EOF
         <td colspan="3">$desinstalar_programas</td>
     </tr>
     <tr>
-        <td colspan="3"><b>Verificar y organizar cableado de red y otros:</b></td>
-        <td colspan="3">$organizar_cableado</td>
-    </tr>
-    <tr>
         <td colspan="3"><b>Limpieza de equipo completo, cables y accesorios:</b></td>
         <td colspan="3">$limpieza_equipo</td>
     </tr>
@@ -281,7 +287,7 @@ $html = <<<EOF
             <b>FIRMA</b>
         </td>
         <td colspan="3" class="signature">
-            <img src="$firmar" alt="" width="180">
+            <img src="$foto" alt="" width="180">
         </td>
     </tr>
 </table>

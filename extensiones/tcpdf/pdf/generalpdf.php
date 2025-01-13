@@ -64,7 +64,13 @@ $condiciones_fisicas = $row["condiciones_fisicas"];
 $cableado_verificar = $row["cableado_verificar"];
 $dispositivo = $row["dispositivo"];
 $estado_general = $row["estado_general"];
-$firma_general = $row["firma_general"];
+//$baseUrl = "https://beta.zonafrancadepereira.com/"; // Cambia esto según sea necesario para tu entorno de hosting
+$baseUrl = "/MVC-ZFIP/"; 
+
+$rutaRelativa = $row["firma_general"]; 
+
+// Construct the full URL
+$firma_general = $baseUrl . $rutaRelativa;
 
 $nombreImagen = "images/logo_zf.png";
 $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($nombreImagen));
@@ -184,9 +190,13 @@ $html = <<<EOF
         <td colspan="3"><b>Estado:</b></td>
         <td colspan="3">$estado_general</td>
     </tr>
-    <tr>
-        <td colspan="3"><b>Firma:</b></td>
-        <td colspan="3">$firma_general</td>
+     <tr>
+        <td colspan="3" class="signature">
+            <b>FIRMA</b>
+        </td>
+        <td colspan="3" class="signature">
+            <img src="$firma_general" alt="" width="180">
+        </td>
     </tr>
 </table>
 EOF;
