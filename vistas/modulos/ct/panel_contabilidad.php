@@ -1,14 +1,30 @@
+<?php
+// Obtener el ID del usuario desde la sesión
+$idUsuario = $_SESSION["id"];
+
+// Llamar al método del controlador
+$totalActivos = ControladorActivos::ctrContarActivosPorUsuario($idUsuario);
+// Llamar al método del controlador para activos inactivos
+$totalInactivos = ControladorActivos::ctrContarActivosInactivosPorUsuario($idUsuario);
+
+// Mostrar el resultado
+echo "Total de activos para el usuario actual: " . $totalActivos;
+?>
   <!-- Info boxes -->
   <div class="row">
-    <div class="col-12 col-sm-6 col-md-4">
-      <div class="info-box">
-        <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
+    <div class="col-md-4 col-sm-6 col-12">
+      <div class="info-box bg-primary">
+        <span class="info-box-icon"><i class="fas fa-tv"></i></span>
 
         <div class="info-box-content">
-          <span class="info-box-text">Activos</span>
-          <span class="info-box-number">
-            10
-            <small>%</small>
+          <span class="info-box-text">Activos Fijos</span>
+          <h3><?= $totalActivos ?></h3>
+
+          <div class="progress">
+            <div class="progress-bar" style="width:<?= $totalActivos ?>%"></div>
+          </div>
+          <span class="progress-description">
+            Cantidad de Activos Asignados
           </span>
         </div>
         <!-- /.info-box-content -->
@@ -16,13 +32,19 @@
       <!-- /.info-box -->
     </div>
     <!-- /.col -->
-    <div class="col-12 col-sm-6 col-md-4">
-      <div class="info-box mb-3">
-        <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-up"></i></span>
+    <div class="col-md-4 col-sm-6 col-12">
+      <div class="info-box bg-danger">
+        <span class="info-box-icon"><i class="fas fa-trash"></i></span>
 
         <div class="info-box-content">
           <span class="info-box-text">Inactivos</span>
-          <span class="info-box-number">41,410</span>
+          <h3><?= $totalInactivos ?></h3>
+          <div class="progress">
+            <div class="progress-bar" style="width: <?= $totalInactivos ?>%"></div>
+          </div>
+          <span class="progress-description">
+            Activos dados de baja
+          </span>
         </div>
         <!-- /.info-box-content -->
       </div>
@@ -33,13 +55,19 @@
     <!-- fix for small devices only -->
     <div class="clearfix hidden-md-up"></div>
 
-    <div class="col-12 col-sm-6 col-md-4">
-      <div class="info-box mb-3">
-        <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
+    <div class="col-md-4 col-sm-6 col-12">
+      <div class="info-box bg-success">
+        <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
 
         <div class="info-box-content">
           <span class="info-box-text">Ordenes de Compra</span>
-          <span class="info-box-number">760</span>
+          <h3>2</h3>
+          <div class="progress">
+            <div class="progress-bar" style="width: 2%"></div>
+          </div>
+          <span class="progress-description">
+            Esperando aprobación
+          </span>
         </div>
         <!-- /.info-box-content -->
       </div>
@@ -47,7 +75,7 @@
     </div>
     <!-- /.col -->
 
-   
+
 
 
   </div>
@@ -67,13 +95,13 @@
         <div class="row">
           <div class="col-md-12">
             <div class="card">
-              <div class="card-header bg-primary">
+              <div class="card-header bg-info">
                 <h3 class="card-title"><B>Inventario <?php echo $id_inventario; ?> </B> de Activos Fijos </h3>
               </div>
               <div class="card-body row">
                 <!-- TABLA QUE MUESTRA LOS ACTIVOS FIJOS QUE NO SE HAN VERIFICADO -->
                 <div class="card col-md-6">
-                  <div class="card-header border-0 bg-danger">
+                  <div class="card-header border-0 bg-warning">
                     <h3 class="card-title">Activos por Verificar</h3>
                   </div>
                   <div class="card-body table-responsive p-0">
@@ -94,7 +122,7 @@
                 </div>
                 <!-- TABLA PARA MOSTRAR LOS ACTIVOS FIJOS QUE YA SE VERIFICARON -->
                 <div class="card col-md-6">
-                  <div class="card-header border-0 bg-success">
+                  <div class="card-header border-0 bg-teal">
                     <h3 class="card-title">Activos Verificados</h3>
                   </div>
                   <div class="card-body table-responsive p-0">
@@ -156,8 +184,8 @@
           </div>
         </div>
       </div>
-  
-   
+
+
 
 
 

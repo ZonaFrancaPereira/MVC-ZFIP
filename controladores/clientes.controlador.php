@@ -8,96 +8,67 @@ class ControladorClientes
 
 	static public function ctrCrearCliente()
 	{
-
-		if (isset($_POST["nuevoCliente"])) {
-
-			if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevoCliente"])) {
-
-				$tabla = "clientes";
-
+		if (isset($_POST["id_cliente"])) {
+	
+			if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nombre_cliente"])) {
+	
+				$tabla = "clientes_zfip";
+	
 				$datos = array(
-					"nombre" => $_POST["nuevoCliente"],
-					"documento" => $_POST["nuevoDocumentoId"],
-					"email" => $_POST["nuevoEmail"],
-					"telefono" => $_POST["nuevoTelefono"],
-					"direccion" => $_POST["nuevaDireccion"],
-					"ciudad" => $_POST["nuevaCiudad"],
-					"departamento" => $_POST["nuevoDepartamento"]
+					"nombre_cliente" => $_POST["nombre_cliente"],
+					"id_cliente" => $_POST["id_cliente"],
+					"email_cliente" => $_POST["email_cliente"],
+					"telefono_cliente" => $_POST["telefono_cliente"],
+					"direccion_cliente" => $_POST["direccion_cliente"],
+					"tipo_zf" => $_POST["tipo_zf"],
 				);
-
+	
 				$respuesta = ModeloClientes::mdlIngresarCliente($tabla, $datos);
-
+	
 				if ($respuesta == "ok") {
-					
 					echo '<script>
-
-					  Swal.fire(
+						Swal.fire(
 							"Buen Trabajo!",
-							"El cliente  se ha registrado con éxito.",
+							"El cliente se ha registrado con éxito.",
 							"success"
-							).then(function() {
-							
-							 //Limpiar el formulario
-                            document.getElementById("GuardarCliente").reset();
+						).then(function() {
+							// Limpiar el formulario
+							document.getElementById("GuardarCliente").reset();
 							$("#panelbascula").removeClass("active");
-                            $("#formclientes").addClass("active");
+							$("#formclientes").addClass("active");
 							refrescarClientes();
-							
-						
-							});
-
+						});
 					</script>';
 				}
 			} else {
-
 				echo '<script>
-
 					swal({
-						  type: "error",
-						  title: "¡El cliente no puede ir vacío o llevar caracteres especiales!",
-						  showConfirmButton: true,
-						  confirmButtonText: "Cerrar"
-						  }).then(function(result){
-							if (result.value) {
-
+						type: "error",
+						title: "¡El cliente no puede ir vacío o llevar caracteres especiales!",
+						showConfirmButton: true,
+						confirmButtonText: "Cerrar"
+					}).then(function(result){
+						if (result.value) {
 							$("#panelbascula").removeClass("active");
-                            $("#formclientes").addClass("active");
-
-							}
-						})
-
-			  	</script>';
+							$("#formclientes").addClass("active");
+						}
+					})
+				</script>';
 			}
 		} else {
 			return "error";
 		}
 	}
-
-	/*=============================================
+		/*=============================================
 	MOSTRAR CLIENTES
 	=============================================*/
 
 	static public function ctrMostrarClientes($item, $valor)
 	{
 
-		$tabla = "clientes";
+		$tabla = "clientes_zfip";
 
 		$respuesta = ModeloClientes::mdlMostrarClientes($tabla, $item, $valor);
-
-		return $respuesta;
-	}
-
-
-	/*=============================================
-	MOSTRAR CLIENTES AJAX
-	=============================================*/
-
-	static public function ctrMostrarClientesAjax()
-	{
-
-		$tabla = "clientes";
-
-		$respuesta = ModeloClientes::mdlMostrarClientesAjax();
 
 		return $respuesta;
 	}
@@ -113,7 +84,7 @@ class ControladorClientes
 
 			if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarCliente"])) {
 
-				$tabla = "clientes";
+				$tabla = "clientes_zfip";
 
 				$datos = array(
 					"id" => $_POST["idCliente"],
@@ -122,7 +93,7 @@ class ControladorClientes
 					"email" => $_POST["editarEmail"],
 					"telefono" => $_POST["editarTelefono"],
 					"direccion" => $_POST["editarDireccion"],
-					"fecha_nacimiento" => $_POST["editarFechaNacimiento"]
+					"tipo_zf" => $_POST["editarTipozf"]
 				);
 
 				$respuesta = ModeloClientes::mdlEditarCliente($tabla, $datos);
@@ -177,7 +148,7 @@ class ControladorClientes
 
 		if (isset($_POST["idCliente"])) {
 
-			$tabla = "clientes";
+			$tabla = "clientes_zfip";
 			$datos = $_POST["idCliente"];
 
 			$respuesta = ModeloClientes::mdlEliminarCliente($tabla, $datos);
@@ -188,38 +159,7 @@ class ControladorClientes
 			}
 		}
 	}
+
 }
 
 
-/*=============================================
-CREAR CLIENTE
-=============================================*/
-
-
-if (isset($_POST["guardarAjax"])) {
-
-
-	require_once "../modelos/clientes.modelo.php";
-
-
-	$crearCliente = new ControladorClientes();
-	$respuesta = $crearCliente->ctrCrearCliente();
-
-	echo  $respuesta;
-}
-
-/*=============================================
-LEER CLIENTES AJAX
-=============================================*/
-
-
-
-if (isset($_POST["ajaxCliente"])) {
-
-	require_once "../modelos/clientes.modelo.php";
-
-	$leerCliente = new ControladorClientes();
-	$respuesta = $leerCliente->ctrMostrarClientesAjax();
-
-	echo json_encode($respuesta);
-}

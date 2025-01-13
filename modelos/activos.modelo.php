@@ -87,19 +87,17 @@ class ModeloActivos
     static public function mdlMostrarActivos($tabla, $item, $valor)
     {
 
-       // Verifica si se proporcionaron parámetros
-       if ($item != null && $valor != null) {
-        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :valor");
-        $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
-        $stmt->execute();
-        return $stmt->fetchAll();
-        }else{
-        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
-        $stmt->execute();
-        return $stmt->fetchAll();
+        // Verifica si se proporcionaron parámetros
+        if ($item != null && $valor != null) {
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :valor");
+            $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } else {
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+            $stmt->execute();
+            return $stmt->fetchAll();
         }
-
-       
     }
     /*=============================================
 	MOSTRAR Activos AJAX
@@ -213,10 +211,11 @@ class ModeloActivos
 
         $stmt = null;
     }
-     /*=============================================
+    /*=============================================
 	MOSTRAR ACTIVOS FIJOS NO VERIFICADOS
 	=============================================*/
-    public static function mdlMostrarActivosNoVerificados($tablaActivos, $tablaVerificaciones, $id_inventario) {
+    public static function mdlMostrarActivosNoVerificados($tablaActivos, $tablaVerificaciones, $id_inventario)
+    {
         $stmt = Conexion::conectar()->prepare("
             SELECT a.*
             FROM $tablaActivos a
@@ -334,11 +333,12 @@ class ModeloActivos
 
         $stmt = null;
     }
-    
-  /*=============================================
+
+    /*=============================================
     REGISTRAR TRANSFERENCIA DE ACTIVO
     =============================================*/
-    public static function mdlRegistrarTransferencia($datos) {
+    public static function mdlRegistrarTransferencia($datos)
+    {
         $stmt = Conexion::conectar()->prepare("
             INSERT INTO historial_transferencias (id_activo, id_usuario_origen, id_usuario_destino, fecha_transferencia, observaciones)
             VALUES (:id_activo, :id_usuario_origen, :id_usuario_destino, NOW(), :observaciones)
@@ -367,7 +367,8 @@ class ModeloActivos
     /*=============================================
     ACTUALIZAR USUARIO DEL ACTIVO
     =============================================*/
-    public static function mdlActualizarUsuarioActivo($datos) {
+    public static function mdlActualizarUsuarioActivo($datos)
+    {
         $stmt = Conexion::conectar()->prepare("
             UPDATE activos
             SET id_usuario_fk = :id_usuario_destino
@@ -393,33 +394,35 @@ class ModeloActivos
     /*=============================================
     CONTAR ACTIVOS VERIFICADOS
     =============================================*/
-    public static function contarActivosVerificados() {
+    public static function contarActivosVerificados()
+    {
         // Obtener la conexión a la base de datos
         $db = Conexion::conectar();
-    
+
         // Consulta SQL para contar los activos verificados en el inventario abierto
         $sql = "SELECT COUNT(id_verificacion) AS verificados
                 FROM verificaciones
                 WHERE id_inventario_fk = (SELECT id_inventario FROM inventario WHERE estado_inventario = 'Abierto')";
-    
+
         // Preparar la consulta
         $stmt = $db->prepare($sql);
-    
+
         // Ejecutar la consulta
         $stmt->execute();
-    
+
         // Obtener el resultado como un array asociativo
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
         // Retornar el número de verificaciones encontradas
         return $row['verificados'];
     }
-     /*=============================================
+    /*=============================================
     CONTAR TODOS LOS ACTIVOS
     =============================================*/
-    public static function contarTotalActivos() {
-         // Obtener la conexión a la base de datos
-         $db = Conexion::conectar();
+    public static function contarTotalActivos()
+    {
+        // Obtener la conexión a la base de datos
+        $db = Conexion::conectar();
         $stmt = "SELECT COUNT(id_activo) AS total_activos
                 FROM activos
                 WHERE estado_activo='Activo' OR estado_activo='Rentado'";
@@ -432,4 +435,45 @@ class ModeloActivos
         return $row['total_activos'];
     }
 
+
+    // Contar activos por usuario
+    public static function contarActivosPorUsuario($idUsuario)
+    {
+        // Obtener la conexión a la base de datos
+        $db = Conexion::conectar();
+        $stmt = "SELECT COUNT(id_activo) AS total_activos
+                 FROM activos
+                 WHERE id_usuario_fk = :idUsuario 
+                   AND (estado_activo = 'Activo' OR estado_activo = 'Rentado')";
+        // Preparar la consulta
+        $stmt = $db->prepare($stmt);
+        $stmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
+
+        // Ejecutar la consulta
+        $stmt->execute();
+
+        // Obtener el resultado como un array asociativo
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total_activos'];
+    }
+
+     // Contar activos inactivos por usuario
+     public static function contarActivosInactivosPorUsuario($idUsuario) {
+        // Obtener la conexión a la base de datos
+        $db = Conexion::conectar();
+        $stmt = "SELECT COUNT(id_activo) AS total_inactivos
+                 FROM activos
+                 WHERE id_usuario_fk = :idUsuario 
+                   AND estado_activo = 'Inactivo'";
+        // Preparar la consulta
+        $stmt = $db->prepare($stmt);
+        $stmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
+
+        // Ejecutar la consulta
+        $stmt->execute();
+
+        // Obtener el resultado como un array asociativo
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total_inactivos'];
+    }
 }

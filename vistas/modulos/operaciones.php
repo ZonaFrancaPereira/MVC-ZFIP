@@ -26,27 +26,22 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
         <li class="nav-item">
             <a data-toggle="tab" href="#formbascula" class="nav-link">
                 <i class="far fa-save"></i>
-                <p>Crear Pesaje</p>
+                <p>Nueva Inspección</p>
             </a>
         </li>
         <li class="nav-item">
             <a data-toggle="tab" href="#consultarpesaje" class="nav-link">
                 <i class="fas fa-laptop-code"></i>
-                <p>Consultar Pesajes</p>
+                <p>Consultar Inspecciones</p>
             </a>
         </li>
         <li class="nav-item">
             <a data-toggle="tab" href="#formclientes" class="nav-link">
                 <i class="fas fa-file-invoice"></i>
-                <p>Clientes</p>
+                <p>Usuarios ZFIP</p>
             </a>
         </li>
-        <li class="nav-item">
-            <a data-toggle="tab" href="" class="nav-link">
-                <i class="fas fa-user-tie"></i>
-                <p>Configuración</p>
-            </a>
-        </li>
+       
     </ul>
 </nav>
 </div>
@@ -61,7 +56,8 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
                     <!-- /.PANEL PRINCIPAL PARA MOSTRAR LAS CAJAS SUPERIORES E INFORMACIÓN DE BASCULAS -->
 
                     <div id="panelbascula" class="active tab-pane">
-                        <?php require "operaciones/cajas_op.php"; ?>
+                    <?php require "operaciones/cajas_inspeccion.php"; ?>
+                    
                     </div>
                     <!-- /. FORMULARIO PARA INGRESAR NUEVO PESAJE -->
                     <div id="formbascula" class="tab-pane">
@@ -69,16 +65,14 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
                     </div>
                     <!-- /. CONSULTAR PESAJE Y SUS ESTADOS -->
                     <div id="consultarpesaje" class="tab-pane">
-                        <?php require "operaciones/consultar_pesaje.php"; ?>
+                    <?php require "operaciones/consultar_zfip.php"; ?>
                     </div>
                     <!-- /. Clientes -->
                     <div id="formclientes" class="tab-pane">
-                        <?php require "operaciones/clientes_pesaje.php"; ?>
+                        <?php require "operaciones/clientes_zfip.php"; ?>
                         <!-- ACCIONES PHP PARA ELIMINIAR CLIENTE  -->
-<?php
-$eliminarCliente = new ControladorClientes();
-$eliminarCliente->ctrEliminarCliente();
-?>
+                    </div>
+
                     </div>
                 </div>
             </div>
