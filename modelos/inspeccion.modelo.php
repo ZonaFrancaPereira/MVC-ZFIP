@@ -129,16 +129,7 @@ static public function mdlMostrarInspeccion($tabla, $item = null, $valor = null)
     $stmt = null;
 }
 
-<<<<<<< HEAD
-=======
-			$stmt -> execute();
 
-			return $stmt -> fetchAll();
-
-		}
-		$stmt = null;
-
-	}
 
 	
     /*=============================================
@@ -170,6 +161,7 @@ static public function mdlMostrarInspeccion($tabla, $item = null, $valor = null)
 					j.nombre_categoriaop,
 					k.nombre,
 					k.apellidos_usuario,
+                    k.foto,
 					u.nombre_cliente,
 					u.email_cliente
                 FROM $tabla a
@@ -191,6 +183,6 @@ static public function mdlMostrarInspeccion($tabla, $item = null, $valor = null)
             die("Error al obtener datos del ACPM: " . $e->getMessage());
         }
     }
->>>>>>> 40054f3e2bc6c8d4124d9d36cf511260bda3babc
+
 	
 }

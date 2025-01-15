@@ -257,4 +257,26 @@ class ModeloCodificar
         }
     }
 
+    
+    public static function mdlMostrarVersionDocumentos($tablad, $itemd, $valord)
+    {
+        try {
+            // Si $itemd y $valord son null, obtener todos los registros
+            if ($itemd == null && $valord == null) {
+                $stmt = Conexion::conectar()->prepare("SELECT * FROM $tablad");
+            } else {
+                // Si $itemd no es null, usar el parámetro en la consulta
+                $stmt = Conexion::conectar()->prepare("SELECT * FROM $tablad WHERE $itemd = :valor");
+                $stmt->bindParam(":valor", $valord, PDO::PARAM_INT);
+            }
+    
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (Exception $e) {
+            // Si ocurre algún error, mostrar el mensaje
+            echo "Error: " . $e->getMessage();
+        }
+    }
+    
+
 }
