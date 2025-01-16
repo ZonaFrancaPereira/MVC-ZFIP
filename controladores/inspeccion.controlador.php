@@ -86,5 +86,74 @@ public static function ctrGuardarInspeccion() {
 
 		return $respuesta;
 	}
+
+    /*=============================================
+	GRAFICAS INSPECCIONES
+	=============================================*/
+    public function graficaInspeccionesZFIPClinica()
+    {
+        // Obtén los resultados del modelo
+        $resultados = ModeloInspeccion::mdlGraficaInspeccionesZFIPClinica();
+    
+        // Nombres de los meses
+        $meses = [
+            1 => "Enero", 2 => "Febrero", 3 => "Marzo", 4 => "Abril", 5 => "Mayo", 6 => "Junio",
+            7 => "Julio", 8 => "Agosto", 9 => "Septiembre", 10 => "Octubre", 11 => "Noviembre", 12 => "Diciembre"
+        ];
+    
+        // Estructura los datos para el gráfico (por meses del año)
+        $labels = [];
+        $zfipData = [];
+        $clinicaData = [];
+    
+        // Recorrer los resultados y estructurarlos para el gráfico
+        foreach ($resultados as $anio => $mesesData) {
+            foreach ($mesesData as $mes => $tipos) {
+                // Asignar el nombre del mes correspondiente
+                $labels[] = $meses[$mes]; // Usar el nombre del mes en lugar del número
+    
+                // Asignar el total de inspecciones por tipo
+                $zfipData[] = isset($tipos['zfip']) ? $tipos['zfip'] : 0;
+                $clinicaData[] = isset($tipos['clinica']) ? $tipos['clinica'] : 0;
+            }
+        }
+    
+        // Crear el arreglo con los datos finales para el gráfico
+        $graficaData = [
+            'labels' => $labels,
+            'zfipData' => $zfipData,
+            'clinicaData' => $clinicaData
+        ];
+    
+        // Devuelve los resultados en formato JSON para que JavaScript lo procese
+        echo json_encode($graficaData);
+    }
+
+  /*=============================================
+	CONTAR USUARIOS POR ZFIP
+	=============================================*/
+    public static function ctrContarUsuariosPorTipoZF()
+    {
+        return ModeloInspeccion::mdlContarUsuariosPorTipoZF();
+    }
+ /*=============================================
+	CONTAR POR INSPECCIONES ZFIP
+	=============================================*/
+    public static function ctrContarInspeccionesPorTipoZF()
+    {
+        return ModeloInspeccion::mdlContarInspeccionesPorTipoZF();
+    }
+
+    
+
+
 	
+}
+
+
+if (isset($_GET['action']) && $_GET['action'] == 'graficaInspecciones') {
+    require_once '../modelos/inspeccion.modelo.php';
+    $modelo = new ModeloInspeccion();
+    $controlador = new ControladorInspeccion($modelo);
+    $controlador->graficaInspeccionesZFIPClinica();
 }
