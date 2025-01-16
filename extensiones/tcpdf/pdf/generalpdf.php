@@ -2,6 +2,8 @@
 require_once "../../../configuracion.php";
 require_once "../../../controladores/mantenimiento.controlador.php";
 require_once "../../../modelos/mantenimiento.modelo.php";
+require_once "../../../controladores/codificacion.controlador.php";
+require_once "../../../modelos/codificacion.modelo.php";
 require_once('tcpdf_include.php');
 
 // Obtener el ID de mantenimiento desde la URL
@@ -75,60 +77,123 @@ $firma_general = $baseUrl . $rutaRelativa;
 $nombreImagen = "images/logo_zf.png";
 $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($nombreImagen));
 
+//CONSULTA ENCABEZADO DE LAS TABLAS
+$tablad = 'version_documentos';
+$itemd = 'id_documento';
+$valord = '2';  // Asegúrate de que este valor esté correcto y sea válido
+$datosd = ModeloCodificar::mdlMostrarVersionDocumentos($tablad, $itemd, $valord);
+
+// Verificar si se obtuvieron datos
+if (empty($datosd)) {
+    die('No se encontraron datos para formato');
+}
+// Obtener la información del primer registro
+$rowd = $datosd[0];
+$codigo_documento = $rowd["codigo_documento"];
+$nombre_documento = $rowd["nombre_documento"];
+$fecha_implementacion = $rowd["fecha_implementacion"];
+$fecha_actualizacion = $rowd["fecha_actualizacion"];
+$version_documento = $rowd["version_documento"];
+
 // Contenido del documento
 $html = <<<EOF
 <style>
-    table {
-        border-collapse: collapse;
-        width: 100%;
-    }
-    th, td {
-        border: 2px solid #004080;
-        padding: 10px;
-    }
-    th {
-        background-color: #abc665;
-        color: #ffffff;
-        text-align: center;
-    }
-    td {
-        background-color: #abc665;
-        text-align: left;
-    }
     .title {
         text-align: center;
-        font-size: 16px;
+        font-size: 18px;
         font-weight: bold;
-        color: #abc665;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
+        color: #004080;
     }
-    .subtitle {
-        text-align: center;
-        font-size: 14px;
+    .section-title {
+        
         font-weight: bold;
-        background-color: #abc665;
+        background-color: #004080;
         color: #ffffff;
-        padding: 5px;
-        margin-bottom: 10px;
-    }
-    .signature {
         text-align: center;
-        padding-top: 20px;
+        padding: 5px;
+        margin-top: 20px;
     }
-    .signature img {
-        border-top: 1px solid #000;
-        padding-top: 10px;
+    .content-table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 10px;
     }
+    .content-table th, .content-table td {
+        border: 1px solid #004080;
+        padding: 8px;
+        text-align: left;
+    }
+    .content-table th {
+        background-color: #004080;
+        color: #ffffff;
+    }
+    .content-table td {
+        background-color: #f2f2f2;
+    }
+
+    .content-encabezado {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 10px;
+        text-align: center;
+    }
+    .content-encabezado th, .content-table td {
+     font-weight: bold; /* Aplica negrita */
+            border: 1px solid #004080;
+            border-collapse: collapse; /* Evita bordes duplicados */
+        padding: 8px;
+       text-align: center;
+    }
+    .content-encabezado th {
+        background-color: #004080;
+        color: #ffffff;
+    }
+    .content-encabezado td {
+         border: 1px solid #004080;
+            border-collapse: collapse; /* Evita bordes duplicados */
+        text-align: center;
+    }
+
+      .external-border-table {
+           border: 1px solid #004080;
+            border-collapse: collapse; /* Evita bordes duplicados */
+            width: 100%; /* Ajusta el ancho según necesidad */
+        }
+        .external-border-table th {
+            padding: 10px; /* Espaciado dentro de las celdas */
+            text-align: center;
+        }
+
 </style>
 
-<table>
+<table class="external-border-table">
     <tr>
-        <th><img src="$imagenBase64" alt="" width="100"></th>
-        <th>
-            <h3 class="title">FORMATO # $id_mantenimiento_general</h3>
-        </th>
+        <td colspan="2"><img src="$imagenBase64" alt="Logo" width="100"></td>
+        <td colspan="3">
+            <h4>$nombre_documento : #  $id_mantenimiento_general</h4>
+        </td>
     </tr>
 </table>
+<table class="content-encabezado">
+    <tr>
+        <th>CÓDIGO</th>
+        <th>FECHA DE IMPLEMENTACIÓN</th>
+        <th>FECHA DE ACTUALIZACIÓN</th>
+        <th>VERSIÓN</th>
+        <th>PAGINA</th>
+    </tr>
+    <tr>
+        <td>$codigo_documento</td>
+        <td>$fecha_implementacion</td>
+        <td>$fecha_actualizacion</td>
+        <td>$version_documento</td>
+        <td>3 de 4</td>
+    </tr>
+</table>
+<br>
+
+
 
 <table>
     <tr>

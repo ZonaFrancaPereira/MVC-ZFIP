@@ -120,6 +120,7 @@ $fecha_actualizacion = $rowd["fecha_actualizacion"];
 $version_documento = $rowd["version_documento"];
 
 
+
 // Contenido del documento en formato HTML
 $html = <<<EOF
 <style>

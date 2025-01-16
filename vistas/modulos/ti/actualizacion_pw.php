@@ -108,7 +108,7 @@
                                                 case 'Proceso':
                                                     $estado_pw = "<span class='badge badge-info'>Proceso</span>";
                                                     $informe="<button type='button' class='btn bg-danger ReporteInventario' data-id_detalle_fk='{$value["id_detalle_fk"]}'>
-                                                   <i class='far fa-file-pdf'></i>
+                                                   <i class='far fa-file-pdf'></i>ddddddd
                                                   </button>";
                                                     $boton="<button type='button' class='btn bg-warning' data-toggle='modal' data-target='#modalCerrarInventario' data-id_detalle_fk='{$value["id_detalle_fk"]}' title='Cerrar Inventario'>
                                                             <i class='far fa-edit'></i>
@@ -117,7 +117,7 @@
                                                 case 'Verificado':
                                                     $estado_pw = "<span class='badge badge-success'>Verificado</span>";
                                                     $informe="<button type='button' class='btn bg-danger ReporteInventario' data-id_detalle_fk='{$value["id_detalle_fk"]}'>
-                                                   <i class='far fa-file-pdf'></i>
+                                                   <i class='far fa-file-pdf'></i>jjjjjjjjjjjjjjj
                                                   </button>";
                                                   $boton="<button type='button' class='btn bg-success'>
                                                     <i class='far fa-calendar-check'></i>

@@ -2,6 +2,8 @@
 require_once "../../../configuracion.php";
 require_once "../../../controladores/mantenimiento.controlador.php";
 require_once "../../../modelos/mantenimiento.modelo.php";
+require_once "../../../controladores/codificacion.controlador.php";
+require_once "../../../modelos/codificacion.modelo.php";
 require_once('tcpdf_include.php');
 
 // Obtener el ID de mantenimiento desde la URL
@@ -84,9 +86,9 @@ $estado_suspension = $row["estado_suspension"];
 $estado_mantenimiento_equipo = $row["estado_mantenimiento_equipo"];
 
 //$baseUrl = "https://beta.zonafrancadepereira.com/"; // Cambia esto según sea necesario para tu entorno de hosting
-$baseUrl = "/MVC-ZFIP/"; 
+$baseUrl = "/MVC-ZFIP/";
 
-$rutaRelativa = $row["firma"]; 
+$rutaRelativa = $row["firma"];
 
 // Construct the full URL
 $foto = $baseUrl . $rutaRelativa;
@@ -95,200 +97,318 @@ $foto = $baseUrl . $rutaRelativa;
 $nombreImagen = "images/logo_zf.png";
 $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($nombreImagen));
 
+//CONSULTA ENCABEZADO DE LAS TABLAS
+$tablad = 'version_documentos';
+$itemd = 'id_documento';
+$valord = '2';  // Asegúrate de que este valor esté correcto y sea válido
+$datosd = ModeloCodificar::mdlMostrarVersionDocumentos($tablad, $itemd, $valord);
+
+// Verificar si se obtuvieron datos
+if (empty($datosd)) {
+    die('No se encontraron datos para formato');
+}
+// Obtener la información del primer registro
+$rowd = $datosd[0];
+$codigo_documento = $rowd["codigo_documento"];
+$nombre_documento = $rowd["nombre_documento"];
+$fecha_implementacion = $rowd["fecha_implementacion"];
+$fecha_actualizacion = $rowd["fecha_actualizacion"];
+$version_documento = $rowd["version_documento"];
+
+//PARA QUE SE MUESTREN LOS CHECK
+$usuario_checkbox = ($usuario == "SI") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
+$clave_checkbox = ($clave == "SI") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
+$estandar_checkbox = ($estandar == "SI") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
+$administrador_checkbox = ($administrador == "SI") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
+$analisis_completo_checkbox = ($analisis_completo == "SI") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
+$bloqueo_usb_checkbox = ($bloqueo_usb == "SI") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
+$dominio_zfip_checkbox = ($dominio_zfip == "SI") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
+$apagar_pantalla_checkbox = ($apagar_pantalla == "SI") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
+$estado_suspension_checkbox = ($estado_suspension == "SI") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
+
 // Contenido del documento
 $html = <<<EOF
 <style>
-    table {
-        border-collapse: collapse;
-        width: 100%;
-    }
-    th, td {
-        border: 2px solid #004080;
-        padding: 10px;
-    }
-    th {
-        background-color: #abc665;
-        color: #ffffff;
-        text-align: center;
-    }
-    td {
-        background-color: #abc665;
-        text-align: left;
-    }
     .title {
         text-align: center;
-        font-size: 16px;
+        font-size: 18px;
         font-weight: bold;
-        color: #abc665;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
+        color: #004080;
     }
-    .subtitle {
-        text-align: center;
-        font-size: 14px;
+    .section-title {
+        
         font-weight: bold;
-        background-color: #abc665;
+        background-color: #004080;
         color: #ffffff;
-        padding: 5px;
-        margin-bottom: 10px;
-    }
-    .signature {
         text-align: center;
-        padding-top: 20px;
+        padding: 5px;
+        margin-top: 20px;
     }
-    .signature img {
-        border-top: 1px solid #000;
-        padding-top: 10px;
+    .content-table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 10px;
     }
-</style>
+    .content-table th, .content-table td {
+        border: 1px solid #004080;
+        padding: 8px;
+        text-align: left;
+    }
+    .content-table th {
+        background-color: #004080;
+        color: #ffffff;
+    }
+    .content-table td {
+        background-color: #f2f2f2;
+    }
 
-<table>
+    .content-encabezado {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 10px;
+        text-align: center;
+    }
+    .content-encabezado th, .content-table td {
+     font-weight: bold; /* Aplica negrita */
+            border: 1px solid #004080;
+            border-collapse: collapse; /* Evita bordes duplicados */
+        padding: 8px;
+       text-align: center;
+    }
+    .content-encabezado th {
+        background-color: #004080;
+        color: #ffffff;
+    }
+    .content-encabezado td {
+         border: 1px solid #004080;
+            border-collapse: collapse; /* Evita bordes duplicados */
+        text-align: center;
+    }
+
+      .external-border-table {
+           border: 1px solid #004080;
+            border-collapse: collapse; /* Evita bordes duplicados */
+            width: 100%; /* Ajusta el ancho según necesidad */
+        }
+        .external-border-table th {
+            padding: 10px; /* Espaciado dentro de las celdas */
+            text-align: center;
+        }
+
+</style>
+<table class="external-border-table">
     <tr>
-        <th><img src="$imagenBase64" alt="" width="100"></th>
-        <th>
-            <h3 class="title">FORMATO # $id_mantenimiento_equipo</h3>
-        </th>
+        <td colspan="2"><img src="$imagenBase64" alt="Logo" width="100"></td>
+        <td colspan="3">
+            <h4>$nombre_documento : # $id_mantenimiento_equipo</h4>
+        </td>
     </tr>
 </table>
-
-<table>
+<table class="content-encabezado">
     <tr>
-        <td colspan="4" class="subtitle">RESPONSABLE DEL EQUIPO DE COMPUTO</td>
+        <th>CÓDIGO</th>
+        <th>FECHA DE IMPLEMENTACIÓN</th>
+        <th>FECHA DE ACTUALIZACIÓN</th>
+        <th>VERSIÓN</th>
+        <th>PAGINA</th>
     </tr>
     <tr>
-        <td>Nombre</td>
-        <td>$nombre_usuario $apellidos_usuario</td>
+        <td>$codigo_documento</td>
+        <td>$fecha_implementacion</td>
+        <td>$fecha_actualizacion</td>
+        <td>$version_documento</td>
+        <td>1 de 4</td>
+    </tr>
+</table>
+<br>
+<div class="section-title">Responsable del Dispositivo</div>
+<table class="content-table">
+   <tr>
+        <td>Datos</td>
         <td>Proceso</td>
         <td>$id_proceso_fk</td>
-    </tr>
-    <tr>
-        <td>Cargo</td>
-        <td>$id_cargo_fk</td>
-        <td>Fecha (DD-MM-AA)</td>
+        <td>AA-MM-DD</td>
         <td>$fecha_mantenimiento</td>
     </tr>
-</table>
-<br>
-<table>
     <tr>
-        <td colspan="4" class="subtitle">EQUIPO DE COMPUTO</td>
-    </tr>
-    <tr>
-        <td>Marca</td>
-        <td>$marca</td>
-        <td>Modelo</td>
-        <td>$modelo</td>
-    </tr>
-    <tr>
-        <td>Serie</td>
-        <td>$serie</td>
-        <td>Nombre Usuario</td>
-        <td>$usuario_equipo</td>
+        <td colspan="1">Responsable</td>
+        <td colspan="2">$nombre_usuario $apellidos_usuario</td>
+        <td colspan="1">Cargo Funcionario</td>
+       <td colspan="2">$id_cargo_fk</td>
     </tr>
 </table>
 <br>
-<table>
+<div class="section-title">Equipo de Computo</div>
+
+<table class="content-table">
     <tr>
-        <td colspan="4" class="subtitle">DETALLES DEL MANTENIMIENTO</td>
+        <td colspan="1">Marca</td>
+        <td colspan="2">$marca</td>
+        <td colspan="1">Modelo</td>
+        <td colspan="1">$modelo</td>
     </tr>
     <tr>
-        <td colspan="3"><b>Soplar partes externas, equipo completo y área de trabajo, teléfono:</b></td>
-        <td colspan="3">$soplar_partes_externas</td>
+        <td colspan="1">Serie</td>
+        <td colspan="2">$serie</td>
+        <td colspan="1">Nombre Usuario</td>
+        <td colspan="1">$usuario_equipo</td>
+    </tr>
+</table>
+
+<div class="section-title">Detalles del Mantenimiento</div>
+<table class="content-table">
+    <tr>
+        <th colspan="4">Soplar partes externas, equipo completo y área de trabajo, teléfono:</th>
+        <td colspan="1">$soplar_partes_externas</td>
     </tr>
     <tr>
-        <td colspan="3"><b>Verificar usuario estándar y administrador:</b></td>
-        <td colspan="3">$verificar_usuario</td>
+        <th colspan="4">Lubricar puertos, conectores, contactos y bisagras con CRC o 3 en 3, isopropílico:</th>
+        <td colspan="1">$lubricar_puertos</td>
     </tr>
     <tr>
-        <td colspan="3"><b>Liberar espacio en disco:</b></td>
-        <td colspan="3">$liberar_espacio</td>
+        <th colspan="4">Limpieza de equipo completo, cables y accesorios:</th>
+        <td colspan="1">$limpieza_equipo</td>
+    </tr>
+      <tr>
+        <th colspan="4">Soplar y limpiar partes internas del equipo completo:</th>
+        <td colspan="1">$limpiar_partes_interna</td>
     </tr>
     <tr>
-        <td colspan="3"><b>Actualizar logos de perfil de usuarios y cambiar fondos, sincronizar logos y fondos:</b></td>
-        <td colspan="3">$actualizar_logos</td>
+        <th colspan="4">Verificar usuario estándar y administrador:</th>
+        <td colspan="1">$verificar_usuario</td>
     </tr>
     <tr>
-        <td colspan="3"><b>Lubricar puertos, conectores, contactos y bisagras con CRC o 3 en 3, isopropílico:</b></td>
-        <td colspan="3">$lubricar_puertos</td>
+        <th colspan="4">Verificar contraseñas guardadas en los navegadores:</th>
+        <td colspan="1">$verificar_contraseñas</td>
     </tr>
     <tr>
-        <td colspan="3"><b>Verificar contraseñas guardadas en los navegadores:</b></td>
-        <td colspan="3">$verificar_contraseñas</td>
+        <th colspan="4">Verificar y constatar elementos del formato asignación de equipos:</th>
+        <td colspan="1">$formato_asignacion_equipo</td>
+    </tr>
+     <tr>
+        <th colspan="4">Depurar temporales, vaciar Visor de Eventos (temp/ %temp%):</th>
+        <td colspan="1">$depurar_temporales</td>
+    </tr>
+     <tr>
+        <th colspan="4">Liberar espacio en disco:</th>
+        <td colspan="1">$liberar_espacio</td>
+    </tr>
+     <tr>
+        <th colspan="4">Desinstalar programas innecesarios y no licenciados:</th>
+        <td colspan="1">$desinstalar_programas</td>
+    </tr>
+     <tr>
+        <th colspan="4">Desfragmentar todas las unidades de disco:</th>
+        <td colspan="1">$desfragmentar</td>
     </tr>
     <tr>
-        <td colspan="3"><b>Desinstalar programas innecesarios y no licenciados:</b></td>
-        <td colspan="3">$desinstalar_programas</td>
+        <th colspan="4">Verificar actualizaciones pendientes e instalarlas, reiniciar sistema:</th>
+        <td colspan="1">$verificar_actualizaciones</td>
     </tr>
     <tr>
-        <td colspan="3"><b>Limpieza de equipo completo, cables y accesorios:</b></td>
-        <td colspan="3">$limpieza_equipo</td>
+        <th colspan="4">Actualizar logos de perfil de usuarios y cambiar fondos, sincronizar logos y fondos:</th>
+        <td colspan="1">$actualizar_logos</td>
     </tr>
     <tr>
-        <td colspan="3"><b>Verificar y constatar elementos del formato asignación de equipos:</b></td>
-        <td colspan="3">$formato_asignacion_equipo</td>
+        <th colspan="4">Verificar y organizar cableado de red y otros.</th>
+        <td colspan="1">No esta en la BD</td>
+    </tr>
+</table>
+
+<div class="section-title">Software Licenciado</div>
+<table class="content-table">
+    <tr>
+        <td>Windows</td>
+        <th>Traer de Activos</th>
+        <td>Microsoft Office</td>
+        <th>Traer de Activos</th>
+    </tr>
+       <tr>
+       <td>MAC</td>
+        <th>Traer de Activos</th>
+        <td>AutoCAD</td>
+        <th>Traer de Activos</th>
+    </tr>
+       <tr>
+        
+         <td>Zeus</td>
+        <th>Traer de Activos</th>
+        <td>Appolo</td>
+        <th>Traer de Activos</th>
+    </tr>
+</table>
+
+<div class="section-title">Hadware</div>
+<table class="content-table">
+    <tr>
+        <td>Procesador</td>
+        <th>Traer de Activos</th>
+        <td>Disco Duro</td>
+        <th>Traer de Activos</th>
+    </tr>
+       <tr>
+       <td>Memoria RAM</td>
+        <th>Traer de Activos</th>
+        <td>CD-DVD</td>
+        <th>Traer de Activos</th>
+    </tr>
+       <tr>
+        <td>Tarjeta Video </td>
+        <th>Traer de Activos</th>
+        <td>Tarjeta Red </td>
+        <th>Traer de Activos</th>
+    </tr>
+</table>
+
+<div class="section-title">Seguridad Básica de Equipos </div>
+<table class="content-table">
+    <tr>
+        <td>Tipo de Red </td>
+        <th>Usuario :<b>$usuario_checkbox</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Clave <b>$clave_checkbox</b></th>
+        <td>Privilegios </td>
     </tr>
     <tr>
-        <td colspan="3"><b>Desfragmentar todas las unidades de disco:</b></td>
-        <td colspan="3">$desfragmentar</td>
+        <th>&nbsp;&nbsp;Wi-Fi : <b>$usuario_checkbox</b> &nbsp;&nbsp;&nbsp;&nbsp; Cableada <b>$clave_checkbox</b></th>
+        <th>Dentro del Dominio de ZFIP: <b>$dominio_zfip_checkbox</b></th>
+        <th>Administrador : <b>$administrador_checkbox</b> &nbsp;&nbsp; Estandar <b>$estandar_checkbox</b></th>
     </tr>
     <tr>
-        <td colspan="3"><b>Soplar y limpiar partes internas del equipo completo:</b></td>
-        <td colspan="3">$limpiar_partes_interna</td>
+        <td>Tiempo de desatención </td>
+        <th>Apagar pantalla a los 3 min:&nbsp; <b>$apagar_pantalla_checkbox</b></th>
+        <th>Poner el equipo en estado de suspensión 10 minutos:<b> $estado_suspension_checkbox</b> </th>
     </tr>
     <tr>
-        <td colspan="3"><b>Depurar temporales, vaciar Visor de Eventos (temp/ %temp%):</b></td>
-        <td colspan="3">$depurar_temporales</td>
+        <td>Antivirus </td>
+        <th>Análisis Completo:&nbsp; <b>$analisis_completo_checkbox</b></th>
+        <th>Bloqueo de memorias USB:<b> $bloqueo_usb_checkbox</b> </th>
     </tr>
+   
+</table>
+
+<div class="section-title">FIRMA RECIBIDO</div>
+<table class="content-table">
+        <tr>
+            <th>Nombre</th>
+            <td>$nombre_usuario $apellidos_usuario</td>
+        </tr>
+        <tr>
+            <td colspan="2"><img src="$foto" alt="Firma" width="120" style="margin-left: 50px;"></td>
+        </tr>
+  
+</table>
+
+<table class="content-table">
     <tr>
-        <td colspan="3"><b>Verificar actualizaciones pendientes e instalarlas, reiniciar sistema:</b></td>
-        <td colspan="3">$verificar_actualizaciones</td>
-    </tr>
-    <tr>
-        <td colspan="3"><b>Usuario:</b></td>
-        <td colspan="3">$usuario</td>
-    </tr>
-    <tr>
-        <td colspan="3"><b>Clave:</b></td>
-        <td colspan="3">$clave</td>
-    </tr>
-    <tr>
-        <td colspan="3"><b>Estandar:</b></td>
-        <td colspan="3">$estandar</td>
-    </tr>
-    <tr>
-        <td colspan="3"><b>Administrador:</b></td>
-        <td colspan="3">$administrador</td>
-    </tr>
-    <tr>
-        <td colspan="3"><b>Análisis Completo:</b></td>
-        <td colspan="3">$analisis_completo</td>
-    </tr>
-    <tr>
-        <td colspan="3"><b>Bloqueo de memorias USB:</b></td>
-        <td colspan="3">$bloqueo_usb</td>
-    </tr>
-    <tr>
-        <td colspan="3"><b>Dentro del Dominio de ZFIP:</b></td>
-        <td colspan="3">$dominio_zfip</td>
-    </tr>
-    <tr>
-        <td colspan="3"><b>Apagar pantalla a los 3 min:</b></td>
-        <td colspan="3">$apagar_pantalla</td>
-    </tr>
-    <tr>
-        <td colspan="3"><b>Poner el equipo en estado de suspensión 30 minutos:</b></td>
-        <td colspan="3">$estado_suspension</td>
-    </tr>
-    <tr>
-        <td colspan="3"><b>Estado:</b></td>
-        <td colspan="3">$estado_mantenimiento_equipo</td>
-    </tr>
-    <tr>
-        <td colspan="3" class="signature">
-            <b>FIRMA</b>
-        </td>
-        <td colspan="3" class="signature">
-            <img src="$foto" alt="" width="180">
-        </td>
+        <th colspan="5">
+            <p style="text-align: justify;">Al registrar y entregar sus datos personales mediante este mecanismo de recolección de información, 
+            usted declara que conoce nuestra política de tratamiento de datos personales disponible en: 
+            <a href="http://www.politicadeprivacidad.co/politica/zfipusuariooperador" target="_blank">www.politicadeprivacidad.co/politica/zfipusuariooperador</a>, 
+            también declara que conoce sus derechos como titular de la información y que autoriza de manera libre, 
+            voluntaria, previa, explícita, informada e inequívoca a ZONA FRANCA INTERNACIONAL DE PEREIRA SAS USUARIO OPERADOR DE ZONAS FRANCAS 
+            con NIT 900311215 para gestionar sus datos personales bajo los parámetros indicados en dicha política de tratamiento.
+            </p>
+        </th>
     </tr>
 </table>
 EOF;
@@ -298,4 +418,3 @@ $pdf->writeHTML($html, true, false, true, false, '');
 
 // Salida del PDF
 $pdf->Output('documento.pdf', 'I');
-?>
