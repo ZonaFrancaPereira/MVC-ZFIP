@@ -191,6 +191,17 @@ class ControladorCodificar
         }
     }
 
+   /*=============================================
+        CONSULTAR VERSION DE DOCUMENTOS CODIFICADOS
+    =============================================*/
+    
+    static public function ctrMostrarVersionDocumentos($item, $valor)
+    {
+        $tabla = "version_documentos";
 
+        $respuesta = ModeloCodificar::mdlMostrarVersionDocumentos($tabla, $item, $valor);
+
+        return $respuesta;
+    }
     
 }

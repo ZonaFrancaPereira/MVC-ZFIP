@@ -2,6 +2,8 @@
 require_once "../../../configuracion.php";
 require_once "../../../controladores/mantenimiento.controlador.php";
 require_once "../../../modelos/mantenimiento.modelo.php";
+require_once "../../../controladores/codificacion.controlador.php";
+require_once "../../../modelos/codificacion.modelo.php";
 require_once('tcpdf_include.php');
 
 // Obtener el ID de mantenimiento desde la URL
@@ -19,6 +21,17 @@ $datos = ModeloMantenimiento::mdlMostrarMantenimientoImpresorapdf($tabla, $item,
 // Verificar si se obtuvieron datos
 if (empty($datos)) {
     die('No se encontraron datos para el ID de mantenimiento proporcionado.');
+}
+
+//CONSULTA ENCABEZADO DE LAS TABLAS
+$tablad = 'version_documentos';
+$itemd = 'id_documento';
+$valord = '2';  // Asegúrate de que este valor esté correcto y sea válido
+$datosd = ModeloCodificar::mdlMostrarVersionDocumentos($tablad, $itemd, $valord);
+
+// Verificar si se obtuvieron datos
+if (empty($datosd)) {
+    die('No se encontraron datos para formato');
 }
 
 // Crear una instancia de TCPDF
@@ -82,83 +95,135 @@ $firma_impresora = $baseUrl . $rutaRelativa;
 $nombreImagen = "images/logo_zf.png";
 $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($nombreImagen));
 
+// Obtener la información para el encabezado del formato
+$rowd = $datosd[0];
+$codigo_documento = $rowd["codigo_documento"];
+$nombre_documento = $rowd["nombre_documento"];
+$fecha_implementacion = $rowd["fecha_implementacion"];
+$fecha_actualizacion = $rowd["fecha_actualizacion"];
+$version_documento = $rowd["version_documento"];
+
 // Contenido del documento
 $html = <<<EOF
 <style>
-    table {
-        border-collapse: collapse;
-        width: 100%;
-    }
-    th, td {
-        border: 2px solid #004080;
-        padding: 10px;
-    }
-    th {
-        background-color: #abc665;
-        color: #ffffff;
-        text-align: center;
-    }
-    td {
-        background-color: #abc665;
-        text-align: left;
-    }
     .title {
         text-align: center;
-        font-size: 16px;
+        font-size: 18px;
         font-weight: bold;
-        color: #abc665;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
+        color: #004080;
     }
-    .subtitle {
-        text-align: center;
-        font-size: 14px;
+    .section-title {
+        
         font-weight: bold;
-        background-color: #abc665;
+        background-color: #004080;
         color: #ffffff;
-        padding: 5px;
-        margin-bottom: 10px;
-    }
-    .signature {
         text-align: center;
-        padding-top: 20px;
+        padding: 5px;
+        margin-top: 20px;
     }
-    .signature img {
-        border-top: 1px solid #000;
-        padding-top: 10px;
+    .content-table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 10px;
     }
+    .content-table th, .content-table td {
+        border: 1px solid #004080;
+        padding: 8px;
+        text-align: left;
+    }
+    .content-table th {
+        background-color: #004080;
+        color: #ffffff;
+    }
+    .content-table td {
+        background-color: #f2f2f2;
+    }
+
+    .content-encabezado {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 10px;
+        text-align: center;
+    }
+    .content-encabezado th, .content-table td {
+     font-weight: bold; /* Aplica negrita */
+            border: 1px solid #004080;
+            border-collapse: collapse; /* Evita bordes duplicados */
+        padding: 8px;
+       text-align: center;
+    }
+    .content-encabezado th {
+        background-color: #004080;
+        color: #ffffff;
+    }
+    .content-encabezado td {
+         border: 1px solid #004080;
+            border-collapse: collapse; /* Evita bordes duplicados */
+        text-align: center;
+    }
+
+      .external-border-table {
+           border: 1px solid #004080;
+            border-collapse: collapse; /* Evita bordes duplicados */
+            width: 100%; /* Ajusta el ancho según necesidad */
+        }
+        .external-border-table th {
+            padding: 10px; /* Espaciado dentro de las celdas */
+            text-align: center;
+        }
+
 </style>
 
-<table>
-    <tr>
-        <th><img src="$imagenBase64" alt="" width="100"></th>
-        <th>
-            <h3 class="title">FORMATO # $id_mantenimiento_impresora</h3>
-        </th>
-    </tr>
-</table>
+<table class="external-border-table">
+        <tr>
+            <td colspan="2"><img src="$imagenBase64" alt="Logo" width="100"></td>
+            <td colspan="3">
+                <h4>$nombre_documento # $id_mantenimiento_impresora</h4>
+            </td>
+        </tr>
+    </table>
+        <table class="content-encabezado">
+        <tr>
+            <th>CÓDIGO</th>
+            <th>FECHA DE IMPLEMENTACIÓN</th>
+            <th>FECHA DE ACTUALIZACIÓN</th>
+            <th>VERSIÓN</th>
+            <th>PAGINA</th>
+        </tr>
+        <tr>
+            <td>$codigo_documento</td>
+            <td>$fecha_implementacion</td>
+            <td>$fecha_actualizacion</td>
+            <td>$version_documento</td>
+            <td>2 de 4</td>
+        </tr>
 
-<table>
-    <tr>
-        <td colspan="4" class="subtitle">RESPONSABLE DEL EQUIPO DE COMPUTO</td>
-    </tr>
-    <tr>
-        <td>Nombre</td>
-        <td>$nombre_usuario $apellidos_usuario</td>
+    </table>
+   
+ <br>
+    <div class="section-title">RESPONSABLE DEL DISPOSITIVO</div>
+
+<table class="content-table">
+   <tr>
+        <td>Datos</td>
         <td>Proceso</td>
         <td>$id_proceso_fk</td>
-    </tr>
-    <tr>
-        <td>Cargo</td>
-        <td>$id_cargo_fk</td>
-        <td>Fecha (DD-MM-AA)</td>
+        <td>AA-MM-DD</td>
         <td>$fecha_mantenimiento</td>
     </tr>
+    <tr>
+        <td colspan="1">Responsable</td>
+        <td colspan="2">$nombre_usuario $apellidos_usuario</td>
+        <td colspan="1">Cargo Funcionario</td>
+       <td colspan="2">$id_cargo_fk</td>
+    </tr>
+   
 </table>
 <br>
-<table>
-    <tr>
-        <td colspan="4" class="subtitle">IMPRESORA</td>
-    </tr>
+<div class="section-title">IMPRESORA</div>
+<table class="content-table">
+    
     <tr>
         <td>Marca</td>
         <td>$marca</td>
@@ -173,10 +238,9 @@ $html = <<<EOF
     </tr>
 </table>
 <br>
-<table>
-    <tr>
-        <td colspan="4" class="subtitle">DETALLES DEL MANTENIMIENTO</td>
-    </tr>
+<div class="section-title">ITEMS</div>
+<table class="content-table">
+  
     <tr>
         <td colspan="3"><b>Soplar y limpiar el exterior de la impresora:</b></td>
         <td colspan="3">$soplar_exterior</td>
@@ -221,14 +285,40 @@ $html = <<<EOF
         <td colspan="3"><b>Estado:</b></td>
         <td colspan="3">$estado_mantenimiento</td>
     </tr>
+  
+</table>
+    <div class="section-title">FIRMA RECIBIDO</div>
+    <table class="content-table">
+        <tr>
+            <th>Nombre</th>
+            <td>$nombre_usuario $apellidos_usuario</td>
+            
+        </tr>
+
     <tr>
-        <td colspan="3" class="signature">
-            <b>FIRMA</b>
-        </td>
-        <td colspan="3" class="signature">
-            <img src="$firma_impresora" alt="" width="180">
+        <td colspan="4" class="signature" style="text-align: center;">
+            <div>
+                <b>FIRMA</b>
+            </div>
+            <div>
+                <img src="$firma_impresora" alt="Firma" width="120" style="margin-left: 50px;">
+            </div>
         </td>
     </tr>
+
+    </table>
+<table class="content-table">
+    <tr>
+        <th colspan="5"><p style="text-align: justify;">Al registrar y entregar sus datos personales mediante este mecanismo de recolección de información, 
+    usted declara que conoce nuestra política de tratamiento de datos personales disponible en: 
+    <a href="http://www.politicadeprivacidad.co/politica/zfipusuariooperador" target="_blank">www.politicadeprivacidad.co/politica/zfipusuariooperador</a>, 
+    también declara que conoce sus derechos como titular de la información y que autoriza de manera libre, 
+    voluntaria, previa, explícita, informada e inequívoca a ZONA FRANCA INTERNACIONAL DE PEREIRA SAS USUARIO OPERADOR DE ZONAS FRANCAS 
+    con NIT 900311215 para gestionar sus datos personales bajo los parámetros indicados en dicha política de tratamiento.
+</p>
+</th>
+    </tr>
+
 </table>
 EOF;
 
