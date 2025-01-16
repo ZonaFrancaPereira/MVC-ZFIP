@@ -80,13 +80,6 @@ require_once "configuracion.php";
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a data-toggle="tab" href="#impresoras" class="nav-link">
-                        <i class="nav-icon far fa-question-circle"></i>
-                        <p>Impresoras</p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
                     <a data-toggle="tab" href="#consumibles" class="nav-link">
                         <i class="nav-icon far fa-question-circle"></i>
                         <p>Registrar Consumible</p>
@@ -95,24 +88,10 @@ require_once "configuracion.php";
             </ul>
         </li>
         <?php endif; ?>
-
-
-        <li class="nav-item">
-            <a data-toggle="tab" href="#criticidad" class="nav-link">
-                <i class="fas fa-user-tie"></i>
-                <p>Matriz de Usuarios y Criticidad</p>
-            </a>
-        </li>
         <li class="nav-item">
             <a data-toggle="tab" href="#inventario" class="nav-link">
                 <i class="fas fa-file-invoice"></i>
                 <p>Inventario TI</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a data-toggle="tab" href="#licencias" class="nav-link">
-                <i class="far fa-id-badge"></i>
-                <p>Licencias</p>
             </a>
         </li>
         <li class="nav-item">
@@ -239,6 +218,7 @@ if ($_SESSION["ti"] == "off") {
 </aside>
 
 <div class="content-wrapper">
+<<<<<<< HEAD
   <div id="wrapper" class="toggled">
     <div id="page-content-wrapper">
       <div class="container-fluid">
@@ -249,6 +229,164 @@ if ($_SESSION["ti"] == "off") {
               <div class="col-md-12">
                 <?php require "sig/panel_control_usuarios.php"; ?>
               </div>
+=======
+    <div id="wrapper" class="toggled">
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="tab-content card">
+
+                    <div id="actualizacion_pw" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/actualizacion_pw.php"; ?>
+                            </div>
+                        </div>
+                    </div>
+                        <div id="consumibles" class="tab-pane">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <?php require "ti/consumibles.php"; ?>
+                                </div>
+                            </div>
+                        </div>
+
+                    <div id="principal_consumibles" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/principal_consumibles.php"; ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="inventario" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/inventario.php"; ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="usuarios" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/usuarios.php"; ?>
+                            </div>
+                            <?php
+
+                            $borrarUsuario = new ControladorUsuarios();
+                            $borrarUsuario->ctrBorrarUsuario();
+
+                            ?>
+                        </div>
+                    </div>
+
+                    <div id="backup" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/backup.php"; ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="verificar_backup" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/verificacion_backup.php"; ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="principal_backup" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/principal_backup.php"; ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="contraseñas_marcar" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/contraseñas.php"; ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="asignacion_equipos" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/asignacion_equipos.php"; ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="mantenimientos" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/mantenimientos.php"; ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="equipo" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/equipo.php"; ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="impresora" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/impresora.php"; ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="general" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/general.php"; ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="principal_soporte" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/principal_soporte.php"; ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="realizar_solicitud" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/soporte.php"; ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="solicitudes_soporte" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/solicitudes_soporte.php"; ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="solicitudes_finalizadas" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/solicitudes_finalizadas.php"; ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="perfiles" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/perfiles.php"; ?>
+                                <?php
+                                $borrarPerfil = new ControladorPerfiles();
+                                $borrarPerfil->ctrBorrarPerfil();
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+>>>>>>> a05915a055d42db9d87a66e84a0f5945559db4e8
             </div>
           </div>
 
