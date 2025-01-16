@@ -45,7 +45,6 @@ class TablaBackup
         switch ($consulta) {
             case 'impresora-consumibles':
                 return [
-                    $s["id_impresora"],
                     $s["nombre_impresora"],
                     $s["modelo_impresora"],
                     $s["serial_impresora"],
