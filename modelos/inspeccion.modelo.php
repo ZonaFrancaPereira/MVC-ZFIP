@@ -7,11 +7,12 @@ class ModeloInspeccion
 
 
 
-	/*=============================================
+    /*=============================================
 	REGISTRO DE INSPECCION 
 	=============================================*/
 
-    public static function mdlGuardarInspeccion($datos) {
+    public static function mdlGuardarInspeccion($datos)
+    {
 
         $stmt = Conexion::conectar()->prepare("INSERT INTO inspeccion_op 
             (id_cliente_fk, ingreso_salida, id_categoriaop_fk, otro_operacion, transito, fmm, arin, documento, fisico, estado, descripcion_observaciones, nombre_firma, cc_firma,firma_recibido,id_usuario_fk)
@@ -42,51 +43,50 @@ class ModeloInspeccion
         $stmt = null;
     }
 
-    
+
     /*=============================================
 	MOSTRAR CATEGORIAS OPERACIONES INSPECCION
 	=============================================*/
 
-	static public function mdlMostrarCategoriaOp($tabla, $item, $valor){
+    static public function mdlMostrarCategoriaOp($tabla, $item, $valor)
+    {
 
-		if($item != null){
+        if ($item != null) {
 
-			$stmt = Conexion::conectar()->prepare("SELECT * 
+            $stmt = Conexion::conectar()->prepare("SELECT * 
 														
 														FROM 
 														$tabla 
 														WHERE $item = :$item");
 
-			$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
+            $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 
-			$stmt -> execute();
+            $stmt->execute();
 
-			return $stmt -> fetch();
+            return $stmt->fetch();
+        } else {
 
-		}else{
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
 
-			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+            $stmt->execute();
 
-			$stmt -> execute();
+            return $stmt->fetchAll();
+        }
+        $stmt = null;
+    }
 
-			return $stmt -> fetchAll();
 
-		}
-		$stmt = null;
 
-	}
-
-    
-
-/*=============================================
+    /*=============================================
     MOSTRAR INSPECCIONES REALIZADAS CON INNER JOIN
 =============================================*/
 
-static public function mdlMostrarInspeccion($tabla, $item = null, $valor = null){
+    static public function mdlMostrarInspeccion($tabla, $item = null, $valor = null)
+    {
 
-    // Si se recibe un filtro (item y valor)
-    if($item != null && $valor != null){
-        $stmt = Conexion::conectar()->prepare("SELECT 
+        // Si se recibe un filtro (item y valor)
+        if ($item != null && $valor != null) {
+            $stmt = Conexion::conectar()->prepare("SELECT 
                                                     i.*, 
                                                     c.*, 
                                                     cat.*, 
@@ -102,13 +102,13 @@ static public function mdlMostrarInspeccion($tabla, $item = null, $valor = null)
                                                 WHERE 
                                                     i.$item = :$item");
 
-        $stmt->bindParam(":".$item, $valor, PDO::PARAM_STR);
-        $stmt->execute();
-        return $stmt->fetch(); // Retorna solo el primer resultado (como en tu ejemplo)
+            $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+            $stmt->execute();
+            return $stmt->fetch(); // Retorna solo el primer resultado (como en tu ejemplo)
 
-    } else {
-        // Si no se recibe filtro, trae todas las inspecciones
-        $stmt = Conexion::conectar()->prepare("SELECT 
+        } else {
+            // Si no se recibe filtro, trae todas las inspecciones
+            $stmt = Conexion::conectar()->prepare("SELECT 
                                                     i.*, 
                                                     c.*, 
                                                     cat.*, 
@@ -122,16 +122,16 @@ static public function mdlMostrarInspeccion($tabla, $item = null, $valor = null)
                                                 INNER JOIN 
                                                     usuarios u ON i.id_usuario_fk = u.id");
 
-        $stmt->execute();
-        return $stmt->fetchAll(); // Retorna todos los resultados
+            $stmt->execute();
+            return $stmt->fetchAll(); // Retorna todos los resultados
+        }
+
+        $stmt = null;
     }
 
-    $stmt = null;
-}
 
 
 
-	
     /*=============================================
 	MOSTRAR PDF INSPECCION
 	=============================================*/
@@ -184,5 +184,85 @@ static public function mdlMostrarInspeccion($tabla, $item = null, $valor = null)
         }
     }
 
-	
+    //GRAFICAS
+    public static function mdlGraficaInspeccionesZFIPClinica()
+    {
+        try {
+            $query = "SELECT 
+                    YEAR(i.fecha_inspeccion) AS anio,
+                    MONTH(i.fecha_inspeccion) AS mes,
+                    c.tipo_zf,
+                    COUNT(*) AS total_inspecciones
+                FROM inspeccion_op i
+                INNER JOIN clientes_zfip c ON i.id_cliente_fk = c.id_cliente
+                WHERE c.tipo_zf IN ('zfip', 'clinica')
+                GROUP BY anio, mes, c.tipo_zf
+                ORDER BY anio, mes";
+
+            $stmt = Conexion::conectar()->prepare($query);
+            $stmt->execute();
+
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Reorganizar el resultado en formato adecuado para la gráfica
+            $formattedResult = [];
+
+            foreach ($result as $row) {
+                $formattedResult[$row['anio']][$row['mes']][$row['tipo_zf']] = $row['total_inspecciones'];
+            }
+
+            return $formattedResult;
+        } catch (PDOException $e) {
+            die("Error en la consulta: " . $e->getMessage());
+        }
+    }
+    /*=============================================
+	CONTAR USUARIOS POR ZFIP
+	=============================================*/
+    public static function mdlContarUsuariosPorTipoZF()
+    {
+        try {
+            $query = "SELECT tipo_zf, COUNT(*) AS total_usuarios
+                  FROM clientes_zfip
+                  WHERE tipo_zf IN ('zfip', 'clinica')
+                  GROUP BY tipo_zf";
+
+            $stmt = Conexion::conectar()->prepare($query);
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC); // Devuelve los resultados
+        } catch (PDOException $e) {
+            die("Error en la consulta: " . $e->getMessage());
+        }
+    }
+
+    /*=============================================
+	CONTAR USUARIOS POR ZFIP
+	=============================================*/
+    public static function mdlContarInspeccionesPorTipoZF()
+    {
+        try {
+            $query = "SELECT 
+                c.tipo_zf,
+                YEAR(i.fecha_inspeccion) AS año,
+                COUNT(i.id_inspeccion) AS total_inspecciones
+            FROM 
+                inspeccion_op i
+            JOIN 
+                clientes_zfip c ON i.id_cliente_fk = c.id_cliente
+            WHERE 
+                YEAR(i.fecha_inspeccion) = YEAR(CURRENT_DATE)  -- Filtra solo el año actual
+            GROUP BY 
+                c.tipo_zf, YEAR(i.fecha_inspeccion)
+            ORDER BY 
+                c.tipo_zf, año;";
+
+            $stmt = Conexion::conectar()->prepare($query);
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC); // Devuelve los resultados
+        } catch (PDOException $e) {
+            die("Error en la consulta: " . $e->getMessage());
+        }
+    }
 }

@@ -193,30 +193,27 @@ $html = <<<EOF
 </table>
 <br>
 
+    <div class="section-title">RESPONSABLE DEL DISPOSITIVO</div>
 
-
-<table>
-    <tr>
-        <td colspan="4" class="subtitle">RESPONSABLE DEL ARTICULO</td>
-    </tr>
-    <tr>
-        <td>Nombre</td>
-        <td>$nombre_usuario $apellidos_usuario</td>
+<table class="content-table">
+   <tr>
+        <td>Datos</td>
         <td>Proceso</td>
         <td>$id_proceso_fk</td>
-    </tr>
-    <tr>
-        <td>Cargo</td>
-        <td>$id_cargo_fk</td>
-        <td>Fecha (DD-MM-AA)</td>
+        <td>AA-MM-DD</td>
         <td>$fecha_mantenimiento3</td>
     </tr>
+    <tr>
+        <td colspan="1">Responsable</td>
+        <td colspan="2">$nombre_usuario $apellidos_usuario</td>
+        <td colspan="1">Cargo Funcionario</td>
+       <td colspan="2">$id_cargo_fk</td>
+    </tr>
+   
 </table>
 <br>
-<table>
-    <tr>
-        <td colspan="4" class="subtitle">ARTICULO</td>
-    </tr>
+<div class="section-title">DISPOSITIVO</div>
+<table class="content-table">
     <tr>
         <td>Marca</td>
         <td>$marca_general</td>
@@ -231,38 +228,63 @@ $html = <<<EOF
     </tr>
 </table>
 <br>
-<table>
+<div class="section-title">DETALLES DEL MANTENIMIENTO</div>
+<table class="content-table">
+   
     <tr>
-        <td colspan="4" class="subtitle">DETALLES DEL MANTENIMIENTO</td>
+        <th colspan="4">Soplar y limpiar partes externas (Utilizar insumos adecuados para el dispositivo/articulo):</th>
+        <td colspan="1">$partes_externas</td>
     </tr>
     <tr>
-        <td colspan="3"><b>Soplar y limpiar partes externas (Utilizar insumos adecuados para el dispositivo/articulo):</b></td>
-        <td colspan="3">$partes_externas</td>
+        <th colspan="4">Verificar las condiciones físicas del dispositivo/articulo:</th>
+        <td colspan="1">$condiciones_fisicas</td>
     </tr>
     <tr>
-        <td colspan="3"><b>Verificar las condiciones físicas del dispositivo/articulo:</b></td>
-        <td colspan="3">$condiciones_fisicas</td>
+        <th colspan="4">Verificar estado, limpiar y organizar cableado del dispositivo:</th>
+        <td colspan="1">$cableado_verificar</td>
     </tr>
     <tr>
-        <td colspan="3"><b>Verificar estado, limpiar y organizar cableado del dispositivo:</b></td>
-        <td colspan="3">$cableado_verificar</td>
+        <th colspan="4">Soplar y limpiar lugar donde se encuentra ubicado el dispositivo/articulo:</th>
+        <td colspan="1">$dispositivo</td>
     </tr>
     <tr>
-        <td colspan="3"><b>Soplar y limpiar lugar donde se encuentra ubicado el dispositivo/articulo:</b></td>
-        <td colspan="3">$dispositivo</td>
+        <th colspan="4">Estado:</th>
+        <td colspan="1">$estado_general</td>
     </tr>
+</table>
+<br>
+    <div class="section-title">FIRMA RECIBIDO</div>
+    <table class="content-table">
+        <tr>
+            <th>Nombre</th>
+            <td>$nombre_usuario $apellidos_usuario</td>
+            
+        </tr>
+
     <tr>
-        <td colspan="3"><b>Estado:</b></td>
-        <td colspan="3">$estado_general</td>
-    </tr>
-     <tr>
-        <td colspan="3" class="signature">
-            <b>FIRMA</b>
+        <td colspan="4" class="signature" style="text-align: center;">
+            <div>
+                <b>FIRMA</b>
+            </div>
+            <div>
+                <img src="$firma_general" alt="Firma" width="120" style="margin-left: 50px;">
+            </div>
         </td>
-        <td colspan="3" class="signature">
-            <img src="$firma_general" alt="" width="180">
-        </td>
     </tr>
+
+    </table>
+<table class="content-table">
+    <tr>
+        <th colspan="5"><p style="text-align: justify;">Al registrar y entregar sus datos personales mediante este mecanismo de recolección de información, 
+    usted declara que conoce nuestra política de tratamiento de datos personales disponible en: 
+    <a href="http://www.politicadeprivacidad.co/politica/zfipusuariooperador" target="_blank">www.politicadeprivacidad.co/politica/zfipusuariooperador</a>, 
+    también declara que conoce sus derechos como titular de la información y que autoriza de manera libre, 
+    voluntaria, previa, explícita, informada e inequívoca a ZONA FRANCA INTERNACIONAL DE PEREIRA SAS USUARIO OPERADOR DE ZONAS FRANCAS 
+    con NIT 900311215 para gestionar sus datos personales bajo los parámetros indicados en dicha política de tratamiento.
+</p>
+</th>
+    </tr>
+
 </table>
 EOF;
 

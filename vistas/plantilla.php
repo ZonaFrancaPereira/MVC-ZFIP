@@ -83,6 +83,7 @@ session_start();
   <script src="vistas/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- ChartJS -->
   <script src="vistas/plugins/chart.js/Chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
   <!-- Sparkline -->
   <script src="vistas/plugins/sparklines/sparkline.js"></script>
   <!-- JQVMap -->
@@ -118,6 +119,8 @@ session_start();
   <!-- Bootstrap Switch -->
 <script src="vistas/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+
   <!-- Initialize tooltips -->
   <script>
     $(function() {
@@ -141,7 +144,9 @@ session_start();
 <script src="vistas/plugins/summernote/summernote-bs4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+
   
 </head>
 

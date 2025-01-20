@@ -205,11 +205,31 @@ if ($_SESSION["ti"] == "off") {
 }
 
 ?>
+<?php
+if ($_SESSION["ti"] == "off") {
+  echo '<script>
+    window.location = "inicio";
+  </script>';
+  exit();  // Detiene la ejecución después del redireccionamiento
+}
+?>
 </div>
 <!-- /.sidebar -->
 </aside>
 
 <div class="content-wrapper">
+<<<<<<< HEAD
+  <div id="wrapper" class="toggled">
+    <div id="page-content-wrapper">
+      <div class="container-fluid">
+        <div class="tab-content card">
+          <!-- /.ACPM-->
+          <div id="panelsig" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/panel_control_usuarios.php"; ?>
+              </div>
+=======
     <div id="wrapper" class="toggled">
         <div id="page-content-wrapper">
             <div class="container-fluid">
@@ -366,9 +386,207 @@ if ($_SESSION["ti"] == "off") {
                         </div>
                     </div>
                 </div>
+>>>>>>> a05915a055d42db9d87a66e84a0f5945559db4e8
             </div>
+          </div>
+
+          <div id="actividades_asignadas" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/actividades_asignadas.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="acpm" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/acpm.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="acciones_abiertas" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/acciones_abiertas.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="acciones_abiertas_vencidas" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/acciones_abiertas_vencidas.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="acciones_cerradas" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/acciones_cerradas.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="acciones_proceso" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/acciones_proceso.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="acciones_rechazadas" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/acciones_rechazadas.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="acciones_verificacion" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/acciones_verificacion.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="aceptar_acpm" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/aceptar_acpm.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="aprobacion" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/aprobacion.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="tecnica" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/tecnica.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="sig" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/sig.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="gestion_administrativa" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/gestion_administrativa.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="gestion_contable" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/gestion_contable.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="gestion_juridica" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/gestion_juridica.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="tecnologia_informatica" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/tecnologia_informatica.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="operaciones" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/operaciones.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="gerencia" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/gerencia.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="seguridad" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/seguridad.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="seguimiento" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/seguimiento.php"; ?>
+              </div>
+            </div>
+          </div>
+          <!-- /.FIN ACPM-->
+
+          <!-- /.INICIO MODULO DE CODIFICACION --->
+          <div id="codificacion" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/codificacion.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="cod_realizada" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/cod_realizada.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="cod_responder" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/cod_responder.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="cod_terminadas" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/cod_terminadas.php"; ?>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 </body>
 
