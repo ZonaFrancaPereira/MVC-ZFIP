@@ -80,13 +80,6 @@ require_once "configuracion.php";
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a data-toggle="tab" href="#impresoras" class="nav-link">
-                        <i class="nav-icon far fa-question-circle"></i>
-                        <p>Impresoras</p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
                     <a data-toggle="tab" href="#consumibles" class="nav-link">
                         <i class="nav-icon far fa-question-circle"></i>
                         <p>Registrar Consumible</p>
@@ -95,24 +88,10 @@ require_once "configuracion.php";
             </ul>
         </li>
         <?php endif; ?>
-
-
-        <li class="nav-item">
-            <a data-toggle="tab" href="#criticidad" class="nav-link">
-                <i class="fas fa-user-tie"></i>
-                <p>Matriz de Usuarios y Criticidad</p>
-            </a>
-        </li>
         <li class="nav-item">
             <a data-toggle="tab" href="#inventario" class="nav-link">
                 <i class="fas fa-file-invoice"></i>
                 <p>Inventario TI</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a data-toggle="tab" href="#licencias" class="nav-link">
-                <i class="far fa-id-badge"></i>
-                <p>Licencias</p>
             </a>
         </li>
         <li class="nav-item">
@@ -251,10 +230,10 @@ if ($_SESSION["ti"] == "off") {
                             </div>
                         </div>
 
-                    <div id="impresoras" class="tab-pane">
+                    <div id="principal_consumibles" class="tab-pane">
                         <div class="row">
                             <div class="col-md-12">
-                                <?php require "ti/impresoras.php"; ?>
+                                <?php require "ti/principal_consumibles.php"; ?>
                             </div>
                         </div>
                     </div>
@@ -344,20 +323,6 @@ if ($_SESSION["ti"] == "off") {
                         <div class="row">
                             <div class="col-md-12">
                                 <?php require "ti/general.php"; ?>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="licencias" class="tab-pane">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <?php require "ti/licencias.php"; ?>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="criticidad" class="tab-pane">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <?php require "ti/criticidad.php"; ?>
                             </div>
                         </div>
                     </div>

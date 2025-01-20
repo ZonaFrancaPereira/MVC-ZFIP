@@ -32,10 +32,10 @@
 
 
   }
- */
 
+ */
 // CONEXIÓN BASE DE DATOS 
-/* CONST BD_HOST = "localhost";
+ CONST BD_HOST = "localhost";
 CONST BD_PUERTO = "3306";
 CONST BD_NOMBRE = "zfip";
 CONST BD_USUARIO = "root";
@@ -46,10 +46,9 @@ CONST BD_CONTRA = "";
  if (!MOSTRARWARNINGS) {
      error_reporting(0);
  }
-*/
 
 // CONEXIÓN BASE DE DATOS
-
+/*
 // HOSTINGER
 CONST BD_HOST = "195.35.61.58";
 CONST BD_PUERTO = "3306";
@@ -62,4 +61,4 @@ CONST MOSTRARWARNINGS = false;
 if (!MOSTRARWARNINGS) {
     error_reporting(0);
 }
- 
+ */

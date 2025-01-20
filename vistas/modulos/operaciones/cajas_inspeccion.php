@@ -91,26 +91,26 @@
                                 </p>
                             </div>
                             <?php foreach ($datoszf as $zf): ?>
-    <?php
-    $tipoZF = $zf['tipo_zf']; // Tipo de ZF (ZFIP o Clínica)
-    $totalInspecciones = $zf['total_inspecciones']; // Total de inspecciones por tipo
-    $totalReferencia = $totalesReferencia[$tipoZF] ?? 100; // Referencia por tipo (puedes definir un valor base de referencia)
-    $porcentaje = ($totalInspecciones / $totalReferencia) * 100; // Cálculo del porcentaje
-    $nombreZona = ($tipoZF === "zfip")
-        ? "Zona Franca Internacional de Pereira"
-        : "Clínica Hispanoamericana";
+                                <?php
+                                $tipoZF = $zf['tipo_zf']; // Tipo de ZF (ZFIP o Clínica)
+                                $totalInspecciones = $zf['total_inspecciones']; // Total de inspecciones por tipo
+                                $totalReferencia = $totalesReferencia[$tipoZF] ?? 100; // Referencia por tipo (puedes definir un valor base de referencia)
+                                $porcentaje = ($totalInspecciones / $totalReferencia) * 100; // Cálculo del porcentaje
+                                $nombreZona = ($tipoZF === "zfip")
+                                    ? "Zona Franca Internacional de Pereira"
+                                    : "Clínica Hispanoamericana";
 
-    // Asignar la clase de color de fondo al encabezado según el tipo de zona
-    $h2BgColorClass = ($tipoZF === "zfip") ? "bg-primary" : "bg-warning";
-    ?>
-    <div class="col-sm-3 col-md-6">
-        <div class="description-block border-right">
-            <h2 class="text-white <?php echo $h2BgColorClass; ?>"><?php echo number_format($totalInspecciones); ?></h2>
-            <span class="description-text"><?php echo "Total Inspecciones: " . $nombreZona; ?></span>
-        </div>
-        <!-- /.description-block -->
-    </div>
-<?php endforeach; ?>
+                                // Asignar la clase de color de fondo al encabezado según el tipo de zona
+                                $h2BgColorClass = ($tipoZF === "zfip") ? "bg-primary" : "bg-warning";
+                                ?>
+                                <div class="col-sm-3 col-md-6">
+                                    <div class="description-block border-right">
+                                        <h2 class="text-white <?php echo $h2BgColorClass; ?>"><?php echo number_format($totalInspecciones); ?></h2>
+                                        <span class="description-text"><?php echo "Total Inspecciones: " . $nombreZona; ?></span>
+                                    </div>
+                                    <!-- /.description-block -->
+                                </div>
+                            <?php endforeach; ?>
 
 
 

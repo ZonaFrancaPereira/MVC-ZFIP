@@ -41,7 +41,7 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
                 <p>Usuarios ZFIP</p>
             </a>
         </li>
-       
+
     </ul>
 </nav>
 </div>
@@ -56,8 +56,7 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
                     <!-- /.PANEL PRINCIPAL PARA MOSTRAR LAS CAJAS SUPERIORES E INFORMACIÓN DE BASCULAS -->
 
                     <div id="panelbascula" class="active tab-pane">
-                    <?php require "operaciones/cajas_inspeccion.php"; ?>
-                    
+                        <?php require "operaciones/cajas_inspeccion.php"; ?>
                     </div>
                     <!-- /. FORMULARIO PARA INGRESAR NUEVO PESAJE -->
                     <div id="formbascula" class="tab-pane">
@@ -65,19 +64,23 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
                     </div>
                     <!-- /. CONSULTAR PESAJE Y SUS ESTADOS -->
                     <div id="consultarpesaje" class="tab-pane">
-                    <?php require "operaciones/consultar_zfip.php"; ?>
+                        <?php require "operaciones/consultar_zfip.php"; ?>
                     </div>
                     <!-- /. Clientes -->
                     <div id="formclientes" class="tab-pane">
                         <?php require "operaciones/clientes_zfip.php"; ?>
                         <!-- ACCIONES PHP PARA ELIMINIAR CLIENTE  -->
+                        <?php
+                        $borrarCliente = new ControladorClientes();
+                        $borrarCliente->ctrEliminarCliente();
+                        ?>
                     </div>
 
-                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 
 
