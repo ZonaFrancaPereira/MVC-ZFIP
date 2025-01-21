@@ -56,6 +56,9 @@ session_start();
     <link rel="stylesheet" href="vistas/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="vistas/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <link rel="stylesheet" href="vistas/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <!-- Elimina esta línea si no quieres usar el CSS predeterminado -->
+<link rel="stylesheet" href="vistas/plugins/cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+
   <!-- iCheck for checkboxes and radio inputs -->
   <link rel="stylesheet" href="vistas/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
 

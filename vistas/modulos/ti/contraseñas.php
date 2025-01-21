@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pintar Caracteres en Tabla</title>
+
+    <!--ESTOS ESTILOS CAMBIAN EL TIPO DE LETRA DE LAS TABLAS DE ESTE MODULO
     <style>
         table {
             border-collapse: collapse;
@@ -23,7 +25,7 @@
             color: black;
             font-weight: bold;;
         }
-    </style>
+    </style>-->
 </head>
 <body>
     <form method="POST">
