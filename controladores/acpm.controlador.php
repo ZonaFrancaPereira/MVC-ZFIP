@@ -1437,6 +1437,70 @@ static public function ctrCrearActividad()
          echo json_encode($data);
     }
 
+     /*=============================================
+            TOTAL DE ACPM PARA EL USUARIO LOGUEADO
+    =============================================*/
+    public static function ctrContarACPMs($idUsuario) {
+        return ModeloACPM::mdlContarACPMs($idUsuario);
+    }
+
+    /*=============================================
+    TOTAL DE ACPM ABIERTAS PARA EL USUARIO LOGUEADO
+    =============================================*/
+
+    public static function ctrContarACPMsAbiertas($idUsuario) {
+        return ModeloACPM::mdlContarACPMsAbiertas($idUsuario);
+    }
+
+      /*=============================================
+    TOTAL DE ACPM ABIERTAS VENCIDAS PARA EL USUARIO LOGUEADO
+    =============================================*/
+
+    public static function ctrContarACPMsAbiertaVencida($idUsuario) {
+        return ModeloACPM::mdlContarACPMsAbiertaVencida($idUsuario);
+    }
+
+    /*=============================================
+    TOTAL DE ACPM EN PROCESO PARA EL USUARIO LOGUEADO
+    =============================================*/
+    public static function ctrContarACPMsProceso($idUsuario) {
+        return ModeloACPM::mdlContarACPMsProceso($idUsuario);
+    }
+
+    /*=============================================
+    TOTAL DE ACPM CERRADAS PARA EL USUARIO LOGUEADO
+    =============================================*/
+    public static function ctrContarACPMsCerrada($idUsuario) {
+        return ModeloACPM::mdlContarACPMsCerrada($idUsuario);
+    }
+
+    /*=============================================
+    TOTAL DE ACPM VERIFICADAS PARA EL USUARIO LOGUEADO
+    =============================================*/
+    public static function ctrContarACPMsVerificacion($idUsuario) {
+        return ModeloACPM::mdlContarACPMsVerificacion($idUsuario);
+    }
+
+    /*=============================================
+    TOTAL DE ACPM MEJORA RECHAZADAS PARA EL USUARIO LOGUEADO
+    =============================================*/
+    public static function ctrContarACPMsRechazada($idUsuario) {
+        return ModeloACPM::mdlContarACPMsRechazada($idUsuario);
+    }
+
+        /*=============================================
+	MOSTRAR ACTIVIDADES VENCIDAS
+	=============================================*/
+
+    static public function ctrMostrarActividadesVencidas($item, $valor, $consulta)
+    {
+        $tabla = "actividades_acpm";
+
+        $respuesta = ModeloAcpm::mdlMostrarActividadesVencidas($tabla, $item, $valor, $consulta);
+
+        return $respuesta;
+    }
+
 }
 
 

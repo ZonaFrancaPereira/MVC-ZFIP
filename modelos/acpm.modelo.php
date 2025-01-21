@@ -1166,16 +1166,19 @@ class ModeloAcpm
     {
         try {
             $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) AS total 
-             FROM $tabla 
-             WHERE tipo_acpm = 'AM' 
-             AND estado_acpm = 'Abierta' 
-             AND fuente_acpm = 'Otros'");
+                FROM $tabla 
+                WHERE tipo_acpm = 'AM' 
+                AND estado_acpm = 'Abierta' 
+                AND fuente_acpm = 'Otros' 
+                AND YEAR(fecha_acpm) = YEAR(CURDATE())
+            ");
             $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
         } catch (Exception $e) {
             return 0;
         }
     }
+    
 
     /*=============================================
     CONTAR ACCIONES DE MEJORA CERRADAS EN GENERAL
@@ -1183,7 +1186,7 @@ class ModeloAcpm
     public static function contarAcpmMejoraCerradaGeneral($tabla)
     {
         try {
-            $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) AS total FROM $tabla WHERE tipo_acpm = 'AM' AND estado_acpm = 'Cerrada' AND fuente_acpm = 'Otros'");
+            $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) AS total FROM $tabla WHERE tipo_acpm = 'AM' AND estado_acpm = 'Cerrada' AND fuente_acpm = 'Otros' AND YEAR(fecha_acpm) = YEAR(CURDATE())");
             $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
         } catch (Exception $e) {
@@ -1197,7 +1200,7 @@ class ModeloAcpm
     public static function contarAcpmPreventivaAbiertaGeneral($tabla)
     {
         try {
-            $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) AS total FROM $tabla WHERE tipo_acpm = 'AP' AND estado_acpm = 'Abierta' AND fuente_acpm = 'Otros'");
+            $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) AS total FROM $tabla WHERE tipo_acpm = 'AP' AND estado_acpm = 'Abierta' AND fuente_acpm = 'Otros' AND YEAR(fecha_acpm) = YEAR(CURDATE())");
             $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
         } catch (Exception $e) {
@@ -1211,7 +1214,7 @@ class ModeloAcpm
     public static function contarAcpmPreventivaCerradaGeneral($tabla)
     {
         try {
-            $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) AS total FROM $tabla WHERE tipo_acpm = 'AP' AND estado_acpm = 'Cerrada' AND fuente_acpm = 'Otros'");
+            $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) AS total FROM $tabla WHERE tipo_acpm = 'AP' AND estado_acpm = 'Cerrada' AND fuente_acpm = 'Otros' AND YEAR(fecha_acpm) = YEAR(CURDATE())");
             $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
         } catch (Exception $e) {
@@ -1219,6 +1222,174 @@ class ModeloAcpm
         }
     }
 
- 
+
+
+       /*=============================================
+   TOTAL DE ACPM PARA EL USUARIO QUE INICIA SESSION
+    =============================================*/
+    public static function mdlContarACPMs($idUsuario) {
+        try {
+            $stmt = Conexion::conectar()->prepare(
+                "SELECT COUNT(*) AS total FROM acpm WHERE id_usuario_fk = :id_usuario"
+            );
+            $stmt->bindParam(":id_usuario", $idUsuario, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        } finally {
+            $stmt = null; // Cerrar conexión
+        }
+    }
+
+    /*=============================================
+   ACPM ABIERTAS PARA EL USUARIO QUE INICIA SESSION
+    =============================================*/
+
+    public static function mdlContarACPMsAbiertas($idUsuario) {
+        try {
+            $stmt = Conexion::conectar()->prepare(
+                "SELECT COUNT(*) AS total 
+                 FROM acpm 
+                 WHERE id_usuario_fk = :id_usuario AND estado_acpm = 'Abierta'"
+            );
+            $stmt->bindParam(":id_usuario", $idUsuario, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        } finally {
+            $stmt = null; // Cerrar conexión
+        }
+    }
+
+        /*=============================================
+   ACPM ABIERTA VENCIDA PARA EL USUARIO QUE INICIA SESSION
+    =============================================*/
+
+    public static function mdlContarACPMsAbiertaVencida($idUsuario) {
+        try {
+            $stmt = Conexion::conectar()->prepare(
+                "SELECT COUNT(*) AS total 
+                 FROM acpm 
+                 WHERE id_usuario_fk = :id_usuario AND estado_acpm = 'Abierta Vencida'"
+            );
+            $stmt->bindParam(":id_usuario", $idUsuario, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        } finally {
+            $stmt = null; // Cerrar conexión
+        }
+    }
+
+    
+    /*=============================================
+    ACPM EN PROCESO PARA EL USUARIO QUE INICIA SESSION
+    =============================================*/
+    public static function mdlContarACPMsProceso($idUsuario) {
+        try {
+            $stmt = Conexion::conectar()->prepare(
+                "SELECT COUNT(*) AS total 
+                 FROM acpm 
+                 WHERE id_usuario_fk = :id_usuario AND estado_acpm = 'Proceso'"
+            );
+            $stmt->bindParam(":id_usuario", $idUsuario, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        } finally {
+            $stmt = null; // Cerrar conexión
+        }
+    }
+
+
+    /*=============================================
+    ACPM CERRADAS PARA EL USUARIO QUE INICIA SESSION
+    =============================================*/
+    public static function mdlContarACPMsCerrada($idUsuario) {
+        try {
+            $stmt = Conexion::conectar()->prepare(
+                "SELECT COUNT(*) AS total 
+                 FROM acpm 
+                 WHERE id_usuario_fk = :id_usuario AND estado_acpm = 'Cerrada'"
+            );
+            $stmt->bindParam(":id_usuario", $idUsuario, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        } finally {
+            $stmt = null; // Cerrar conexión
+        }
+    }
+
+    /*=============================================
+    ACPM EN VERIFICACIÓN PARA EL USUARIO QUE INICIA SESSION
+    =============================================*/
+    public static function mdlContarACPMsVerificacion($idUsuario) {
+        try {
+            $stmt = Conexion::conectar()->prepare(
+                "SELECT COUNT(*) AS total 
+                 FROM acpm 
+                 WHERE id_usuario_fk = :id_usuario AND estado_acpm = 'Verificación'"
+            );
+            $stmt->bindParam(":id_usuario", $idUsuario, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        } finally {
+            $stmt = null; // Cerrar conexión
+        }
+    }
+
+
+    /*=============================================
+    ACPM EN PROCESO PARA EL USUARIO QUE INICIA SESSION
+    =============================================*/
+    public static function mdlContarACPMsRechazada($idUsuario) {
+        try {
+            $stmt = Conexion::conectar()->prepare(
+                "SELECT COUNT(*) AS total 
+                 FROM acpm 
+                 WHERE id_usuario_fk = :id_usuario AND estado_acpm = 'Rechazada'"
+            );
+            $stmt->bindParam(":id_usuario", $idUsuario, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        } finally {
+            $stmt = null; // Cerrar conexión
+        }
+    }
+
+    /*=============================================
+    ACPM EN PROCESO PARA EL USUARIO QUE INICIA SESSION
+    =============================================*/
+
+    public static function mdlMostrarActividadesVencidas($tabla, $item, $valor, $consulta)
+    {
+        try {
+            $stmt = Conexion::conectar()->prepare(
+                "SELECT * FROM $tabla 
+                 WHERE $item = :$item 
+                 AND estado_actividad = 'Incompleta' 
+                 AND DATE(fecha_actividad) BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)"
+            );
+
+            $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
+
 
 }

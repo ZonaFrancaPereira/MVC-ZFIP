@@ -32,6 +32,10 @@
                     <span class="text-bold text-lg" id="abiertasusuario"></span>
                     <span>ACPM Abiertas</span>
                   </p>
+                  <p class="d-flex flex-column">
+                    <span class="text-bold text-lg" id="abiertavencidasusuario"></span>
+                    <span>ACPM Abiertas Vencidas</span>
+                  </p>
                   <p class="d-flex flex-column text-right">
                     <span class="text-success text-lg" id="cerradasusuario"></span>
                     <span>ACPM Cerradas</span>
@@ -48,7 +52,7 @@
                   </p>
                 </div>
                 <div class="mt-3">
-                  <canvas id="graficaVerificacionAcpmUsuario" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                  <canvas id="graficaVerificacionAcpmGeneral" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                 </div>
               </div>
             </div>
@@ -80,7 +84,7 @@
                   </p>
                 </div>
                 <div class="mt-3">
-                  <canvas id="graficaVerificacionAccionesUsuario" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                  <canvas id="graficaVerificacionAccionesGeneral" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                 </div>
               </div>
             </div>
@@ -96,7 +100,7 @@
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     function cargarGrafica() {
-      fetch('controladores/acpm.controlador.php?action=graficaVerificacionAcpmUsuario')
+      fetch('controladores/acpm.controlador.php?action=graficaVerificacionAcpmGeneral')
         .then(response => response.json())
         .then(data => {
           if (data.error) {
@@ -107,15 +111,16 @@
             document.getElementById('cerradasusuario').textContent = data.cerradas;
             document.getElementById('verificacionusuario').textContent = data.verificacion;
             document.getElementById('procesousuario').textContent = data.proceso;
+            document.getElementById('abiertavencidasusuario').textContent = data.vencida;
 
             // Crear la gráfica
-            var pieChartCanvas = document.getElementById('graficaVerificacionAcpmUsuario').getContext('2d');
+            var pieChartCanvas = document.getElementById('graficaVerificacionAcpmGeneral').getContext('2d');
             var pieData = {
               labels: ['Abiertas', 'Cerradas', 'Verificación', 'Proceso'],
               datasets: [{
-                data: [data.abiertas, data.cerradas, data.verificacion, data.proceso],
-                backgroundColor: ['#007bff', '#28a745', '#ffc107', '#17a2b8'],
-                borderColor: ['#007bff', '#28a745', '#ffc107', '#17a2b8']
+                data: [data.abiertas, data.cerradas, data.verificacion, data.proceso, data.vencida],
+                backgroundColor: ['#007bff', '#28a745', '#ffc107', '#17a2b8', '#17a2b8'],
+                borderColor: ['#007bff', '#28a745', '#ffc107', '#17a2b8', '#17a2b8']
               }]
             };
             var pieOptions = {
@@ -144,7 +149,7 @@
 
   document.addEventListener('DOMContentLoaded', function() {
     function cargarGrafica() {
-      fetch('controladores/acpm.controlador.php?action=graficaVerificacionAccionesUsuario')
+      fetch('controladores/acpm.controlador.php?action=graficaVerificacionAccionesGeneral')
         .then(response => response.json())
         .then(data => {
           console.log('Datos recibidos:', data); // Depuración de la respuesta completa
@@ -158,7 +163,7 @@
             document.getElementById('AP_cerradousuario').textContent = data.AP_cerrado;
 
             // Crear la gráfica
-            var pieChartCanvas = document.getElementById('graficaVerificacionAccionesUsuario').getContext('2d');
+            var pieChartCanvas = document.getElementById('graficaVerificacionAccionesGeneral').getContext('2d');
             var pieData = {
               labels: ['AM Abierta', 'AM Cerrada', 'AP Abierta', 'AP Cerrada'],
               datasets: [{
