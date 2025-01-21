@@ -10,28 +10,23 @@
     <li class="nav-item">
       <a href="sadoc" class="nav-link">
         <i class="nav-icon fas fa-qrcode"></i>
-        <p>
-          SADOC
-        </p>
+        <p>SADOC</p>
       </a>
     </li>
 
     <li class="nav-item">
       <a data-toggle="collapse" href="#acpmMenu" class="nav-link">
         <i class="nav-icon fas fa-qrcode"></i>
-        <p>
-          ACPM
-          <i class="fas fa-angle-left right"></i>
-        </p>
+        <p>ACPM<i class="fas fa-angle-left right"></i></p>
       </a>
       <ul class="nav nav-treeview collapse show" id="acpmMenu">
-      <?php if (isset($_SESSION["id_cargo_fk"]) && $_SESSION["id_cargo_fk"] == 4): ?>
-        <li class="nav-item">
-          <a data-toggle="tab" href="#panelsig" class="active nav-link">
-            <i class="fas fa-desktop"></i>
-            <p>Panel de Control</p>
-          </a>
-        </li>
+        <?php if (isset($_SESSION["id_cargo_fk"]) && $_SESSION["id_cargo_fk"] == 4): ?>
+          <li class="nav-item">
+            <a data-toggle="tab" href="#panelsig" class="active nav-link">
+              <i class="fas fa-desktop"></i>
+              <p>Panel de Control</p>
+            </a>
+          </li>
         <?php endif; ?>
         <li class="nav-item">
           <a data-toggle="tab" href="#actividades_asignadas" class="nav-link">
@@ -47,10 +42,7 @@
           <li class="nav-item">
             <a data-toggle="tab" href="#acpm" class="nav-link">
               <i class="nav-icon fas fa-file-medical"></i>
-              <p>
-                Nueva ACPM
-                <span class="right badge badge-success">Nueva</span>
-              </p>
+              <p>Nueva ACPM<span class="right badge badge-success">Nueva</span></p>
             </a>
           </li>
           <li class="nav-item">
@@ -95,19 +87,13 @@
           <li class="nav-item">
             <a data-toggle="tab" href="#aprobacion" class="nav-link">
               <i class="nav-icon fas fa-question-circle"></i>
-              <p>
-                Aprobar ACPM
-                <span class="right badge badge-danger">Urgente</span>
-              </p>
+              <p>Aprobar ACPM<span class="right badge badge-danger">Urgente</span></p>
             </a>
           </li>
           <li class="nav-item">
             <a data-toggle="tab" href="#aceptar_acpm" class="nav-link">
               <i class="nav-icon fas fa-clipboard-check"></i>
-              <p>
-                Verificar ACPM
-                <span class="right badge badge-danger">Urgente</span>
-              </p>
+              <p>Verificar ACPM<span class="right badge badge-danger">Urgente</span></p>
             </a>
           </li>
         <?php endif; ?>
@@ -122,87 +108,73 @@
           <li class="nav-item">
             <a data-toggle="collapse" href="#areasMenu" class="nav-link">
               <i class="nav-icon fas fa-qrcode"></i>
-              <p>
-                Áreas
-                <i class="fas fa-angle-left right"></i>
-              </p>
+              <p>Áreas<i class="fas fa-angle-left right"></i></p>
             </a>
             <ul class="nav nav-treeview collapse show" id="areasMenu">
-
               <li class="nav-item">
                 <a data-toggle="tab" href="#tecnica" class="nav-link">
                   <i class="fas fa-tools"></i>
                   <p>Técnica</p>
                 </a>
               </li>
-
               <li class="nav-item">
                 <a data-toggle="tab" href="#sig" class="nav-link">
                   <i class="fas fa-tools"></i>
                   <p>Sig</p>
                 </a>
               </li>
-
               <li class="nav-item">
                 <a data-toggle="tab" href="#gestion_administrativa" class="nav-link">
                   <i class="fas fa-users"></i>
                   <p>Gestión Administrativa</p>
                 </a>
               </li>
-
               <li class="nav-item">
                 <a data-toggle="tab" href="#gestion_contable" class="nav-link">
                   <i class="fas fa-file-csv"></i>
                   <p>Gestión Contable</p>
                 </a>
               </li>
-
               <li class="nav-item">
                 <a data-toggle="tab" href="#gestion_juridica" class="nav-link">
                   <i class="fas fa-gavel"></i>
                   <p>Gestión Jurídica</p>
                 </a>
               </li>
-
               <li class="nav-item">
                 <a data-toggle="tab" href="#tecnologia_informatica" class="nav-link">
                   <i class="fas fa-laptop-code"></i>
                   <p>Gestión de Tecnología e Informática</p>
                 </a>
               </li>
-
               <li class="nav-item">
                 <a data-toggle="tab" href="#operaciones" class="nav-link">
                   <i class="fas fa-clipboard-check"></i>
                   <p>Operaciones</p>
                 </a>
               </li>
-
               <li class="nav-item">
                 <a data-toggle="tab" href="#gerencia" class="nav-link">
                   <i class="fas fa-user-shield"></i>
                   <p>Gerencia</p>
                 </a>
               </li>
-
               <li class="nav-item">
                 <a data-toggle="tab" href="#seguridad" class="nav-link">
                   <i class="fas fa-user-shield"></i>
                   <p>Seguridad</p>
                 </a>
               </li>
-            <?php endif; ?>
-
             </ul>
           </li>
+        <?php endif; ?>
+      </ul>
+    </li>
 
     <li class="nav-item">
       <a data-toggle="collapse" href="#menuCodificacion" class="nav-link">
         <i class="nav-icon fas fa-tasks"></i>
-        <p>
-          Solicitudes Codificación
-          <i class="fas fa-angle-left right"></i>
-        </p>
+        <p>Solicitudes Codificación<i class="fas fa-angle-left right"></i></p>
       </a>
       <ul class="nav nav-treeview collapse show" id="menuCodificacion">
         <li class="nav-item">
@@ -233,24 +205,16 @@
         <?php endif; ?>
       </ul>
     </li>
-
   </ul>
 </nav>
 
-<?php
-
-if ($_SESSION["ti"] == "off") {
-
-  echo '<script>
-
+<?php if ($_SESSION["ti"] == "off"): ?>
+  <script>
     window.location = "inicio";
+  </script>
+  <?php return; ?>
+<?php endif; ?>
 
-  </script>';
-
-  return;
-}
-
-?>
 </div>
 <!-- /.sidebar -->
 </aside>
@@ -324,7 +288,6 @@ if ($_SESSION["ti"] == "off") {
               </div>
             </div>
           </div>
-
 
           <div id="acciones_rechazadas" class="tab-pane">
             <div class="row">
@@ -439,7 +402,6 @@ if ($_SESSION["ti"] == "off") {
           </div>
           <!-- /.FIN ACPM-->
 
-
           <!-- /.INICIO MODULO DE CODIFICACION --->
           <div id="codificacion" class="tab-pane">
             <div class="row">
@@ -456,8 +418,6 @@ if ($_SESSION["ti"] == "off") {
               </div>
             </div>
           </div>
-
-
 
           <div id="cod_responder" class="tab-pane">
             <div class="row">
