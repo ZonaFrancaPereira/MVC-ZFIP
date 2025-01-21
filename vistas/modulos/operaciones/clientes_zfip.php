@@ -37,7 +37,7 @@
                                         <div class="col-md-4 col-sm-6">
                                             <div class="form-group">
                                                 <label for="nuevoDocumentoId">Identificación</label>
-                                                <input type="text" class="form-control" id="nuevoDocumentoId" name="id_cliente" placeholder="Ingresar documento" required>
+                                                <input type="number" class="form-control" id="nuevoDocumentoId" name="id_cliente" placeholder="Ingresar documento" required>
                                             </div>
                                         </div>
 
@@ -63,7 +63,7 @@
                                         <div class="col-md-4 col-sm-6">
                                             <div class="form-group">
                                                 <label for="nuevoTelefono">Teléfono</label>
-                                                <input type="text" class="form-control" id="nuevoTelefono" name="telefono_cliente" placeholder="Ingresar teléfono" data-inputmask="'mask':'(999) 999-9999'" data-mask required>
+                                                <input type="number" class="form-control" id="nuevoTelefono" name="telefono_cliente" placeholder="Ingresar teléfono" data-inputmask="'mask':'(999) 999-9999'" data-mask required>
                                             </div>
                                         </div>
                                         <!-- Campo para la dirección del cliente -->

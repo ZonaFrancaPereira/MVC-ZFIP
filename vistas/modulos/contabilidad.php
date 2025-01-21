@@ -96,6 +96,42 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
       </ul>
     </li>
 
+    <li class="nav-item">
+      <a data-toggle="tab" href="" class="nav-link">
+        <i class="nav-icon fas fa-search-plus"></i>
+        <p>
+          Ordenes de Compra
+          <i class="fas fa-angle-left right"></i>
+        </p>
+      </a>
+      <ul class="nav nav-treeview">
+        <li class="nav-item">
+          <a data-toggle="tab" href="#nueva_orden" class="nav-link ">
+            <i class="nav-icon fas fa-qrcode"></i>
+            <p>
+              Nueva Orden de Compra
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a data-toggle="tab" href="#consultar_ordenes class="nav-link ">
+            <i class="nav-icon fas fa-search"></i>
+            <p>
+              Consultar Ordenes 
+            </p>
+          </a>
+
+        <li class="nav-item">
+          <a data-toggle="tab" href="#manual_activos" class="nav-link ">
+            <i class="nav-icon fas fa-book"></i>
+            <p>
+              Manual
+            </p>
+          </a>
+
+        </li>
+      </ul>
+    </li>
   </ul>
 </nav>
 </div>
@@ -170,7 +206,10 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
             </div>
           </div>
           <!-- CIERRE DE MANUAL DE USO ACTIVOS FIJOS -->
-
+ <!-- /. INVENTARIO ACTIVOS FIJOS -->
+ <div id="nueva_orden" class="tab-pane">
+            <?php require "ct/orden_compra.php"; ?>
+          </div>
         </div>
       </div>
     </div>

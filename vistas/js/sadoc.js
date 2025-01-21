@@ -15,16 +15,7 @@ function iniciar() {
 	$("#include_GR").hide();
 	$("#include_SST").hide();
 	$("#include_PLE").hide();
-	$("#include_Matriz_SIG").hide();
-	$("#include_Matriz_TI").hide();
-	$("#include_Matriz_GH").hide();
-	$("#include_Matriz_OP").hide();
-	$("#include_Matriz_GD").hide();
-	$("#include_Matriz_CT").hide();
-	$("#include_Matriz_PH").hide();
-	$("#include_Matriz_CT").hide();
-	$("#include_Matriz_GR").hide();
-	$("#include_Matriz_TEC").hide();
+
 	//esconder los botones de el panel (volver y panel principal)
 	$("#panel").hide();
 	$("#panel_TI").hide();

@@ -10,6 +10,9 @@ $procesoActivo = isset($_SESSION['siglas_proceso']) ? $_SESSION['siglas_proceso'
 // Determina cuál es la pestaña activa
 $activeTab = "";
 switch ($procesoActivo) {
+  case 'SIG':
+    $activeTab = 'menu1';
+    break;
   case 'TI':
     $activeTab = 'menu2';
     break;
@@ -225,10 +228,12 @@ switch ($procesoActivo) {
             </section><!-- /.content -->
           </div><!-- /.tab-pane -->
 
-          <div id="accesoRapido" class="tab-pane fade <?php echo ($activeTab === 'accesoRapido') ? 'show active' : ''; ?>">
+          
+          
+          <div id="menu1" class="tab-pane fade <?php echo ($activeTab === 'menu1') ? 'show active' : ''; ?>">
             
-              <?php generarModalConFormulario("modal-AC", "Archivos Acceso Rápido", "Código ej: AC-", 1, "AC"); ?>
-         
+              <?php generarModalConFormulario("modal-SIG", "Archivos Sistema Integrado de Gestión", "Código ej: SIG-", 1, "SIG"); ?>
+            
           </div>
 
           <div id="menu2" class="tab-pane fade <?php echo ($activeTab === 'menu2') ? 'show active' : ''; ?>">
