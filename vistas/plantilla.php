@@ -247,12 +247,14 @@ CUERPO DOCUMENTO
   <script src="vistas/js/op.js"></script>
   <script src="vistas/js/clientes.js"></script>
   <script src="vistas/js/contabilidad.js"></script>
-  <script src="vistas/js/sig.js"></script>
+  
   <script src="vistas/js/sadoc.js"></script>
   <script src="vistas/js/tecnica.js"></script>
   <script src="vistas/js/juridico.js"></script>
   <script src="vistas/js/backup.js"></script>
   <script src="vistas/js/consumibles.js"></script>
+  <script src="vistas/js/sig.js"></script>
+  
   <script>
 
 
