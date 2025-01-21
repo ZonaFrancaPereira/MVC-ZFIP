@@ -115,24 +115,30 @@ static public function mdlIngresarCliente($tabla, $datos)
 
 	static public function mdlEliminarCliente($tabla, $datos){
 
-		$stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id_cliente = :id");
+		  // Comprobar si hay registros en inspeccion_op
+    $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) FROM inspeccion_op WHERE id_cliente_fk = :id");
+    $stmt->bindParam(":id", $datos, PDO::PARAM_INT);
+    $stmt->execute();
+    $count = $stmt->fetchColumn();
 
-		$stmt -> bindParam(":id", $datos, PDO::PARAM_INT);
-
-		if($stmt -> execute()){
-
-			return "ok";
+    if ($count > 0) {
+        return "error";// Cliente tiene registros relacionados
+    }else{
+		 // Eliminar al cliente si no hay registros relacionados
+		 $stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id_cliente = :id");
+		 $stmt->bindParam(":id", $datos, PDO::PARAM_INT);
+	 
+		 if ($stmt->execute()) {
+			 return "ok";
+		 } else {
+			 return "error";
+		 }
+	 
 		
-		}else{
-
-			return "error";	
-
-		}
-
-		
-
+		 }
 		$stmt = null;
-
 	}
+
+   
 
 }

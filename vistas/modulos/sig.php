@@ -257,29 +257,23 @@
           </a>
         </li>
         <?php if (isset($_SESSION["id_cargo_fk"]) && $_SESSION["id_cargo_fk"] == 4): ?>
-        <li class="nav-item">
-          <a data-toggle="tab" data-target="#cod_responder" class="nav-link">
-            <i class="fas fa-reply"></i>
-            <p>Responder Solicitud</p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a data-toggle="tab" data-target="#cod_terminadas" class="nav-link">
-            <i class="fas fa-check-double"></i>
-            <p>Solicitudes Terminadas</p>
-          </a>
-        </li>
+          <li class="nav-item">
+            <a data-toggle="tab" data-target="#cod_responder" class="nav-link">
+              <i class="fas fa-reply"></i>
+              <p>Responder Solicitud</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a data-toggle="tab" data-target="#cod_terminadas" class="nav-link">
+              <i class="fas fa-check-double"></i>
+              <p>Solicitudes Terminadas</p>
+            </a>
+          </li>
         <?php endif; ?>
       </ul>
     </li>
-
-
-
-
+    
   </ul>
-  </li>
-  </ul>
-  </li>
 </nav>
 
 <?php
@@ -494,7 +488,7 @@ if ($_SESSION["ti"] == "off") {
             </div>
           </div>
 
-          
+
 
           <div id="cod_responder" class="tab-pane">
             <div class="row">

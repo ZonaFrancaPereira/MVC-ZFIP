@@ -158,7 +158,10 @@ class ControladorClientes
 			if ($respuesta == "ok") {
 
 				echo 'ok';
-			}
+			}else{
+
+				echo 'error';
+		}
 		}
 	}
 

@@ -129,7 +129,8 @@
                                             data-direccion_cliente="' . $value["direccion_cliente"] . '" 
                                             data-tipo_zf="' . $value["tipo_zf"] . '">
                                             <i class="fas fa-edit"></i></button>
-                                            <button class="btn btn-danger btnEliminarCliente" idCliente="' . $value[$i]["id_cliente"] . '" ><i class="fas fa-times"></i></button></td>';
+
+                                            <button class="btn btn-danger btnEliminarCliente" idCliente="' . $value["id_cliente"] . '" ><i class="fas fa-times"></i></button></td>';
                                             echo '</tr>';
                                         }
                                         ?>

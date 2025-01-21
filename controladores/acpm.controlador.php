@@ -1639,3 +1639,4 @@ if (isset($_GET['action']) && $_GET['action'] == 'graficaVerificacionAccionesSeg
     $controlador = new ControladorAcpm();
     $controlador->graficaVerificacionAccionesSeguridad();
 }
+
