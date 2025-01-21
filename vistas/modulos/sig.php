@@ -1,7 +1,7 @@
 <nav class="mt-2">
   <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
     <li class="nav-item">
-      <a data-toggle="tab" href="#" class="active nav-link">
+      <a data-toggle="tab" href="#panelusuario" class="active nav-link">
         <i class="fas fa-desktop"></i>
         <p>Panel de Control</p>
       </a>
@@ -25,12 +25,14 @@
         </p>
       </a>
       <ul class="nav nav-treeview collapse show" id="acpmMenu">
+      <?php if (isset($_SESSION["id_cargo_fk"]) && $_SESSION["id_cargo_fk"] == 4): ?>
         <li class="nav-item">
           <a data-toggle="tab" href="#panelsig" class="active nav-link">
             <i class="fas fa-desktop"></i>
             <p>Panel de Control</p>
           </a>
         </li>
+        <?php endif; ?>
         <li class="nav-item">
           <a data-toggle="tab" href="#actividades_asignadas" class="nav-link">
             <i class="nav-icon far fa-check-circle"></i>
@@ -116,111 +118,73 @@
             <p>Manual</p>
           </a>
         </li>
+        <?php if (isset($_SESSION["id_cargo_fk"]) && $_SESSION["id_cargo_fk"] == 4): ?>
+          <li class="nav-item">
+            <a data-toggle="collapse" href="#areasMenu" class="nav-link">
+              <i class="nav-icon fas fa-qrcode"></i>
+              <p>
+                Áreas
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview collapse show" id="areasMenu">
 
-        <li class="nav-item">
-          <a data-toggle="collapse" href="#areasMenu" class="nav-link">
-            <i class="nav-icon fas fa-qrcode"></i>
-            <p>
-              Áreas
-              <i class="fas fa-angle-left right"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview collapse show" id="areasMenu">
-            <?php
-            $cargosPermitidos = [4, 15];
-            if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargosPermitidos)):
-            ?>
               <li class="nav-item">
                 <a data-toggle="tab" href="#tecnica" class="nav-link">
                   <i class="fas fa-tools"></i>
                   <p>Técnica</p>
                 </a>
               </li>
-            <?php endif; ?>
 
-            <?php if (isset($_SESSION["id_cargo_fk"]) && $_SESSION["id_cargo_fk"] == 4): ?>
               <li class="nav-item">
                 <a data-toggle="tab" href="#sig" class="nav-link">
                   <i class="fas fa-tools"></i>
                   <p>Sig</p>
                 </a>
               </li>
-            <?php endif; ?>
-            <?php
-            $cargosPermitidos = [4, 6];
-            if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargosPermitidos)):
-            ?>
+
               <li class="nav-item">
                 <a data-toggle="tab" href="#gestion_administrativa" class="nav-link">
                   <i class="fas fa-users"></i>
                   <p>Gestión Administrativa</p>
                 </a>
               </li>
-            <?php endif; ?>
-            <?php
-            $cargosPermitidos = [4, 12];
-            if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargosPermitidos)):
-            ?>
+
               <li class="nav-item">
                 <a data-toggle="tab" href="#gestion_contable" class="nav-link">
                   <i class="fas fa-file-csv"></i>
                   <p>Gestión Contable</p>
                 </a>
               </li>
-            <?php endif; ?>
 
-            <?php
-            $cargosPermitidos = [4, 14];
-            if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargosPermitidos)):
-            ?>
               <li class="nav-item">
                 <a data-toggle="tab" href="#gestion_juridica" class="nav-link">
                   <i class="fas fa-gavel"></i>
                   <p>Gestión Jurídica</p>
                 </a>
               </li>
-            <?php endif; ?>
 
-            <?php
-            $cargosPermitidos = [4, 1];
-            if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargosPermitidos)):
-            ?>
               <li class="nav-item">
                 <a data-toggle="tab" href="#tecnologia_informatica" class="nav-link">
                   <i class="fas fa-laptop-code"></i>
                   <p>Gestión de Tecnología e Informática</p>
                 </a>
               </li>
-            <?php endif; ?>
 
-            <?php
-            $cargosPermitidos = [4, 7];
-            if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargosPermitidos)):
-            ?>
               <li class="nav-item">
                 <a data-toggle="tab" href="#operaciones" class="nav-link">
                   <i class="fas fa-clipboard-check"></i>
                   <p>Operaciones</p>
                 </a>
               </li>
-            <?php endif; ?>
 
-            <?php
-            $cargosPermitidos = [4, 19];
-            if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargosPermitidos)):
-            ?>
               <li class="nav-item">
                 <a data-toggle="tab" href="#gerencia" class="nav-link">
                   <i class="fas fa-user-shield"></i>
                   <p>Gerencia</p>
                 </a>
               </li>
-            <?php endif; ?>
 
-            <?php
-            $cargosPermitidos = [4, 22];
-            if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargosPermitidos)):
-            ?>
               <li class="nav-item">
                 <a data-toggle="tab" href="#seguridad" class="nav-link">
                   <i class="fas fa-user-shield"></i>
@@ -229,11 +193,8 @@
               </li>
             <?php endif; ?>
 
-          </ul>
-        </li>
-      </ul>
-    </li>
-
+            </ul>
+          </li>
 
     <li class="nav-item">
       <a data-toggle="collapse" href="#menuCodificacion" class="nav-link">
@@ -272,7 +233,7 @@
         <?php endif; ?>
       </ul>
     </li>
-    
+
   </ul>
 </nav>
 
@@ -304,6 +265,14 @@ if ($_SESSION["ti"] == "off") {
             <div class="row">
               <div class="col-md-12">
                 <?php require "sig/panel_control_usuarios.php"; ?>
+              </div>
+            </div>
+          </div>
+
+          <div id="panelusuario" class="active tab-pane">
+            <div class="row">
+              <div class="col-md-12">
+                <?php require "sig/panel.php"; ?>
               </div>
             </div>
           </div>
