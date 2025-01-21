@@ -80,7 +80,7 @@
                                             <p class="text-sm">Físico :  ' . $value["fisico"] . '</p>
                                             </td>';
                                             echo '<td><span class="' . $color . ' text-uppercase">' . $estado . '</span></td>';
-                                          
+
                                             echo '<td>
                                             <a target="_blank" href="extensiones/tcpdf/pdf/inspeccionpdf.php?id=' . $value["id_inspeccion"] . '"  class="btn bg-danger"><i class="fas  fa-file-pdf"></i></button></td>';
                                             echo '<td>
@@ -92,7 +92,7 @@
                                     </tbody>
 
                                 </table>
-
+                              
 
                             </div>
 

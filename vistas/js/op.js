@@ -16,12 +16,17 @@ $(".table").on("click", ".btnEliminarCliente", function () {
         if (result.value) {
             // Enviar la solicitud AJAX
             $.ajax({
-                url: 'operaciones',
+                url: 'controladores/clientes.controlador.php',
                 type: 'POST',
-                data: { idCliente: idCliente, eliminar: 'si' },
+                data: {
+                    action: 'EliminarCliente',
+                     idCliente: idCliente,
+                      eliminar: 'si' },
                 success: function (response) {
+                    //console.log(gato); // Muestra la respuesta completa en la consola del navegador.
+                    //alert(JSON.stringify(gato)); // Convierte el objeto JSON a texto y lo muestra en un alert.
                     // Verificar la respuesta del servidor
-                    if (response.status === "success") {
+                    if (response.status === "ok") {
                         // Mostrar mensaje de éxito
                         Swal.fire({
                             icon: "success",
@@ -30,7 +35,11 @@ $(".table").on("click", ".btnEliminarCliente", function () {
                             confirmButtonText: "Cerrar"
                         }).then(function (result) {
                             if (result.value) {
-                                window.location = "usuarios"; // Redirigir a la página de usuarios
+                                // Limpiar el formulario
+							document.getElementById("GuardarCliente").reset();
+							$("#panelbascula").removeClass("active");
+							$("#formclientes").addClass("active");
+							refrescarClientes();
                             }
                         });
                     } else {
@@ -43,7 +52,11 @@ $(".table").on("click", ".btnEliminarCliente", function () {
                             confirmButtonText: "Cerrar"
                         }).then(function (result) {
                             if (result.value) {
-                                window.location = "operaciones"; // Redirigir a la página de operaciones
+                               // Limpiar el formulario
+							document.getElementById("GuardarCliente").reset();
+							$("#panelbascula").removeClass("active");
+							$("#formclientes").addClass("active");
+							refrescarClientes();
                             }
                         });
                     }

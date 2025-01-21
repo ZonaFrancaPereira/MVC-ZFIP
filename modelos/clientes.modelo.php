@@ -73,8 +73,47 @@ static public function mdlIngresarCliente($tabla, $datos)
 		$stmt = null;
 
 	}
+/*=============================================
+	MOSTRAR CLIENTES AJAX
+	=============================================*/
 
-		/*=============================================
+	static public function mdlMostrarClientesAjax(){
+
+
+
+		$stmt = Conexion::conectar()->prepare("SELECT id_cliente 
+													,nombre_cliente as text	
+													 FROM clientes_zfip");
+
+		$stmt -> execute();
+
+		$arr = $stmt ->errorInfo();
+
+
+		if ($arr[0]>0){
+				$arr[3]="ERROR";
+				return $arr;
+			}
+			else{
+
+			return $stmt -> fetchAll();
+		}
+
+		
+
+		$stmt -> close();
+
+		$stmt = null;
+
+	}
+
+	
+	
+
+
+	
+
+	/*=============================================
 	EDITAR CLIENTE
 	=============================================*/
 

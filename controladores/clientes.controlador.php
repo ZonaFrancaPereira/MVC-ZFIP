@@ -49,8 +49,11 @@ class ControladorClientes
 						confirmButtonText: "Cerrar"
 					}).then(function(result){
 						if (result.value) {
+							// Limpiar el formulario
+							document.getElementById("GuardarCliente").reset();
 							$("#panelbascula").removeClass("active");
 							$("#formclientes").addClass("active");
+							refrescarClientes();
 						}
 					})
 				</script>';
@@ -103,12 +106,16 @@ class ControladorClientes
 				echo '<script>
 				Swal.fire(
 				"Buen Trabajo!",
-				"La urgencia ha sido registrada con éxito.",
+				"La información se guardo con éxito.",
 				"success"
 				).then(function() {
 				document.getElementById("editarClientes").reset();
 				
-				$("#formclientes").addClass("active");
+				// Limpiar el formulario
+							document.getElementById("GuardarCliente").reset();
+							$("#panelbascula").removeClass("active");
+							$("#formclientes").addClass("active");
+							refrescarClientes();
 				
 				});
 			</script>';
@@ -126,7 +133,11 @@ class ControladorClientes
 
 						if(result.value){
 
-							window.location = "operaciones";
+							// Limpiar el formulario
+							document.getElementById("GuardarCliente").reset();
+							$("#panelbascula").removeClass("active");
+							$("#formclientes").addClass("active");
+							refrescarClientes();
 
 						}
 
@@ -144,27 +155,47 @@ class ControladorClientes
 	/*=============================================
 	ELIMINAR CLIENTE
 	=============================================*/
-
 	static public function ctrEliminarCliente()
 	{
-
 		if (isset($_POST["idCliente"])) {
-
+	
 			$tabla = "clientes_zfip";
 			$datos = $_POST["idCliente"];
-
+	
 			$respuesta = ModeloClientes::mdlEliminarCliente($tabla, $datos);
-
+	
+			// Configura el encabezado para devolver JSON
+			header('Content-Type: application/json');
+	
 			if ($respuesta == "ok") {
-
-				echo 'ok';
-			}else{
-
-				echo 'error';
-		}
+				echo json_encode([
+					"status" => "ok"
+					
+				]);
+			} else {
+				echo json_encode([
+					"status" => "error"
+					
+				]);
+			}
 		}
 	}
+	
 
 }
 
 
+
+if (isset($_POST['action'])) {
+   
+    require_once "../modelos/clientes.modelo.php"; // Incluye el modelo aquí dentro del switch
+
+    switch ($_POST['action']) {
+        case 'EliminarCliente':
+            ControladorClientes::ctrEliminarCliente();
+            break;
+       
+        default:
+            echo json_encode(['status' => 'error', 'message' => 'Acción no válida']);
+    }
+}
