@@ -213,12 +213,9 @@ switch ($procesoActivo) {
                               <div class=" tab-pane" id="sst">
                                 <?php generarTabla(9); ?>
                               </div>
-
                             </div>
                           </div><!-- /.card-body -->
-
                         </div><!-- /.card -->
-
                       </div><!-- /.card-body -->
                     </div><!-- /.card -->
                   </div><!-- /.col-12 -->
@@ -228,78 +225,78 @@ switch ($procesoActivo) {
             </section><!-- /.content -->
           </div><!-- /.tab-pane -->
 
-          
-          
+
+
           <div id="menu1" class="tab-pane fade <?php echo ($activeTab === 'menu1') ? 'show active' : ''; ?>">
-            
-              <?php generarModalConFormulario("modal-SIG", "Archivos Sistema Integrado de Gestión", "Código ej: SIG-", 1, "SIG"); ?>
-            
+
+            <?php generarModalConFormulario("modal-SIG", "Archivos Sistema Integrado de Gestión", "Código ej: SIG-", 1, "SIG"); ?>
+
           </div>
 
           <div id="menu2" class="tab-pane fade <?php echo ($activeTab === 'menu2') ? 'show active' : ''; ?>">
-            
-              <?php generarModalConFormulario("modal-TI", "Archivos Tecnología e Informática", "Código ej: TI-", 2, "TI"); ?>
-            
+
+            <?php generarModalConFormulario("modal-TI", "Archivos Tecnología e Informática", "Código ej: TI-", 2, "TI"); ?>
+
           </div>
 
           <div id="menu3" class="tab-pane fade <?php echo ($activeTab === 'menu3') ? 'show active' : ''; ?>">
-            
-              <?php generarModalConFormulario("modal-CT", "Archivos Contabilidad", "Código ej: CT-", 3, "CT"); ?>
-            
+
+            <?php generarModalConFormulario("modal-CT", "Archivos Contabilidad", "Código ej: CT-", 3, "CT"); ?>
+
           </div>
 
           <div id="menu4" class="tab-pane fade <?php echo ($activeTab === 'menu4') ? 'show active' : ''; ?>">
-            
-              <?php generarModalConFormulario("modal-TEC", "Archivos Técnico", "Código ej: TEC-", 4, "TEC"); ?>
-           
+
+            <?php generarModalConFormulario("modal-TEC", "Archivos Técnico", "Código ej: TEC-", 4, "TEC"); ?>
+
           </div>
 
           <div id="menu5" class="tab-pane fade <?php echo ($activeTab === 'menu5') ? 'show active' : ''; ?>">
-            
-              <?php generarModalConFormulario("modal-GH", "Archivos Gestión Humana", "Código ej: GH-", 5, "GH"); ?>
-            
+
+            <?php generarModalConFormulario("modal-GH", "Archivos Gestión Humana", "Código ej: GH-", 5, "GH"); ?>
+
           </div>
 
           <div id="menu6" class="tab-pane fade <?php echo ($activeTab === 'menu6') ? 'show active' : ''; ?>">
-            
-              <?php generarModalConFormulario("modal-GD", "Archivos Gestión Documental", "Código ej: GD-", 6, "GD"); ?>
-           
+
+            <?php generarModalConFormulario("modal-GD", "Archivos Gestión Documental", "Código ej: GD-", 6, "GD"); ?>
+
           </div>
 
           <div id="menu7" class="tab-pane fade <?php echo ($activeTab === 'menu7') ? 'show active' : ''; ?>">
-            
-              <?php generarModalConFormulario("modal-OP", "Archivos Operaciones", "Código ej: OP-", 7, "OP"); ?>
-            
+
+            <?php generarModalConFormulario("modal-OP", "Archivos Operaciones", "Código ej: OP-", 7, "OP"); ?>
+
           </div>
 
           <div id="menu9" class="tab-pane fade <?php echo ($activeTab === 'menu9') ? 'show active' : ''; ?>">
-            
-              <?php generarModalConFormulario("modal-SST", "Archivos Seguridad Salud en el Trabajo", "Código ej: SST-", 9, "SST"); ?>
-           
+
+            <?php generarModalConFormulario("modal-SST", "Archivos Seguridad Salud en el Trabajo", "Código ej: SST-", 9, "SST"); ?>
+
           </div>
 
           <div id="menu10" class="tab-pane fade <?php echo ($activeTab === 'menu10') ? 'show active' : ''; ?>">
-            
-              <?php generarModalConFormulario("modal-GR", "Archivos Gerencia", "Código ej: GR-", 10, "GR"); ?>
-           
+
+            <?php generarModalConFormulario("modal-GR", "Archivos Gerencia", "Código ej: GR-", 10, "GR"); ?>
+
           </div>
 
           <div id="menu11" class="tab-pane fade <?php echo ($activeTab === 'menu11') ? 'show active' : ''; ?>">
-            
-              <?php generarModalConFormulario("modal-JR", "Archivos Gestión Jurídica", "Código ej: JR-", 11, "JR"); ?>
-          
+
+            <?php generarModalConFormulario("modal-JR", "Archivos Gestión Jurídica", "Código ej: JR-", 11, "JR"); ?>
+
           </div>
 
           <div id="menu12" class="tab-pane fade <?php echo ($activeTab === 'menu12') ? 'show active' : ''; ?>">
-            
-              <?php generarModalConFormulario("modal-PLE", "Archivos Planeación Estratégica", "Código ej: PLE-", 12, "PLE"); ?>
-           
+
+            <?php generarModalConFormulario("modal-PLE", "Archivos Planeación Estratégica", "Código ej: PLE-", 12, "PLE"); ?>
+
           </div>
 
           <div id="menu13" class="tab-pane fade <?php echo ($activeTab === 'menu13') ? 'show active' : ''; ?>">
-            
-              <?php generarModalConFormulario("modal-SG", "Archivos Seguridad", "Código ej: SG-", 13, "SG"); ?>
-           
+
+            <?php generarModalConFormulario("modal-SG", "Archivos Seguridad", "Código ej: SG-", 13, "SG"); ?>
+
           </div>
 
 
@@ -416,7 +413,7 @@ function generarModalConFormulario($modalId, $tituloModal, $codigo, $id_proceso_
   echo '                </button>';
   echo '            </div>';
   echo '            <div class="modal-body">';
-  
+
   echo '            </div>';
 
   echo '        </div>';
@@ -425,7 +422,7 @@ function generarModalConFormulario($modalId, $tituloModal, $codigo, $id_proceso_
   echo '    <!-- /.modal-dialog -->';
   echo '</div>';
   echo '<!-- /.modal -->';
-  
+
   echo '
   <!-- Main content -->
   <section class="content">
@@ -440,8 +437,8 @@ function generarModalConFormulario($modalId, $tituloModal, $codigo, $id_proceso_
                       <button class="btn btn-primary">Crear Carpeta</button>
                   </div>
                   <div class="col-md-8 col-lg-8">';
-                      generarFormulario($codigo, $id_proceso_fk, $proceso);
-                      echo '
+  generarFormulario($codigo, $id_proceso_fk, $proceso);
+  echo '
                   </div>
               </div>
           </div>
@@ -502,16 +499,14 @@ function generarModalConFormulario($modalId, $tituloModal, $codigo, $id_proceso_
           <!-- /.card-body -->
       </div>
       <!-- /.card -->
-  
+
   </section>
   <!-- /.content -->
   ';
-  
-
 }
 
 ?>
- 
+
 
 
 </body>
