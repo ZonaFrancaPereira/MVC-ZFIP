@@ -29,16 +29,7 @@ function iniciar() {
 	$("#panel_GR").hide();
 	$("#panel_SST").hide();
 	$("#panel_PLE").hide();
-	$("#panel_MT_SIG").hide();
-	$("#panel_MT_TI").hide();
-	$("#panel_MT_GH").hide();
-	$("#panel_MT_OP").hide();
-	$("#panel_MT_GD").hide();
-	$("#panel_MT_CT").hide();
-	$("#panel_MT_PH").hide();
-	$("#panel_MT_CT").hide();
-	$("#panel_MT_GR").hide();
-	$("#panel_MT_TEC").hide();
+
 	
     $("#wrapper").toggleClass("toggled");
     $(".sacar").click(mostrar);
@@ -68,7 +59,7 @@ function activar_menus(cargo, siglas, idProceso) {
         $(`.${idProceso}`).hide();
     }
 
-    listar_Descargas(cargo, siglas, idProceso);
+    (cargo, siglas, idProceso);
 }
 
 function listar_Descargas(cargo, siglas, idProceso) {
@@ -104,7 +95,7 @@ function listar_Descargas(cargo, siglas, idProceso) {
 
     $.ajax({
         type: "POST",
-        data: json,
+      data: json,
         url: 'php/cargar_folders.php',
         success: function(data) {
             console.log('Datos recibidos de cargar_folders.php:', data); // Verifica los datos recibidos
