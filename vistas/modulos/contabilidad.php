@@ -114,13 +114,13 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
           </a>
         </li>
         <li class="nav-item">
-          <a data-toggle="tab" href="#consultar_ordenes class="nav-link ">
-            <i class="nav-icon fas fa-search"></i>
+          <a data-toggle="tab" href="#consultar_ordenes" class=" nav-link ">
+            <i class=" nav-icon fas fa-search"></i>
             <p>
-              Consultar Ordenes 
+              Consultar Ordenes
             </p>
           </a>
-
+        </li>
         <li class="nav-item">
           <a data-toggle="tab" href="#manual_activos" class="nav-link ">
             <i class="nav-icon fas fa-book"></i>
@@ -171,7 +171,7 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
 
           <!-- /. FORMULARIO PARA TRASLADAR LOS ACTIVOS -->
           <div id="trasladar_activos" class="tab-pane">
-          <?php require "ct/transferir_activo.php"; ?>
+            <?php require "ct/transferir_activo.php"; ?>
           </div>
           <!-- /. CIERRE FORMULARIO PARA TRASLADAR LOS ACTIVOS -->
 
@@ -206,8 +206,8 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
             </div>
           </div>
           <!-- CIERRE DE MANUAL DE USO ACTIVOS FIJOS -->
- <!-- /. INVENTARIO ACTIVOS FIJOS -->
- <div id="nueva_orden" class="tab-pane">
+          <!-- /. INVENTARIO ACTIVOS FIJOS -->
+          <div id="nueva_orden" class="tab-pane">
             <?php require "ct/orden_compra.php"; ?>
           </div>
         </div>
