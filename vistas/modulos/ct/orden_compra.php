@@ -18,19 +18,32 @@
                       <label>Cotizado Por :</label>
                       <input type="text" name="" value="<?php echo $_SESSION['nombre_usuario'] . " " . $_SESSION['apellidos_usuario'] ?>" class="form-control" readonly>
                     </div>
+                    <?php
+                    $id_cargo_fk = $_SESSION["id_cargo_fk"];
+                    $nombre_cargo = ControladorOrden::ctrObtenerNombreCargo($id_cargo_fk);
+                    ?>
                     <div class="col-md-6 col-xs-6 col-sm-6">
                       <label>Cargo</label>
-                      <input type="text" name="" value="<?php echo $_SESSION['nombre_cargo'] ?>" class="form-control" readonly>
+                      <input type="text" name="" value="<?php echo htmlspecialchars($nombre_cargo, ENT_QUOTES, 'UTF-8'); ?>" class="form-control" readonly>
                     </div>
                     <div class="col-md-4 col-xs-12 col-sm-12">
                       <label>Fecha</label>
                       <input type="date" name="fecha_orden" class="form-control" id="fecha_orden" required>
                     </div>
                     <div class="col-md-4 col-xs-12 col-sm-12">
-                      <label for="exampleDataList" class="form-label">Proveedor</label>
-                      <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Identificación de Proveedor" name="id_proveedor_fk" required>
-                      <datalist id="datalistOptions">
-TRAER PROVEEDOR COMPRAS TODOS
+                      <label for="proveedor" class="form-label">Proveedor</label>
+                      <input class="form-control" list="datalistprovedor" id="proveedor" placeholder="Identificación de Proveedor" name="id_proveedor_fk" required>
+                      <datalist id="datalistprovedor">
+                        <?php
+                        $item = null;
+                        $valor = null;
+                        $proveedor = ControladorOrden::ctrMostrarProvedor($item, $valor);
+                        foreach ($proveedor as $key => $value) {
+                          echo '<option value="' . $value["id_proveedor"] . '"> ' . $value["nombre_proveedor"] . ' </option>';
+                        }
+                        ?>
+                  
+                      </datalist>
                     </div>
                     <div class="col-md-4 col-xs-12 col-sm-12">
                       <label>¿Es un Proveedor recurrente?</label>
