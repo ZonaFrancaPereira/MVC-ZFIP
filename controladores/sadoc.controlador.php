@@ -10,14 +10,13 @@ class ControladorSadoc
 			if ($_FILES["archivo"]["error"] === UPLOAD_ERR_OK) {
 				// Extraer los datos del archivo y las variables del formulario
 				$codigo = $_POST["codigo"];
-				$carpeta = $_POST["carpeta"];
 				$archivoTmp = $_FILES["archivo"]["tmp_name"];
 				$nombreArchivo = basename($_FILES["archivo"]["name"]);
-				$ruta_principal = "vistas/modulos/files/" . $carpeta . "/";
+				$ruta_principal = "vistas/modulos/files/";
 				$ruta = $ruta_principal . $nombreArchivo;
 				$estado = "activo";
 				$id_proceso_fk = $_POST["id_proceso_fk"];
-				$sub_carpeta = "No";
+				
 	
 				// Asegúrate de que la carpeta de destino exista
 				if (!is_dir($ruta_principal)) {
@@ -33,16 +32,16 @@ class ControladorSadoc
 					$datos = array(
 						"codigo" => $codigo,
 						"ruta" => $ruta,
-						"ruta_principal" => $ruta_principal,
+						
 						"estado" => $estado,
-						"sub_carpeta" => $sub_carpeta,
+						
 						"id_proceso_fk" => $id_proceso_fk
 					);
 					$respuesta = ModeloSadoc::mdlIngresarArchivo($tabla, $datos);
 	
 					if (is_array($respuesta)) {
 						$ruta = $respuesta["ruta"];
-						$ruta_principal = $respuesta["ruta_principal"];
+						
 						$nombreArchivo = basename($ruta);
 	
 						echo '<script>

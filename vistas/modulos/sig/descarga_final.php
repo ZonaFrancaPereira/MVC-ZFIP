@@ -10,17 +10,15 @@ if (!isset($_GET['archivo']) || empty($_GET['archivo'])) {
 $archivo = basename($_GET['archivo']);
 $direc = $_GET['ruta'];
 
-$ruta = '../'.$direc;
+$ruta = '../' . $direc;
 
- if (is_file($ruta)) {
-	
+if (is_file($ruta)) {
+
    header('Content-Type: application/force-download');
-   header('Content-Disposition: attachment; filename='.$archivo);
+   header('Content-Disposition: attachment; filename=' . $archivo);
    header('Content-Transfer-Encoding: binary');
-   header('Content-Length: '.filesize($ruta));
+   header('Content-Length: ' . filesize($ruta));
 
    readfile($ruta);
-}
-else
+} else
    exit();
-   ?>
