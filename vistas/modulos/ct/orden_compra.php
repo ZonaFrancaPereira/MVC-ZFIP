@@ -12,7 +12,7 @@
                   <div class="row">
                     <div class="col-md-6 col-xs-6 col-sm-6" hidden>
                       <label>Id Usuario</label>
-                      <input type="text" name="id_usuario_fk" id="id_usuario_fk" value="<?php echo $_SESSION['Id'] ?>" class="form-control" readonly>
+                      <input type="text" name="id_cotizante" id="id_cotizante" value="<?php echo $_SESSION['Id'] ?>" class="form-control" readonly>
                     </div>
                     <div class="col-md-6 col-xs-6 col-sm-6">
                       <label>Cotizado Por :</label>
@@ -31,8 +31,8 @@
                       <input type="date" name="fecha_orden" class="form-control" id="fecha_orden" required>
                     </div>
                     <div class="col-md-4 col-xs-12 col-sm-12">
-                      <label for="proveedor" class="form-label">Proveedor</label>
-                      <input class="form-control" list="datalistprovedor" id="proveedor" placeholder="Identificación de Proveedor" name="id_proveedor_fk" required>
+                      <label for="id_proveedor_fk" class="form-label">Proveedor</label>
+                      <input class="form-control" list="datalistprovedor" id="id_proveedor_fk" placeholder="Identificación de Proveedor" name="id_proveedor_fk" required>
                       <datalist id="datalistprovedor">
                         <?php
                         $item = null;
@@ -47,7 +47,7 @@
                     </div>
                     <div class="col-md-4 col-xs-12 col-sm-12">
                       <label>¿Es un Proveedor recurrente?</label>
-                      <select name="proveedor_recurrente" id="" class="form-control">
+                      <select name="proveedor_recurrente" id="proveedor_recurrente" class="form-control">
                         <option value="Si">Si</option>
                         <option value="No">No</option>
                       </select>
@@ -145,6 +145,10 @@
                   <button type="submit" class="btn btn-success btn-block " id="enviar_orden" name="enviar_orden">Enviar Orden</button>
                 </div>
               </div>
+              <?php
+              $crearOrden = new ControladorOrden();
+              $crearOrden->ctrCrearOrden();
+              ?>
 
             </form>
             <!-- /.card -->
