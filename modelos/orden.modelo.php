@@ -36,26 +36,14 @@ class ModeloOrden{
                     fecha_orden, 
                     proveedor_recurrente, 
                     forma_pago, 
-                    tiempo_pago, 
-                    porcentaje_anticipo, 
-                    condiciones_negociacion, 
-                    comentario_orden, 
-                    tiempo_entrega,
-                    total_orden,  
                     id_cotizante, 
-                    id_proveedor_fk
+
                 ) VALUES (
                     :fecha_orden, 
                     :proveedor_recurrente, 
                     :forma_pago, 
-                    :tiempo_pago, 
-                    :porcentaje_anticipo, 
-                    :condiciones_negociacion, 
-                    :comentario_orden, 
-                    :tiempo_entrega,
-                    :total_orden, 
                     :id_cotizante, 
-                    :id_proveedor_fk
+
                 )"
             );
 
@@ -63,14 +51,7 @@ class ModeloOrden{
             $stmt->bindParam(":fecha_orden", $datos["fecha_orden"], PDO::PARAM_STR);
             $stmt->bindParam(":proveedor_recurrente", $datos["proveedor_recurrente"], PDO::PARAM_STR);
             $stmt->bindParam(":forma_pago", $datos["forma_pago"], PDO::PARAM_STR);
-            $stmt->bindParam(":tiempo_pago", $datos["tiempo_pago"], PDO::PARAM_INT);
-            $stmt->bindParam(":porcentaje_anticipo", $datos["porcentaje_anticipo"], PDO::PARAM_STR);
-            $stmt->bindParam(":condiciones_negociacion", $datos["condiciones_negociacion"], PDO::PARAM_STR);
-            $stmt->bindParam(":comentario_orden", $datos["comentario_orden"], PDO::PARAM_STR);
-            $stmt->bindParam(":tiempo_entrega", $datos["tiempo_entrega"], PDO::PARAM_INT);
-            $stmt->bindParam(":total_orden", $datos["total_orden"], PDO::PARAM_STR);
             $stmt->bindParam(":id_cotizante", $datos["id_cotizante"], PDO::PARAM_INT);
-            $stmt->bindParam(":id_proveedor_fk", $datos["id_proveedor_fk"], PDO::PARAM_INT);
             
             
            

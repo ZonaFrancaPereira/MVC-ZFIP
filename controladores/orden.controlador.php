@@ -19,7 +19,7 @@ class ControladorOrden{
     public static function ctrCrearOrden() {
         if (isset($_POST["id_cotizante"])) {
            
-                $tabla = "ordene_compra"; 
+                $tabla = "orden_compra"; 
 
                 $datos = array(
                     "id_cotizante" => $_POST["id_cotizante"],

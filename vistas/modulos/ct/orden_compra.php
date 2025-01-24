@@ -10,9 +10,9 @@
                 </div>
                 <div class="card-body">
                   <div class="row">
-                    <div class="col-md-6 col-xs-6 col-sm-6" hidden>
+                    <div class="col-md-6 col-xs-6 col-sm-6">
                       <label>Id Usuario</label>
-                      <input type="text" name="id_cotizante" id="id_cotizante" value="<?php echo $_SESSION['Id'] ?>" class="form-control" readonly>
+                      <input type="text" name="id_cotizante" id="id_cotizante" value="<?php echo $_SESSION['id'] ?>" class="form-control" readonly>
                     </div>
                     <div class="col-md-6 col-xs-6 col-sm-6">
                       <label>Cotizado Por :</label>
