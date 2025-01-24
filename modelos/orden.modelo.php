@@ -33,7 +33,7 @@ class ModeloOrden{
     
             // Preparar la consulta de inserción
             $stmt = $pdo->prepare("INSERT INTO $tabla (
-                    fecha_orden,
+                    
                     proveedor_recurrente,
                     forma_pago,
                     tiempo_pago,
@@ -49,7 +49,7 @@ class ModeloOrden{
                     id_cotizante,
                     id_proveedor_fk
                 ) VALUES (
-                    :fecha_orden,
+                    
                     :proveedor_recurrente,
                     :forma_pago,
                     :tiempo_pago,
@@ -68,7 +68,7 @@ class ModeloOrden{
             );
     
             // Vincular los parámetros
-            $stmt->bindParam(":fecha_orden", $datos["fecha_orden"], PDO::PARAM_STR);
+       
             $stmt->bindParam(":proveedor_recurrente", $datos["proveedor_recurrente"], PDO::PARAM_STR);
             $stmt->bindParam(":forma_pago", $datos["forma_pago"], PDO::PARAM_STR);
             $stmt->bindParam(":tiempo_pago", $datos["tiempo_pago"], PDO::PARAM_INT);
@@ -86,7 +86,54 @@ class ModeloOrden{
            
     
             if ($stmt->execute()) {
-                return array("status" => "ok", "id_orden" => $pdo->lastInsertId());
+                return array("status" => "ok", "id_orden_compra" => $pdo->lastInsertId());
+            } else {
+                return "error";
+            }
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        }
+    
+        $stmt = null;
+    }
+
+
+    public static function mdlCrearDetalleOrden($datosOrden){
+        try {
+            // Obtener la conexión PDO
+            $pdo = Conexion::conectar();
+    
+            // Preparar la consulta de inserción
+            $stmt = $pdo->prepare("INSERT INTO detalle_orden(
+                    articulo_compra,
+                    cantidad_orden,
+                    valor_neto,
+                    valor_iva,
+                    valor_total,
+                    observaciones_articulo,
+                    id_orden_compra
+                ) VALUES (
+                    :articulo_compra,
+                    :cantidad_orden,
+                    :valor_neto,
+                    :valor_iva,
+                    :valor_total,
+                    :observaciones_articulo,
+                    :id_orden_compra
+                )"
+            );
+    
+            // Vincular los parámetros
+            $stmt->bindParam(":articulo_compra", $datosOrden["articulo_compra"], PDO::PARAM_STR);
+            $stmt->bindParam(":cantidad_orden", $datosOrden["cantidad_orden"], PDO::PARAM_STR);
+            $stmt->bindParam(":valor_neto", $datosOrden["valor_neto"], PDO::PARAM_STR);
+            $stmt->bindParam(":valor_iva", $datosOrden["valor_iva"], PDO::PARAM_STR);
+            $stmt->bindParam(":valor_total", $datosOrden["valor_total"], PDO::PARAM_STR);
+            $stmt->bindParam(":observaciones_articulo", $datosOrden["observaciones_articulo"], PDO::PARAM_STR);
+            $stmt->bindParam(":id_orden_compra", $datosOrden["id_orden_compra"], PDO::PARAM_INT);
+    
+            if ($stmt->execute()) {
+                return "ok";
             } else {
                 return "error";
             }
