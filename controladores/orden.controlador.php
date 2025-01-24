@@ -45,26 +45,52 @@ class ControladorOrden{
 
                 if (is_array($respuesta) && $respuesta["status"] === "ok") {
                     // Usar el último ID insertado
-                    $id_orden_fk = $respuesta["id_orden_fk"];
+                    $id_orden_compra = $respuesta["id_orden_compra"];
 
+                    $datosOrden = array(
+                        "articulo_compra" => $_POST["articulo_compra"],
+                        "cantidad_orden" => $_POST["cantidad_orden"],
+                        "valor_neto" => $_POST["valor_neto"],
+                        "valor_iva" => $_POST["valor_iva"],
+                        "valor_total" => $_POST["valor_total"],
+                        "observaciones_articulo" => $_POST["observaciones_articulo"],
+                        "id_orden_compra" => $id_orden_compra
+                    );
 
-                   
-                } else {
+                    $respuestaorden = ModeloOrden::mdlCrearDetalleOrden($datosOrden);
+                    if ($respuestaorden === "ok") {
+                        echo "";
+                    } else {
+                        echo "Error al insertar los datos.";
+                    }
                     echo '<script>
-                        Swal.fire({
-                            type: "error",
-                            title: "¡La orden no pudo ser Guardada!",
-                            showConfirmButton: true,
-                            confirmButtonText: "Cerrar"
-    
-                        }).then(function(result){
-                            if(result.value){
-                                $("#").addClass("active");
-                            }
+                        Swal.fire(
+                        "Buen Trabajo!",
+                        "La orden fue creada con exito.",
+                        "success"
+                        ).then(function() {
+                        document.getElementById("").reset();
+                        $("#").addClass("active");
+                        
                         });
                     </script>
                 ';
-                }
+            } else {
+                echo '<script>
+                    Swal.fire({
+                        type: "error",
+                        title: "¡La descrición del perfil no puede ir vacío o llevar caracteres especiales!",
+                        showConfirmButton: true,
+                        confirmButtonText: "Cerrar"
+
+                    }).then(function(result){
+                        if(result.value){
+                            $("#").addClass("active");
+                        }
+                    });
+                </script>
+            ';
+            }
         }
     }
     

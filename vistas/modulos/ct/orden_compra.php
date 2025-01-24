@@ -67,22 +67,22 @@
               <tbody>
                 <tr class="fila-fija ">
                   <td class="col-md-2">
-                    <textarea name="articulo_compra[]" id="articulo_compra" class="form-control" cols="10" rows="5"></textarea>
+                    <textarea name="articulo_compra" id="articulo_compra" class="form-control" cols="10" rows="5"></textarea>
                   </td>
                   <td class=" col-md-2">
-                    <input type="number" name="cantidad_orden[]" class="cantidad_orden form-control" placeholder="Unidades" step="any" oninput="actualizarSuma()">
+                    <input type="number" name="cantidad_orden" class="cantidad_orden form-control" placeholder="Unidades" step="any" oninput="actualizarSuma()">
                   </td>
                   <td class=" col-md-2">
-                    <input type="number" class="valor_neto form-control" placeholder="Valor sin Iva" value="" name="valor_neto[]" oninput="actualizarSuma()">
+                    <input type="number" class="valor_neto form-control" placeholder="Valor sin Iva" value="" name="valor_neto" oninput="actualizarSuma()">
                   </td>
                   <td class=" col-md-2">
-                    <input type="number" class="valor_iva form-control" placeholder="Valor Iva" value="" name="valor_iva[]" oninput="actualizarSuma()">
+                    <input type="number" class="valor_iva form-control" placeholder="Valor Iva" value="" name="valor_iva" oninput="actualizarSuma()">
                   </td>
                   <td class=" col-md-2">
-                    <input type="number" class="valor_total form-control" placeholder="Toltal" value="" name="valor_total[]" step="any">
+                    <input type="number" class="valor_total form-control" placeholder="Toltal" value="" name="valor_total" step="any">
                   </td>
                   <td class="col-md-2">
-                    <textarea name="observaciones_articulo[]" id="observaciones_articulo" class=" form-control" cols="10" rows="5"></textarea>
+                    <textarea name="observaciones_articulo" id="observaciones_articulo" class=" form-control" cols="10" rows="5"></textarea>
                   </td>
                   <td class="eliminar col-md-1">
                     <input type="button" class="btn btn-danger" value="X" />
