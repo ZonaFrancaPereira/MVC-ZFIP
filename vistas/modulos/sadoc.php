@@ -211,6 +211,7 @@ switch ($procesoActivo) {
                                 <?php generarTabla(13); ?>
                               </div>
                               <div class=" tab-pane" id="sst">
+                                
                                 <?php generarTabla(9); ?>
                               </div>
                             </div>
@@ -294,6 +295,7 @@ switch ($procesoActivo) {
           </div>
 
           <div id="menu13" class="tab-pane fade <?php echo ($activeTab === 'menu13') ? 'show active' : ''; ?>">
+            
 
             <?php generarModalConFormulario("modal-SG", "Archivos Seguridad", "Código ej: SG-", 13, "SG"); ?>
 
