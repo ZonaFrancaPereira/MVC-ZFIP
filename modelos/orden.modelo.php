@@ -33,7 +33,7 @@ class ModeloOrden{
     
             // Preparar la consulta de inserción
             $stmt = $pdo->prepare("INSERT INTO $tabla (
-                    fecha_orden,
+                    
                     proveedor_recurrente,
                     forma_pago,
                     tiempo_pago,
@@ -49,7 +49,7 @@ class ModeloOrden{
                     id_cotizante,
                     id_proveedor_fk
                 ) VALUES (
-                    :fecha_orden,
+                    
                     :proveedor_recurrente,
                     :forma_pago,
                     :tiempo_pago,
@@ -68,7 +68,7 @@ class ModeloOrden{
             );
     
             // Vincular los parámetros
-            $stmt->bindParam(":fecha_orden", $datos["fecha_orden"], PDO::PARAM_STR);
+       
             $stmt->bindParam(":proveedor_recurrente", $datos["proveedor_recurrente"], PDO::PARAM_STR);
             $stmt->bindParam(":forma_pago", $datos["forma_pago"], PDO::PARAM_STR);
             $stmt->bindParam(":tiempo_pago", $datos["tiempo_pago"], PDO::PARAM_INT);
