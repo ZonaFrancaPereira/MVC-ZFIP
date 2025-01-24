@@ -86,7 +86,7 @@ class ModeloOrden{
            
     
             if ($stmt->execute()) {
-                return array("status" => "ok", "id_orden" => $pdo->lastInsertId());
+                return array("status" => "ok", "id_orden_compra" => $pdo->lastInsertId());
             } else {
                 return "error";
             }
@@ -104,16 +104,16 @@ class ModeloOrden{
             $pdo = Conexion::conectar();
     
             // Preparar la consulta de inserción
-            $stmt = $pdo->prepare("INSERT INTO detalle_orden (
+            $stmt = $pdo->prepare("INSERT INTO detalle_orden(
                     articulo_compra,
                     cantidad_orden,
                     valor_neto,
                     valor_iva,
                     valor_total,
                     observaciones_articulo,
-                    id:orden_compra
+                    id_orden_compra
                 ) VALUES (
-                    :articulo_compra,,
+                    :articulo_compra,
                     :cantidad_orden,
                     :valor_neto,
                     :valor_iva,
@@ -125,7 +125,7 @@ class ModeloOrden{
     
             // Vincular los parámetros
             $stmt->bindParam(":articulo_compra", $datosOrden["articulo_compra"], PDO::PARAM_STR);
-            $stmt->bindParam(":cantidad_orden", $datosOrden["cantidad_orden"], PDO::PARAM_INT);
+            $stmt->bindParam(":cantidad_orden", $datosOrden["cantidad_orden"], PDO::PARAM_STR);
             $stmt->bindParam(":valor_neto", $datosOrden["valor_neto"], PDO::PARAM_STR);
             $stmt->bindParam(":valor_iva", $datosOrden["valor_iva"], PDO::PARAM_STR);
             $stmt->bindParam(":valor_total", $datosOrden["valor_total"], PDO::PARAM_STR);
