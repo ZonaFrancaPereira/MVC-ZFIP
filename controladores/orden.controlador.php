@@ -19,39 +19,36 @@ class ControladorOrden{
     public static function ctrCrearOrden() {
         if (isset($_POST["id_cotizante"])) {
            
-                $tabla = "ordene_compra"; 
-
+                $tabla = "orden_compra"; 
+              
+                $estado_orden = "Analisis de Cotizacion";
+                $analisis_cotizacion = "Si";
                 $datos = array(
                     "id_cotizante" => $_POST["id_cotizante"],
                     "fecha_orden" => $_POST["fecha_orden"],
                     "id_proveedor_fk" => $_POST["id_proveedor_fk"],
                     "proveedor_recurrente" => $_POST["proveedor_recurrente"],
-                    "total_orden" => $_POST["total_orden"],
                     "forma_pago" => $_POST["forma_pago"],
                     "tiempo_pago" => $_POST["tiempo_pago"],
                     "porcentaje_anticipo" => $_POST["porcentaje_anticipo"],
                     "condiciones_negociacion" => $_POST["condiciones_negociacion"],
                     "comentario_orden" => $_POST["comentario_orden"],
-                    "tiempo_entrega" => $_POST["tiempo_entrega"]
+                    "tiempo_entrega" => $_POST["tiempo_entrega"],
+                    "total_orden" => $_POST['total_orden'],
+                    "estado_orden" => $estado_orden,
+                    "analisis_cotizacion" => $analisis_cotizacion
+
                 );
 
                 // Llamar al modelo
                 $respuesta = ModeloOrden::mdlCrearOrden($tabla, $datos);
 
-                if ($respuesta == "ok") {
+                if (is_array($respuesta) && $respuesta["status"] === "ok") {
+                    // Usar el último ID insertado
+                    $id_orden_fk = $respuesta["id_orden_fk"];
 
-                    echo '<script>
-                            Swal.fire(
-                            "Buen Trabajo!",
-                            "La Orden fue Guardada con Exito.",
-                            "success"
-                            ).then(function() {
-                            document.getElementById("").reset();
-                            $("#").addClass("active");
-                            
-                            });
-                        </script>
-                    ';
+
+                   
                 } else {
                     echo '<script>
                         Swal.fire({

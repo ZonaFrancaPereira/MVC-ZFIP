@@ -28,37 +28,45 @@ class ModeloOrden{
     ============================================= */
     public static function mdlCrearOrden($tabla, $datos) {
         try {
-           // Obtener la conexión PDO
-           $pdo = Conexion::conectar();
-
-           // Preparar la consulta de inserción
-           $stmt = $pdo->prepare("INSERT INTO $tabla (
-                    fecha_orden, 
-                    proveedor_recurrente, 
-                    forma_pago, 
-                    tiempo_pago, 
-                    porcentaje_anticipo, 
-                    condiciones_negociacion, 
-                    comentario_orden, 
+            // Obtener la conexión PDO
+            $pdo = Conexion::conectar();
+    
+            // Preparar la consulta de inserción
+            $stmt = $pdo->prepare("INSERT INTO $tabla (
+                    fecha_orden,
+                    proveedor_recurrente,
+                    forma_pago,
+                    tiempo_pago,
+                    porcentaje_anticipo,
+                    condiciones_negociacion,
+                    comentario_orden,
                     tiempo_entrega,
-                    total_orden,  
-                    id_cotizante, 
+                    total_orden,
+                    analisis_cotizacion,
+                    estado_orden,
+                    descripcion_declinado,
+                    fecha_aprobacion,
+                    id_cotizante,
                     id_proveedor_fk
                 ) VALUES (
-                    :fecha_orden, 
-                    :proveedor_recurrente, 
-                    :forma_pago, 
-                    :tiempo_pago, 
-                    :porcentaje_anticipo, 
-                    :condiciones_negociacion, 
-                    :comentario_orden, 
+                    :fecha_orden,
+                    :proveedor_recurrente,
+                    :forma_pago,
+                    :tiempo_pago,
+                    :porcentaje_anticipo,
+                    :condiciones_negociacion,
+                    :comentario_orden,
                     :tiempo_entrega,
-                    :total_orden, 
-                    :id_cotizante, 
+                    :total_orden,
+                    :analisis_cotizacion,
+                    :estado_orden,
+                    :descripcion_declinado,
+                    :fecha_aprobacion,
+                    :id_cotizante,
                     :id_proveedor_fk
                 )"
             );
-
+    
             // Vincular los parámetros
             $stmt->bindParam(":fecha_orden", $datos["fecha_orden"], PDO::PARAM_STR);
             $stmt->bindParam(":proveedor_recurrente", $datos["proveedor_recurrente"], PDO::PARAM_STR);
@@ -69,26 +77,24 @@ class ModeloOrden{
             $stmt->bindParam(":comentario_orden", $datos["comentario_orden"], PDO::PARAM_STR);
             $stmt->bindParam(":tiempo_entrega", $datos["tiempo_entrega"], PDO::PARAM_INT);
             $stmt->bindParam(":total_orden", $datos["total_orden"], PDO::PARAM_STR);
+            $stmt->bindParam(":analisis_cotizacion", $datos["analisis_cotizacion"], PDO::PARAM_STR);
+            $stmt->bindParam(":estado_orden", $datos["estado_orden"], PDO::PARAM_STR);
+            $stmt->bindParam(":descripcion_declinado", $datos["descripcion_declinado"], PDO::PARAM_STR);
+            $stmt->bindParam(":fecha_aprobacion", $datos["fecha_aprobacion"], PDO::PARAM_STR);
             $stmt->bindParam(":id_cotizante", $datos["id_cotizante"], PDO::PARAM_INT);
             $stmt->bindParam(":id_proveedor_fk", $datos["id_proveedor_fk"], PDO::PARAM_INT);
-            
-            
            
-           
-           
-           
-           
-           
-
+    
             if ($stmt->execute()) {
-                return "ok";
+                return array("status" => "ok", "id_orden" => $pdo->lastInsertId());
             } else {
                 return "error";
             }
         } catch (PDOException $e) {
             return "error: " . $e->getMessage();
         }
-
+    
         $stmt = null;
     }
+    
 }
