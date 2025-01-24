@@ -17,33 +17,26 @@ class ControladorSadoc
 				$estado = "activo";
 				$id_proceso_fk = $_POST["id_proceso_fk"];
 				
-	
 				// Asegúrate de que la carpeta de destino exista
 				if (!is_dir($ruta_principal)) {
 					mkdir($ruta_principal, 0777, true);
 				}
-	
 				// Mover archivo al directorio de destino
 				if (move_uploaded_file($archivoTmp, $ruta)) {
 					echo "Archivo subido correctamente.";
-	
 					// Aquí va la lógica para guardar los datos en la base de datos
 					$tabla = "sadoc";
 					$datos = array(
 						"codigo" => $codigo,
 						"ruta" => $ruta,
-						
 						"estado" => $estado,
-						
 						"id_proceso_fk" => $id_proceso_fk
 					);
 					$respuesta = ModeloSadoc::mdlIngresarArchivo($tabla, $datos);
 	
 					if (is_array($respuesta)) {
 						$ruta = $respuesta["ruta"];
-						
 						$nombreArchivo = basename($ruta);
-	
 						echo '<script>
 							Swal.fire(
 							"Buen Trabajo!",
@@ -81,6 +74,17 @@ class ControladorSadoc
 
 	 static public function mostrarArchivosPorProceso($id_proceso_fk) {
         $respuesta = ModeloSadoc::mdlObtenerArchivosPorProceso($id_proceso_fk);
+
+		return $respuesta;
+    }
+
+	/*=============================================
+	MOSTRAR ARCHIVOS POR PROCESO
+	=============================================*/
+
+	static public function mostrarCategorias() {
+		$tabla = "categoria_sadoc";
+        $respuesta = ModeloSadoc::mdlObtenerCategorias($tabla);
 
 		return $respuesta;
     }

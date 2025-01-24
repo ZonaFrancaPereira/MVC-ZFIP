@@ -396,7 +396,21 @@ autoWidth: true
         }
     }
 </script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Restaurar la pestaña activa desde el almacenamiento local
+    var activeTab = localStorage.getItem('activeTab');
+    if (activeTab) {
+      $('.nav-pills a[href="' + activeTab + '"]').tab('show');
+    }
 
+    // Guardar la pestaña activa en el almacenamiento local
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+      var tabId = $(e.target).attr('href');
+      localStorage.setItem('activeTab', tabId);
+    });
+  });
+</script>
 </body>
 
 </html>
