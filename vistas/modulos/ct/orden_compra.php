@@ -52,57 +52,7 @@
                         <option value="No">No</option>
                       </select>
                     </div>
-                    <div class="col-md-12 col-xs-12 col-sm-12 pt-2">
-                      <table class="table pt-2" id="tabla">
-                        <thead>
-                          <tr>
-                            <th>Articulo</th>
-                            <th>Cantidad</th>
-                            <th>Valor Unitario</th>
-                            <th>Valor Iva</th>
-                            <th>Total</th>
-                            <th>Observaciones</th>
-                            <th>X</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr class="fila-fija ">
-                            <td class="col-md-2">
-                              <textarea name="articulo_compra[]" id="articulo_compra" class="form-control" cols="10" rows="5"></textarea>
-                            </td>
-                            <td class=" col-md-2">
-                              <input type="number" name="cantidad_orden[]" class="cantidad_orden form-control" placeholder="Unidades" step="any" oninput="actualizarSuma()">
-                            </td>
-                            <td class=" col-md-2">
-                              <input type="number" class="valor_neto form-control" placeholder="Valor sin Iva" value="" name="valor_neto[]" oninput="actualizarSuma()">
-                            </td>
-                            <td class=" col-md-2">
-                              <input type="number" class="valor_iva form-control" placeholder="Valor Iva" value="" name="valor_iva[]" oninput="actualizarSuma()">
-                            </td>
-                            <td class=" col-md-2">
-                              <input type="number" class="valor_total form-control" placeholder="Toltal" value="" name="valor_total[]" step="any">
-                            </td>
-                            <td class="col-md-2">
-                              <textarea name="observaciones_articulo[]" id="observaciones_articulo" class=" form-control" cols="10" rows="5"></textarea>
-                            </td>
-                            <td class="eliminar col-md-1">
-                              <input type="button" class="btn btn-danger" value="X" />
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <div class="row">
-                        <div class="col-md-6">
-                          <label for=""><B>TOTAL ORDEN</B></label>
-
-                          <input type="number" class="form-control input-lg" id="sumaTotal" name="total_orden" total="0" value="0" placeholder="0" readonly>
-                        </div>
-                        <div class="col-md-6">
-                          <label for=""><B>Añade más artículos a la Orden de Compra</B></label>
-                          <button id="adicional" name="adicional" type="button" class="adicional btn btn-info btn-block"> <i class="fas fa-plus"></i> Agregar</button>
-                        </div>
-                      </div>
-                    </div>
+                   
                     <div class="col-12 bg-navy pt-2 mt-3 col-xs-12 col-sm-12">
                       <center>
                         <h5>Forma de Pago</h5>
