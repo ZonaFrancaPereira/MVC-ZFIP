@@ -16,8 +16,12 @@ class ModeloSoporteJuridico
                 correo_solicitante, 
                 id_cargo_fk1, 
                 id_proceso_fk1,
-                tipo_solicitud, 
+                elaboracion_contrato,
+                formulacion_conceptos,
+                respuesta_requerimientos,
                 descripcion_solicitud_juridico,
+                observaciones,
+                firma_solicitante,
                 estado_legal
 
             ) VALUES (
@@ -26,8 +30,12 @@ class ModeloSoporteJuridico
                 :correo_solicitante, 
                 :id_cargo_fk1, 
                 :id_proceso_fk1,
-                :tipo_solicitud, 
+                :elaboracion_contrato, 
+                :formulacion_conceptos,
+                :respuesta_requerimientos,
                 :descripcion_solicitud_juridico,
+                :observaciones,
+                :firma_solicitante,
                 :estado_legal
             )");
 
@@ -36,8 +44,12 @@ class ModeloSoporteJuridico
             $stmt->bindParam(":correo_solicitante", $datos["correo_solicitante"], PDO::PARAM_STR);
             $stmt->bindParam(":id_cargo_fk1", $datos["id_cargo_fk1"], PDO::PARAM_INT);
             $stmt->bindParam(":id_proceso_fk1", $datos["id_proceso_fk1"], PDO::PARAM_INT);
-            $stmt->bindParam(":tipo_solicitud", $datos["tipo_solicitud"], PDO::PARAM_STR);
+            $stmt->bindParam(":elaboracion_contrato", $datos["elaboracion_contrato"], PDO::PARAM_STR);
+            $stmt->bindParam(":formulacion_conceptos", $datos["formulacion_conceptos"], PDO::PARAM_STR);
+            $stmt->bindParam(":respuesta_requerimientos", $datos["respuesta_requerimientos"], PDO::PARAM_STR);
             $stmt->bindParam(":descripcion_solicitud_juridico", $datos["descripcion_solicitud_juridico"], PDO::PARAM_STR);
+            $stmt->bindParam(":observaciones", $datos["observaciones"], PDO::PARAM_STR);
+            $stmt->bindParam(":firma_solicitante", $datos["firma_solicitante"], PDO::PARAM_STR);
             $stmt->bindParam(":estado_legal", $datos["estado_legal"], PDO::PARAM_STR);
 
             // Ejecutar la consulta
@@ -130,12 +142,13 @@ class ModeloSoporteJuridico
     public static function mdlResponderSolicitudJuridico($tabla, $datos)
     {
         $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET
-           fecha_solucion_juridico = :fecha_solucion_juridico, nombre_solucion = :nombre_solucion , solucion_juridico = :solucion_juridico , estado_legal = :estado_legal WHERE id_soporte_juridico = :id_soporte_juridico");
+           fecha_solucion_juridico = :fecha_solucion_juridico, nombre_solucion = :nombre_solucion , solucion_juridico = :solucion_juridico , firma_juridica = :firma_juridica , estado_legal = :estado_legal WHERE id_soporte_juridico = :id_soporte_juridico");
 
         $stmt->bindParam(":fecha_solucion_juridico", $datos["fecha_solucion_juridico"], PDO::PARAM_STR);
         $stmt->bindParam(":nombre_solucion", $datos["nombre_solucion"], PDO::PARAM_STR);
         $stmt->bindParam(":solucion_juridico", $datos["solucion_juridico"], PDO::PARAM_STR);
         $stmt->bindParam(":estado_legal", $datos["estado_legal"], PDO::PARAM_STR);
+        $stmt->bindParam(":firma_juridica", $datos["firma_juridica"], PDO::PARAM_STR);
         $stmt->bindParam(":id_soporte_juridico", $datos["id_soporte_juridico"], PDO::PARAM_INT);
 
         if ($stmt->execute()) {
@@ -167,7 +180,95 @@ class ModeloSoporteJuridico
         $stmt->closeCursor();
         $stmt = null;
     }
+
+    /*=============================================
+    MOSTRAR ELABORACION CONTRATO
+    =============================================*/
+    public static function mdlMostrarElaboracionContrato($tabla, $item, $valor)
+    {
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ");
+        $stmt->execute();
+        return $stmt->fetchAll();
+        $stmt = null;
+    }
+
+    /*=============================================
+    MOSTRAR FORMULACION DE CONCEPTOS E INFORMES
+    =============================================*/
+    public static function mdlMostrarFormulacionConceptos($tabla, $item, $valor)
+    {
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ");
+        $stmt->execute();
+        return $stmt->fetchAll();
+        $stmt = null;
+    }
     
+        /*=============================================
+    MOSTRAR FORMULACION DE CONCEPTOS E INFORMES
+    =============================================*/
+    public static function mdlMostrarRespuestaRequerimientos($tabla, $item, $valor)
+    {
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ");
+        $stmt->execute();
+        return $stmt->fetchAll();
+        $stmt = null;
+    }
+
+    /*=============================================
+    MOSTRAR SOLICITUD LABORAL
+    =============================================*/
+  public static function mdlMostrarSolicitudLaboral($tabla, $item, $valor)
+    {
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE elaboracion_contrato = 'Laboral' AND formulacion_conceptos = 'Laboral'");
+        $stmt->execute();
+        return $stmt->fetchAll();
+        $stmt = null;
+    }
+
+
+    public static function mdlMostrarSoporteJuridicopdf($tabla, $item, $valor, $consulta)
+    {
+        switch ($consulta) {
+            case 'soporte_juridico':
+                // Consulta con filtro
+                $stmt = Conexion::conectar()->prepare("SELECT m.*, p.nombre_proceso, u.*, c.nombre_cargo
+                FROM usuarios m
+                INNER JOIN proceso p ON m.id_proceso_fk = p.id_proceso
+                INNER JOIN soporte_juridico u ON m.id = u.nombre_solicitante
+                INNER JOIN cargos c ON m.id_cargo_fk = c.id_cargo WHERE $item = :valor");
+                $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
+                $stmt->execute();
+                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
+                $stmt = null;
+                break;
+
+            default:
+                $consulta = null;
+                $item = null;
+                $valor = null;
+                break;
+        }
+    }
+
+    
+    /*=============================================
+    MOSTRAR TODOS LOS PROCESOS
+    =============================================*/
+    public static function mdlMostrarProcesos($tablaProcesos, $itemProcesos, $valorProcesos)
+    {
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tablaProcesos ");
+        $stmt->execute();
+        return $stmt->fetchAll();
+        $stmt = null;
+    }
+
+    public static function mdlMostrarUsuarioPorId($idUsuario) {
+        $stmt = Conexion::conectar()->prepare("SELECT id, nombre, apellidos_usuario, correo_usuario, id_cargo_fk, id_proceso_fk, foto FROM usuarios WHERE id = :id");
+        $stmt->bindParam(":id", $idUsuario, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
 
 }
 

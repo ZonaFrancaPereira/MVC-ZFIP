@@ -34,7 +34,9 @@
                                         <th>Cargo</th>
                                         <th>Fecha</th>
                                         <th>Proceso</th>
-                                        <th>Tipo de Solicitud</th>
+                                        <th>Elaboración de Contrato</th>
+                                        <th>Formulación de Conceptos e Informes</th>
+                                        <th>Respuesta de Requerimientos</th>
                                         <th>Descripción</th>
                                         <th>Estado</th>
                                         <th>Responder</th>
@@ -85,6 +87,10 @@
                             <label for="solucion_juridico">Solución</label>
                             <textarea class="form-control" id="solucion_juridico" name="solucion_juridico" rows="3" placeholder="Escribe aquí la solución"></textarea>
                         </div>
+                        <div class="col-md-12 mt-4">
+                                        <label for="firma_juridica" class="font-weight-bold">Firma</label>
+                                        <input type="text" class="form-control" id="firma_juridica" name="firma_juridica" value="<?php echo $_SESSION['foto']; ?>" required >
+                                    </div>
                         <button type="submit" class="btn btn-info btn-block" id="responder_solicitud" name="responder_solicitud">Responder</button>
                         <?php
                             $ResponderSolicitudJuridica = new ControladorSoporteJuridico();
