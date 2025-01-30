@@ -32,7 +32,7 @@ class ControladorOrden
             // Capturar datos del formulario
             $datos = array(
                 "id_cotizante" => $_POST["id_cotizante"],
-                "fecha_orden" => $_POST["fecha_orden"],
+            
                 "id_proveedor_fk" => $_POST["id_proveedor_fk"],
                 "proveedor_recurrente" => $_POST["proveedor_recurrente"],
                 "forma_pago" => $_POST["forma_pago"],

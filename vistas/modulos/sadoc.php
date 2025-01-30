@@ -54,6 +54,29 @@ switch ($procesoActivo) {
 
 <nav class="mt-2">
   <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+    <li class="nav-item has-treeview">
+      <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-cogs"></i>
+        <p>
+          Administrar Sadoc
+          <i class="right fas fa-angle-left"></i>
+        </p>
+      </a>
+      <ul class="nav nav-treeview">
+        <li class="nav-item">
+          <a href="#categorias-container" class="nav-link" data-toggle="tab">
+            <i class="far fa-circle nav-icon"></i>
+            <p>Administrar Categorías</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#gestionarArchivos" class="nav-link" data-toggle="tab">
+            <i class="far fa-circle nav-icon"></i>
+            <p>Gestionar Archivos</p>
+          </a>
+        </li>
+      </ul>
+    </li>
     <li class="nav-item <?php echo ($procesoActivo === 'AC') ? 'active' : ''; ?>" role="presentation">
       <a href="#accesoRapido" class="nav-link" data-toggle="tab">
         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -146,6 +169,122 @@ switch ($procesoActivo) {
       <div class="container-fluid">
         <div class="tab-content card">
 
+        <div id="categorias-container" class="tab-pane fade">
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <br>
+          <div class="card">
+            <div class="card-header bg-primary">
+              <h3 class="card-title">Administrar Categorías</h3>
+            </div>
+            <div class="card-body">
+              <div class="card card-primary card-outline">
+                <div class="card-header p-0">
+                  <!-- Pestañas -->
+                  <ul class="nav nav-tabs" id="categoriasTab" role="tablist">
+                    <li class="nav-item bg-success">
+                      <a class="nav-link" data-toggle="modal" data-target="#modal-categoria">
+                        Nueva Categoría
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active" id="categorias-tab" data-toggle="tab" href="#tab-categorias" role="tab" aria-controls="tab-categorias" aria-selected="true">
+                        Categorías
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="asignar-categorias-tab" data-toggle="tab" href="#tab-asignar-categorias" role="tab" aria-controls="tab-asignar-categorias" aria-selected="false">
+                        Asignar Categorías
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="card-body">
+                  <!-- Contenido de las pestañas -->
+                  <div class="tab-content" id="categoriasTabContent">
+                    <!-- Pestaña Categorías -->
+                    <div class="tab-pane fade show active" id="tab-categorias" role="tabpanel" aria-labelledby="categorias-tab">
+                      <div class="card card-primary card-outline">
+                        <div class="card-header">
+                          <h3 class="card-title">Listado de Categorías</h3>
+                        </div>
+                        <br>
+                        <div class="card-body"> 
+                          <?php
+                          $categoria = ControladorSadoc::mostrarCategorias($id_id_proceso_fk);
+                          ?>
+                          <table class="display table table-striped table-bordered table-hover w-100">
+                            <thead class="text-center">
+                              <tr>
+                                <th>#</th>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              
+                              <?php
+                              foreach ($categoria as $rowc) {
+                                $id_categoria =$rowc["id_categoria"];
+                                $nombre_categoria =$rowc["nombre_categoria"];
+                                $descripcion_categoria =$rowc["descripcion_categoria"];
+                                $estado_categoria =$rowc["estado_categoria"];
+                                echo "<tr>";
+                                echo "<td class='text-center'>" . $id_categoria . "</td>";
+                                echo "<td>" . $nombre_categoria . "</td>";
+                                echo "<td>" . $descripcion_categoria . "</td>";
+                                echo "<td>" . $estado_categoria . "</td>";
+                                echo "<td class='text-center'>";
+                                echo "<button class='btn bg-warning btn-sm'><i class='fas fa-edit'></i> Editar</button>";
+                                echo "<button class='btn bg-danger btn-sm'><i class='fas fa-trash-alt'></i> Eliminar</button>";
+                                echo "</td>";
+                                echo "</tr>";
+                              }
+                              ?>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Pestaña Asignar Categorías -->
+                    <div class="tab-pane fade" id="tab-asignar-categorias" role="tabpanel" aria-labelledby="asignar-categorias-tab">
+                      <p>Contenido de la pestaña <strong>Asignar Categorías</strong>.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+          <div id="gestionarArchivos" class="tab-pane fade">
+            <section class="content">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-12">
+                    <br>
+                    <div class="card">
+                      <div class="card-header">
+                        <h3 class="card-title">Gestionar Archivos</h3>
+                      </div>
+                      <div class="card-body">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in venenatis enim. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
           <!-- DESPLIEGUE DE INFORMACIÓN ACCESO RAPIDO ARCHIVOS Y RUTAS -->
           <div id="accesoRapido" class="tab-pane fade">
             <section class="content">
@@ -211,7 +350,7 @@ switch ($procesoActivo) {
                                 <?php generarTabla(13); ?>
                               </div>
                               <div class=" tab-pane" id="sst">
-                                
+
                                 <?php generarTabla(9); ?>
                               </div>
                             </div>
@@ -230,74 +369,74 @@ switch ($procesoActivo) {
 
           <div id="menu1" class="tab-pane fade <?php echo ($activeTab === 'menu1') ? 'show active' : ''; ?>">
 
-            <?php generarModalConFormulario("modal-SIG", "Archivos Sistema Integrado de Gestión", "Código ej: SIG-", 1, "SIG"); ?>
+            <?php generarPanelProceso("modal-SIG", "Archivos Sistema Integrado de Gestión", "Código ej: SIG-", 1, "SIG"); ?>
 
           </div>
 
           <div id="menu2" class="tab-pane fade <?php echo ($activeTab === 'menu2') ? 'show active' : ''; ?>">
 
-            <?php generarModalConFormulario("modal-TI", "Archivos Tecnología e Informática", "Código ej: TI-", 2, "TI"); ?>
+            <?php generarPanelProceso("modal-TI", "Archivos Tecnología e Informática", "Código ej: TI-", 2, "TI"); ?>
 
           </div>
 
           <div id="menu3" class="tab-pane fade <?php echo ($activeTab === 'menu3') ? 'show active' : ''; ?>">
 
-            <?php generarModalConFormulario("modal-CT", "Archivos Contabilidad", "Código ej: CT-", 3, "CT"); ?>
+            <?php generarPanelProceso("modal-CT", "Archivos Contabilidad", "Código ej: CT-", 3, "CT"); ?>
 
           </div>
 
           <div id="menu4" class="tab-pane fade <?php echo ($activeTab === 'menu4') ? 'show active' : ''; ?>">
 
-            <?php generarModalConFormulario("modal-TEC", "Archivos Técnico", "Código ej: TEC-", 4, "TEC"); ?>
+            <?php generarPanelProceso("modal-TEC", "Archivos Técnico", "Código ej: TEC-", 4, "TEC"); ?>
 
           </div>
 
           <div id="menu5" class="tab-pane fade <?php echo ($activeTab === 'menu5') ? 'show active' : ''; ?>">
 
-            <?php generarModalConFormulario("modal-GH", "Archivos Gestión Humana", "Código ej: GH-", 5, "GH"); ?>
+            <?php generarPanelProceso("modal-GH", "Archivos Gestión Humana", "Código ej: GH-", 5, "GH"); ?>
 
           </div>
 
           <div id="menu6" class="tab-pane fade <?php echo ($activeTab === 'menu6') ? 'show active' : ''; ?>">
 
-            <?php generarModalConFormulario("modal-GD", "Archivos Gestión Documental", "Código ej: GD-", 6, "GD"); ?>
+            <?php generarPanelProceso("modal-GD", "Archivos Gestión Documental", "Código ej: GD-", 6, "GD"); ?>
 
           </div>
 
           <div id="menu7" class="tab-pane fade <?php echo ($activeTab === 'menu7') ? 'show active' : ''; ?>">
 
-            <?php generarModalConFormulario("modal-OP", "Archivos Operaciones", "Código ej: OP-", 7, "OP"); ?>
+            <?php generarPanelProceso("modal-OP", "Archivos Operaciones", "Código ej: OP-", 7, "OP"); ?>
 
           </div>
 
           <div id="menu9" class="tab-pane fade <?php echo ($activeTab === 'menu9') ? 'show active' : ''; ?>">
 
-            <?php generarModalConFormulario("modal-SST", "Archivos Seguridad Salud en el Trabajo", "Código ej: SST-", 9, "SST"); ?>
+            <?php generarPanelProceso("modal-SST", "Archivos Seguridad Salud en el Trabajo", "Código ej: SST-", 9, "SST"); ?>
 
           </div>
 
           <div id="menu10" class="tab-pane fade <?php echo ($activeTab === 'menu10') ? 'show active' : ''; ?>">
 
-            <?php generarModalConFormulario("modal-GR", "Archivos Gerencia", "Código ej: GR-", 10, "GR"); ?>
+            <?php generarPanelProceso("modal-GR", "Archivos Gerencia", "Código ej: GR-", 10, "GR"); ?>
 
           </div>
 
           <div id="menu11" class="tab-pane fade <?php echo ($activeTab === 'menu11') ? 'show active' : ''; ?>">
 
-            <?php generarModalConFormulario("modal-JR", "Archivos Gestión Jurídica", "Código ej: JR-", 11, "JR"); ?>
+            <?php generarPanelProceso("modal-JR", "Archivos Gestión Jurídica", "Código ej: JR-", 11, "JR"); ?>
 
           </div>
 
           <div id="menu12" class="tab-pane fade <?php echo ($activeTab === 'menu12') ? 'show active' : ''; ?>">
 
-            <?php generarModalConFormulario("modal-PLE", "Archivos Planeación Estratégica", "Código ej: PLE-", 12, "PLE"); ?>
+            <?php generarPanelProceso("modal-PLE", "Archivos Planeación Estratégica", "Código ej: PLE-", 12, "PLE"); ?>
 
           </div>
 
           <div id="menu13" class="tab-pane fade <?php echo ($activeTab === 'menu13') ? 'show active' : ''; ?>">
-            
 
-            <?php generarModalConFormulario("modal-SG", "Archivos Seguridad", "Código ej: SG-", 13, "SG"); ?>
+
+            <?php generarPanelProceso("modal-SG", "Archivos Seguridad", "Código ej: SG-", 13, "SG"); ?>
 
           </div>
 
@@ -398,116 +537,44 @@ function generarFormulario($codigo, $id_proceso_fk, $proceso)
   ';
 }
 
-
-function generarModalConFormulario($modalId, $tituloModal, $codigo, $id_proceso_fk, $proceso)
+function generarPanelProceso($modalId, $tituloModal, $codigo, $id_proceso_fk, $proceso)
 {
-
-
-
-  echo '<!-- Modal -->';
-  echo '<div class="modal fade" id="' . $modalId . '">';
-  echo '    <div class="modal-dialog modal-lg">';
-  echo '        <div class="modal-content">';
-  echo '            <div class="modal-header">';
-  echo '                <h4 class="modal-title">' . $tituloModal . '</h4>';
-  echo '                <button type="button" class="close" data-dismiss="modal" aria-label="Close">';
-  echo '                    <span aria-hidden="true">&times;</span>';
-  echo '                </button>';
-  echo '            </div>';
-  echo '            <div class="modal-body">';
-
-  echo '            </div>';
-
-  echo '        </div>';
-  echo '        <!-- /.modal-content -->';
-  echo '    </div>';
-  echo '    <!-- /.modal-dialog -->';
-  echo '</div>';
-  echo '<!-- /.modal -->';
-
-  echo '
-  <!-- Main content -->
-  <section class="content">
-  
-      <!-- Default box -->
-      <div class="card">
-          <div class="card-header">
-              <h3 class="card-title">Gestión de Archivos  :' . $proceso . ' :</h3> <br>
-  
-              <div class="row panel panel-default">
-                  <div class="col-md-4 col-lg-4 text-center">
-                      <button class="btn btn-primary">Crear Carpeta</button>
-                  </div>
-                  <div class="col-md-8 col-lg-8">';
-  generarFormulario($codigo, $id_proceso_fk, $proceso);
-  echo '
-                  </div>
-              </div>
-          </div>
-  
-          <div class="card-body">
-              <div class="row">
-                  <div class="col-12 col-md-5 col-lg-5">
-                      <table class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table table-hover">
-                          <thead class="thead-light">
-                              <tr>
-                                  <th class="text-center">#</th>
-                                  <th><b>Carpetas</b></th>
-                                  <th class="text-center">
-                                      <div id="panel_' . $proceso . '">
-                                          <center>
-                                              <a id="volver_' . $proceso . '">
-                                                  <button class="volver_' . $proceso . ' btn btn-info">
-                                                      <i class="fa fa-chevron-left"></i>
-                                                      Volver
-                                                  </button>
-                                              </a>
-                                              <a id="recargar_' . $proceso . '">
-                                                  <button class="btn btn-success">
-                                                      <i class="fa fa-home"></i>
-                                                      Panel Principal
-                                                  </button>
-                                              </a>
-                                          </center>
-                                      </div>
-                                  </th>
-                              </tr>
-                          </thead>
-                          <tbody id="folder_' . $proceso . '">
-                          </tbody>
-                      </table>
-                  </div>
-                  <div class="col-6 col-md-7 col-lg-7">
-                      <div class="row">
-                          <div class="col-12">
-                              <table class="informacion margen col-xs-12 col-sm-12 col-md-12 col-lg-12 table table-hover">
-                                  <thead class="thead-light">
-                                      <tr>
-                                          <th>#</th>
-                                          <th>Nombre del Archivo</th>
-                                          <th>Fecha de Actualización</th>
-                                          <th>Vista Previa</th>
-                                          <th>X</th>
-                                      </tr>
-                                  </thead>
-                                  <tbody id="descargas_' . $proceso . '">
-                                  </tbody>
-                              </table>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <!-- /.card-body -->
-      </div>
-      <!-- /.card -->
-
-  </section>
-  <!-- /.content -->
-  ';
+  echo $modalId;
+  echo $tituloModal;
+  echo $codigo;
+  echo $id_proceso_fk;
+  echo $proceso;
 }
 
 ?>
+
+<!-- MODAL PARA CREAR NUEVA CATEGORIA -->
+<!-- Modal -->
+<div class="modal fade" id="modal-categoria" tabindex="-1" role="dialog" aria-labelledby="modal-categoriaLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h5 class="modal-title" id="modal-categoriaLabel">Nueva Categoría</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="form-categoria">
+          <div class="form-group">
+            <label for="nombre-categoria">Nombre Categoría</label>
+            <input type="text" class="form-control" id="nombre-categoria" name="nombre-categoria" required>
+          </div>
+          <div class="form-group">
+            <label for="descripcion-categoria">Descripción Categoría</label>
+            <textarea class="form-control" id="descripcion-categoria" name="descripcion-categoria" rows="3" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 

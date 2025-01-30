@@ -9,7 +9,7 @@
       </div>
       <div class="card-body">
         <div class="row">
-          <div class="col-md-6 col-xs-6 col-sm-6">
+          <div class="col-md-6 col-xs-6 col-sm-6" hidden>
             <label>Id Usuario</label>
             <input type="text" name="id_cotizante" id="id_cotizante" value="<?php echo $_SESSION['id'] ?>" class="form-control" readonly>
           </div>
@@ -25,10 +25,7 @@
             <label>Cargo</label>
             <input type="text" name="" value="<?php echo htmlspecialchars($nombre_cargo, ENT_QUOTES, 'UTF-8'); ?>" class="form-control" readonly>
           </div>
-          <div class="col-md-4 col-xs-12 col-sm-12">
-            <label>Fecha</label>
-            <input type="date" name="fecha_orden" class="form-control" id="fecha_orden" required>
-          </div>
+          
           <div class="col-md-4 col-xs-12 col-sm-12">
             <label for="id_proveedor_fk" class="form-label">Proveedor</label>
             <input class="form-control" list="datalistprovedor" id="id_proveedor_fk" placeholder="Identificación de Proveedor" name="id_proveedor_fk" required>
