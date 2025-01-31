@@ -399,7 +399,7 @@ $html = <<<EOF
     <table class="content-table">
         <tr>
             <td><img src="$firma_solicitante" alt="Firma" width="120" style="margin-left: 50px;"></td>
-            <td>$fecha_solucion_juridico</td>
+            <td style="text-align: center;">$fecha_solucion_juridico</td>
             <td><img src="$firma_juridica" alt="Firma" width="120" style="margin-left: 50px;"></td>
         </tr>
         <tr>
