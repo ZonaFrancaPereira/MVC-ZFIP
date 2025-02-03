@@ -16,8 +16,12 @@ class ControladorSoporteJuridico
                 "correo_solicitante" => $_POST["correo_solicitante"],
                 "id_cargo_fk1" => $_POST["id_cargo_fk1"],    
                 "id_proceso_fk1" => $_POST["id_proceso_fk1"], 
-                "tipo_solicitud" => $_POST["tipo_solicitud"], 
+                "elaboracion_contrato" => $_POST["elaboracion_contrato"], 
+                "formulacion_conceptos" => $_POST["formulacion_conceptos"], 
+                "respuesta_requerimientos" => $_POST["respuesta_requerimientos"], 
                 "descripcion_solicitud_juridico" => $_POST["descripcion_solicitud_juridico"],  // Corregido para que coincida
+                "observaciones" => $_POST["observaciones"],
+                "firma_solicitante" => $_POST["firma_solicitante"],
                 "estado_legal" => $_POST["estado_legal"]
             );
             
@@ -98,6 +102,7 @@ class ControladorSoporteJuridico
                 "fecha_solucion_juridico" => $_POST["fecha_solucion_juridico"],
                 "nombre_solucion" => $_POST["nombre_solucion"],
                 "solucion_juridico" => $_POST["solucion_juridico"],
+                "firma_juridica" => $_POST["firma_juridica"],
                 "estado_legal" => $_POST["estado_legal_cerrado"]
             );
     
@@ -191,5 +196,83 @@ class ControladorSoporteJuridico
         }
     }
 
+     /*=============================================
+    MOSTRAR ELABORACION CONTRATO
+    =============================================*/
+
+    public static function ctrMostrarElaboracionContrato($item, $valor)
+    {
+        $tabla = "elaboracion_contrato";
+
+        $respuesta = ModeloSoporteJuridico::mdlMostrarElaboracionContrato($tabla, $item, $valor);
+
+        return $respuesta;
+    }
+
+        /*=============================================
+    MOSTRAR FORMULACION DE CONCEPTOS
+    =============================================*/
+
+    public static function ctrMostrarFormulacionConceptos($item, $valor)
+    {
+        $tabla = "formulacion_conceptos";
+
+        $respuesta = ModeloSoporteJuridico::mdlMostrarFormulacionConceptos($tabla, $item, $valor);
+
+        return $respuesta;
+    }
     
+
+            /*=============================================
+    MOSTRAR REQUERIMIENTOS
+    =============================================*/
+
+    public static function ctrMostrarRespuestaRequerimientos($item, $valor)
+    {
+        $tabla = "respuesta_requerimientos";
+
+        $respuesta = ModeloSoporteJuridico::mdlMostrarRespuestaRequerimientos($tabla, $item, $valor);
+
+        return $respuesta;
+    }
+
+    	/*=============================================
+	MOSTRAR SOLICITUD GALAN
+	=============================================*/
+
+	public static  function ctrMostrarSolicitudLaboral($item, $valor)
+	{
+
+		$tabla = "soporte_juridico";
+
+		$respuesta = ModeloSoporteJuridico::mdlMostrarSolicitudLaboral($tabla, $item, $valor);
+
+		return $respuesta;
+	}
+
+        	/*=============================================
+	MOSTRAR PROCESOS
+	=============================================*/
+
+	public static  function ctrMostrarProcesos($tablaProcesos, $itemProcesos, $valorProcesos)
+	{
+
+		$tablaProcesos = "proceso";
+
+		$respuesta = ModeloSoporteJuridico::mdlMostrarProcesos($tablaProcesos, $itemProcesos, $valorProcesos);
+
+		return $respuesta;
+	}
+
+    public static function ctrMostrarUsuarioPorId($idUsuario) {
+        return ModeloSoporteJuridico::mdlMostrarUsuarioPorId($idUsuario);
+    }
+}
+// Manejo directo de la solicitud AJAX en el controlador
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["idUsuario"])) {
+    require_once "../modelos/juridico.modelo.php"; // Asegurar que el modelo esté disponible
+    $idUsuario = $_POST["idUsuario"];
+    $respuesta = ControladorSoporteJuridico::ctrMostrarUsuarioPorId($idUsuario);
+    echo json_encode($respuesta);
+    exit; // Evita cualquier salida extra
 }
