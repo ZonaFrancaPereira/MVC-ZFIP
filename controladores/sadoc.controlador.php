@@ -2,7 +2,9 @@
 
 class ControladorSadoc
 {
-
+	/*=============================================
+	SUBIR ARCHIVO DEPENDIENDO CATEGORÍA
+	=============================================*/
 	static public function ctrCrearArchivo()
 	{
 		if (isset($_POST["subir"])) {
@@ -16,7 +18,7 @@ class ControladorSadoc
 				$ruta = $ruta_principal . $nombreArchivo;
 				$estado = "activo";
 				$id_proceso_fk = $_POST["id_proceso_fk"];
-				
+
 				// Asegúrate de que la carpeta de destino exista
 				if (!is_dir($ruta_principal)) {
 					mkdir($ruta_principal, 0777, true);
@@ -33,7 +35,7 @@ class ControladorSadoc
 						"id_proceso_fk" => $id_proceso_fk
 					);
 					$respuesta = ModeloSadoc::mdlIngresarArchivo($tabla, $datos);
-	
+
 					if (is_array($respuesta)) {
 						$ruta = $respuesta["ruta"];
 						$nombreArchivo = basename($ruta);
@@ -51,7 +53,7 @@ class ControladorSadoc
 							});
 						</script>';
 					} else {
-							echo '<script>
+						echo '<script>
 						Swal.fire({
 							icon: "error",
 							title: "Oops...",
@@ -72,22 +74,63 @@ class ControladorSadoc
 	MOSTRAR ARCHIVOS POR PROCESO
 	=============================================*/
 
-	 static public function mostrarArchivosPorProceso($id_proceso_fk) {
-        $respuesta = ModeloSadoc::mdlObtenerArchivosPorProceso($id_proceso_fk);
-
+	static public function mostrarArchivosPorProceso($id_proceso_fk)
+	{
+		$respuesta = ModeloSadoc::mdlObtenerArchivosPorProceso($id_proceso_fk);
 		return $respuesta;
-    }
+	}
 
 	/*=============================================
 	MOSTRAR ARCHIVOS POR PROCESO
 	=============================================*/
-
-	static public function mostrarCategorias() {
+	static public function mostrarCategorias()
+	{
 		$tabla = "categoria_sadoc";
-        $respuesta = ModeloSadoc::mdlObtenerCategorias($tabla);
-
+		$respuesta = ModeloSadoc::mdlObtenerCategorias($tabla);
 		return $respuesta;
-    }
+	}
+	/*===================================================================
+	DE AQUI EN ADELANTE SE MOSTRARAN FUNCIONES PARA EL CRUD DE CATEGORIAS
+	=====================================================================*/
+	/*=============================================
+	CREAR CATEGORÍA
+	=============================================*/
+	static public function ctrCrearCategoria()
+	{
+		if (isset($_POST["nuevaCategoria"])) {
+			
+				$nombre_categoria = $_POST["nuevaCategoria"];
+				$descripcion_categoria = $_POST["descripcionCategoria"];
+				$tabla = "categoria_sadoc";
+				$datos = array(
+					"nombre_categoria" => $nombre_categoria,
+					"descripcion_categoria" => $descripcion_categoria,
+					"estado_categoria" => "Activo"
+				);
+
+				$respuesta = ModeloSadoc::mdlIngresarCategoria($tabla, $datos);
+
+				if ($respuesta == "ok") {
+					echo '<script>
+						Swal.fire(
+							"Buen Trabajo!",
+							"La categoría ha sido guardada correctamente.",
+							"success"
+						).then(function() {
+							window.location = "index.php?ruta=categorias";
+						});
+					</script>';
+				} else {
+					echo '<script>
+						Swal.fire({
+							icon: "error",
+							title: "Oops...",
+							text: "No se pudo guardar la categoría.",
+							footer: "<a href=\'ti\'>Soporte TI</a>"
+						});
+					</script>';
+				}
+		
+		}
+	}
 }
-
-
