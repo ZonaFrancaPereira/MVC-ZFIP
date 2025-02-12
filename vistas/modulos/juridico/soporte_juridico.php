@@ -43,31 +43,31 @@
                                     </div>
 
 
-                                    <div class="col-6">
+                                    <div class="col-6" hidden>
                                         <br>
                                         <label for="correo_solicitante">Correo Electrónico</label>
                                         <input type="text" class="form-control" id="correo_solicitante" name="correo_solicitante" required readonly>
                                     </div>
 
-                                    <div class="col-6">
+                                    <div class="col-6" hidden>
                                         <br>
                                         <label for="id_cargo_fk1">Cargo</label>
                                         <input type="text" class="form-control" id="id_cargo_fk1" name="id_cargo_fk1" required readonly>
                                     </div>
 
-                                    <div class="col-6">
+                                    <div class="col-6" hidden>
                                         <br>
                                         <label for="id_proceso_fk1">Proceso</label>
                                         <input type="text" class="form-control" id="id_proceso_fk1" name="id_proceso_fk1" required readonly>
                                     </div>
 
-                                    <div class="col-md-12 mt-4">
+                                    <div class="col-md-12 mt-4" hidden>
                                         <label for="firma_solicitante" class="font-weight-bold">Firma</label>
                                         <input type="text" class="form-control" id="firma_solicitante" name="firma_solicitante" required>
                                     </div>
 
 
-                                    <div class="col-6">
+                                    <div class="col-6" hidden>
                                         <br>
                                         <label for="estado_legal">Estado</label>
                                         <input type="text" class="form-control select2" id="estado_legal" name="estado_legal" required style="width: 100%;"
