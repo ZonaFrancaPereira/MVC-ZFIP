@@ -14,7 +14,10 @@
         </div>
     </div>
 </section>
-
+<?php
+        $cargosPermitidos = [14, 19];
+        if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargosPermitidos)):
+        ?>
 <section class="content">
     <div class="container-fluid">
         <div class="row">
@@ -73,6 +76,8 @@
         </div>
     </div>
 </section>
+<?php endif; ?>
+
 
 <div class="modal fade" id="firmagerente" tabindex="-1" role="dialog" aria-labelledby="firmagerenteLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
