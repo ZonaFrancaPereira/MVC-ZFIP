@@ -169,101 +169,102 @@ switch ($procesoActivo) {
       <div class="container-fluid">
         <div class="tab-content card">
 
-        <div id="categorias-container" class="tab-pane fade">
-  <section class="content">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-12">
-          <br>
-          <div class="card">
-            <div class="card-header bg-primary">
-              <h3 class="card-title">Administrar Categorías</h3>
-            </div>
-            <div class="card-body">
-              <div class="card card-primary card-outline">
-                <div class="card-header p-0">
-                  <!-- Pestañas -->
-                  <ul class="nav nav-tabs" id="categoriasTab" role="tablist">
-                    <li class="nav-item bg-success">
-                      <a class="nav-link" data-toggle="modal" data-target="#modal-categoria">
-                        Nueva Categoría
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link active" id="categorias-tab" data-toggle="tab" href="#tab-categorias" role="tab" aria-controls="tab-categorias" aria-selected="true">
-                        Categorías
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" id="asignar-categorias-tab" data-toggle="tab" href="#tab-asignar-categorias" role="tab" aria-controls="tab-asignar-categorias" aria-selected="false">
-                        Asignar Categorías
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <div class="card-body">
-                  <!-- Contenido de las pestañas -->
-                  <div class="tab-content" id="categoriasTabContent">
-                    <!-- Pestaña Categorías -->
-                    <div class="tab-pane fade show active" id="tab-categorias" role="tabpanel" aria-labelledby="categorias-tab">
-                      <div class="card card-primary card-outline">
-                        <div class="card-header">
-                          <h3 class="card-title">Listado de Categorías</h3>
-                        </div>
-                        <br>
-                        <div class="card-body"> 
-                          <?php
-                          $categoria = ControladorSadoc::mostrarCategorias($id_id_proceso_fk);
-                          ?>
-                          <table class="display table table-striped table-bordered table-hover w-100">
-                            <thead class="text-center">
-                              <tr>
-                                <th>#</th>
-                                <th>Nombre</th>
-                                <th>Descripción</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              
-                              <?php
-                              foreach ($categoria as $rowc) {
-                                $id_categoria =$rowc["id_categoria"];
-                                $nombre_categoria =$rowc["nombre_categoria"];
-                                $descripcion_categoria =$rowc["descripcion_categoria"];
-                                $estado_categoria =$rowc["estado_categoria"];
-                                echo "<tr>";
-                                echo "<td class='text-center'>" . $id_categoria . "</td>";
-                                echo "<td>" . $nombre_categoria . "</td>";
-                                echo "<td>" . $descripcion_categoria . "</td>";
-                                echo "<td>" . $estado_categoria . "</td>";
-                                echo "<td class='text-center'>";
-                                echo "<button class='btn bg-warning btn-sm'><i class='fas fa-edit'></i> Editar</button>";
-                                echo "<button class='btn bg-danger btn-sm'><i class='fas fa-trash-alt'></i> Eliminar</button>";
-                                echo "</td>";
-                                echo "</tr>";
-                              }
-                              ?>
-                            </tbody>
-                          </table>
+          <div id="categorias-container" class="tab-pane fade">
+            <section class="content">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-12">
+                    <br>
+                    <div class="card">
+                      <div class="card-header bg-primary">
+                        <h3 class="card-title">Administrar Categorías</h3>
+                      </div>
+                      <div class="card-body">
+                        <div class="card card-primary card-outline">
+                          <div class="card-header p-0">
+                            <!-- Pestañas -->
+                            <ul class="nav nav-tabs" id="categoriasTab" role="tablist">
+                              <li class="nav-item bg-success">
+                                <a class="nav-link" data-toggle="modal" data-target="#modal-categoria">
+                                  Nueva Categoría
+                                </a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link active" id="categorias-tab" data-toggle="tab" href="#tab-categorias" role="tab" aria-controls="tab-categorias" aria-selected="true">
+                                  Categorías
+                                </a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" id="asignar-categorias-tab" data-toggle="tab" href="#tab-asignar-categorias" role="tab" aria-controls="tab-asignar-categorias" aria-selected="false">
+                                  Asignar Categorías
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
+                          <div class="card-body">
+                            <!-- Contenido de las pestañas -->
+                            <div class="tab-content" id="categoriasTabContent">
+                              <!-- Pestaña Categorías -->
+                              <div class="tab-pane fade show active" id="tab-categorias" role="tabpanel" aria-labelledby="categorias-tab">
+                                <div class="card card-primary card-outline">
+                                  <div class="card-header">
+                                    <h3 class="card-title">Listado de Categorías</h3>
+                                  </div>
+                                  <br>
+                                  <div class="card-body">
+                                    <?php
+                                    $categoria = ControladorSadoc::mostrarCategorias($id_id_proceso_fk);
+                                    ?>
+                                    <table class="display table table-striped table-bordered table-hover w-100">
+                                      <thead class="text-center">
+                                        <tr>
+                                          <th>#</th>
+                                          <th>Nombre</th>
+                                          <th>Descripción</th>
+                                          <th>Estado</th>
+                                          <th>Acciones</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+
+                                        <?php
+                                        foreach ($categoria as $rowc) {
+                                          $id_categoria = $rowc["id_categoria"];
+                                          $nombre_categoria = $rowc["nombre_categoria"];
+                                          $descripcion_categoria = $rowc["descripcion_categoria"];
+                                          $estado_categoria = $rowc["estado_categoria"];
+                                          echo "<tr>";
+                                          echo "<td class='text-center'>" . $id_categoria . "</td>";
+                                          echo "<td>" . $nombre_categoria . "</td>";
+                                          echo "<td>" . $descripcion_categoria . "</td>";
+                                          echo "<td>" . $estado_categoria . "</td>";
+                                          echo "<td class='text-center'>";
+                                          echo "<button class='btn bg-warning btn-sm'><i class='fas fa-edit'></i> Editar</button>";
+                                          echo "<button class='btn bg-danger btn-sm'><i class='fas fa-trash-alt'></i> Eliminar</button>";
+                                          echo "</td>";
+                                          echo "</tr>";
+                                        }
+                                        ?>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- Pestaña Asignar Categorías -->
+                              <div class="tab-pane fade" id="tab-asignar-categorias" role="tabpanel" aria-labelledby="asignar-categorias-tab">
+                                <p>Contenido de la pestaña <strong>Asignar Categorías</strong>.</p>
+                              </div>
+                              <?php require "sadoc/categoria_sadoc.php"; ?>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <!-- Pestaña Asignar Categorías -->
-                    <div class="tab-pane fade" id="tab-asignar-categorias" role="tabpanel" aria-labelledby="asignar-categorias-tab">
-                      <p>Contenido de la pestaña <strong>Asignar Categorías</strong>.</p>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </section>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
-</div>
 
 
           <div id="gestionarArchivos" class="tab-pane fade">
@@ -365,82 +366,53 @@ switch ($procesoActivo) {
             </section><!-- /.content -->
           </div><!-- /.tab-pane -->
 
-
-
           <div id="menu1" class="tab-pane fade <?php echo ($activeTab === 'menu1') ? 'show active' : ''; ?>">
-
             <?php generarPanelProceso("modal-SIG", "Archivos Sistema Integrado de Gestión", "Código ej: SIG-", 1, "SIG"); ?>
-
           </div>
 
           <div id="menu2" class="tab-pane fade <?php echo ($activeTab === 'menu2') ? 'show active' : ''; ?>">
-
             <?php generarPanelProceso("modal-TI", "Archivos Tecnología e Informática", "Código ej: TI-", 2, "TI"); ?>
-
           </div>
 
           <div id="menu3" class="tab-pane fade <?php echo ($activeTab === 'menu3') ? 'show active' : ''; ?>">
-
             <?php generarPanelProceso("modal-CT", "Archivos Contabilidad", "Código ej: CT-", 3, "CT"); ?>
-
           </div>
 
           <div id="menu4" class="tab-pane fade <?php echo ($activeTab === 'menu4') ? 'show active' : ''; ?>">
-
             <?php generarPanelProceso("modal-TEC", "Archivos Técnico", "Código ej: TEC-", 4, "TEC"); ?>
-
           </div>
 
           <div id="menu5" class="tab-pane fade <?php echo ($activeTab === 'menu5') ? 'show active' : ''; ?>">
-
             <?php generarPanelProceso("modal-GH", "Archivos Gestión Humana", "Código ej: GH-", 5, "GH"); ?>
-
           </div>
 
           <div id="menu6" class="tab-pane fade <?php echo ($activeTab === 'menu6') ? 'show active' : ''; ?>">
-
             <?php generarPanelProceso("modal-GD", "Archivos Gestión Documental", "Código ej: GD-", 6, "GD"); ?>
-
           </div>
 
           <div id="menu7" class="tab-pane fade <?php echo ($activeTab === 'menu7') ? 'show active' : ''; ?>">
-
             <?php generarPanelProceso("modal-OP", "Archivos Operaciones", "Código ej: OP-", 7, "OP"); ?>
-
           </div>
 
           <div id="menu9" class="tab-pane fade <?php echo ($activeTab === 'menu9') ? 'show active' : ''; ?>">
-
             <?php generarPanelProceso("modal-SST", "Archivos Seguridad Salud en el Trabajo", "Código ej: SST-", 9, "SST"); ?>
-
           </div>
 
           <div id="menu10" class="tab-pane fade <?php echo ($activeTab === 'menu10') ? 'show active' : ''; ?>">
-
             <?php generarPanelProceso("modal-GR", "Archivos Gerencia", "Código ej: GR-", 10, "GR"); ?>
-
           </div>
 
           <div id="menu11" class="tab-pane fade <?php echo ($activeTab === 'menu11') ? 'show active' : ''; ?>">
-
             <?php generarPanelProceso("modal-JR", "Archivos Gestión Jurídica", "Código ej: JR-", 11, "JR"); ?>
-
           </div>
 
           <div id="menu12" class="tab-pane fade <?php echo ($activeTab === 'menu12') ? 'show active' : ''; ?>">
-
             <?php generarPanelProceso("modal-PLE", "Archivos Planeación Estratégica", "Código ej: PLE-", 12, "PLE"); ?>
-
           </div>
 
           <div id="menu13" class="tab-pane fade <?php echo ($activeTab === 'menu13') ? 'show active' : ''; ?>">
-
-
             <?php generarPanelProceso("modal-SG", "Archivos Seguridad", "Código ej: SG-", 13, "SG"); ?>
-
           </div>
-
-
         </div><!-- /.tab-content card -->
       </div><!-- /.container-fluid -->
     </div><!-- /#page-content-wrapper -->
@@ -549,32 +521,7 @@ function generarPanelProceso($modalId, $tituloModal, $codigo, $id_proceso_fk, $p
 ?>
 
 <!-- MODAL PARA CREAR NUEVA CATEGORIA -->
-<!-- Modal -->
-<div class="modal fade" id="modal-categoria" tabindex="-1" role="dialog" aria-labelledby="modal-categoriaLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header bg-primary">
-        <h5 class="modal-title" id="modal-categoriaLabel">Nueva Categoría</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form id="form-categoria">
-          <div class="form-group">
-            <label for="nombre-categoria">Nombre Categoría</label>
-            <input type="text" class="form-control" id="nombre-categoria" name="nombre-categoria" required>
-          </div>
-          <div class="form-group">
-            <label for="descripcion-categoria">Descripción Categoría</label>
-            <textarea class="form-control" id="descripcion-categoria" name="descripcion-categoria" rows="3" required></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary">Guardar</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+
 
 
 

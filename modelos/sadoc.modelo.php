@@ -82,5 +82,46 @@ REGISTRO DE archivos
             return [];
         }
     }
-    
+    /*=============================================
+	DE AQUI EN ADELANTE DE CREARAN LOS MODELOS DE CATEGORIAS SADOC
+	=============================================*/
+    static public function mdlIngresarCategoria($tabla, $datos)
+    {
+        try {
+            // Obtener la conexión PDO
+            $pdo = Conexion::conectar();
+            // Preparar la consulta de inserción
+            $stmt = $pdo->prepare("INSERT INTO $tabla (
+            nombre_categoria,
+            descripcion_categoria,
+            estado_categoria
+        ) VALUES (
+            :nombre_categoria,
+            :descripcion_categoria,
+            :estado_categoria
+        )");
+
+            // Vincular parámetros
+            $stmt->bindParam(":nombre_categoria", $datos["nombre_categoria"], PDO::PARAM_STR);
+            $stmt->bindParam(":descripcion_categoria", $datos["descripcion_categoria"], PDO::PARAM_STR);
+            $stmt->bindParam(":estado_categoria", $datos["estado_categoria"], PDO::PARAM_STR);
+
+            // Ejecutar la consulta
+            if ($stmt->execute()) {
+                // Cerrar el cursor y liberar recursos
+                $stmt->closeCursor();
+                $stmt = null;
+                // Devolver un array con el nombre de la categoría
+                return "ok";
+            } else {
+                // Capturar y mostrar el error SQL
+                $error = $stmt->errorInfo();
+                return "error: " . $error[2];
+            }
+        } catch (PDOException $e) {
+            // Manejar errores
+            return "error: " . $e->getMessage();
+        }
+    }
+   
 }

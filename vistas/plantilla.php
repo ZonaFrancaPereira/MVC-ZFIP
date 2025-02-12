@@ -398,19 +398,34 @@ autoWidth: true
 </script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // Restaurar la pestaña activa desde el almacenamiento local
-    var activeTab = localStorage.getItem('activeTab');
-    if (activeTab) {
-      $('.nav-pills a[href="' + activeTab + '"]').tab('show');
+    // Función para restaurar una pestaña activa
+    function restoreActiveTab(storageKey, selector) {
+      var activeTab = localStorage.getItem(storageKey);
+      if (activeTab) {
+        $(selector + ' a[href="' + activeTab + '"]').tab('show');
+      }
     }
 
-    // Guardar la pestaña activa en el almacenamiento local
+    // Restaurar la pestaña activa de nivel principal
+    restoreActiveTab('activeTab', '.nav-pills');
+
+    // Restaurar las pestañas activas de nivel secundario
+    restoreActiveTab('activeSubTab', '.tab-content .nav-pills');
+
+    // Guardar la pestaña activa de nivel principal
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
       var tabId = $(e.target).attr('href');
-      localStorage.setItem('activeTab', tabId);
+      if ($(e.target).closest('.nav-pills').length) {
+        // Es una pestaña de nivel principal
+        localStorage.setItem('activeTab', tabId);
+      } else {
+        // Es una pestaña secundaria
+        localStorage.setItem('activeSubTab', tabId);
+      }
     });
   });
 </script>
+
 </body>
 
 </html>
