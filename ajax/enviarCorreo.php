@@ -305,7 +305,7 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
 
                     // Si el contrato es "Laboral", también enviar a 'ygarciaz@zonafrancadepereira.com'
                     if ($elaboracion_contrato === 'Laboral') {
-                        $mail->addAddress('ygarciaz@zonafrancadepereira.com');
+                        $mail->addAddress('agalan@zonafrancadepereira.com');
                     }
 
                     // Preparar el título y el cuerpo del mensaje de correo electrónico
