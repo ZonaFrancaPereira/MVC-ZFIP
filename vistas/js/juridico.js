@@ -244,3 +244,12 @@ $('#estadoSoporteModal').on('show.bs.modal', function (event) {
 
 	modal.find('.modal-body #aceptar_solicitud').val(aceptar_solicitud);
 });
+
+$('#firmagerente').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); // Botón que activó el modal
+    var id_soporte_gerente = button.data('id_soporte_juridico'); // Extraer el ID correctamente
+
+    // Asignar el valor al input oculto dentro del modal
+    var modal = $(this);
+    modal.find('.modal-body #id_soporte_gerente').val(id_soporte_gerente);
+});

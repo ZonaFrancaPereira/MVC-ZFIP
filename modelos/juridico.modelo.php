@@ -243,9 +243,7 @@ class ModeloSoporteJuridico
                 break;
 
             default:
-                $consulta = null;
-                $item = null;
-                $valor = null;
+                return null;
                 break;
         }
     }
@@ -267,6 +265,23 @@ class ModeloSoporteJuridico
         $stmt->bindParam(":id", $idUsuario, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    public static function mdlFirmaGerente($tabla, $datos)
+    {
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET firma_solicitante = :firma_solicitante, estado_legal = :estado_legal WHERE id_soporte_juridico = :id_soporte_juridico");
+
+        $stmt->bindParam(":firma_solicitante", $datos["firma_solicitante"], PDO::PARAM_STR);
+        $stmt->bindParam(":estado_legal", $datos["estado_legal"], PDO::PARAM_STR);
+        $stmt->bindParam(":id_soporte_juridico", $datos["id_soporte_juridico"], PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return "ok";
+        } else {
+            return "error";
+        }
+
+        $stmt->closeCursor();
+        $stmt = null;
     }
 
 

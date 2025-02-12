@@ -114,6 +114,8 @@
                                         </select>
                                     </div>
 
+
+
                                     <!-- Tipo de Solicitud: Respuesta de Requerimientos -->
                                     <div class="col-md-6">
                                         <label for="respuesta_requerimientos" class="form-label text-primary fw-bold">
@@ -191,6 +193,20 @@
                     console.error("Error en la petición AJAX: ", error);
                 }
             });
+        });
+    });
+
+    $(document).ready(function() {
+        $("#elaboracion_contrato, #formulacion_conceptos").change(function() {
+            let elaboracionContrato = $("#elaboracion_contrato").val();
+            let formulacionConceptos = $("#formulacion_conceptos").val();
+
+            if (elaboracionContrato === "Laboral" || formulacionConceptos === "Laboral") {
+                $("#estado_legal").val("Revision Gerencia");
+                $("#firma_solicitante").val("vistas/img/usuarios/default/sinautorizar.png");
+            } else {
+                $("#estado_legal").val("Proceso");
+            }
         });
     });
 </script>

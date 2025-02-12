@@ -30,15 +30,12 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Nombre</th>
-                                        <th>Correo</th>
                                         <th>Cargo</th>
                                         <th>Fecha</th>
                                         <th>Proceso</th>
-                                        <th>Elaboración de Contrato</th>
-                                        <th>Formulación de Conceptos e Informes</th>
-                                        <th>Respuesta de Requerimientos</th>
                                         <th>Descripción</th>
                                         <th>Estado</th>
+                                        <th>Formato</th>
                                         <th>Responder</th>
                                     </tr>
                                 </thead>
@@ -64,7 +61,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <form  method="POST" enctype="multipart/form-data">
+                    <form method="POST" enctype="multipart/form-data">
                         <div class="form-group" hidden>
                             <label>Desea Darle Respuesta a esta Solicitud:</label><input type="text" class="form-control" value="" name="id_soporte_juridico" id="id_soporte_juridico" readonly>
                         </div>
@@ -72,30 +69,30 @@
                             <label for="fecha_solucion_juridico">Fecha Solución</label>
                             <input type="date" name="fecha_solucion_juridico" class="form-control" id="fecha_solucion_juridico" required>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="nombre_solucion">Nombre de Usuario quien da respuesta a la solicitud</label>
                             <input type="text" class="form-control select2" id="nombre_solucion" name="nombre_solucion" required style="width: 100%;"
-                                            value="<?php echo $_SESSION["nombre"]; ?>" readonly> <!-- El correo del usuario logueado -->
+                                value="<?php echo $_SESSION["nombre"]; ?>" readonly> <!-- El correo del usuario logueado -->
                         </div>
-                        <div class="form-group">
-                            <label for="estado_legal_cerrado">Nombre de Usuario quien da respuesta a la solicitud</label>
+                        <div class="form-group" hidden>
+                            <label for="estado_legal_cerrado">Estado elgal</label>
                             <input type="text" class="form-control select2" id="estado_legal_cerrado" name="estado_legal_cerrado" required style="width: 100%;"
-                                            value="Cerrado" readonly> <!-- El correo del usuario logueado -->
+                                value="Cerrado" readonly> <!-- El correo del usuario logueado -->
                         </div>
                         <div class="form-group">
                             <label for="solucion_juridico">Solución</label>
                             <textarea class="form-control" id="solucion_juridico" name="solucion_juridico" rows="3" placeholder="Escribe aquí la solución"></textarea>
                         </div>
-                        <div class="col-md-12 mt-4">
-                                        <label for="firma_juridica" class="font-weight-bold">Firma</label>
-                                        <input type="text" class="form-control" id="firma_juridica" name="firma_juridica" value="<?php echo $_SESSION['foto']; ?>" required >
-                                    </div>
+                        <div class="col-md-12 mt-4" hidden>
+                            <label for="firma_juridica" class="font-weight-bold">Firma</label>
+                            <input type="text" class="form-control" id="firma_juridica" name="firma_juridica" value="<?php echo $_SESSION['foto']; ?>" required>
+                        </div>
                         <button type="submit" class="btn btn-info btn-block" id="responder_solicitud" name="responder_solicitud">Responder</button>
                         <?php
-                            $ResponderSolicitudJuridica = new ControladorSoporteJuridico();
-                            $ResponderSolicitudJuridica->ctrResponderSolicitudJuridico();
-                            ?>
+                        $ResponderSolicitudJuridica = new ControladorSoporteJuridico();
+                        $ResponderSolicitudJuridica->ctrResponderSolicitudJuridico();
+                        ?>
                     </form>
                 </div>
             </div>

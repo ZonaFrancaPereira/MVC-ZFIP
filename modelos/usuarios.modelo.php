@@ -137,13 +137,13 @@ class ModeloUsuarios
 
 		
 	/*=============================================
-			ENVIO DE CORREO PARA SOLICITUD DE SOPORTE TECNICO
+			ENVIO DE CORREO PARA SOLICITUD DE SOPORTE JURIDICO
 		=============================================*/
 
 		static public function mdlMostrarUsuariosCorreoJuridico($tabla, $item, $valor)
 			{
 				// Consulta con INNER JOIN entre usuarios y actividades_acpm
-						$stmt = Conexion::conectar()->prepare("SELECT u.nombre, u.apellidos_usuario, u.correo_usuario, a.descripcion_solicitud_juridico,a.correo_solicitante, p.*, a.*
+						$stmt = Conexion::conectar()->prepare("SELECT u.nombre, u.apellidos_usuario, u.correo_usuario, a.descripcion_solicitud_juridico, a.correo_solicitante, p.*, a.*
 						FROM $tabla u
 						INNER JOIN soporte_juridico a ON u.id = a.nombre_solicitante
 						INNER JOIN proceso p ON u.id_proceso_fk = p.id_proceso
@@ -156,25 +156,25 @@ class ModeloUsuarios
 					return $stmt->fetchAll();
 			}
 
-			static public function mdlEnviarSolucion($tabla)
-{
-    try {
-        $stmt = Conexion::conectar()->prepare(
-            "SELECT u.nombre, u.apellidos_usuario, u.correo_usuario, 
+	static public function mdlEnviarSolucion($tabla)
+	{
+		try {
+			$stmt = Conexion::conectar()->prepare(
+				"SELECT u.nombre, u.apellidos_usuario, u.correo_usuario, 
                     a.descripcion_solicitud_juridico, a.correo_solicitante, a.*
              FROM $tabla u
              INNER JOIN soporte_juridico a ON u.id = a.nombre_solicitante"
-        );
+			);
 
-        $stmt->execute();
-        
-        return $stmt->fetchAll(); // Obtener todos los resultados
-    } catch (PDOException $e) {
-        // Manejar el error, si ocurre
-        echo "Error en la consulta: " . $e->getMessage();
-        return [];
-    }
-}
+			$stmt->execute();
+
+			return $stmt->fetchAll(); // Obtener todos los resultados
+		} catch (PDOException $e) {
+			// Manejar el error, si ocurre
+			echo "Error en la consulta: " . $e->getMessage();
+			return [];
+		}
+	}
 
 			
 

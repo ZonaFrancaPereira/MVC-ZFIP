@@ -145,6 +145,11 @@ $firma_solicitante = $baseUrl . $ruta_solicitante;
 
 $ruta_juridica = $row["firma_juridica"];
 $firma_juridica = $baseUrl . $ruta_juridica;
+if (is_null($ruta_juridica) || empty($ruta_juridica)) {
+    $firma_juridica = $baseUrl . 'vistas/img/usuarios/default/sinautorizar.png';
+} else {
+    $firma_juridica = $baseUrl . $ruta_juridica;
+}
 
 
 $nombreImagen = "images/logo_zf.png";

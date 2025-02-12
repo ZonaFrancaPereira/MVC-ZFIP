@@ -56,18 +56,17 @@ class TablaSoporteJuridico
                     <i class='fas fa-file-signature'></i> Responder
                     </button>";
 
+                $formato_abierto ="<a target='_blank' href='extensiones/tcpdf/pdf/sjuridicopdf.php?id={$s["id_soporte_juridico"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
+
                 return [
                     $s["id_soporte_juridico"],
                     $s["nombre_solicitante"],
-                    $s["correo_solicitante"],
                     $s["id_cargo_fk1"],
                     $s["fecha_solicitud"],
                     $s["id_proceso_fk1"],
-                    $s["elaboracion_contrato"],
-                    $s["formulacion_conceptos"],
-                    $s["respuesta_requerimientos"],
                     $s["descripcion_solicitud_juridico"],
                     $s["estado_legal"],
+                    $formato_abierto,
                     $respuestaJuridico
                 ];
                 case 'solicitudjuridicofinalizada':
@@ -75,13 +74,9 @@ class TablaSoporteJuridico
                     return [
                     $s["id_soporte_juridico"],
                     $s["nombre_solicitante"],
-                    $s["correo_solicitante"],
                     $s["id_cargo_fk1"],
                     $s["fecha_solicitud"],
                     $s["id_proceso_fk1"],
-                    $s["elaboracion_contrato"],
-                    $s["formulacion_conceptos"],
-                    $s["respuesta_requerimientos"],
                     $s["descripcion_solicitud_juridico"],
                     $s["fecha_solucion_juridico"],
                     $s["nombre_solucion"],
@@ -112,18 +107,17 @@ class TablaSoporteJuridico
                             $aceptar = "<button type='button' class='btn btn-outline-info' data-toggle='modal' data-target='#estadoSoporteModal' data-aceptar_solicitud='{$s["id_soporte_juridico"]}'>
                     <i class='fas fa-file-signature'></i> Responder
                     </button>";
-                            return [
+
+                    $formato_legal ="<a target='_blank' href='extensiones/tcpdf/pdf/sjuridicopdf.php?id={$s["id_soporte_juridico"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
+                                       return [
                                 $s["id_soporte_juridico"],
                                 $s["nombre_solicitante"],
-                                $s["correo_solicitante"],
                                 $s["id_cargo_fk1"],
                                 $s["fecha_solicitud"],
                                 $s["id_proceso_fk1"],
-                                $s["elaboracion_contrato"],
-                                $s["formulacion_conceptos"],
-                                $s["respuesta_requerimientos"],
                                 $s["descripcion_solicitud_juridico"],
                                 $s["estado_legal"],
+                                $formato_legal,
                                 $aceptar
                             ];
 

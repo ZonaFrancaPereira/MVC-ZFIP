@@ -30,13 +30,9 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Nombre</th>
-                                        <th>Correo</th>
                                         <th>Cargo</th>
                                         <th>Fecha</th>
                                         <th>Proceso</th>
-                                        <th>Elaboración de Contrato</th>
-                                        <th>Formulación de Conceptos e Informes</th>
-                                        <th>Respuesta de Requerimientos</th>
                                         <th>Descripción</th>
                                         <th>Fecha Solución</th>
                                         <th>Nombre Solución</th>

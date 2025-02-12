@@ -36,7 +36,7 @@ class ControladorSoporteJuridico
                     icon: "success"
                 }).then(function() {
                     var datosCorreo = {
-                        id_usuario_fk: "' . $_SESSION["id"] . '",
+                        id_usuario_fk: "' . $_POST["nombre_solicitante"] . '",
                         modulo: "soporte_juridico",
                         id_consulta: "' . $_POST["id_soporte_juridico"] . '",
                         destinatario: "ninguno"
@@ -267,7 +267,61 @@ class ControladorSoporteJuridico
     public static function ctrMostrarUsuarioPorId($idUsuario) {
         return ModeloSoporteJuridico::mdlMostrarUsuarioPorId($idUsuario);
     }
+
+
+    public static function ctrFirmaGerente(){
+        if (isset($_POST["id_soporte_gerente"])) {
+            $tabla = "soporte_juridico";
+            $datos = array(
+                "id_soporte_juridico" => $_POST["id_soporte_gerente"],
+                "estado_legal" => $_POST["estado_legal_gerencia"],
+                "firma_solicitante" => $_POST["firma_gerente"]
+            );
+    
+            $respuesta = ModeloSoporteJuridico::mdlFirmaGerente($tabla, $datos);
+    
+            if ($respuesta == "ok") {
+                echo '<script>
+                Swal.fire({
+                    title: "Buen Trabajo!",
+                    text: "Se ha firmado la solicitud con éxito.",
+                    icon: "success"
+                }).then(function() {
+                    document.getElementById("formulario").reset(); // Reemplaza con el ID correcto de tu formulario
+                    $("#firma_gerente").addClass("active");
+                });
+                </script>';
+            } else {
+                echo '<script>
+                    Swal.fire({
+                        type: "error",
+                        title: "¡No se pudo firmar la solicitud!",
+                        showConfirmButton: true,
+                        confirmButtonText: "Cerrar"
+                    });
+                </script>';
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
 // Manejo directo de la solicitud AJAX en el controlador
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["idUsuario"])) {
     require_once "../modelos/juridico.modelo.php"; // Asegurar que el modelo esté disponible

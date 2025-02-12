@@ -284,14 +284,12 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
                 break;
 
             case 'soporte_juridico':
-                $mail->addAddress('malvarez@zonafrancadepereira.com');
-                // Capturar el id del usuario desde la variable $id_usuario_fk
+             // Capturar el id del usuario desde la variable $id_usuario_fk
                 $item = 'id';
                 $valor = $id_usuario_fk;
                 $usuarios = ControladorUsuarios::ctrMostrarUsuariosSolicitud($item, $valor);
 
                 if (!empty($usuarios)) {
-                    // Asignar valores obtenidos de la consulta
                     foreach ($usuarios as $value) {
                         $nombre_usuario = $value['nombre'];
                         $apellidos_usuario = $value['apellidos_usuario'];
@@ -299,12 +297,21 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
                         $descripcion_solicitud_juridico = $value['descripcion_solicitud_juridico'];
                         $correo_soporte = $value['correo_usuario'];
                         $proceso = $value['siglas_proceso'];
+                        $elaboracion_contrato = $value['elaboracion_contrato']; // Obtener el campo de elaboración de contrato
+                    }
+
+                    // Enviar el correo a 'malvarez@zonafrancadepereira.com' siempre
+                    $mail->addAddress('malvarez@zonafrancadepereira.com'); 
+
+                    // Si el contrato es "Laboral", también enviar a 'ygarciaz@zonafrancadepereira.com'
+                    if ($elaboracion_contrato === 'Laboral') {
+                        $mail->addAddress('ygarciaz@zonafrancadepereira.com');
                     }
 
                     // Preparar el título y el cuerpo del mensaje de correo electrónico
                     $titulo_correo = "Nueva Solicitud Legal - Usuario: " . $nombre_usuario;
                     $message = "
-                                            <html><body>
+                        <html><body>
                             <div style='max-width: 600px; margin: 0 auto;padding: 20px;border: 1px solid #ccc;border-radius: 5px;'>
                                 <div style='background-color: #F8F9F9;color: black;text-align: center;padding: 10px;border-radius: 5px 5px 0 0;'>
                                     <img src='https://zonafrancadepereira.com/wp-content/uploads/2020/11/cropped-ZONA-FRANCA-LOGO-PNG-1-1-1-206x81.png'>
@@ -316,7 +323,7 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
                                         <li>Correo del solicitante: $correo_soporte</li>
                                         <li>Usuario solicitante: $nombre_usuario</li>
                                         <li>Proceso relacionado: $proceso</li>
-                                        <li>Descripción de las solicitud: $descripcion_solicitud_juridico</li>
+                                        <li>Descripción de la solicitud: $descripcion_solicitud_juridico</li>
                                     </ul>
                                     <p>Por favor, toma las acciones necesarias para abordar esta solicitud lo antes posible.</p>
                                     <p>Inicia sesión en nuestro sistema para revisar la Solicitud.</p>
@@ -331,12 +338,12 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
                                     <p>Este es un mensaje automático, por favor no respondas a este correo.</p>
                                 </div>
                             </div>
-                            </body></html>";
+                        </body></html>";
                 } else {
-                    // Manejar el caso en el que no se encuentre ningún usuario
                     echo "No se encontró el usuario con ID: $id_usuario_fk";
                 }
                 break;
+                
             case 'solicitudes_juridico':
 
                     // Capturar el id del usuario desde la variable $id_usuario_fk
