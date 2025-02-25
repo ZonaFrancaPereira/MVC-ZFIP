@@ -1,5 +1,9 @@
 {
     "cSpell.words": [
         "Tecnica"
-    ]
+    ],
+    "search.actionsPosition": "right",
+    "workbench.editor.tabActionLocation": "right",
+    "workbench.editor.openPositioning": "left",
+    "workbench.editor.openSideBySideDirection": "right"
 }

@@ -4,73 +4,71 @@
 class ControladorSoporte
 {
 
-
     static public function ctrCrearSoporte()
     {
-
         if (isset($_POST["descripcion_soporte"])) {
-            //...
+            $idUsuario = $_SESSION['id']; // Valor por defecto
+    
+            // Si el usuario tiene cargo 1 o 2 y seleccionó un usuario en el select, usar ese valor
+            if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], [1, 2]) && !empty($_POST["id_usuario_fk"])) {
+                $idUsuario = $_POST["id_usuario_fk"];
+            }
+    
             $tabla = "soporte";
             $datos = array(
-                "id_usuario_fk" => $_SESSION['id'],
+                "id_usuario_fk" => $idUsuario,
                 "descripcion_soporte" => $_POST["descripcion_soporte"]
             );
-
+    
             $respuesta = ModeloSoporte::mdlIngresarSoporte($tabla, $datos);
-            
+    
             if (is_numeric($respuesta)) {
-                // Llamar a la función EnviarCorreo con el id_usuario_fk
                 echo '<script>
-                // Mostrar mensaje de éxito con SweetAlert
-                Swal.fire({
-                    title: "Buen Trabajo!",
-                    text: "La solicitud número: ' . $respuesta . ' ha sido registrada con éxito.",
-                    icon: "success"
-                }).then(function() {
-                    // Enviar datos por AJAX después de cerrar la alerta
-                    var datosCorreo = {
-                        id_usuario_fk: "' . $_SESSION["id"] . '",
-                        modulo: "soporte",
-                        id_consulta: "' . $respuesta . '",
-                        destinatario: "ninguno"
-                    };
-                    
-                    $.ajax({
-                        url: "ajax/enviarCorreo.php",
-                        method: "POST",
-                        data: JSON.stringify(datosCorreo),
-                        cache: false,
-                        contentType: "application/json",
-                        processData: false,
-                        success: function(respuesta) {
-                            console.log("respuesta", respuesta);
-                        }
+                    Swal.fire({
+                        title: "Buen Trabajo!",
+                        text: "La solicitud número: ' . $respuesta . ' ha sido registrada con éxito.",
+                        icon: "success"
+                    }).then(function() {
+                        var datosCorreo = {
+                            id_usuario_fk: "' . $idUsuario . '",
+                            modulo: "soporte",
+                            id_consulta: "' . $respuesta . '",
+                            destinatario: "ninguno"
+                        };
+    
+                        $.ajax({
+                            url: "ajax/enviarCorreo.php",
+                            method: "POST",
+                            data: JSON.stringify(datosCorreo),
+                            cache: false,
+                            contentType: "application/json",
+                            processData: false,
+                            success: function(respuesta) {
+                                console.log("respuesta", respuesta);
+                            }
+                        });
+    
+                        document.getElementById("soporte_ti").reset();
+                        $("#principal_soporte").addClass("active");
                     });
-                    // Resetear el formulario y agregar la clase al elemento después del AJAX
-                    document.getElementById("soporte_ti").reset();
-                    $("#principal_soporte").addClass("active");
-                });
-              </script>';
-        
+                </script>';
             } else {
                 echo '<script>
                     Swal.fire({
                         type: "error",
-                        title: "¡La discrición del perfil no puede ir vacío o llevar caracteres especiales!",
+                        title: "¡La descripción del perfil no puede ir vacía o llevar caracteres especiales!",
                         showConfirmButton: true,
                         confirmButtonText: "Cerrar"
-
                     }).then(function(result){
                         if(result.value){
                             $("#principal_soporte").addClass("active");
-                            
                         }
                     });
-                </script>
-            ';
+                </script>';
             }
         }
     }
+    
     /*=============================================
 	MOSTRAR SOLICITUDES FINALIZADAS
 	=============================================*/

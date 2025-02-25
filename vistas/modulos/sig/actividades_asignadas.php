@@ -130,3 +130,37 @@
     </div>
   </div>
 </section>
+<style>
+  .ql-toolbar {
+    background-color: white;
+    /* Cambiar el color de fondo de la barra de herramientas */
+    color: white;
+    /* Cambiar el color del texto en la barra de herramientas */
+  }
+</style>
+<script>
+  $(document).ready(function() {
+    // Inicializa Quill en el contenedor
+    var quill = new Quill('.quill-content', {
+      theme: 'snow'
+    });
+
+    // Actualiza el contenido del textarea cuando cambia Quill
+    quill.on('text-change', function() {
+      $('.editor').val(quill.root.innerHTML);
+    });
+  });
+</script>
+<script>
+  $(document).ready(function() {
+    // Inicializa Quill en el contenedor
+    var editor1 = new Quill('#editor1', {
+    theme: 'snow'  // o 'bubble' según tu preferencia
+});
+
+    // Actualiza el contenido del textarea cuando cambia Quill
+    quill.on('text-change', function() {
+      $('.editor1').val(quill.root.innerHTML);
+    });
+  });
+</script>
