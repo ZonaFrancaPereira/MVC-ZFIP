@@ -35,7 +35,8 @@ class ControladorSoporte
                             id_consulta: "' . $respuesta . '",
                             destinatario: "ninguno"
                         };
-    
+            
+                        // Enviar correo por AJAX
                         $.ajax({
                             url: "ajax/enviarCorreo.php",
                             method: "POST",
@@ -47,25 +48,17 @@ class ControladorSoporte
                                 console.log("respuesta", respuesta);
                             }
                         });
-    
+            
+                        // Limpiar el formulario y ocultar la sección de creación
                         document.getElementById("soporte_ti").reset();
-                        $("#principal_soporte").addClass("active");
-                    });
-                </script>';
-            } else {
-                echo '<script>
-                    Swal.fire({
-                        type: "error",
-                        title: "¡La descripción del perfil no puede ir vacía o llevar caracteres especiales!",
-                        showConfirmButton: true,
-                        confirmButtonText: "Cerrar"
-                    }).then(function(result){
-                        if(result.value){
-                            $("#principal_soporte").addClass("active");
-                        }
+                        $("#soporte_ti").hide();  // Oculta el formulario de creación
+            
+                        // Mostrar y activar la sección principal
+                        $("#principal_soporte").addClass("active").show();
                     });
                 </script>';
             }
+            
         }
     }
     
@@ -161,64 +154,64 @@ class ControladorSoporte
 	=============================================*/
 
     static public function ctrResponderSolicitud()
-{
-    if (isset($_POST["id_soporte1"])) {
-        $tabla = "soporte";
-        $datos = array(
-            "id_soporte1" =>  $_POST["id_soporte1"],
-            "solucion_soporte" =>  $_POST["solucion_soporte"],
-            "fecha_solucion" =>  $_POST["fecha_solucion"],
-            "usuario_respuesta" =>  $_POST["usuario_respuesta"],
-        );
+    {
+        if (isset($_POST["id_soporte1"])) {
+            $tabla = "soporte";
+            $datos = array(
+                "id_soporte1" =>  $_POST["id_soporte1"],
+                "solucion_soporte" =>  $_POST["solucion_soporte"],
+                "fecha_solucion" =>  $_POST["fecha_solucion"],
+                "usuario_respuesta" =>  $_POST["usuario_respuesta"],
+            );
 
-        $respuesta = ModeloSoporte::mdlResponderSolicitud($tabla, $datos);
+            $respuesta = ModeloSoporte::mdlResponderSolicitud($tabla, $datos);
 
-        if ($respuesta == "ok") {
-            echo '<script>
-            Swal.fire({
-                title: "Buen Trabajo!",
-                text: "Se ha dado respuesta a La solicitud con éxito.",
-                icon: "success"
-            }).then(function() {
-                var datosCorreo = {
-                    id_usuario_fk: "' . $_SESSION["id"] . '",
-                    modulo: "solicitudes_soporte",
-                    id_consulta: "' . $_POST["id_soporte1"] . '",
-                    destinatario: "ninguno"
-                };
-
-                $.ajax({
-                    url: "ajax/enviarCorreo.php",
-                    method: "POST",
-                    data: JSON.stringify(datosCorreo),
-                    cache: false,
-                    contentType: "application/json",
-                    processData: false,
-                    success: function(respuesta) {
-                        console.log("respuesta", respuesta);
-                    }
-                });
-
-                document.getElementById("soporte_ti").reset();
-                $("#solicitudes_soporte").addClass("active");
-            });
-            </script>';
-        } else {
-            echo '<script>
+            if ($respuesta == "ok") {
+                echo '<script>
                 Swal.fire({
-                    type: "error",
-                    title: "¡No se pudo guardar la respuesta de la Solicitud!",
-                    showConfirmButton: true,
-                    confirmButtonText: "Cerrar"
-                }).then(function(result){
-                    if(result.value){
-                        $("#solicitudes_soporte ").addClass("active");
-                    }
+                    title: "Buen Trabajo!",
+                    text: "Se ha dado respuesta a La solicitud con éxito.",
+                    icon: "success"
+                }).then(function() {
+                    var datosCorreo = {
+                        id_usuario_fk: "' . $_SESSION["id"] . '",
+                        modulo: "solicitudes_soporte",
+                        id_consulta: "' . $_POST["id_soporte1"] . '",
+                        destinatario: "ninguno"
+                    };
+
+                    $.ajax({
+                        url: "ajax/enviarCorreo.php",
+                        method: "POST",
+                        data: JSON.stringify(datosCorreo),
+                        cache: false,
+                        contentType: "application/json",
+                        processData: false,
+                        success: function(respuesta) {
+                            console.log("respuesta", respuesta);
+                        }
+                    });
+
+                    document.getElementById("soporte_ti").reset();
+                    $("#solicitudes_soporte").addClass("active");
                 });
-            </script>';
+                </script>';
+            } else {
+                echo '<script>
+                    Swal.fire({
+                        type: "error",
+                        title: "¡No se pudo guardar la respuesta de la Solicitud!",
+                        showConfirmButton: true,
+                        confirmButtonText: "Cerrar"
+                    }).then(function(result){
+                        if(result.value){
+                            $("#solicitudes_soporte ").addClass("active");
+                        }
+                    });
+                </script>';
+            }
         }
     }
-}
 
 
 

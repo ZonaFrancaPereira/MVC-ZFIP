@@ -48,7 +48,6 @@ class ModeloSoporte
             return "error: " . $e->getMessage();
         }
     }
-
     /*=============================================
 	MOSTRAR SOPORTE
 	=============================================*/
