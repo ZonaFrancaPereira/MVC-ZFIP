@@ -50,8 +50,12 @@
                                 </div>
                                 <br>
                                 <?php endif; ?>
-                                <div class="col-md-12">
-                                    <button type="submit" class="btn btn-outline-warning btn-block" id="enviar_soporte" name="enviar_soporte"><i class="fas fa-paper-plane"></i>Enviar</button>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-outline-warning btn-block" id="enviar_soporte" name="enviar_soporte">
+                                            <i class="fas fa-paper-plane"></i>Enviar
+                                        </button>
+                                    </div>
                                 </div>
                                 <?php
                                 $crearSoporte = new ControladorSoporte();
