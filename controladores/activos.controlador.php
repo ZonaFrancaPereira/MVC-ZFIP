@@ -98,6 +98,21 @@ class ControladorActivos
 		return $respuesta;
 	}
 
+    
+	/*=============================================
+	MOSTRAR ACTIVOS TECNOLOGICOS
+	=============================================*/
+
+	static public function ctrMostrarActivosTI($item, $valor)
+	{
+
+		$tabla = "activos";
+
+		$respuesta = ModeloActivos::mdlMostrarActivosTI($tabla, $item, $valor);
+
+		return $respuesta;
+	}
+
 
 	/*=============================================
 	MOSTRAR Activos AJAX

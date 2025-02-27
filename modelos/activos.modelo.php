@@ -99,6 +99,26 @@ class ModeloActivos
             return $stmt->fetchAll();
         }
     }
+
+        /*=============================================
+	MOSTRAR ACTIVOS TECNOLOGICOS
+	=============================================*/
+    static public function mdlMostrarActivosTI($tabla, $item, $valor)
+    {
+
+        // Verifica si se proporcionaron parámetros
+        if ($item != null && $valor != null) {
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :valor AND recurso_tecnologico = 'Si'");
+            $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } else {
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+            $stmt->execute();
+            return $stmt->fetchAll();
+        }
+    }
+
     /*=============================================
 	MOSTRAR Activos AJAX
 	=============================================*/
