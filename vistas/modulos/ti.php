@@ -10,14 +10,13 @@ require_once "configuracion.php";
                 <p>Asignación de Equipos</p>
             </a>
         </li>
-
-        <li class="nav-header">PANEL GESTIÓN TI</li>
         <li class="nav-item">
-            <a data-toggle="tab" href="#detalle_equipos" class="nav-link">
-                <i class="fas fa-desktop"></i>
-                <p>Detalle de Equipos</p>
+            <a data-toggle="tab" href="#contraseñas_marcar" class="nav-link">
+                <i class="far fa-save"></i>
+                <p>Contraseñas</p>
             </a>
         </li>
+
         <li class="nav-item">
             <a data-toggle="tab" href="" class="nav-link">
                 <i class="far fa-save"></i>
@@ -61,33 +60,33 @@ require_once "configuracion.php";
                 <p>Contraseñas</p>
             </a>
         </li>
-        <?php
-        $cargoTi = [1, 2];
-        if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargoTi)):
-        ?>
-            <li class="nav-item">
-                <a data-toggle="tab" href="#" class="nav-link">
-                    <i class="fas fa-print"></i>
-                    <p>
-                        Consumibles
-                        <i class="fas fa-angle-left right"></i>
-                    </p>
-                </a>
-                <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a data-toggle="tab" href="#principal_consumibles" class="nav-link">
-                            <i class="nav-icon far fa-question-circle"></i>
-                            <p>Principal</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a data-toggle="tab" href="#consumibles" class="nav-link">
-                            <i class="nav-icon far fa-question-circle"></i>
-                            <p>Registrar Consumible</p>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+                <?php
+                $cargoTi = [1, 2];
+                if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargoTi)):
+                ?>
+        <li class="nav-item">
+            <a data-toggle="tab" href="#" class="nav-link">
+                <i class="fas fa-print"></i>
+                <p>
+                    Consumibles
+                    <i class="fas fa-angle-left right"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a data-toggle="tab" href="#principal_consumibles" class="nav-link">
+                        <i class="nav-icon far fa-question-circle"></i>
+                        <p>Principal</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a data-toggle="tab" href="#consumibles" class="nav-link">
+                        <i class="nav-icon far fa-question-circle"></i>
+                        <p>Registrar Consumible</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
         <?php endif; ?>
         <li class="nav-item">
             <a data-toggle="tab" href="#inventario" class="nav-link">
@@ -114,33 +113,27 @@ require_once "configuracion.php";
                 $cargoTi = [1, 2];
                 if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargoTi)):
                 ?>
-                    <li class="nav-item">
-                        <a data-toggle="tab" href="#equipo" class="nav-link">
-                            <i class="nav-icon fas fa-sync-alt"></i>
-                            <p>Equipos de computo</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a data-toggle="tab" href="#general" class="nav-link">
-                            <i class="nav-icon fas fa-sync-alt"></i>
-                            <p>General</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a data-toggle="tab" href="#impresora" class="nav-link">
-                            <i class="nav-icon far fa-question-circle"></i>
-                            <p>Impresora</p>
-                        </a>
-                    </li>
+                <li class="nav-item">
+                    <a data-toggle="tab" href="#equipo" class="nav-link">
+                        <i class="nav-icon fas fa-sync-alt"></i>
+                        <p>Equipos de computo</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a data-toggle="tab" href="#general" class="nav-link">
+                        <i class="nav-icon fas fa-sync-alt"></i>
+                        <p>General</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a data-toggle="tab" href="#impresora" class="nav-link">
+                        <i class="nav-icon far fa-question-circle"></i>
+                        <p>Impresora</p>
+                    </a>
+                </li>
                 <?php endif; ?>
 
             </ul>
-        </li>
-        <li class="nav-item">
-            <a data-toggle="tab" href="#usuarios" class="nav-link">
-                <i class="fas fa-users"></i>
-                <p>Usuarios</p>
-            </a>
         </li>
         <li class="nav-item">
             <a data-toggle="tab" href="#perfiles" class="nav-link">
@@ -173,22 +166,27 @@ require_once "configuracion.php";
                 $cargoTi = [1, 2];
                 if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargoTi)):
                 ?>
-                    <li class="nav-item">
-                        <a data-toggle="tab" href="#solicitudes_finalizadas" class="nav-link">
-                            <i class="nav-icon fas fa-sync-alt"></i>
-                            <p>Solicitudes Finalizadas</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a data-toggle="tab" href="#solicitudes_soporte" class="nav-link">
-                            <i class="nav-icon fas fa-sync-alt"></i>
-                            <p>Solicitudes de Soporte</p>
-                        </a>
-                    </li>
+                <li class="nav-item">
+                    <a data-toggle="tab" href="#solicitudes_finalizadas" class="nav-link">
+                        <i class="nav-icon fas fa-sync-alt"></i>
+                        <p>Solicitudes Finalizadas</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a data-toggle="tab" href="#solicitudes_soporte" class="nav-link">
+                        <i class="nav-icon fas fa-sync-alt"></i>
+                        <p>Solicitudes de Soporte</p>
+                    </a>
+                </li>
                 <?php endif; ?>
             </ul>
         </li>
-
+        <li class="nav-item">
+            <a data-toggle="tab" href="#usuarios" class="nav-link">
+                <i class="fas fa-users"></i>
+                <p>Usuarios</p>
+            </a>
+        </li>
     </ul>
 </nav>
 
@@ -224,21 +222,13 @@ if ($_SESSION["ti"] == "off") {
                             </div>
                         </div>
                     </div>
-                    <div id="detalle_equipos" class="tab-pane">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <?php require "ti/detalle_equipos.php"; ?>
+                        <div id="consumibles" class="tab-pane">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <?php require "ti/consumibles.php"; ?>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div id="consumibles" class="tab-pane">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <?php require "ti/consumibles.php"; ?>
-                            </div>
-                        </div>
-                    </div>
 
                     <div id="principal_consumibles" class="tab-pane">
                         <div class="row">
@@ -294,7 +284,13 @@ if ($_SESSION["ti"] == "off") {
                         </div>
                     </div>
 
-
+                    <div id="contraseñas_marcar" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/contraseñas.php"; ?>
+                            </div>
+                        </div>
+                    </div>
                     <div id="asignacion_equipos" class="tab-pane">
                         <div class="row">
                             <div class="col-md-12">

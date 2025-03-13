@@ -85,6 +85,114 @@ class ControladorActivos
 	}
 
 	/*=============================================
+	CREAR ASIGNACION DE EQUIPOS
+	=============================================*/
+
+	static public function ctrCrearAsignacion()
+	{
+
+		if (isset($_POST["guardar_asignacion"])) {
+
+			
+
+				$tabla = "asignacion_equipos";
+
+				$datos = array(
+                    
+                    "fecha_asignacion" => $_POST["fecha_asignacion"],
+                    "estado_asignacion" =>"Activa",
+                    "id_ti_fk" => $_SESSION["id"],
+                    "id_usuario_fk" => $_POST["id_usuario_fk"]
+        
+                );
+
+				$respuesta = ModeloActivos::mdlIngresarAsignacion($tabla, $datos);
+
+				if ($respuesta == "ok") {
+					
+					echo '<script>
+
+					  Swal.fire(
+							"Buen Trabajo!",
+							"El Activos  se ha registrado con éxito.",
+							"success"
+							).then(function() {
+							 //Limpiar el formulario
+                            $("#formAsignacion")[0].reset(); // Resetea el formulario
+                           window.location = "index.php?ruta=ti
+                           +-e";
+							
+
+							});
+
+					</script>';
+				}
+			
+		} else {
+			return "error";
+		}
+	}
+
+    static public function ctrCrearDetallesEquipo()
+{
+    
+    if (isset($_POST["guardar_detalles"])) {
+        
+
+        $tabla = "detalles_equipos";
+
+        $datos = array(
+            "msd" => $_POST["msd"],
+            "antivirus" => $_POST["antivirus"],
+            "visio_pro" => $_POST["visio_pro"],
+            "mac_osx" => $_POST["mac_osx"],
+            "windows" => $_POST["windows"],
+            "autocad" => $_POST["autocad"],
+            "office" => $_POST["office"],
+            "appolo" => $_POST["appolo"],
+            "zeus" => $_POST["zeus"],
+            "otros" => $_POST["otros"],
+            "procesador" => $_POST["procesador"],
+            "disco_duro" => $_POST["disco_duro"],
+            "memoria_ram" => $_POST["memoria_ram"],
+            "cd_dvd" => $_POST["cd_dvd"],
+            "tarjeta_video" => $_POST["tarjeta_video"],
+            "tarjeta_red" => $_POST["tarjeta_red"],
+            "tipo_red" => $_POST["tipo_red"],
+            "tiempo_bloqueo" => $_POST["tiempo_bloqueo"],
+            "usuario" => $_POST["usuario"],
+            "clave" => $_POST["clave"],
+            "zfip" => $_POST["zfip"],
+            "privilegios" => $_POST["privilegios"],
+            "observaciones_equipo" => $_POST["observaciones_equipo"],
+            "backup" => $_POST["backup"],
+            "dia_backup" => $_POST["dia_backup"],
+            "realiza_backup" => $_POST["realiza_backup"],
+            "justificacion_backup" => $_POST["justificacion_backup"],
+            "id_activo_fk" => $_POST["id_activo_fk"]
+        );
+
+        $respuesta = ModeloActivos::mdlIngresarDetallesEquipo($tabla, $datos);
+
+        if ($respuesta == "ok") {
+            echo '<script>
+                Swal.fire(
+                    "Buen Trabajo!",
+                    "Los detalles del equipo se han registrado con éxito.",
+                    "success"
+                ).then(function() {
+                    // Limpiar el formulario
+                    $("#formDetallesEquipo")[0].reset();
+                    window.location = "index.php?ruta=ti";
+                });
+            </script>';
+        }
+    } else {
+        return "error";
+    }
+}
+
+	/*=============================================
 	MOSTRAR Activos
 	=============================================*/
 
@@ -113,6 +221,32 @@ class ControladorActivos
 		return $respuesta;
 	}
 
+    /*=============================================
+	MOSTRAR ACTIVOS EQUIPOS TECNOLOGICOS
+	=============================================*/
+
+	static public function ctrMostrarEquipos($item, $valor)
+	{
+
+		$tabla = "activos";
+
+		$respuesta = ModeloActivos::mdlMostrarEquipos($tabla, $item, $valor);
+
+		return $respuesta;
+	}
+	/*=============================================
+	MOSTRAR ASIGNACION DE ACTIVOS TECNOLOGICOS
+	=============================================*/
+
+	static public function ctrMostrarAsignaciones($item, $valor)
+	{
+
+		$tabla = "asignacion_equipos";
+
+		$respuesta = ModeloActivos::mdlMostrarAsignaciones($tabla, $item, $valor);
+
+		return $respuesta;
+	}
 
 	/*=============================================
 	MOSTRAR Activos AJAX
@@ -456,6 +590,7 @@ public static function graficaVerificacionActivos() {
 public static function ctrContarActivosInactivosPorUsuario($idUsuario) {
     return ModeloActivos::contarActivosInactivosPorUsuario($idUsuario);
 }
+
 
 }
 

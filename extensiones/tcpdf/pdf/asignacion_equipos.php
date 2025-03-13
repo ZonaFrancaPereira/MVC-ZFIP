@@ -1,28 +1,60 @@
 <?php
 require_once "../../../configuracion.php";
-require_once "../../../controladores/mantenimiento.controlador.php";
-require_once "../../../modelos/mantenimiento.modelo.php";
+require_once "../../../controladores/activos.controlador.php";
+require_once "../../../modelos/activos.modelo.php";
 require_once "../../../controladores/codificacion.controlador.php";
 require_once "../../../modelos/codificacion.modelo.php";
 require_once('tcpdf_include.php');
 
 // Obtener el ID de mantenimiento desde la URL
-$id_mantenimiento_equipo = $_GET['id'];
+$id_usuario_fk = $_GET['id'];
 
 // Obtener los datos del mantenimiento desde la base de datos
-$tabla = 'mantenimientos'; // Nombre de la tabla o configuración
-$item = 'id_mantenimiento'; // Campo por el cual filtrar
-$valor = $id_mantenimiento_equipo; // Valor para filtrar
-$consulta = 'mantenimientos';
+$tabla = 'activos'; // Nombre de la tabla o configuración
+$item = 'id_usuario_fk'; // Campo por el cual filtrar
+$valor = $id_usuario_fk; // Valor para filtrar
+
 
 // Llamar a la función para obtener los datos
-$datos = ModeloMantenimiento::mdlMostrarMantenimientopdf($tabla, $item, $valor, $consulta);
-
+$datos = ModeloActivos::mdlMostrarActivosTI($tabla, $item, $valor);
 // Verificar si se obtuvieron datos
-if (empty($datos)) {
+
+
+// Obtener los datos del mantenimiento desde la base de datos
+$tabla_asignacion = 'asignacion_equipos'; // Nombre de la tabla o configuración
+$item_asignacion = 'id_usuario_fk'; // Campo por el cual filtrar
+$valor_asignacion = $id_usuario_fk; // Valor para filtrar
+
+
+// Llamar a la función para obtener los datos
+$datos_asignacion = ModeloActivos::mdlMostrarAsignaciones($tabla_asignacion, $item_asignacion, $valor_asignacion);
+
+
+// Obtener la información del primer registro
+$rowa = $datos_asignacion[0];
+$id_asignacion = $rowa["id_asignacion"];
+$fecha_a = $rowa["fecha_asignacion"];
+$estado_asignacion = $rowa["estado_asignacion"];
+$nombre_proceso = $rowa["nombre_proceso"];
+$nombre_usuario = $rowa["nombre"];
+$apellidos_usuario = $rowa["apellidos_usuario"];
+$nombre_cargo = $rowa["nombre_cargo"];
+
+$fecha_asignacion = date("d/m/Y", strtotime($fecha_a));
+
+
+// Obtener los datos del mantenimiento desde la base de datos
+$tabla_detalles = 'activos'; // Nombre de la tabla o configuración
+$item_detalles = 'id_usuario_fk'; // Campo por el cual filtrar
+$valor_detalles = $id_usuario_fk; // Valor para filtrar
+
+
+// Llamar a la función para obtener los datos
+$datose = ModeloActivos::mdlMostrarDetallesEquipos($tabla_detalles, $item_detalles, $valor_detalles);
+// Verificar si se obtuvieron datos
+if (empty($datose)) {
     die('No se encontraron datos para el ID de mantenimiento proporcionado.');
 }
-
 // Crear una instancia de TCPDF
 $pdf = new TCPDF('P', 'mm', array(210, 297), true, 'UTF-8', false);
 
@@ -53,37 +85,7 @@ $pdf->AddPage();
 $row = $datos[0];
 
 $id_proceso_fk = $row["nombre_proceso"];
-$fecha_mantenimiento = $row["fecha_mantenimiento"];
-$nombre_usuario = $row["nombre"];
-$apellidos_usuario = $row["apellidos_usuario"];
-$id_cargo_fk = $row["nombre_cargo"];
-$marca = $row["marca"];
-$modelo = $row["modelo"];
-$serie = $row["serie"];
-$usuario_equipo = $row["usuario_equipo"];
-$soplar_partes_externas = $row["soplar_partes_externas"];
-$verificar_usuario = $row["verificar_usuario"];
-$liberar_espacio = $row["liberar_espacio"];
-$actualizar_logos = $row["actualizar_logos"];
-$lubricar_puertos = $row["lubricar_puertos"];
-$verificar_contraseñas = $row["contra"];
-$desinstalar_programas = $row["desinstalar_programas"];
-$limpieza_equipo = $row["limpieza_equipo"];
-$formato_asignacion_equipo = $row["formato_asignacion_equipo"];
-$desfragmentar = $row["desfragmentar"];
-$limpiar_partes_interna = $row["limpiar_partes_interna"];
-$depurar_temporales = $row["depurar_temporales"];
-$verificar_actualizaciones = $row["verificar_actualizaciones"];
-$usuario = $row["usuario"];
-$clave = $row["clave"];
-$estandar = $row["estandar"];
-$administrador = $row["administrador"];
-$analisis_completo = $row["analisis_completo"];
-$bloqueo_usb = $row["bloqueo_usb"];
-$dominio_zfip = $row["dominio_zfip"];
-$apagar_pantalla = $row["apagar_pantalla"];
-$estado_suspension = $row["estado_suspension"];
-$estado_mantenimiento_equipo = $row["estado_mantenimiento_equipo"];
+
 
 //$baseUrl = "https://beta.zonafrancadepereira.com/"; // Cambia esto según sea necesario para tu entorno de hosting
 $baseUrl = "/MVC-ZFIP/";
@@ -100,7 +102,7 @@ $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($nomb
 //CONSULTA ENCABEZADO DE LAS TABLAS
 $tablad = 'version_documentos';
 $itemd = 'id_documento';
-$valord = '2';  // Asegúrate de que este valor esté correcto y sea válido
+$valord = '3';  // Asegúrate de que este valor esté correcto y sea válido
 $datosd = ModeloCodificar::mdlMostrarVersionDocumentos($tablad, $itemd, $valord);
 
 // Verificar si se obtuvieron datos
@@ -117,17 +119,10 @@ $version_documento = $rowd["version_documento"];
 
 //PARA QUE SE MUESTREN LOS CHECK
 $usuario_checkbox = ($usuario == "SI") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
-$clave_checkbox = ($clave == "SI") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
-$estandar_checkbox = ($estandar == "SI") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
-$administrador_checkbox = ($administrador == "SI") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
-$analisis_completo_checkbox = ($analisis_completo == "SI") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
-$bloqueo_usb_checkbox = ($bloqueo_usb == "SI") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
-$dominio_zfip_checkbox = ($dominio_zfip == "SI") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
-$apagar_pantalla_checkbox = ($apagar_pantalla == "SI") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
-$estado_suspension_checkbox = ($estado_suspension == "SI") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
+
 
 // Contenido del documento
-$html = <<<EOF
+$html .= <<<EOF
 <style>
     .title {
         text-align: center;
@@ -199,9 +194,9 @@ $html = <<<EOF
 </style>
 <table class="external-border-table">
     <tr>
-        <td colspan="2"><img src="$imagenBase64" alt="Logo" width="100"></td>
-        <td colspan="3">
-            <h4>$nombre_documento : # $id_mantenimiento_equipo</h4>
+        <td colspan="1"><img src="$imagenBase64" alt="Logo" width="100"></td>
+        <td colspan="4">
+            <center><h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$nombre_documento </h4></center>
         </td>
     </tr>
 </table>
@@ -222,178 +217,194 @@ $html = <<<EOF
     </tr>
 </table>
 <br>
-<div class="section-title">Responsable del Dispositivo</div>
+<div class="section-title"><br>RESPONSABLE<br></div>
 <table class="content-table">
    <tr>
         <td>Datos</td>
         <td>Proceso</td>
-        <td>$id_proceso_fk</td>
-        <td>AA-MM-DD</td>
-        <td>$fecha_mantenimiento</td>
+        <td>$nombre_proceso</td>
+        <td>Fecha Asignación</td>
+        <td>$fecha_asignacion</td>
     </tr>
     <tr>
         <td colspan="1">Responsable</td>
-        <td colspan="2">$nombre_usuario $apellidos_usuario</td>
-        <td colspan="1">Cargo Funcionario</td>
-       <td colspan="2">$id_cargo_fk</td>
+        <td colspan="2">$nombre_usuario <br> $apellidos_usuario </td>
+        <td colspan="1">Cargo </td>
+       <td colspan="2">$nombre_cargo</td>
     </tr>
 </table>
 <br>
-<div class="section-title">Equipo de Computo</div>
+<div class="section-title"><br><B>DISPOSIVITOS Y PERIFERICOS </B> <br></div>
+<br>
+<table class="content-encabezado">
+   <tr>
+        <td class="section-title"><br><br><B>CÓDIGO</B><br></td>
+        <td class="section-title"><br><br><B>FECHA</B><br></td>
+        <td class="section-title"><br><br><B>ELEMENTO</B><br></td>
+        <td class="section-title"><br><br><B>SERIAL</B><br></td>
+        <td class="section-title"><br><br><B>MARCA</B><br></td>
+        <td class="section-title"><br><br><B>ESTADO</B><br></td>
+    </tr> 
+EOF;
+$count = 0;
+  foreach ($datos as $row){ 
 
-<table class="content-table">
-    <tr>
-        <td colspan="1">Marca</td>
-        <td colspan="2">$marca</td>
-        <td colspan="1">Modelo</td>
-        <td colspan="1">$modelo</td>
-    </tr>
-    <tr>
-        <td colspan="1">Serie</td>
-        <td colspan="2">$serie</td>
-        <td colspan="1">Nombre Usuario</td>
-        <td colspan="1">$usuario_equipo</td>
-    </tr>
+        $html .= '<tr>
+        <td>' . $row['id_activo'] . '</td>
+        <td>' . $row['fecha_asignacion'] . '</td>
+        <td>' . $row['nombre_articulo'] . '</td>
+        <td>' . $row['modelo_articulo'] . '</td>
+        <td>' . $row['marca_articulo'] . '</td>
+        <td>' . $row['estado_activo'] . '</td>
+    </tr>';
+    $count++;
+    }; 
+$html .= <<<EOF
+<tr>
+<td colspan="4" class="section-title"><br><br>TOTAL ARTÍCULOS<br></td>
+<td colspan="2"><br><br>$count<br></td>
+</tr>
 </table>
+<br>
 
-<div class="section-title">Detalles del Mantenimiento</div>
-<table class="content-table">
-    <tr>
-        <th colspan="4">Soplar partes externas, equipo completo y área de trabajo, teléfono:</th>
-        <td colspan="1">$soplar_partes_externas</td>
-    </tr>
-    <tr>
-        <th colspan="4">Lubricar puertos, conectores, contactos y bisagras con CRC o 3 en 3, isopropílico:</th>
-        <td colspan="1">$lubricar_puertos</td>
-    </tr>
-    <tr>
-        <th colspan="4">Limpieza de equipo completo, cables y accesorios:</th>
-        <td colspan="1">$limpieza_equipo</td>
-    </tr>
-      <tr>
-        <th colspan="4">Soplar y limpiar partes internas del equipo completo:</th>
-        <td colspan="1">$limpiar_partes_interna</td>
-    </tr>
-    <tr>
-        <th colspan="4">Verificar usuario estándar y administrador:</th>
-        <td colspan="1">$verificar_usuario</td>
-    </tr>
-    <tr>
-        <th colspan="4">Verificar contraseñas guardadas en los navegadores:</th>
-        <td colspan="1">$verificar_contraseñas</td>
-    </tr>
-    <tr>
-        <th colspan="4">Verificar y constatar elementos del formato asignación de equipos:</th>
-        <td colspan="1">$formato_asignacion_equipo</td>
-    </tr>
-     <tr>
-        <th colspan="4">Depurar temporales, vaciar Visor de Eventos (temp/ %temp%):</th>
-        <td colspan="1">$depurar_temporales</td>
-    </tr>
-     <tr>
-        <th colspan="4">Liberar espacio en disco:</th>
-        <td colspan="1">$liberar_espacio</td>
-    </tr>
-     <tr>
-        <th colspan="4">Desinstalar programas innecesarios y no licenciados:</th>
-        <td colspan="1">$desinstalar_programas</td>
-    </tr>
-     <tr>
-        <th colspan="4">Desfragmentar todas las unidades de disco:</th>
-        <td colspan="1">$desfragmentar</td>
-    </tr>
-    <tr>
-        <th colspan="4">Verificar actualizaciones pendientes e instalarlas, reiniciar sistema:</th>
-        <td colspan="1">$verificar_actualizaciones</td>
-    </tr>
-    <tr>
-        <th colspan="4">Actualizar logos de perfil de usuarios y cambiar fondos, sincronizar logos y fondos:</th>
-        <td colspan="1">$actualizar_logos</td>
-    </tr>
-    <tr>
-        <th colspan="4">Verificar y organizar cableado de red y otros.</th>
-        <td colspan="1">No esta en la BD</td>
-    </tr>
-</table>
 
-<div class="section-title">Software Licenciado</div>
-<table class="content-table">
-    <tr>
-        <td>Windows</td>
-        <th>Traer de Activos</th>
-        <td>Microsoft Office</td>
-        <th>Traer de Activos</th>
-    </tr>
-       <tr>
-       <td>MAC</td>
-        <th>Traer de Activos</th>
-        <td>AutoCAD</td>
-        <th>Traer de Activos</th>
-    </tr>
-       <tr>
-        
-         <td>Zeus</td>
-        <th>Traer de Activos</th>
-        <td>Appolo</td>
-        <th>Traer de Activos</th>
-    </tr>
-</table>
-
-<div class="section-title">Hadware</div>
-<table class="content-table">
-    <tr>
-        <td>Procesador</td>
-        <th>Traer de Activos</th>
-        <td>Disco Duro</td>
-        <th>Traer de Activos</th>
-    </tr>
-       <tr>
-       <td>Memoria RAM</td>
-        <th>Traer de Activos</th>
-        <td>CD-DVD</td>
-        <th>Traer de Activos</th>
-    </tr>
-       <tr>
-        <td>Tarjeta Video </td>
-        <th>Traer de Activos</th>
-        <td>Tarjeta Red </td>
-        <th>Traer de Activos</th>
-    </tr>
-</table>
-
-<div class="section-title">Seguridad Básica de Equipos </div>
-<table class="content-table">
-    <tr>
-        <td>Tipo de Red </td>
-        <th>Usuario :<b>$usuario_checkbox</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Clave <b>$clave_checkbox</b></th>
-        <td>Privilegios </td>
-    </tr>
-    <tr>
-        <th>&nbsp;&nbsp;Wi-Fi : <b>$usuario_checkbox</b> &nbsp;&nbsp;&nbsp;&nbsp; Cableada <b>$clave_checkbox</b></th>
-        <th>Dentro del Dominio de ZFIP: <b>$dominio_zfip_checkbox</b></th>
-        <th>Administrador : <b>$administrador_checkbox</b> &nbsp;&nbsp; Estandar <b>$estandar_checkbox</b></th>
-    </tr>
-    <tr>
-        <td>Tiempo de desatención </td>
-        <th>Apagar pantalla a los 3 min:&nbsp; <b>$apagar_pantalla_checkbox</b></th>
-        <th>Poner el equipo en estado de suspensión 10 minutos:<b> $estado_suspension_checkbox</b> </th>
-    </tr>
-    <tr>
-        <td>Antivirus </td>
-        <th>Análisis Completo:&nbsp; <b>$analisis_completo_checkbox</b></th>
-        <th>Bloqueo de memorias USB:<b> $bloqueo_usb_checkbox</b> </th>
-    </tr>
+EOF;
+foreach ($datose as $rowe) { 
+    $html .= '
+    <div class="section-title">
+        <br><b> ' . $rowe['id_activo'] . ' ' . $rowe['nombre_articulo'] . '</b><br>
+    </div>
    
+    <table class="content-encabezado">
+    <tr>
+        <td colspan="1" style="text-align: left;">Marca</td>
+        <td colspan="1">' . htmlspecialchars($rowe["marca_articulo"]) . '</td>
+        <td colspan="1" style="text-align: left;">Modelo</td>
+        <td colspan="1">' . htmlspecialchars($rowe["modelo_articulo"]) . '</td>
+    </tr>
+    <tr>
+        <td colspan="1" style="text-align: left;">Serie</td>
+        <td colspan="1">' . htmlspecialchars($rowe["referencia_articulo"]) . '</td>
+        <td colspan="1" style="text-align: left;">Ubicación</td>
+        <td colspan="1">' . htmlspecialchars($rowe["lugar_articulo"]) . '</td>
+    </tr>     
+    </table>
+    <div class="section-title"><br>SOFTWARE<br></div>
+    <table class="content-encabezado">
+        <tr>
+        <td colspan="1" style="text-align: left;"><b>MSD</b></td>
+        <td colspan="1">' . htmlspecialchars($rowe["msd"]) . '</td>
+        <td colspan="1" style="text-align: left;"><b>Antivirus</b></td>
+        <td colspan="1">' . htmlspecialchars($rowe["antivirus"]) . '</td>
+    </tr>
+    <tr>
+        <td colspan="1" style="text-align: left;"><b>Visio Pro</b></td>
+        <td colspan="1">' . htmlspecialchars($rowe["visio_pro"]) . '</td>
+        <td colspan="1" style="text-align: left;"><b>Mac OSX</b></td>
+        <td colspan="1">' . htmlspecialchars($rowe["mac_osx"]) . '</td>
+    </tr>
+    <tr>
+        <td colspan="1" style="text-align: left;"><b>Windows</b></td>
+        <td colspan="1">' . htmlspecialchars($rowe["windows"]) . '</td>
+        <td colspan="1" style="text-align: left;"><b>AutoCAD</b></td>
+        <td colspan="1">' . htmlspecialchars($rowe["autocad"]) . '</td>
+    </tr>
+    <tr>
+        <td colspan="1" style="text-align: left;"><b>Office</b></td>
+        <td colspan="1">' . htmlspecialchars($rowe["office"]) . '</td>
+        <td colspan="1" style="text-align: left;"><b>Appolo</b></td>
+        <td colspan="1">' . htmlspecialchars($rowe["appolo"]) . '</td>
+    </tr>
+    <tr>
+        <td colspan="1" style="text-align: left;"><b>Zeus</b></td>
+        <td colspan="3">' . htmlspecialchars($rowe["zeus"]) . '</td>
+    </tr>
+    <tr>
+        <td colspan="2"><b>Otros</b></td>
+        <td colspan="2">' . $rowe["otros"] . '</td>
+    </tr>
+    </table>
+
+    <div class="section-title"><br>HARDWARE<br></div>
+    <table class="content-encabezado">
+         <tr>
+        <td colspan="1" style="text-align: left;"><b>Procesador</b></td>
+        <td colspan="3">' . $rowe["procesador"] . '</td>
+        <td colspan="1" style="text-align: left;"><b>Disco Duro</b></td>
+        <td colspan="3 style="text-align: left;"">' . $rowe["disco_duro"] . '</td>
+    </tr>
+    <tr>
+        <td colspan="1" style="text-align: left;"><b>Memoria RAM</b></td>
+        <td colspan="3" >' . $rowe["memoria_ram"] . '</td>
+        <td colspan="1" style="text-align: left;"><b>CD/DVD</b></td>
+        <td colspan="3" style="text-align: left;">' . $rowe["cd_dvd"] . '</td>
+    </tr>
+    <tr>
+        <td colspan="1" style="text-align: left;"><b>Tarjeta de Video</b></td>
+        <td colspan="3" style="text-align: left;">' . $rowe["tarjeta_video"] . '</td>
+        <td colspan="1" style="text-align: left;"><b>Tarjeta de Red</b></td>
+        <td colspan="3" style="text-align: left;">' . $rowe["tarjeta_red"] . '</td>
+    </tr>
+    </table>
+    <div class="section-title"><br>SEGURIDAD BÁSICA DE EQUIPOS<br></div>
+   <table class="content-encabezado">
+    <tr>
+        <td colspan="1" style="text-align: left;"><b>Tipo de Red</b></td>
+        <td colspan="1">' . $rowe["tipo_red"] . '</td>
+        <td colspan="1" style="text-align: left;"><b>Tiempo de Bloqueo</b></td>
+        <td colspan="1">' . $rowe["tiempo_bloqueo"] . '</td>
+    </tr>
+    <tr>
+        <td colspan="1" style="text-align: left;"><b>Usuario</b></td>
+        <td colspan="1">' . $rowe["usuario"] . '</td>
+        <td colspan="1" style="text-align: left;"><b>Clave</b></td>
+        <td colspan="1">' . $rowe["clave"] . '</td>
+    </tr>
+    <tr>
+        <td colspan="1" style="text-align: left;"><b>Dentro del Dominio de Zona Franca</b></td>
+        <td colspan="1">' . $rowe["zfip"] . '</td>
+        <td colspan="1" style="text-align: left;"><b>Privilegios</b></td>
+        <td colspan="1">' . $rowe["privilegios"] . '</td>
+    </tr>
+    <tr>
+        <td colspan="2" style="text-align: left;"><b>Observaciones del Equipo</b></td>
+        <td colspan="2">' . $rowe["observaciones_equipo"] . '</td>
+    </tr>
+    <tr>
+        <td colspan="1" style="text-align: left;"><b>Backup</b></td>
+        <td colspan="1">' . $rowe["backup"] . '</td>
+        <td colspan="1" style="text-align: left;"><b>Día de Backup</b></td>
+        <td colspan="1">' . $rowe["dia_backup"] . '</td>
+    </tr>
+    <tr>
+        <td colspan="1" style="text-align: left;"><b>Realiza Backup</b></td>
+        <td colspan="1">' . $rowe["realiza_backup"] . '</td>
+        <td colspan="1" style="text-align: left;"><b>Justificación del Backup</b></td>
+        <td colspan="1">' . $rowe["justificacion_backup"] . '</td>
+    </tr>
 </table>
+    
+    
+    
+    
+    
+    <br>';
+  
+}
+
+$html .= <<<EOF
+
+<br>
+
 
 <div class="section-title">FIRMA RECIBIDO</div>
 <table class="content-table">
         <tr>
             <th>Nombre</th>
-            <td>$nombre_usuario $apellidos_usuario</td>
+            <td>$ $</td>
         </tr>
         <tr>
-            <td colspan="2"><img src="$foto" alt="Firma" width="120" style="margin-left: 50px;"></td>
+            <td colspan="2"><img src="" alt="Firma" width="120" style="margin-left: 50px;"></td>
         </tr>
   
 </table>

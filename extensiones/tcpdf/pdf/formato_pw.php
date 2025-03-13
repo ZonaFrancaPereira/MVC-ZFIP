@@ -167,6 +167,8 @@ foreach ($MostrarPw as $key => $value2) {
 // Escribir el contenido HTML en el documento PDF
 $pdf->writeHTML($html, true, false, true, false, '');
 
+
+
 // Limpiar el buffer de salida para evitar errores de envío de encabezado
 ob_end_clean();
 

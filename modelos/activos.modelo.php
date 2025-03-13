@@ -81,6 +81,150 @@ class ModeloActivos
 
         $stmt = null;
     }
+
+
+
+    /*=============================================
+	CREAR ASIGNACIÓN DE RECURSOS TECNOLÓGICOS
+	=============================================*/
+    static public function mdlIngresarAsignacion($tabla, $datos)
+    {
+
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (
+            fecha_asignacion,
+            estado_asignacion,
+            id_ti_fk,
+            id_usuario_fk
+        ) VALUES (
+            :fecha_asignacion,
+            :estado_asignacion,
+            :id_ti_fk,
+            :id_usuario_fk
+          
+        )");
+
+
+        $stmt->bindParam(":fecha_asignacion", $datos["fecha_asignacion"], PDO::PARAM_STR);
+        $stmt->bindParam(":estado_asignacion", $datos["estado_asignacion"], PDO::PARAM_STR);
+        $stmt->bindParam(":id_ti_fk", $datos["id_ti_fk"], PDO::PARAM_INT);
+        $stmt->bindParam(":id_usuario_fk", $datos["id_usuario_fk"], PDO::PARAM_INT);
+
+
+        if ($stmt->execute()) {
+            return "ok";
+        } else {
+            $arr = $stmt->errorInfo();
+            return $arr[2];
+        }
+
+        $stmt = null;
+    }
+  /*=============================================
+	CREAR DETALLES DE EQUIPOS DE COMPUTO
+	=============================================*/
+
+    static public function mdlIngresarDetallesEquipo($tabla, $datos)
+{
+    $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (
+        msd,
+        antivirus,
+        visio_pro,
+        mac_osx,
+        windows,
+        autocad,
+        office,
+        appolo,
+        zeus,
+        otros,
+        procesador,
+        disco_duro,
+        memoria_ram,
+        cd_dvd,
+        tarjeta_video,
+        tarjeta_red,
+        tipo_red,
+        tiempo_bloqueo,
+        usuario,
+        clave,
+        zfip,
+        privilegios,
+        observaciones_equipo,
+        backup,
+        dia_backup,
+        realiza_backup,
+        justificacion_backup,
+        id_activo_fk
+    ) VALUES (
+        :msd,
+        :antivirus,
+        :visio_pro,
+        :mac_osx,
+        :windows,
+        :autocad,
+        :office,
+        :appolo,
+        :zeus,
+        :otros,
+        :procesador,
+        :disco_duro,
+        :memoria_ram,
+        :cd_dvd,
+        :tarjeta_video,
+        :tarjeta_red,
+        :tipo_red,
+        :tiempo_bloqueo,
+        :usuario,
+        :clave,
+        :zfip,
+        :privilegios,
+        :observaciones_equipo,
+        :backup,
+        :dia_backup,
+        :realiza_backup,
+        :justificacion_backup,
+        :id_activo_fk
+    )");
+
+    $stmt->bindParam(":msd", $datos["msd"], PDO::PARAM_STR);
+    $stmt->bindParam(":antivirus", $datos["antivirus"], PDO::PARAM_STR);
+    $stmt->bindParam(":visio_pro", $datos["visio_pro"], PDO::PARAM_STR);
+    $stmt->bindParam(":mac_osx", $datos["mac_osx"], PDO::PARAM_STR);
+    $stmt->bindParam(":windows", $datos["windows"], PDO::PARAM_STR);
+    $stmt->bindParam(":autocad", $datos["autocad"], PDO::PARAM_STR);
+    $stmt->bindParam(":office", $datos["office"], PDO::PARAM_STR);
+    $stmt->bindParam(":appolo", $datos["appolo"], PDO::PARAM_STR);
+    $stmt->bindParam(":zeus", $datos["zeus"], PDO::PARAM_STR);
+    $stmt->bindParam(":otros", $datos["otros"], PDO::PARAM_STR);
+    $stmt->bindParam(":procesador", $datos["procesador"], PDO::PARAM_STR);
+    $stmt->bindParam(":disco_duro", $datos["disco_duro"], PDO::PARAM_STR);
+    $stmt->bindParam(":memoria_ram", $datos["memoria_ram"], PDO::PARAM_STR);
+    $stmt->bindParam(":cd_dvd", $datos["cd_dvd"], PDO::PARAM_STR);
+    $stmt->bindParam(":tarjeta_video", $datos["tarjeta_video"], PDO::PARAM_STR);
+    $stmt->bindParam(":tarjeta_red", $datos["tarjeta_red"], PDO::PARAM_STR);
+    $stmt->bindParam(":tipo_red", $datos["tipo_red"], PDO::PARAM_STR);
+    $stmt->bindParam(":tiempo_bloqueo", $datos["tiempo_bloqueo"], PDO::PARAM_STR);
+    $stmt->bindParam(":usuario", $datos["usuario"], PDO::PARAM_STR);
+    $stmt->bindParam(":clave", $datos["clave"], PDO::PARAM_STR);
+    $stmt->bindParam(":zfip", $datos["zfip"], PDO::PARAM_STR);
+    $stmt->bindParam(":privilegios", $datos["privilegios"], PDO::PARAM_STR);
+    $stmt->bindParam(":observaciones_equipo", $datos["observaciones_equipo"], PDO::PARAM_STR);
+    $stmt->bindParam(":backup", $datos["backup"], PDO::PARAM_STR);
+    $stmt->bindParam(":dia_backup", $datos["dia_backup"], PDO::PARAM_STR);
+    $stmt->bindParam(":realiza_backup", $datos["realiza_backup"], PDO::PARAM_STR);
+    $stmt->bindParam(":justificacion_backup", $datos["justificacion_backup"], PDO::PARAM_STR);
+    $stmt->bindParam(":id_activo_fk", $datos["id_activo_fk"], PDO::PARAM_INT);
+
+    if ($stmt->execute()) {
+        return "ok";
+    } else {
+        $arr = $stmt->errorInfo();
+        return $arr[2]; // Retorna el error SQL si ocurre
+    }
+
+    $stmt = null;
+}
+
+
     /*=============================================
 	MOSTRAR Activos
 	=============================================*/
@@ -100,15 +244,21 @@ class ModeloActivos
         }
     }
 
-        /*=============================================
-	MOSTRAR ACTIVOS TECNOLOGICOS
+    /*=============================================
+	MOSTRAR ACTIVOS TECNOLOGICOS DIFERENTES A EQUIPOS DE COMPUTO
 	=============================================*/
     static public function mdlMostrarActivosTI($tabla, $item, $valor)
     {
 
         // Verifica si se proporcionaron parámetros
         if ($item != null && $valor != null) {
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :valor AND recurso_tecnologico = 'Si'");
+            $stmt = Conexion::conectar()->prepare("SELECT a.*, c.nombre_categoriact
+            FROM activos a
+            INNER JOIN categorias_activos c ON a.id_categoriact_fk = c.id_categoriact
+            WHERE a.$item = :valor 
+            AND a.recurso_tecnologico = 'Si' 
+            AND a.id_categoriact_fk NOT IN (1, 2, 12)
+            AND a.estado_activo != 'Inactivo'");
             $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
             $stmt->execute();
             return $stmt->fetchAll();
@@ -118,6 +268,108 @@ class ModeloActivos
             return $stmt->fetchAll();
         }
     }
+
+    /*=============================================
+	MOSTRAR ACTIVOS TECNOLOGICOS SOLO EQUIPOS DE COMPUTO
+	=============================================*/
+
+    static public function mdlMostrarEquipos($tabla, $item, $valor)
+    {
+        if ($item != null && $valor != null) {
+            $stmt = Conexion::conectar()->prepare("SELECT a.*, 
+                                                          c.nombre_categoriact, 
+                                                          u.nombre, 
+                                                          u.apellidos_usuario 
+                                                   FROM $tabla a
+                                                   INNER JOIN categorias_activos c ON a.id_categoriact_fk = c.id_categoriact
+                                                   LEFT JOIN detalles_equipos d ON a.id_activo = d.id_activo_fk
+                                                   LEFT JOIN usuarios u ON a.id_usuario_fk = u.id
+                                                   WHERE a.$item = :valor 
+                                                   AND a.recurso_tecnologico = 'Si' 
+                                                   AND a.id_categoriact_fk IN (1, 2, 12) 
+                                                   AND a.estado_activo != 'Inactivo'
+                                                   ");
+            $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } else {
+            $stmt = Conexion::conectar()->prepare("SELECT a.*, 
+                                                          c.nombre_categoriact, 
+                                                          u.nombre, 
+                                                          u.apellidos_usuario 
+                                                   FROM $tabla a
+                                                   INNER JOIN categorias_activos c ON a.id_categoriact_fk = c.id_categoriact
+                                                   LEFT JOIN detalles_equipos d ON a.id_activo = d.id_activo_fk
+                                                   LEFT JOIN usuarios u ON a.id_usuario_fk = u.id
+                                                   WHERE a.recurso_tecnologico = 'Si' 
+                                                   AND a.id_categoriact_fk IN (1, 2, 12) 
+                                                   AND a.estado_activo != 'Inactivo'
+                                                   AND d.id_detalle IS NULL");
+            $stmt->execute();
+            return $stmt->fetchAll();
+        }
+    }
+
+
+
+    /*=============================================
+	MOSTRAR ASIGNACION DE EQUIPOS
+	=============================================*/
+    static public function mdlMostrarAsignaciones($tabla_asignacion, $item_asignacion, $valor_asignacion)
+    {
+        $pdo = Conexion::conectar();
+
+        if ($item_asignacion != null && $valor_asignacion != null) {
+            // Consulta cuando se envían parámetros específicos
+            $stmt = $pdo->prepare("SELECT u.*, p.nombre_proceso, c.nombre_cargo, a.*
+                FROM usuarios u
+                INNER JOIN proceso p ON u.id_proceso_fk = p.id_proceso
+                INNER JOIN cargos c ON u.id_cargo_fk = c.id_cargo
+                INNER JOIN $tabla_asignacion a ON a.id_usuario_fk = u.id
+                WHERE a.$item_asignacion = :valor
+            ");
+            $stmt->bindParam(":valor", $valor_asignacion, PDO::PARAM_STR);
+        } else {
+            // Consulta cuando no se envían parámetros (usuarios sin asignación)
+            $stmt = $pdo->prepare("SELECT u.*, p.nombre_proceso, c.nombre_cargo
+                FROM usuarios u
+                INNER JOIN proceso p ON u.id_proceso_fk = p.id_proceso
+                INNER JOIN cargos c ON u.id_cargo_fk = c.id_cargo
+                LEFT JOIN $tabla_asignacion a ON u.id = a.id_usuario_fk
+                WHERE a.id_usuario_fk IS NULL
+                AND u.estado = '1'
+            ");
+        }
+
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    
+    
+   /*=============================================
+	MOSTRAR ACTIVOS TECNOLOGICOS DIFERENTES A EQUIPOS DE COMPUTO
+	=============================================*/
+    static public function mdlMostrarDetallesEquipos($tabla_detalles, $item_detalles, $valor_detalles)
+    {
+        $conexion = Conexion::conectar();
+        
+        $stmt = $conexion->prepare("SELECT a.*, d.*, u.*
+
+                                    FROM activos a
+                                    LEFT JOIN detalles_equipos d ON a.id_activo = d.id_activo_fk
+                                    LEFT JOIN usuarios u ON a.id_usuario_fk = u.id
+                                    WHERE a.id_usuario_fk = :valor
+                                    AND a.id_categoriact_fk IN (1, 2, 12) 
+                                    AND a.recurso_tecnologico = 'Si' 
+                                    AND a.estado_activo != 'Inactivo'");
+        
+        $stmt->bindParam(":valor", $valor_detalles, PDO::PARAM_INT);
+        
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+    
 
     /*=============================================
 	MOSTRAR Activos AJAX
@@ -477,8 +729,9 @@ class ModeloActivos
         return $row['total_activos'];
     }
 
-     // Contar activos inactivos por usuario
-     public static function contarActivosInactivosPorUsuario($idUsuario) {
+    // Contar activos inactivos por usuario
+    public static function contarActivosInactivosPorUsuario($idUsuario)
+    {
         // Obtener la conexión a la base de datos
         $db = Conexion::conectar();
         $stmt = "SELECT COUNT(id_activo) AS total_inactivos
