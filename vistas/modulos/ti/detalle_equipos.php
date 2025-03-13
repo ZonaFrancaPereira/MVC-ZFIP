@@ -7,7 +7,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
-                    <li class="breadcrumb-item active">Administrar Contraseñas</li>
+                    <li class="breadcrumb-item active">Administrar Recursos TI</li>
                 </ol>
             </div>
         </div>
@@ -21,10 +21,10 @@
                     <div class="card-header p-2">
                         <ul class="nav nav-pills">
                             <li class="nav-item">
-                                <a class="active nav-link" href="#asignacion" data-toggle="tab">Asignación de Equipos</a>
+                                <a class="active nav-link" href="#asignacion_ti" data-toggle="tab">Asignación de Equipos</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#caracteristicas" data-toggle="tab">Características Equipos</a>
+                                <a class="nav-link" href="#ver_detalles_ti" data-toggle="tab">Características Equipos</a>
                             </li>
                         </ul>
                     </div>
@@ -32,7 +32,7 @@
                     <div class="card-body">
                         <div class="tab-content">
                             <!-- TAB PARA ACTUALIZAR LAS CONTRASEÑAS -->
-                            <div class="tab-pane active" id="asignacion">
+                            <div class="tab-pane active" id="asignacion_ti">
                                 <div class="card">
                                     <div class="card-header">
                                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-lg">
@@ -56,7 +56,7 @@
                                                                     <input type="date" class="form-control" id="fecha_asignacion" name="fecha_asignacion" required>
                                                                 </div>
                                                                 <div class="col-md-6">
-                                                                    <label for="id_usuario_fk">Usuario</label>
+                                                                    <label for="">Usuario</label>
                                                                     <input list="usuario1" class="form-control" id="id_usuario_fk1" name="id_usuario_fk" required style="width: 100%;">
                                                                     <datalist id="usuario1">
                                                                         <?php
@@ -99,14 +99,14 @@
                             <!-- /.tab-pane -->
 
                             <!-- TAB PARA CONSULTAR LAS CONTRASEÑAS -->
-                            <div class="tab-pane" id="caracteristicas">
+                            <div class="tab-pane" id="ver_detalles_ti">
                                 <div class="card">
                                     <div class="card-header">
-                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-equipos">
+                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-equipos_ti">
                                             Características Equipo
                                         </button>
 
-                                        <div class="modal fade" id="modal-equipos">
+                                        <div class="modal fade" id="modal-equipos_ti">
                                             <div class="modal-dialog modal-lg">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -120,7 +120,7 @@
                                                             <div class="row">
 
                                                                 <div class="col-md-12">
-                                                                    <label for="id_usuario_fk">Selecciona Equipo</label>
+                                                                    <label for="">Selecciona Equipo</label>
                                                                     <input list="equipo" class="form-control form-control-border" id="id_activo_fk" name="id_activo_fk" required style="width: 100%;">
                                                                     <datalist id="equipo">
                                                                         <?php
@@ -131,8 +131,10 @@
                                                                         $equiposd = ControladorActivos::ctrMostrarEquipos($item, $valor);
 
                                                                         // Verificar si $usuarios es un array válido
-                                                                        foreach ($equiposd as $key => $valued) {
-                                                                            echo '<option value="' . htmlspecialchars($valued["id_activo"]) . '">' . htmlspecialchars($valued["nombre_articulo"] . ' - ' . $valued["nombre"] . ' ' . $valued["apellidos_usuario"]) . '</option>';
+                                                                        if (!empty($equiposd) && is_array($equiposd)) {
+                                                                            foreach ($equiposd as $valued) {
+                                                                                echo '<option value="' . htmlspecialchars($valued["id_activo"]) . '">' . htmlspecialchars($valued["nombre_articulo"] . ' - ' . $valued["nombre"] . ' ' . $valued["apellidos_usuario"]) . '</option>';
+                                                                            }
                                                                         }
 
                                                                         ?>
@@ -292,7 +294,7 @@
                                                                 </div>
                                                                 <div class="form-group col-md-12">
                                                                     <label for="backup">Ruta Carpeta en Red</label>
-                                                                    <input type="text" class="form-control form-control-border" id="backup" name="backup">
+                                                                    <input type="text" class="form-control form-control-border"  name="backup">
                                                                 </div>
 
                                                                 <div class="form-group col-md-6">
