@@ -6,12 +6,12 @@ require_once "configuracion.php";
 
         <li class="nav-item">
             <a data-toggle="tab" href="#asignacion_equipos" class="nav-link">
-                <i class="fas fa-desktop"></i>
-                <p>Asignación de Equipos</p>
+                <i class="fas fa-chalkboard-teacher"></i>
+                <p>Equipos TI Asignados</p>
             </a>
         </li>
 
-        
+        <li class="nav-header">PANEL TI</li>
 
         <li class="nav-item">
             <a data-toggle="tab" href="#recursos_ti" class="nav-link">
@@ -116,7 +116,7 @@ require_once "configuracion.php";
                 if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargoTi)):
                 ?>
                     <li class="nav-item">
-                        <a data-toggle="tab" href="#equipo" class="nav-link">
+                        <a data-toggle="tab" href="#equipo_mantenimiento" class="nav-link">
                             <i class="nav-icon fas fa-sync-alt"></i>
                             <p>Equipos de computo</p>
                         </a>
@@ -310,7 +310,7 @@ if ($_SESSION["ti"] == "off") {
                             </div>
                         </div>
                     </div>
-                    <div id="equipo" class="tab-pane">
+                    <div id="equipo_mantenimiento" class="tab-pane">
                         <div class="row">
                             <div class="col-md-12">
                                 <?php require "ti/equipo.php"; ?>

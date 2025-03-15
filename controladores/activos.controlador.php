@@ -222,7 +222,7 @@ class ControladorActivos
 	}
 
     /*=============================================
-	MOSTRAR ACTIVOS EQUIPOS TECNOLOGICOS
+	MOSTRAR ACTIVOS EQUIPOS TECNOLOGICOS SOLO PC
 	=============================================*/
 
 	static public function ctrMostrarEquipos($item, $valor)
@@ -590,6 +590,11 @@ public static function graficaVerificacionActivos() {
 public static function ctrContarActivosInactivosPorUsuario($idUsuario) {
     return ModeloActivos::contarActivosInactivosPorUsuario($idUsuario);
 }
+public static function ctrGraficaTI()
+{
+    $respuesta = ModeloActivos::mdlContarActivosPorCategoria();
+    echo json_encode($respuesta);
+}
 
 
 }
@@ -634,4 +639,12 @@ if (isset($_GET['action']) && $_GET['action'] == 'graficaVerificacionActivos') {
     $modelo = new ModeloActivos();
     $controlador = new ControladorActivos($modelo);
     $controlador->graficaVerificacionActivos();
+}
+
+if (isset($_GET['action']) && $_GET['action'] == 'graficaCategorias') {
+    require_once '../modelos/activos.modelo.php';
+$modelo = new ModeloActivos();
+$controlador = new ControladorActivos($modelo);
+   
+    $controlador->ctrGraficaTI();
 }
