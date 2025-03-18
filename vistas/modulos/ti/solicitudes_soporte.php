@@ -116,9 +116,9 @@
                         </div>
                         <button type="submit" class="btn btn-info btn-block" id="responder_solicitud" name="responder_solicitud">Responder</button>
                         <?php
-                $ResponderSolicitud = new ControladorSoporte();
-                $ResponderSolicitud->ctrResponderSolicitud();
-                ?>
+                        $ResponderSolicitud = new ControladorSoporte();
+                        $ResponderSolicitud->ctrResponderSolicitud();
+                        ?>
                     </form>
                 </div>
             </div>
