@@ -369,6 +369,8 @@ class ModeloActivos
         $stmt->execute();
         return $stmt->fetchAll();
     }
+
+    
     
 
     /*=============================================
@@ -749,4 +751,19 @@ class ModeloActivos
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row['total_inactivos'];
     }
+
+    public static function mdlContarActivosPorCategoria()
+    {
+        $stmt = Conexion::conectar()->prepare("SELECT c.nombre_categoriact AS categoria, COUNT(a.id_activo) AS total
+            FROM activos a
+            INNER JOIN categorias_activos c ON a.id_categoriact_fk = c.id_categoriact
+            WHERE a.id_categoriact_fk IN (1, 2,3,4,5,6,7,8,9,10,11,12,13,15,16)
+            AND (a.estado_activo = 'Activo' OR a.estado_activo = 'Rentado' OR a.estado_activo = 'En Almacenamiento')
+            GROUP BY a.id_categoriact_fk
+        ");
+    
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
 }
