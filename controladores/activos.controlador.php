@@ -271,7 +271,7 @@ class ControladorActivos
     }
     /*=============================================
 	MOSTRAR ACTIVOS POR USUARIO
-	=============================================*/
+	=============================================
     public static function obtenerActivosConUsuarios() {
         // Aquí deberías realizar la consulta SQL para obtener los activos con la información de los usuarios que los tienen
         // Este es un ejemplo simplificado
@@ -285,6 +285,36 @@ class ControladorActivos
         $stmt->execute();
         return $stmt->fetchAll();
     }
+
+    /*=============================================
+	MOSTRAR ACTIVOS POR USUARIO PARA DAR DE BAJA
+	=============================================*/
+    public static function obtenerActivosConUsuariosBaja($idUsuario = null) {
+        if ($idUsuario) {
+            $sql = "
+                SELECT a.id_activo, a.nombre_articulo, u.nombre AS nombre_usuario, u.apellidos_usuario
+                FROM activos a
+                INNER JOIN usuarios u ON a.id_usuario_fk = u.id
+                WHERE a.id_usuario_fk = :idUsuario
+                ORDER BY a.nombre_articulo ASC";
+        } else {
+            $sql = "
+                SELECT a.id_activo, a.nombre_articulo, u.nombre AS nombre_usuario, u.apellidos_usuario
+                FROM activos a
+                INNER JOIN usuarios u ON a.id_usuario_fk = u.id
+                ORDER BY a.nombre_articulo ASC";
+        }
+    
+        $stmt = Conexion::conectar()->prepare($sql);
+    
+        if ($idUsuario) {
+            $stmt->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
+        }
+    
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+    
 	/*=============================================
 	EDITAR Activos
 	=============================================*/

@@ -30,7 +30,7 @@
                                 <datalist id="activos">
                                     <?php
                                     // Obtener los activos y los usuarios que los tienen
-                                    $activos = ControladorActivos::obtenerActivosConUsuarios();
+                                    $activos = ControladorActivos::obtenerActivosConUsuariosBaja();
 
                                     foreach ($activos as $activo) {
                                         echo '<option value="' . $activo["id_activo"] . '">' . $activo["nombre_articulo"] . ' - ' . $activo["nombre_usuario"] . ' ' . $activo["apellidos_usuario"] . '</option>';
@@ -40,7 +40,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="usuario_destino">Usuario Destino</label>
-                                <input list="usuarios" class="form-control select2" id="usuario_destino" name="usuario_destino" required style="width: 100%;">
+                                <input list="usuarios" class="form-control " id="usuario_destino" name="usuario_destino" required style="width: 100%;">
                                 <datalist id="usuarios">
                                     <?php
                                     if ($usuario["id"] <> 0) {
@@ -77,7 +77,7 @@
                         <form method="post" action="">
                             <div class="form-group">
                             <label for="usuario_origen">Usuario Origen</label>
-                                <input list="usuarios_origen" class="form-control select2" id="usuario_origen" name="usuario_origen" required style="width: 100%;">
+                                <input list="usuarios_origen" class="form-control " id="usuario_origen" name="usuario_origen" required style="width: 100%;">
                                 <datalist id="usuarios_origen">
                                     <?php
                                     if ($usuario["id"] <> 0) {
@@ -95,7 +95,7 @@
                             <div class="form-group">
                                 <label for="usuario_destino">Usuario Destino</label>
                               
-                                <input list="usuarios" class="form-control select2" id="usuario_destino" name="usuario_destino" required style="width: 100%;">
+                                <input list="usuarios" class="form-control " id="usuario_destino" name="usuario_destino" required style="width: 100%;">
                                 <datalist id="usuarios">
                                     <?php
                                     if ($usuario["id"] <> 0) {

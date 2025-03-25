@@ -177,7 +177,7 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
 
           <!-- /. MANUAL DE USO ACTIVOS FIJOS -->
           <div id="eliminar_activos" class="tab-pane">
-            eliminar
+          <?php require "ct/eliminar_activo.php"; ?>
           </div>
           <!-- CIERRE DE MANUAL DE USO ACTIVOS FIJOS -->
 

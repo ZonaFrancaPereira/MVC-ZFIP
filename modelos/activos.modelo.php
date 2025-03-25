@@ -257,7 +257,7 @@ class ModeloActivos
             INNER JOIN categorias_activos c ON a.id_categoriact_fk = c.id_categoriact
             WHERE a.$item = :valor 
             AND a.recurso_tecnologico = 'Si' 
-            AND a.id_categoriact_fk NOT IN (1, 2, 12)
+            AND a.id_categoriact_fk NOT IN (1, 2, 12,14)
             AND a.estado_activo != 'Inactivo'");
             $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
             $stmt->execute();

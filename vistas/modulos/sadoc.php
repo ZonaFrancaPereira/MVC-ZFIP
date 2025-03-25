@@ -252,7 +252,45 @@ switch ($procesoActivo) {
                               </div>
                               <!-- Pestaña Asignar Categorías -->
                               <div class="tab-pane fade" id="tab-asignar-categorias" role="tabpanel" aria-labelledby="asignar-categorias-tab">
-                                <p>Contenido de la pestaña <strong>Asignar Categorías</strong>.</p>
+                                <?php
+                                $procesos = ControladorProcesos::ctrMostrarProcesos();
+                                ?>
+                                <form method="POST" id="formCategorias">
+                                <div class="row mt-3">
+                                    <div class="col-md-12 mb-3">
+                                      <label for="categoria_sadoc" class="form-label">Selecciona una categoría:</label>
+                                      <input list="categorias_sadoc" id="categoria_sadoc" name="categoria_sadoc" class="form-control" placeholder="Escribe para buscar..." required>
+                                      <datalist id="categorias_sadoc">
+                                        <?php
+                                        $categorias = ControladorSadoc::mostrarCategorias();
+                                        foreach ($categorias as $categoria) {
+                                          echo "<option value='{$categoria["id_categoria"]} - {$categoria["nombre_categoria"]}'>";
+                                        }
+                                        ?>
+                                      </datalist>
+                                        <label for="activos_baja" class="form-label">Selecciona los activos:</label>
+                                        <select id="activos_baja" name="id_activo[]" multiple class="select2 form-control">
+                                            <?php foreach ($procesos as $proceso): ?>
+                                                <option value="<?= $proceso["id_proceso"] ?>" >
+                                                    <?= "{$proceso["id_proceso"]} - {$proceso["siglas_proceso"]} - {$proceso["nombre_proceso"]} " ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                        
+                                    <!-- Observaciones -->
+                                    <div class="col-md-12 mb-3">
+                                        <label for="observaciones" class="form-label">Observaciones:</label>
+                                        <textarea name="observaciones" class="form-control" required></textarea>
+                                    </div>
+                        
+                                    <div class="col-md-12 text-center">
+                                        <button type="submit" name="dar_baja" class="btn btn-danger">Dar de Baja</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                                
                               </div>
                               <?php require "sadoc/categoria_sadoc.php"; ?>
                             </div>
@@ -522,6 +560,40 @@ function generarPanelProceso($modalId, $tituloModal, $codigo, $id_proceso_fk, $p
 
 <!-- MODAL PARA CREAR NUEVA CATEGORIA -->
 
+<!-- Script -->
+<script>
+$(document).ready(function() {
+    // Inicializar Select2
+    $('.select2').select2({
+        placeholder: "Selecciona activos",
+        allowClear: true,
+        width: '100%'
+    });
+
+    // Manejo del formulario
+    $("#formCategorias").submit(function(event) {
+        event.preventDefault(); // Evita el envío inmediato
+
+      
+
+        // Confirmación con SweetAlert
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: "Esta acción dará de baja los activos seleccionados.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Sí, dar de baja",
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $("#formCategorias")[0].submit();
+            }
+        });
+    });
+});
+</script>
 
 
 

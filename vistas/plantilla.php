@@ -152,7 +152,21 @@ session_start();
 
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 </head>
-
+<!-- Estilos para Select2 -->
+<style>
+    .select2-search__field {
+        color: black !important;
+    }
+    .select2-selection__choice {
+        background-color: #007bff !important;
+        color: white !important;
+        font-weight: bold;
+    }
+    .select2-dropdown {
+        background-color: white !important;
+        color: black !important;
+    }
+</style>
 
 
 <!--=====================================
