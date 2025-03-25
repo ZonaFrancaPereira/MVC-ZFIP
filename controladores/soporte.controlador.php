@@ -25,7 +25,7 @@ class ControladorSoporte
             if (is_numeric($respuesta)) {
                 echo '<script>
                     Swal.fire({
-                        title: "Buen Trabajo!",
+                        title: "¡Buen Trabajo!",
                         text: "La solicitud número: ' . $respuesta . ' ha sido registrada con éxito.",
                         icon: "success"
                     }).then(function() {
@@ -49,12 +49,11 @@ class ControladorSoporte
                             }
                         });
             
-                        // Limpiar el formulario y ocultar la sección de creación
+                        // Limpiar el formulario, ocultar la sección de soporte y mostrar principal_soporte
                         document.getElementById("soporte_ti").reset();
-                        $("#soporte_ti").hide();  // Oculta el formulario de creación
-            
-                        // Mostrar y activar la sección principal
-                        $("#principal_soporte").addClass("active").show();
+                        $("#soporte").hide(); // Oculta toda la sección
+                        $("#nuevo_soporte").hide(); // Oculta toda la sección
+                        $("#principal_soporte").addClass("active").show(); // Muestra principal_soporte
                     });
                 </script>';
             }

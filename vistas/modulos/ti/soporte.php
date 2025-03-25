@@ -1,5 +1,5 @@
 <!-- Content Header (Page header) -->
-<section class="content-header">
+<section class="content-header" id="nuevo_soporte">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
@@ -16,7 +16,7 @@
 </section>
 
 <!-- Main content -->
-<section class="content">
+<section class="content" id="soporte">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
