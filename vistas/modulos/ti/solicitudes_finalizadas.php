@@ -24,7 +24,7 @@
                         <h3 class="card-title">Solicitudes </h3>
                     </div>
                     <div class="card-body">
-                        <table id="tabla-finalizadas-ti" class="table table-bordered table-striped dt-responsive" width="100%">
+                    <table class="display table table-bordered" width="100%">
                             <thead class="bg-dark">
                                 <tr>
                                     <th>#</th>
@@ -36,7 +36,37 @@
                                     <th>Tecnico</th>
                                 </tr>
                             </thead>
-                        </table>
+                        
+                        <tbody>
+                                <?php
+                                $item = null;
+                                $valor = null;
+                                $soportes = ControladorSoporte::ctrMostrarSoporteFinalizadas($item, $valor);
+                                foreach ($soportes as $key => $value) {
+                                    echo '<tr>
+                                    <td>' . $value["id_soporte"] . '</td>
+                                    <td>' . $value["fecha_soporte"] . '</td>
+                                    <td>' . $value["descripcion_soporte"] . '</td>
+                                    <td>';
+                                    // Evaluamos la urgencia
+                                    if ($value["urgencia"] == "Urgente") {
+                                        echo '<span class="badge bg-danger">' . $value["urgencia"] . '</span>';
+                                    } elseif ($value["urgencia"] == "Urgencia media") {
+                                        echo '<span class="badge bg-warning">' . $value["urgencia"] . '</span>';
+                                    } elseif ($value["urgencia"] == "Prioridad baja") {
+                                        echo '<span class="badge bg-success">' . $value["urgencia"] . '</span>';
+                                    } else {
+                                        echo '<span class="badge bg-secondary">' . $value["urgencia"] . '</span>';
+                                    }
+                                    echo '</td>
+                                    <td>' . $value["solucion_soporte"] . '</td>
+                                    <td>' . $value["fecha_solucion"] . '</td>
+                                    <td>' . $value["usuario_respuesta"] . '</td>
+                                </tr>';
+                                }
+                                ?>
+                            </tbody>
+                            </table>
                     </div>
                 </div>
             </div>

@@ -44,7 +44,6 @@ class ModeloSoporte
                 return "error";
             }
         } catch (PDOException $e) {
-            // Manejar errores
             return "error: " . $e->getMessage();
         }
     }
@@ -52,35 +51,49 @@ class ModeloSoporte
 	MOSTRAR SOPORTE
 	=============================================*/
 
-    public static function mdlMostrarSoporte($tabla, $item, $valor, $consulta)
+    public static function mdlMostrarSoporteUsuarios($tabla, $item, $valor)
     {
-        switch ($consulta) {
-            case 'usuarios':
-                // Consulta con filtro
-                $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :valor");
-                $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
-                $stmt->execute();
-                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
-                $stmt = null;
-                break;
-            case 'ti':
-                // Consulta sin filtro
-                $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE fecha_solucion IS NULL ");
-                $stmt->execute();
-                return $stmt->fetchAll();
-                $stmt = null;
-                break;
-            case 'finalizada':
-                $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE fecha_solucion IS NOT NULL AND fecha_solucion != ''");
-                $stmt->execute();
-                return $stmt->fetchAll();
-                $stmt = null;
-                break;
-            default:
-                $consulta = null;
-                $item = null;
-                $valor = null;
-                break;
+        try {
+            // Preparar la consulta con filtro
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :valor");
+            $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+            $stmt->closeCursor();
+            $stmt = null;
+
+            return $result;
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        }
+    }
+    
+    public static function mdlMostrarSoporteFinalizadas($tabla, $item, $valor)
+    {
+        try {
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE fecha_solucion IS NOT NULL AND fecha_solucion != ''");
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+            $stmt->closeCursor();
+            $stmt = null;
+
+            return $result;
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        }
+    }
+    public static function mdlMostrarSoporteTi($tabla, $item, $valor)
+    {
+        try {
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE fecha_solucion IS NULL ");
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+            $stmt->closeCursor();
+            $stmt = null;
+
+            return $result;
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
         }
     }
 

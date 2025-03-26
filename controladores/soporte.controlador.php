@@ -88,11 +88,36 @@ class ControladorSoporte
 	MOSTRAR SOPORTE
 	=============================================*/
 
-    static public function ctrMostrarSoporte($item, $valor, $consulta)
+    static public function ctrMostrarSoporte($item, $valor)
     {
         $tabla = "soporte";
 
-        $respuesta = ModeloSoporte::mdlMostrarSoporte($tabla, $item, $valor, $consulta);
+        $respuesta = ModeloSoporte::mdlMostrarSoporteUsuarios($tabla, $item, $valor);
+
+        return $respuesta;
+    }
+
+        /*=============================================
+	MOSTRAR SOPORTE
+	=============================================*/
+
+    static public function ctrMostrarSoporteFinalizadas($item, $valor)
+    {
+        $tabla = "soporte";
+
+        $respuesta = ModeloSoporte::mdlMostrarSoporteFinalizadas($tabla, $item, $valor);
+
+        return $respuesta;
+    }
+            /*=============================================
+	MOSTRAR SOPORTE
+	=============================================*/
+
+    static public function ctrMostrarSoporteTi($item, $valor)
+    {
+        $tabla = "soporte";
+
+        $respuesta = ModeloSoporte::mdlMostrarSoporteTi($tabla, $item, $valor);
 
         return $respuesta;
     }
@@ -117,17 +142,25 @@ class ControladorSoporte
             if ($respuesta == "ok") {
 
                 echo '<script>
-                        Swal.fire(
-                        "Buen Trabajo!",
-                        "La urgencia ha sido registrada con éxito.",
-                        "success"
-                        ).then(function() {
+                if (!sessionStorage.getItem("recargado")) {
+                    Swal.fire({
+                        title: "Buen Trabajo!",
+                        text: "La urgencia ha sido registrada con éxito.",
+                        icon: "success"
+                    }).then(function() {
                         document.getElementById("soporte_ti").reset();
                         $("#solicitudes_soporte").addClass("active");
                         
-                        });
-                    </script>
-                ';
+                        sessionStorage.setItem("recargado", "true"); // Marcar que ya se recargó
+                        location.reload(); // Recargar la página una vez
+                    });
+                } else {
+                    sessionStorage.removeItem("recargado"); // Eliminar la marca después de la recarga
+                }
+            </script>';
+            
+
+            
             } else {
                 echo '<script>
                     Swal.fire({
@@ -167,48 +200,56 @@ class ControladorSoporte
 
             if ($respuesta == "ok") {
                 echo '<script>
-                Swal.fire({
-                    title: "Buen Trabajo!",
-                    text: "Se ha dado respuesta a La solicitud con éxito.",
-                    icon: "success"
-                }).then(function() {
-                    var datosCorreo = {
-                        id_usuario_fk: "' . $_SESSION["id"] . '",
-                        modulo: "solicitudes_soporte",
-                        id_consulta: "' . $_POST["id_soporte1"] . '",
-                        destinatario: "ninguno"
-                    };
-
-                    $.ajax({
-                        url: "ajax/enviarCorreo.php",
-                        method: "POST",
-                        data: JSON.stringify(datosCorreo),
-                        cache: false,
-                        contentType: "application/json",
-                        processData: false,
-                        success: function(respuesta) {
-                            console.log("respuesta", respuesta);
-                        }
-                    });
-
-                    document.getElementById("soporte_ti").reset();
-                    $("#solicitudes_soporte").addClass("active");
-                });
+                    if (!sessionStorage.getItem("recargado")) {
+                        Swal.fire({
+                            title: "Buen Trabajo!",
+                            text: "Se ha dado respuesta a la solicitud con éxito.",
+                            icon: "success"
+                        }).then(function() {
+                            var datosCorreo = {
+                                id_usuario_fk: "' . $_SESSION["id"] . '",
+                                modulo: "solicitudes_soporte",
+                                id_consulta: "' . $_POST["id_soporte1"] . '",
+                                destinatario: "ninguno"
+                            };
+            
+                            $.ajax({
+                                url: "ajax/enviarCorreo.php",
+                                method: "POST",
+                                data: JSON.stringify(datosCorreo),
+                                cache: false,
+                                contentType: "application/json",
+                                processData: false,
+                                success: function(respuesta) {
+                                    console.log("respuesta", respuesta);
+                                }
+                            });
+            
+                            document.getElementById("soporte_ti").reset();
+                            $("#solicitudes_soporte").addClass("active");
+            
+                            sessionStorage.setItem("recargado", "true"); // Marcar que ya se recargó
+                            location.reload(); // Recargar la página
+                        });
+                    } else {
+                        sessionStorage.removeItem("recargado"); // Eliminar la marca después de la recarga
+                    }
                 </script>';
             } else {
                 echo '<script>
                     Swal.fire({
-                        type: "error",
+                        icon: "error",
                         title: "¡No se pudo guardar la respuesta de la Solicitud!",
                         showConfirmButton: true,
                         confirmButtonText: "Cerrar"
                     }).then(function(result){
                         if(result.value){
-                            $("#solicitudes_soporte ").addClass("active");
+                            $("#solicitudes_soporte").addClass("active");
                         }
                     });
                 </script>';
             }
+            
         }
     }
 
