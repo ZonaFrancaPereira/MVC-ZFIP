@@ -311,6 +311,25 @@ class ControladorMantenimiento
             }
         }
     }
+
+    static public function ctrMostrarEquiposAsignados($item,$valor)
+    {
+        $tabla = "activos";
+        $respuesta = ModeloMantenimiento::mdlMostrarEquiposAsignados($tabla, $item, $valor);
+        return $respuesta;
+    }
     
-    
+    static public function ctrMostrarEquiposGenerales($item,$valor)
+    {
+        $tabla = "activos";
+        $respuesta = ModeloMantenimiento::mdlMostrarEquiposGenerales($tabla, $item, $valor);
+        return $respuesta;
+    }
+
+    static public function ctrMostrarEquiposImpresoras($item,$valor)
+    {
+        $tabla = "activos";
+        $respuesta = ModeloMantenimiento::mdlMostrarEquiposImpresoras($tabla, $item, $valor);
+        return $respuesta;
+    }
 }

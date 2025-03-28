@@ -487,6 +487,66 @@ class ModeloMantenimiento
         $stmt->close();
         $stmt = null;
     }
+
+    public static function mdlMostrarEquiposAsignados($tabla, $item, $valor)
+    {
+        try {
+            // Conectar a la base de datos
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_categoriact_fk IN (1, 2)");
+
+            // Ejecutar la consulta
+            $stmt->execute();
+
+            // Retornar todos los resultados
+            return $stmt->fetchAll(PDO::FETCH_ASSOC); // Devuelve un array asociativo de todos los consumibles
+
+        } catch (PDOException $e) {
+            // Manejo de errores
+            echo 'Error: ' . $e->getMessage();
+            return [];
+        }
+
+    }
+
+    public static function mdlMostrarEquiposGenerales($tabla, $item, $valor)
+    {
+        try {
+            // Conectar a la base de datos
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_categoriact_fk IN (3, 4, 6, 7, 8, 9, 11, 12, 13, 15, 16)");
+
+            // Ejecutar la consulta
+            $stmt->execute();
+
+            // Retornar todos los resultados
+            return $stmt->fetchAll(PDO::FETCH_ASSOC); // Devuelve un array asociativo de todos los consumibles
+
+        } catch (PDOException $e) {
+            // Manejo de errores
+            echo 'Error: ' . $e->getMessage();
+            return [];
+        }
+
+    }
+
+    public static function mdlMostrarEquiposImpresoras($tabla, $item, $valor)
+    {
+        try {
+            // Conectar a la base de datos
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_categoriact_fk = '5'");
+
+            // Ejecutar la consulta
+            $stmt->execute();
+
+            // Retornar todos los resultados
+            return $stmt->fetchAll(PDO::FETCH_ASSOC); // Devuelve un array asociativo de todos los consumibles
+
+        } catch (PDOException $e) {
+            // Manejo de errores
+            echo 'Error: ' . $e->getMessage();
+            return [];
+        }
+
+    }
     
     
 }
