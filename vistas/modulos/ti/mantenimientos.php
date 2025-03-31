@@ -56,7 +56,7 @@
                                     </div>
                                 </div>
                                 <div class="card-body table-responsive p-0">
-                                    <table id="tabla-mantenimiento-equipos" class="table table-bordered table-striped dt-responsive" width="100%">
+                                <table class="display table table-bordered" width="100%">
                                         <thead class="bg-dark">
                                             <tr>
                                                 <th>#</th>
@@ -66,6 +66,28 @@
                                                 <th>Firmar</th>
                                             </tr>
                                         </thead>
+                                        <tbody>
+                                            <?php
+                                            $item = 'id_usuario_fk';
+                                            $valor = $_SESSION['id'];
+                                            $mantenimientos = ControladorMantenimiento::ctrMostrarMantenimiento($item, $valor);
+                                            foreach ($mantenimientos as $s) {
+                                                $formatoequipo = "<a target='_blank' href='extensiones/tcpdf/pdf/equipospdf.php?id=" . $s["id_mantenimiento"] . "' class='btn btn-outline-info'>
+                                                        <i class='fas fa-file-signature'></i> Formato
+                                                      </a>";
+                                                $firmar = "<button class='btn btn-outline-info' data-toggle='modal' data-target='#firmaModal' data-id='" . $s["id_mantenimiento"] . "'>
+                                                        <i class='fas fa-file-signature'></i> Firmar Documento
+                                                  </button>";
+                                                echo "<tr>
+                                                        <td>" . $s["id_mantenimiento"] . "</td>
+                                                        <td>" . $s["fecha_mantenimiento"] . "</td>
+                                                        <td>" . $s["estado_mantenimiento_equipo"] . "</td>
+                                                        <td>" . $formatoequipo . "</td>
+                                                        <td>" . $firmar . "</td>
+                                                    </tr>";
+                                            }
+                                            ?>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -79,7 +101,7 @@
                                     </div>
                                 </div>
                                 <div class="card-body table-responsive p-0">
-                                    <table id="tabla-mantenimiento-general" class="table table-bordered table-striped dt-responsive" width="100%">
+                                <table class="display table table-bordered" width="100%">
                                         <thead class="bg-dark">
                                             <tr>
                                                 <th>#</th>
@@ -89,6 +111,28 @@
                                                 <th>Firmar</th>
                                             </tr>
                                         </thead>
+                                        <tbody>
+                                            <?php
+                                            $item = 'id_usuario_fk';
+                                            $valor = $_SESSION['id'];
+                                            $mantenimientos = ControladorMantenimiento::ctrMostrarMantenimientoGeneral($item, $valor);
+                                            foreach ($mantenimientos as $s) {
+                                                                        $formatoequipo = "<a target='_blank' href='extensiones/tcpdf/pdf/generalpdf.php?id=" . $s["id_general"] . "' class='btn btn-outline-info'>
+                                                    <i class='fas fa-file-signature'></i> Formato
+                                                </a>";
+                                                $firmar="<button class='btn btn-outline-info' data-toggle='modal' data-target='#firmaModalGeneral' data-id='" . $s["id_general"] . "'>
+                                                    <i class='fas fa-file-signature'></i> Firmar Documento
+                                            </button>";
+                                                echo "<tr>
+                                                        <td>" . $s["id_general"] . "</td>
+                                                        <td>" . $s["fecha_mantenimiento3"] . "</td>
+                                                        <td>" . $s["estado_general"] . "</td>
+                                                        <td>" . $formatoequipo . "</td>
+                                                        <td>" . $firmar . "</td>
+                                                    </tr>";
+                                            }
+                                            ?>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -103,7 +147,7 @@
                                     </div>
                                 </div>
                                 <div class="card-body table-responsive p-0">
-                                    <table id="tabla-mantenimiento-impresora" class="table table-bordered table-striped dt-responsive" width="100%">
+                                <table class="display table table-bordered" width="100%">
                                         <thead class="bg-dark">
                                             <tr>
                                                 <th>#</th>
@@ -113,6 +157,29 @@
                                                 <th>Firmar</th>
                                             </tr>
                                         </thead>
+                                        <tbody>
+                                            <?php
+                                            $item = 'id_usuario_fk';
+                                            $valor = $_SESSION['id'];
+                                            $mantenimientos = ControladorMantenimiento::ctrMostrarMantenimientoImpresora($item, $valor);
+                                            foreach ($mantenimientos as $s) {
+                                                $formatoequipo = "<a target='_blank' href='extensiones/tcpdf/pdf/impresorapdf.php?id=" . $s["id_impresora"] . "' class='btn btn-outline-info'>
+                                                <i class='fas fa-file-signature'></i> Formato
+                                              </a>";
+                                              $firmar="<button class='btn btn-outline-info' data-toggle='modal' data-target='#firmaModalImpresora' data-id='" . $s["id_impresora"] . "'>
+                                                <i class='fas fa-file-signature'></i> Firmar Documento
+                                          </button>";
+                                                echo "<tr>
+                                                        <td>" . $s["id_impresora"] . "</td>
+                                                        <td>" . $s["fecha_mantenimiento_impresora"] . "</td>
+                                                        <td>" . $s["estado_mantenimiento_impresora"] . "</td>
+                                                        <td>" . $formatoequipo . "</td>
+                                                        <td>" . $firmar . "</td>
+                                                    </tr>";
+                                            }
+                                            ?>
+                                        </tbody>
+                                        
                                     </table>
                                 </div>
                             </div>
@@ -130,7 +197,7 @@
                                     </div>
                                 </div>
                                 <div class="card-body table-responsive p-0">
-                                    <table id="tabla-ti-equipo" class="table table-bordered table-striped dt-responsive" width="100%">
+                                <table class="display table table-bordered" width="100%">
                                         <thead class="bg-dark">
                                             <tr>
                                                 <th>#</th>
@@ -140,6 +207,26 @@
                                                 <th>Formato</th>
                                             </tr>
                                         </thead>
+                                        <tbody>
+                                            <?php
+                                            $item = null ;
+                                            $valor = null;
+                                            $mantenimientos = ControladorMantenimiento::ctrMostrarMantenimientoTi($item, $valor);
+                                            foreach ($mantenimientos as $s) {
+                                                $formatoequipo = "<a target='_blank' href='extensiones/tcpdf/pdf/equipospdf.php?id=" . $s["id_mantenimiento"] . "' class='btn btn-outline-info'>
+                                                        <i class='fas fa-file-signature'></i> Formato
+                                                      </a>";
+                                                      $nombreCompleto = $s["nombre"] . " " . $s["apellidos_usuario"];
+                                                echo "<tr>
+                                                        <td>" . $s["id_mantenimiento"] . "</td>
+                                                        <td>" . $nombreCompleto . "</td>
+                                                        <td>" . $s["fecha_mantenimiento"] . "</td>
+                                                        <td>" . $s["estado_mantenimiento_equipo"] . "</td>
+                                                        <td>" . $formatoequipo . "</td>
+                                                    </tr>";
+                                            }
+                                            ?>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -157,7 +244,7 @@
                                     </div>
                                 </div>
                                 <div class="card-body table-responsive p-0">
-                                    <table id="tabla-ti-impresora" class="table table-bordered table-striped dt-responsive" width="100%">
+                                <table class="display table table-bordered" width="100%">
                                         <thead class="bg-dark">
                                             <tr>
                                                 <th>#</th>
@@ -167,6 +254,26 @@
                                                 <th>Formato</th>
                                             </tr>
                                         </thead>
+                                        <tbody>
+                                            <?php
+                                            $item = null ;
+                                            $valor = null;
+                                            $mantenimientos = ControladorMantenimiento::ctrMostrarMantenimientoImpresoraTi($item, $valor);
+                                            foreach ($mantenimientos as $s) {
+                                                $formatoequipo = "<a target='_blank' href='extensiones/tcpdf/pdf/impresorapdf.php?id=" . $s["id_impresora"] . "' class='btn btn-outline-info'>
+                                                <i class='fas fa-file-signature'></i> Formato
+                                              </a>";
+                                              $nombreCompleto = $s["nombre"] . " " . $s["apellidos_usuario"];
+                                                echo "<tr>
+                                                        <td>" . $s["id_impresora"] . "</td>
+                                                        <td>" . $nombreCompleto . "</td>
+                                                        <td>" . $s["fecha_mantenimiento_impresora"] . "</td>
+                                                        <td>" . $s["estado_mantenimiento_impresora"] . "</td>
+                                                        <td>" . $formatoequipo . "</td>
+                                                    </tr>";
+                                            }
+                                            ?>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -184,7 +291,7 @@
                                     </div>
                                 </div>
                                 <div class="card-body table-responsive p-0">
-                                    <table id="tabla-ti-general" class="table table-bordered table-striped dt-responsive" width="100%">
+                                <table class="display table table-bordered" width="100%">
                                         <thead class="bg-dark">
                                             <tr>
                                                 <th>#</th>
@@ -194,6 +301,26 @@
                                                 <th>Formato</th>
                                             </tr>
                                         </thead>
+                                        <tbody>
+                                            <?php
+                                            $item = null ;
+                                            $valor = null;
+                                            $mantenimientos = ControladorMantenimiento::ctrMostrarMantenimientoGeneralTi($item, $valor);
+                                            foreach ($mantenimientos as $s) {
+                                                $formatoequipo = "<a target='_blank' href='extensiones/tcpdf/pdf/impresorapdf.php?id=" . $s["id_general"] . "' class='btn btn-outline-info'>
+                                                <i class='fas fa-file-signature'></i> Formato
+                                              </a>";
+                                              $nombreCompleto = $s["nombre"] . " " . $s["apellidos_usuario"];
+                                                echo "<tr>
+                                                        <td>" . $s["id_general"] . "</td>
+                                                        <td>" . $nombreCompleto . "</td>
+                                                        <td>" . $s["fecha_mantenimiento3"] . "</td>
+                                                        <td>" . $s["estado_general"] . "</td>
+                                                        <td>" . $formatoequipo . "</td>
+                                                    </tr>";
+                                            }
+                                            ?>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>

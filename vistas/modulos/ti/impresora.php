@@ -61,9 +61,9 @@
                                         </div>
                                     </div>
                                     <div class="col-3"><br>
-                                        <label for="articulo">Articulo</label>
-                                        <select class="form-control" id="articulo" name="articulo" style="height: 45px;" onchange="cargarDatosEquipoImpresora(this)">
-                                            <option value="">Seleccione un equipo</option>
+                                        <label for="nombre_impresora">nombre_impresora</label>
+                                        <select class="form-control" id="nombre_impresora" name="nombre_impresora" style="height: 45px;" onchange="cargarDatosEquipoImpresora(this)">
+                                            <option value="">Seleccione una impresora</option>
                                             <?php
                                             $item = null;
                                             $valor = null;             

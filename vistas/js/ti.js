@@ -25,122 +25,12 @@ $('#modal-solicitud').on('show.bs.modal', function (event) {
 	modal.find('.modal-body #id_soporte1').val(id_soporte1);
 });
 
-var tablaMantenimiento = $("#tabla-mantenimiento-equipos").DataTable({
-	"ajax": {
-		"url": "ajax/datatable-mantenimiento.ajax.php", // Ruta a tu archivo PHP que devuelve los datos JSON
-		"type": "POST", // Método de solicitud POST
-		"data": function (d) {
-
-			// Puedes enviar parámetros adicionales si es necesario
-			d.especifico = "equipo"; // Ejemplo de parámetro, ajusta según tu lógica
-			console.log("Valor de específico:", d.especifico);
-		},
-		"dataSrc": "data" // Nombre del objeto JSON que contiene los datos para DataTable
-	},
-	"deferRender": true,
-	"serverSide": true,
-	"retrieve": true,
-	"processing": true,
-	"language": {
-		"sProcessing": "Procesando...",
-		"sLengthMenu": "Mostrar _MENU_ registros",
-		"sZeroRecords": "No se encontraron resultados",
-		"sEmptyTable": "Ningún dato disponible en esta tabla",
-		"sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-		"sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-		"sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-		"sSearch": "Buscar:",
-		"sInfoThousands": ",",
-		"sLoadingRecords": "Cargando...",
-		"oPaginate": {
-			"sFirst": "Primero",
-			"sLast": "Último",
-			"sNext": "Siguiente",
-			"sPrevious": "Anterior"
-		},
-		"oAria": {
-			"sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-			"sSortDescending": ": Activar para ordenar la columna de manera descendente"
-		},
-		"buttons": {
-			"copy": "Copiar",
-			"colvis": "Visibilidad"
-		}
-	},
-	responsive: "true",
-	dom: "Bfrtilp",
-
-
-	"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
-
-
-
-	"order": [[0, 'desc']],
-	autoWidth: true
-
-});
-
 $('#firmaModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget); // Botón que abrió el modal
     var idMantenimiento = button.data('id'); // Extraemos el id del botón
 
     var modal = $(this);
     modal.find('.modal-body #id_mantenimiento').val(idMantenimiento); // Rellenamos el campo oculto con el id
-});
-
-var tablaMantenimiento = $("#tabla-mantenimiento-general").DataTable({
-	"ajax": {
-		"url": "ajax/datatable-mantenimiento.ajax.php", // Ruta a tu archivo PHP que devuelve los datos JSON
-		"type": "POST", // Método de solicitud POST
-		"data": function (d) {
-
-			// Puedes enviar parámetros adicionales si es necesario
-			d.especifico = "general"; // Ejemplo de parámetro, ajusta según tu lógica
-			console.log("Valor de específico:", d.especifico);
-		},
-		"dataSrc": "data" // Nombre del objeto JSON que contiene los datos para DataTable
-	},
-	"deferRender": true,
-	"serverSide": true,
-	"retrieve": true,
-	"processing": true,
-	"language": {
-		"sProcessing": "Procesando...",
-		"sLengthMenu": "Mostrar _MENU_ registros",
-		"sZeroRecords": "No se encontraron resultados",
-		"sEmptyTable": "Ningún dato disponible en esta tabla",
-		"sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-		"sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-		"sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-		"sSearch": "Buscar:",
-		"sInfoThousands": ",",
-		"sLoadingRecords": "Cargando...",
-		"oPaginate": {
-			"sFirst": "Primero",
-			"sLast": "Último",
-			"sNext": "Siguiente",
-			"sPrevious": "Anterior"
-		},
-		"oAria": {
-			"sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-			"sSortDescending": ": Activar para ordenar la columna de manera descendente"
-		},
-		"buttons": {
-			"copy": "Copiar",
-			"colvis": "Visibilidad"
-		}
-	},
-	responsive: "true",
-	dom: "Bfrtilp",
-
-
-	"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
-
-
-
-	"order": [[0, 'desc']],
-	autoWidth: true
-
 });
 
 $('#firmaModalGeneral').on('show.bs.modal', function (event) {
@@ -152,61 +42,6 @@ $('#firmaModalGeneral').on('show.bs.modal', function (event) {
 });
 
 
-var tablaMantenimiento = $("#tabla-mantenimiento-impresora").DataTable({
-	"ajax": {
-		"url": "ajax/datatable-mantenimiento.ajax.php", // Ruta a tu archivo PHP que devuelve los datos JSON
-		"type": "POST", // Método de solicitud POST
-		"data": function (d) {
-
-			// Puedes enviar parámetros adicionales si es necesario
-			d.especifico = "impresora"; // Ejemplo de parámetro, ajusta según tu lógica
-			console.log("Valor de específico:", d.especifico);
-		},
-		"dataSrc": "data" // Nombre del objeto JSON que contiene los datos para DataTable
-	},
-	"deferRender": true,
-	"serverSide": true,
-	"retrieve": true,
-	"processing": true,
-	"language": {
-		"sProcessing": "Procesando...",
-		"sLengthMenu": "Mostrar _MENU_ registros",
-		"sZeroRecords": "No se encontraron resultados",
-		"sEmptyTable": "Ningún dato disponible en esta tabla",
-		"sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-		"sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-		"sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-		"sSearch": "Buscar:",
-		"sInfoThousands": ",",
-		"sLoadingRecords": "Cargando...",
-		"oPaginate": {
-			"sFirst": "Primero",
-			"sLast": "Último",
-			"sNext": "Siguiente",
-			"sPrevious": "Anterior"
-		},
-		"oAria": {
-			"sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-			"sSortDescending": ": Activar para ordenar la columna de manera descendente"
-		},
-		"buttons": {
-			"copy": "Copiar",
-			"colvis": "Visibilidad"
-		}
-	},
-	responsive: "true",
-	dom: "Bfrtilp",
-
-
-	"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
-
-
-
-	"order": [[0, 'desc']],
-	autoWidth: true
-
-});
-
 $('#firmaModalImpresora').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget); // Botón que abrió el modal
     var id_impresora = button.data('id'); // Extraemos el id del botón
@@ -215,62 +50,6 @@ $('#firmaModalImpresora').on('show.bs.modal', function (event) {
     modal.find('.modal-body #id_impresora').val(id_impresora); // Rellenamos el campo oculto con el id
 });
 
-
-
-var tablaEquipo = $("#tabla-ti-equipo").DataTable({
-	"ajax": {
-		"url": "ajax/datatable-mantenimiento.ajax.php", // Ruta a tu archivo PHP que devuelve los datos JSON
-		"type": "POST", // Método de solicitud POST
-		"data": function (d) {
-
-			// Puedes enviar parámetros adicionales si es necesario
-			d.especifico = "ti-equipo"; // Ejemplo de parámetro, ajusta según tu lógica
-			console.log("Valor de específico:", d.especifico);
-		},
-		"dataSrc": "data" // Nombre del objeto JSON que contiene los datos para DataTable
-	},
-	"deferRender": true,
-	"serverSide": true,
-	"retrieve": true,
-	"processing": true,
-	"language": {
-		"sProcessing": "Procesando...",
-		"sLengthMenu": "Mostrar _MENU_ registros",
-		"sZeroRecords": "No se encontraron resultados",
-		"sEmptyTable": "Ningún dato disponible en esta tabla",
-		"sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-		"sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-		"sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-		"sSearch": "Buscar:",
-		"sInfoThousands": ",",
-		"sLoadingRecords": "Cargando...",
-		"oPaginate": {
-			"sFirst": "Primero",
-			"sLast": "Último",
-			"sNext": "Siguiente",
-			"sPrevious": "Anterior"
-		},
-		"oAria": {
-			"sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-			"sSortDescending": ": Activar para ordenar la columna de manera descendente"
-		},
-		"buttons": {
-			"copy": "Copiar",
-			"colvis": "Visibilidad"
-		}
-	},
-	responsive: "true",
-	dom: "Bfrtilp",
-
-
-	"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
-
-
-
-	"order": [[0, 'desc']],
-	autoWidth: true
-
-});
 
 var tablaImpresora = $("#tabla-ti-impresora").DataTable({
 	"ajax": {
