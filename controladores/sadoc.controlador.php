@@ -70,6 +70,43 @@ class ControladorSadoc
 			}
 		}
 	}
+
+	static public function ctrAsignarCategorias()
+{
+    if (isset($_POST["btn-asignar-sadoc"])) {
+        // Obtener el valor de la categoría (único)
+        $id_categoria = $_POST["asignar_categoria_sadoc"];  // Este valor será una cadena como "ID - Nombre"
+        
+        // Obtener los procesos seleccionados (esto será un arreglo)
+        $id_proceso_fk = $_POST["id_proceso_fk"]; // Este es un arreglo de procesos
+        
+        $estado_detalle = "Activo";
+        $tabla = "categoria_sadoc_detalle";
+
+        // Verificar que los procesos estén seleccionados
+        if (is_array($id_proceso_fk) && count($id_proceso_fk) > 0) {
+            foreach ($id_proceso_fk as $proceso) {
+                // Guardamos cada proceso con la categoría seleccionada
+                $datos = array(
+                    "id_categoria" => $id_categoria,  // Categoría seleccionada
+                    "id_proceso_fk" => $proceso,      // Cada proceso seleccionado
+                    "estado_detalle" => $estado_detalle
+                );
+                
+                // Insertamos en la base de datos
+                $respuesta = ModeloSadoc::mdlAsignarCategorias($tabla, $datos);
+                
+                if ($respuesta != "ok") {
+                    return $respuesta; // Si hay un error, lo devolvemos
+                }
+            }
+            return "ok"; // Si todo salió bien
+        } else {
+            return "Error: No se han seleccionado procesos.";
+        }
+    }
+}
+	
 	/*=============================================
 	MOSTRAR ARCHIVOS POR PROCESO
 	=============================================*/

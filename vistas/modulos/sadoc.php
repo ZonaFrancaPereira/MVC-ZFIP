@@ -190,12 +190,15 @@ switch ($procesoActivo) {
                                 </a>
                               </li>
                               <li class="nav-item">
-                                <a class="nav-link active" id="categorias-tab" data-toggle="tab" href="#tab-categorias" role="tab" aria-controls="tab-categorias" aria-selected="true">
+                                <a class="nav-link active" id="categorias-tab" data-toggle="tab" href="#tab-categorias"
+                                  role="tab" aria-controls="tab-categorias" aria-selected="true">
                                   Categorías
                                 </a>
                               </li>
                               <li class="nav-item">
-                                <a class="nav-link" id="asignar-categorias-tab" data-toggle="tab" href="#tab-asignar-categorias" role="tab" aria-controls="tab-asignar-categorias" aria-selected="false">
+                                <a class="nav-link" id="asignar-categorias-tab" data-toggle="tab"
+                                  href="#tab-asignar-categorias" role="tab" aria-controls="tab-asignar-categorias"
+                                  aria-selected="false">
                                   Asignar Categorías
                                 </a>
                               </li>
@@ -205,7 +208,8 @@ switch ($procesoActivo) {
                             <!-- Contenido de las pestañas -->
                             <div class="tab-content" id="categoriasTabContent">
                               <!-- Pestaña Categorías -->
-                              <div class="tab-pane fade show active" id="tab-categorias" role="tabpanel" aria-labelledby="categorias-tab">
+                              <div class="tab-pane fade show active" id="tab-categorias" role="tabpanel"
+                                aria-labelledby="categorias-tab">
                                 <div class="card card-primary card-outline">
                                   <div class="card-header">
                                     <h3 class="card-title">Listado de Categorías</h3>
@@ -251,46 +255,52 @@ switch ($procesoActivo) {
                                 </div>
                               </div>
                               <!-- Pestaña Asignar Categorías -->
-                              <div class="tab-pane fade" id="tab-asignar-categorias" role="tabpanel" aria-labelledby="asignar-categorias-tab">
+                              <div class="tab-pane fade" id="tab-asignar-categorias" role="tabpanel"
+                                aria-labelledby="asignar-categorias-tab">
                                 <?php
                                 $procesos = ControladorProcesos::ctrMostrarProcesos();
                                 ?>
                                 <form method="POST" id="formCategorias">
-                                <div class="row mt-3">
+                                  <div class="row mt-3">
                                     <div class="col-md-12 mb-3">
-                                      <label for="categoria_sadoc" class="form-label">Selecciona una categoría:</label>
-                                      <input list="categorias_sadoc" id="categoria_sadoc" name="categoria_sadoc" class="form-control" placeholder="Escribe para buscar..." required>
+                                      <label for="asignar_categoria_sadoc" class="form-label">Selecciona una
+                                        categoría:</label>
+                                      <input list="categorias_sadoc" id="asignar_categoria_sadoc"
+                                        name="asignar_categoria_sadoc[]" class="form-control"
+                                        placeholder="Escribe para buscar..." required>
                                       <datalist id="categorias_sadoc">
                                         <?php
                                         $categorias = ControladorSadoc::mostrarCategorias();
                                         foreach ($categorias as $categoria) {
-                                          echo "<option value='{$categoria["id_categoria"]} - {$categoria["nombre_categoria"]}'>";
+                                          echo "<option value='{$categoria["id_categoria"]}'> {$categoria["nombre_categoria"]}</option>";
                                         }
                                         ?>
                                       </datalist>
-                                        <label for="activos_baja" class="form-label">Selecciona los activos:</label>
-                                        <select id="activos_baja" name="id_activo[]" multiple class="select2 form-control">
-                                            <?php foreach ($procesos as $proceso): ?>
-                                                <option value="<?= $proceso["id_proceso"] ?>" >
-                                                    <?= "{$proceso["id_proceso"]} - {$proceso["siglas_proceso"]} - {$proceso["nombre_proceso"]} " ?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
+                                      <label for="procesos_categoria_sadoc" class="form-label">Selecciona los
+                                        activos:</label>
+                                      <select id="procesos_categoria_sadoc" name="id_proceso_fk[]" multiple
+                                        class="select2 form-control">
+                                        <?php foreach ($procesos as $proceso): ?>
+                                          <option value="<?= $proceso["id_proceso"] ?>">
+                                            <?= "{$proceso["id_proceso"]} - {$proceso["siglas_proceso"]} - {$proceso["nombre_proceso"]} " ?>
+                                          </option>
+                                        <?php endforeach; ?>
+                                      </select>
                                     </div>
-                        
-                                    <!-- Observaciones -->
-                                    <div class="col-md-12 mb-3">
-                                        <label for="observaciones" class="form-label">Observaciones:</label>
-                                        <textarea name="observaciones" class="form-control" required></textarea>
-                                    </div>
-                        
                                     <div class="col-md-12 text-center">
-                                        <button type="submit" name="dar_baja" class="btn btn-danger">Dar de Baja</button>
+                                      <button type="submit" name="btn-asignar-sadoc" class="btn bg-success">Guardar
+                                        Cambios</button>
                                     </div>
-                                </div>
-                            </form>
+                                  </div>
+                                  <?php
+                                  if (isset($_POST['btn-asignar-sadoc'])) {
+                                    $asignarCategorias = new ControladorSadoc();
+                                    $asignarCategorias->ctrAsignarCategorias();
+                                  }
+                                  ?>
+                                </form>
 
-                                
+
                               </div>
                               <?php require "sadoc/categoria_sadoc.php"; ?>
                             </div>
@@ -316,7 +326,8 @@ switch ($procesoActivo) {
                         <h3 class="card-title">Gestionar Archivos</h3>
                       </div>
                       <div class="card-body">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in venenatis enim. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in venenatis enim. Integer
+                          nec odio. Praesent libero. Sed cursus ante dapibus diam.</p>
                       </div>
                     </div>
                   </div>
@@ -342,16 +353,24 @@ switch ($procesoActivo) {
                           <div class="card-header p-2">
                             <!-- Navegación por pestañas -->
                             <ul class="nav nav-pills">
-                              <li class="nav-item"><a class="nav-link active" href="#gerencia" data-toggle="tab">Gerencia</a></li>
-                              <li class="nav-item"><a class="nav-link" href="#planeacion" data-toggle="tab">Plantación Estratégica</a></li>
+                              <li class="nav-item"><a class="nav-link active" href="#gerencia"
+                                  data-toggle="tab">Gerencia</a></li>
+                              <li class="nav-item"><a class="nav-link" href="#planeacion" data-toggle="tab">Plantación
+                                  Estratégica</a></li>
                               <li class="nav-item"><a class="nav-link" href="#sig" data-toggle="tab">SIG</a></li>
                               <li class="nav-item"><a class="nav-link" href="#ti" data-toggle="tab">Gestión T.I</a></li>
-                              <li class="nav-item"><a class="nav-link" href="#contabilidad" data-toggle="tab">Gestión Contable y Financiera</a></li>
-                              <li class="nav-item"><a class="nav-link" href="#tecnica" data-toggle="tab">Gestión Técnica</a></li>
-                              <li class="nav-item"><a class="nav-link" href="#gh" data-toggle="tab">Gestión Administrativa</a></li>
-                              <li class="nav-item"><a class="nav-link" href="#documental" data-toggle="tab">Gestión Documental</a></li>
-                              <li class="nav-item"><a class="nav-link" href="#op" data-toggle="tab">Gestión de Operaciones</a></li>
-                              <li class="nav-item"><a class="nav-link" href="#seguridad" data-toggle="tab">Seguridad</a></li>
+                              <li class="nav-item"><a class="nav-link" href="#contabilidad" data-toggle="tab">Gestión
+                                  Contable y Financiera</a></li>
+                              <li class="nav-item"><a class="nav-link" href="#tecnica" data-toggle="tab">Gestión
+                                  Técnica</a></li>
+                              <li class="nav-item"><a class="nav-link" href="#gh" data-toggle="tab">Gestión
+                                  Administrativa</a></li>
+                              <li class="nav-item"><a class="nav-link" href="#documental" data-toggle="tab">Gestión
+                                  Documental</a></li>
+                              <li class="nav-item"><a class="nav-link" href="#op" data-toggle="tab">Gestión de
+                                  Operaciones</a></li>
+                              <li class="nav-item"><a class="nav-link" href="#seguridad" data-toggle="tab">Seguridad</a>
+                              </li>
                               <li class="nav-item"><a class="nav-link" href="#sst" data-toggle="tab">SST</a></li>
                             </ul>
                           </div><!-- /.card-header -->
@@ -562,37 +581,16 @@ function generarPanelProceso($modalId, $tituloModal, $codigo, $id_proceso_fk, $p
 
 <!-- Script -->
 <script>
-$(document).ready(function() {
+  $(document).ready(function () {
     // Inicializar Select2
     $('.select2').select2({
-        placeholder: "Selecciona activos",
-        allowClear: true,
-        width: '100%'
+      placeholder: "Selecciona activos",
+      allowClear: true,
+      width: '100%'
     });
 
-    // Manejo del formulario
-    $("#formCategorias").submit(function(event) {
-        event.preventDefault(); // Evita el envío inmediato
-
-      
-
-        // Confirmación con SweetAlert
-        Swal.fire({
-            title: "¿Estás seguro?",
-            text: "Esta acción dará de baja los activos seleccionados.",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#d33",
-            cancelButtonColor: "#3085d6",
-            confirmButtonText: "Sí, dar de baja",
-            cancelButtonText: "Cancelar"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $("#formCategorias")[0].submit();
-            }
-        });
-    });
-});
+  
+  });
 </script>
 
 
