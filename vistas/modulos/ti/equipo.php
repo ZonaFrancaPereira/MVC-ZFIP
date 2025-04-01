@@ -28,18 +28,17 @@
                             <div class="card-body">
                                 <div class="row ">
                                     <br>
-                                    <div class="col-6"><br>
+                                    <div class="col-4"><br>
                                         <label for="fecha_mantenimiento">Fecha</label>
                                         <input type="date" name="fecha_mantenimiento" class="form-control" id="fecha_mantenimiento" required>
                                     </div>
-                                    <div class="col-6"><br>
+                                    <div class="col-4"><br>
                                         <label for="id_usuario_fk">Responsable</label>
-                                        <input list="usuario" class="form-control" id="id_usuario_fk" name="id_usuario_fk" required style="width: 100%;">
-                                        <datalist id="usuario">
+                                        <select class="form-control" id="id_usuario_fk" name="id_usuario_fk" style=" height: 43px;" onchange="cargarEquiposAsignados(this.value)">
+                                            <option value="">Seleccione un usuario</option>
                                             <?php
                                             $item = null;
-                                            $valor = null;
-                                            
+                                            $valor = null;             
                                             // Llamada al método del controlador para obtener los usuarios
                                             $usuarios = ControladorUsuarios::ctrMostrarUsuario($item, $valor);
 
@@ -53,7 +52,34 @@
                                                 echo '<option value="">No hay usuarios disponibles</option>';
                                             }
                                             ?>
-                                        </datalist>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-4"><br>
+                                        <label for="id_activo">Equipo</label>
+                                        <select class="form-control" id="id_activo" name="id_activo" style="height: 43px;" onchange="cargarDatosEquipo(this)">
+                                            <option value="">Seleccione un equipo</option>
+                                            <?php
+                                            $item = null;
+                                            $valor = null;             
+                                            // Llamada al método del controlador para obtener los usuarios
+                                            $equipos = ControladorMantenimiento::ctrMostrarEquiposAsignados($item, $valor);
+
+                                            // Verificar si $equipos es un array válido
+                                            if (!empty($equipos) && is_array($equipos)) {
+                                                foreach ($equipos as $key => $value) {
+                                                    echo '<option value="' . htmlspecialchars($value["id_activo"]) . '" 
+                                                        data-marca="' . htmlspecialchars($value["marca_articulo"]) . '" 
+                                                        data-modelo="' . htmlspecialchars($value["modelo_articulo"]) . '" 
+                                                        data-serie="' . htmlspecialchars($value["referencia_articulo"]) . '">' . 
+                                                        htmlspecialchars($value["nombre_articulo"] . ' ' . $value["modelo_articulo"]) . '</option>';
+                                                }
+                                            } else {
+                                                // Mostrar un mensaje en caso de que no haya datos disponibles
+                                                echo '<option value="">No hay equipos disponibles</option>';
+                                            }
+                                            ?>
+                                        </select>
                                     </div>
 
                                     <div class="col-md-12"><br>
@@ -65,16 +91,17 @@
                                     </div>
                                     <div class="col-3"><br>
                                         <label for="marca">Marca</label>
-                                        <input type="text" class="form-control" id="marca" name="marca">
+                                        <input type="text" class="form-control" id="marca" name="marca" readonly>
                                     </div>
                                     <div class="col-3"><br>
                                         <label for="modelo">Modelo</label>
-                                        <input id="modelo" name="modelo" class="form-control" placeholder="modelo" required>
+                                        <input id="modelo" name="modelo" class="form-control" placeholder="modelo" required readonly>
                                     </div>
                                     <div class="col-3"><br>
                                         <label for="serie">Serie</label>
-                                        <input id="serie" name="serie" class="form-control" placeholder="serie" required>
+                                        <input id="serie" name="serie" class="form-control" placeholder="serie" required readonly>
                                     </div>
+
                                     <div class="col-3"><br>
                                         <label for="usuario_equipo">Nombre de Usuario</label>
                                         <input id="usuario_equipo" name="usuario_equipo" class="form-control" placeholder="Nombre usuario" required>
@@ -279,3 +306,19 @@
         </div>
     </div>
 </section>
+
+<script>
+    function cargarDatosEquipo(selectElement) {
+        const selectedOption = selectElement.options[selectElement.selectedIndex];
+        if (selectedOption) {
+            document.getElementById('marca').value = selectedOption.getAttribute('data-marca') || '';
+            document.getElementById('modelo').value = selectedOption.getAttribute('data-modelo') || '';
+            document.getElementById('serie').value = selectedOption.getAttribute('data-serie') || '';
+        } else {
+            // Limpiar los campos si no se selecciona un equipo
+            document.getElementById('marca').value = '';
+            document.getElementById('modelo').value = '';
+            document.getElementById('serie').value = '';
+        }
+    }
+</script>

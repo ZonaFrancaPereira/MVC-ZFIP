@@ -81,8 +81,8 @@ class ControladorMantenimiento
                 "id_usuario_fk2" => $_POST["id_usuario_fk2"],
                 "nombre_impresora" => $_POST["nombre_impresora"], 
                 "marca_impresora" => $_POST["marca_impresora"], 
-                "modelo_impresora" => $_POST["modelo_impresora"], 
-                "serial_impresora" => $_POST["serial_impresora"], 
+                "modelo_impresora" => $_POST["modelo_impresora1"], 
+                "serial_impresora" => $_POST["serial_impresora1"], 
                 "soplar_exterior" => $_POST["soplar_exterior"], 
                 "isopropilico" => $_POST["isopropilico"], 
                 "toner" => $_POST["toner"], 
@@ -179,15 +179,52 @@ class ControladorMantenimiento
         }
     }
 
-    static public function ctrMostrarMantenimiento($item, $valor, $consulta)
+    static public function ctrMostrarMantenimiento($item, $valor)
     {
         $tabla = "mantenimientos";
 
-        $respuesta = ModeloMantenimiento::mdlMostrarMantenimiento($tabla, $item, $valor, $consulta);
+        $respuesta = ModeloMantenimiento::mdlMostrarMantenimientoEquipo($tabla, $item, $valor);
         return $respuesta;
     }
 
+    static public function ctrMostrarMantenimientoGeneral($item, $valor)
+    {
+        $tabla = "mantenimiento_general";
+
+        $respuesta = ModeloMantenimiento::mdlMostrarMantenimientoGeneral($tabla, $item, $valor);
+        return $respuesta;
+    }
+
+    static public function ctrMostrarMantenimientoImpresora($item, $valor)
+    {
+        $tabla = "mantenimiento_impresora";
+
+        $respuesta = ModeloMantenimiento::mdlMostrarMantenimientoImpresora($tabla, $item, $valor);
+        return $respuesta;
+    }
+
+    static public function ctrMostrarMantenimientoTi($item, $valor)
+    {
+        $tabla = "mantenimientos";
+
+        $respuesta = ModeloMantenimiento::mdlMostrarMantenimientoTi($tabla, $item, $valor);
+        return $respuesta;
+    }
+    static public function ctrMostrarMantenimientoImpresoraTi($item, $valor)
+    {
+        $tabla = "mantenimiento_impresora";
+
+        $respuesta = ModeloMantenimiento::mdlMostrarMantenimientoImpresoraTi($tabla, $item, $valor);
+        return $respuesta;
+    }
    
+    static public function ctrMostrarMantenimientoGeneralTi($item, $valor)
+    {
+        $tabla = "mantenimiento_general";
+
+        $respuesta = ModeloMantenimiento::mdlMostrarMantenimientoGeneralTi($tabla, $item, $valor);
+        return $respuesta;
+    }
     static public function ctrFirmarMantenimiento()
     {
         if (isset($_POST["firma"])) {
@@ -311,6 +348,25 @@ class ControladorMantenimiento
             }
         }
     }
+
+    static public function ctrMostrarEquiposAsignados($item,$valor)
+    {
+        $tabla = "activos";
+        $respuesta = ModeloMantenimiento::mdlMostrarEquiposAsignados($tabla, $item, $valor);
+        return $respuesta;
+    }
     
-    
+    static public function ctrMostrarEquiposGenerales($item,$valor)
+    {
+        $tabla = "activos";
+        $respuesta = ModeloMantenimiento::mdlMostrarEquiposGenerales($tabla, $item, $valor);
+        return $respuesta;
+    }
+
+    static public function ctrMostrarEquiposImpresoras($item,$valor)
+    {
+        $tabla = "activos";
+        $respuesta = ModeloMantenimiento::mdlMostrarEquiposImpresoras($tabla, $item, $valor);
+        return $respuesta;
+    }
 }

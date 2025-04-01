@@ -33,12 +33,11 @@
                                     </div>
                                     <div class="col-6"><br>
                                         <label for="id_usuario_fk2">Responsable</label>
-                                        <input list="usuario" class="form-control select2 " id="id_usuario_fk2" name="id_usuario_fk2" required style="width: 100%;">
-                                        <datalist id="usuario">
+                                        <select class="form-control" id="id_usuario_fk2" name="id_usuario_fk2" style=" height: 43px;" onchange="cargarDatosEquipoImpresora(this.value)">
+                                            <option value="">Seleccione un usuario</option>
                                             <?php
                                             $item = null;
-                                            $valor = null;
-                                            
+                                            $valor = null;             
                                             // Llamada al método del controlador para obtener los usuarios
                                             $usuarios = ControladorUsuarios::ctrMostrarUsuario($item, $valor);
 
@@ -52,7 +51,7 @@
                                                 echo '<option value="">No hay usuarios disponibles</option>';
                                             }
                                             ?>
-                                        </datalist>
+                                        </select>
                                     </div>
                                     <div class="col-md-12"> <br>
                                         <div class="card card-info collapsed-card">
@@ -62,21 +61,44 @@
                                         </div>
                                     </div>
                                     <div class="col-3"><br>
-                                        <label for="nombre_impresora">Nombre de la Impresora</label>
-                                        <input id="nombre_impresora" name="nombre_impresora" class="form-control" placeholder="Nombre impresora" required>
+                                        <label for="nombre_impresora">nombre_impresora</label>
+                                        <select class="form-control" id="nombre_impresora" name="nombre_impresora" style="height: 45px;" onchange="cargarDatosEquipoImpresora(this)">
+                                            <option value="">Seleccione una impresora</option>
+                                            <?php
+                                            $item = null;
+                                            $valor = null;             
+                                            // Llamada al método del controlador para obtener los usuarios
+                                            $equipos = ControladorMantenimiento::ctrMostrarEquiposImpresoras($item, $valor);
+
+                                            // Verificar si $equipos es un array válido
+                                            if (!empty($equipos) && is_array($equipos)) {
+                                                foreach ($equipos as $key => $value) {
+                                                    echo '<option value="' . htmlspecialchars($value["id_activo"]) . '" 
+                                                        data-marca="' . htmlspecialchars($value["marca_articulo"]) . '" 
+                                                        data-modelo="' . htmlspecialchars($value["modelo_articulo"]) . '" 
+                                                        data-serie="' . htmlspecialchars($value["referencia_articulo"]) . '">' . 
+                                                        htmlspecialchars($value["nombre_articulo"] . ' ' . $value["modelo_articulo"]) . '</option>';
+                                                }
+                                            } else {
+                                                // Mostrar un mensaje en caso de que no haya datos disponibles
+                                                echo '<option value="">No hay equipos disponibles</option>';
+                                            }
+                                            ?>
+                                        </select>
                                     </div>
                                     <div class="col-3"><br>
                                         <label for="marca_impresora">Marca</label>
-                                        <input type="text" class="form-control" id="marca_impresora" name="marca_impresora">
+                                        <input type="text" class="form-control" id="marca_impresora" name="marca_impresora" style="height: 45px;">
                                     </div>
                                     <div class="col-3"><br>
-                                        <label for="modelo_impresora">Modelo</label>
-                                        <input id="modelo_impresora" name="modelo_impresora" class="form-control" placeholder="modelo" required>
+                                        <label for="modelo_impresora11">Modelo</label>
+                                        <input type="text" id="modelo_impresora1" name="modelo_impresora1" class="form-control" placeholder="Modelo" style="height: 45px;" required>
                                     </div>
                                     <div class="col-3"><br>
-                                        <label for="serial_impresora">Serial</label>
-                                        <input id="serial_impresora" name="serial_impresora" class="form-control" placeholder="serial" required>
+                                        <label for="serial_impresora1">Serial</label>
+                                        <input type="text" id="serial_impresora1" name="serial_impresora1" class="form-control" placeholder="Serial" style="height: 45px;" required>
                                     </div>
+
                                     <div class="col-md-12"> <br>
                                         <div class="card card-info collapsed-card">
                                             <div class="card-header">
@@ -178,3 +200,18 @@
         </div>
     </div>
 </section>
+<script>
+    function cargarDatosEquipoImpresora(selectElement) {
+        const selectedOption = selectElement.options[selectElement.selectedIndex];
+        if (selectedOption) {
+            document.getElementById('marca_impresora').value = selectedOption.getAttribute('data-marca') || '';
+            document.getElementById('modelo_impresora1').value = selectedOption.getAttribute('data-modelo') || '';
+            document.getElementById('serial_impresora1').value = selectedOption.getAttribute('data-serie') || '';
+        } else {
+            // Limpiar los campos si no se selecciona un equipo
+            document.getElementById('marca_impresora').value = '';
+            document.getElementById('modelo_impresora1').value = '';
+            document.getElementById('serial_impresora1').value = '';
+        }
+    }
+</script>

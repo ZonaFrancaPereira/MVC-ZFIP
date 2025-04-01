@@ -280,37 +280,6 @@ class ModeloMantenimiento
     public static function mdlMostrarMantenimiento($tabla, $item, $valor, $consulta)
     {
         switch ($consulta) {
-            case 'equipo':
-                $id_usuario_mantenimiento = $_SESSION["id"];
-                $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario_fk = :id_usuario");
-                $stmt->bindParam(':id_usuario', $id_usuario_mantenimiento, PDO::PARAM_INT);
-                $stmt->execute();
-                return $stmt->fetchAll();
-                $stmt = null;
-                    break; case 'general':
-                        $id_usuario_mantenimiento = $_SESSION["id"];
-                        $stmt = Conexion::conectar()->prepare("SELECT * FROM mantenimiento_general WHERE id_usuario_fk3 = :id_usuario");
-                        $stmt->bindParam(':id_usuario', $id_usuario_mantenimiento, PDO::PARAM_INT);
-                        $stmt->execute();
-                        return $stmt->fetchAll();
-                        $stmt = null;
-                        break;
-                        break; case 'impresora':
-                            $id_usuario_mantenimiento = $_SESSION["id"];
-                            $stmt = Conexion::conectar()->prepare("SELECT * FROM mantenimiento_impresora WHERE id_usuario_fk2 = :id_usuario");
-                            $stmt->bindParam(':id_usuario', $id_usuario_mantenimiento, PDO::PARAM_INT);
-                            $stmt->execute();
-                            return $stmt->fetchAll();
-                            $stmt = null;
-                            break;
-                            case 'ti-equipo':
-                                $stmt = Conexion::conectar()->prepare("SELECT b.*, a.nombre, a.apellidos_usuario
-                                FROM mantenimientos b 
-                                INNER JOIN usuarios a ON b.id_usuario_fk = a.id");
-                                $stmt->execute();
-                                return $stmt->fetchAll();
-                                $stmt = null;
-                                break;
                                 case 'ti-impresora':
                                     $stmt = Conexion::conectar()->prepare("SELECT b.*, a.nombre, a.apellidos_usuario
                                     FROM mantenimiento_impresora b 
@@ -335,6 +304,113 @@ class ModeloMantenimiento
                 break;
         }
     }
+
+    public static function mdlMostrarMantenimientoEquipo($tabla, $item, $valor)
+    {
+        try {
+            $id_usuario_mantenimiento = $_SESSION["id"];
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario_fk = :id_usuario");
+            $stmt->bindParam(':id_usuario', $id_usuario_mantenimiento, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+            return [];
+        }
+    }
+
+    public static function mdlMostrarMantenimientoGeneral($tabla, $item, $valor)
+    {
+        try {
+            $id_usuario_mantenimiento = $_SESSION["id"];
+
+            $stmt =  Conexion::conectar()->prepare("SELECT * FROM mantenimiento_general WHERE id_usuario_fk3 = :id_usuario");
+            $stmt->bindParam(':id_usuario', $id_usuario_mantenimiento, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+            return [];
+        }
+    }
+
+
+    public static function mdlMostrarMantenimientoImpresora($tabla, $item, $valor)
+    {
+        try {
+            $id_usuario_mantenimiento = $_SESSION["id"];
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM mantenimiento_impresora WHERE id_usuario_fk2 = :id_usuario");
+            $stmt->bindParam(':id_usuario', $id_usuario_mantenimiento, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+            return [];
+        }
+    }
+
+    public static function mdlMostrarMantenimientoTi($tabla, $item, $valor)
+    {
+        try {
+            // Preparar la consulta para seleccionar todos los datos de la tabla con LEFT JOIN
+            $stmt = Conexion::conectar()->prepare("SELECT b.*, a.nombre, a.apellidos_usuario 
+                                                   FROM $tabla b 
+                                                   LEFT JOIN usuarios a ON b.id_usuario_fk = a.id");
+            
+            // Ejecutar la consulta
+            $stmt->execute();
+            
+            // Retornar todos los resultados como un array asociativo
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            // Manejar errores y retornar un array vacío
+            echo 'Error: ' . $e->getMessage();
+            return [];
+        }
+    }
+    
+    public static function mdlMostrarMantenimientoImpresoraTi($tabla, $item, $valor)
+    {
+        try {
+            // Preparar la consulta para seleccionar todos los datos de la tabla con LEFT JOIN
+            $stmt = Conexion::conectar()->prepare("SELECT b.*, a.nombre, a.apellidos_usuario 
+                                                   FROM $tabla b 
+                                                   LEFT JOIN usuarios a ON b.id_usuario_fk2 = a.id");
+            
+            // Ejecutar la consulta
+            $stmt->execute();
+            
+            // Retornar todos los resultados como un array asociativo
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            // Manejar errores y retornar un array vacío
+            echo 'Error: ' . $e->getMessage();
+            return [];
+        }
+    }
+
+    public static function mdlMostrarMantenimientoGeneralTi($tabla, $item, $valor)
+    {
+        try {
+            // Preparar la consulta para seleccionar todos los datos de la tabla con LEFT JOIN
+            $stmt = Conexion::conectar()->prepare("SELECT b.*, a.nombre, a.apellidos_usuario 
+                                                   FROM $tabla b 
+                                                   LEFT JOIN usuarios a ON b.id_usuario_fk3 = a.id");
+            
+            // Ejecutar la consulta
+            $stmt->execute();
+            
+            // Retornar todos los resultados como un array asociativo
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            // Manejar errores y retornar un array vacío
+            echo 'Error: ' . $e->getMessage();
+            return [];
+        }
+    }
+
+
     public static function mdlMostrarMantenimientopdf($tabla, $item, $valor, $consulta)
     {
         switch ($consulta) {
@@ -486,6 +562,66 @@ class ModeloMantenimiento
         // Cerrar la conexión
         $stmt->close();
         $stmt = null;
+    }
+
+    public static function mdlMostrarEquiposAsignados($tabla, $item, $valor)
+    {
+        try {
+            // Conectar a la base de datos
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_categoriact_fk IN (1, 2)");
+
+            // Ejecutar la consulta
+            $stmt->execute();
+
+            // Retornar todos los resultados
+            return $stmt->fetchAll(PDO::FETCH_ASSOC); // Devuelve un array asociativo de todos los consumibles
+
+        } catch (PDOException $e) {
+            // Manejo de errores
+            echo 'Error: ' . $e->getMessage();
+            return [];
+        }
+
+    }
+
+    public static function mdlMostrarEquiposGenerales($tabla, $item, $valor)
+    {
+        try {
+            // Conectar a la base de datos
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_categoriact_fk IN (3, 4, 6, 7, 8, 9, 11, 12, 13, 15, 16)");
+
+            // Ejecutar la consulta
+            $stmt->execute();
+
+            // Retornar todos los resultados
+            return $stmt->fetchAll(PDO::FETCH_ASSOC); // Devuelve un array asociativo de todos los consumibles
+
+        } catch (PDOException $e) {
+            // Manejo de errores
+            echo 'Error: ' . $e->getMessage();
+            return [];
+        }
+
+    }
+
+    public static function mdlMostrarEquiposImpresoras($tabla, $item, $valor)
+    {
+        try {
+            // Conectar a la base de datos
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_categoriact_fk = '5'");
+
+            // Ejecutar la consulta
+            $stmt->execute();
+
+            // Retornar todos los resultados
+            return $stmt->fetchAll(PDO::FETCH_ASSOC); // Devuelve un array asociativo de todos los consumibles
+
+        } catch (PDOException $e) {
+            // Manejo de errores
+            echo 'Error: ' . $e->getMessage();
+            return [];
+        }
+
     }
     
     

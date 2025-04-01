@@ -30,16 +30,15 @@
                                     <br>
                                     <div class="col-6"><br>
                                         <label for="fecha_mantenimiento3">Fecha</label>
-                                        <input type="date" name="fecha_mantenimiento3" class="form-control" id="fecha_mantenimiento3" required>
+                                        <input type="date" name="fecha_mantenimiento3" class="form-control" id="fecha_mantenimiento3" style="height: 45px;" required>
                                     </div>
                                     <div class="col-6"><br>
                                         <label for="id_usuario_fk3">Responsable</label>
-                                        <input list="usuario" class="form-control select2 " id="id_usuario_fk3" name="id_usuario_fk3" required style="width: 100%;">
-                                        <datalist id="usuario">
+                                        <select class="form-control" id="id_usuario_fk3" name="id_usuario_fk3" style=" height: 43px;" onchange="cargarDatosEquipoGenerales(this.value)">
+                                            <option value="">Seleccione un usuario</option>
                                             <?php
                                             $item = null;
-                                            $valor = null;
-                                            
+                                            $valor = null;             
                                             // Llamada al método del controlador para obtener los usuarios
                                             $usuarios = ControladorUsuarios::ctrMostrarUsuario($item, $valor);
 
@@ -53,8 +52,9 @@
                                                 echo '<option value="">No hay usuarios disponibles</option>';
                                             }
                                             ?>
-                                        </datalist>
+                                        </select>
                                     </div>
+                                    
                                     <div class="col-md-12"> <br>
                                         <div class="card card-info collapsed-card">
                                             <div class="card-header">
@@ -64,19 +64,41 @@
                                     </div>
                                     <div class="col-3"><br>
                                         <label for="articulo">Articulo</label>
-                                        <input list="browsers" id="articulo" name="articulo" class="form-control" placeholder="Nombre impresora" required>
+                                        <select class="form-control" id="articulo" name="articulo" style="height: 45px;" onchange="cargarDatosEquipoGenerales(this)">
+                                            <option value="">Seleccione un equipo</option>
+                                            <?php
+                                            $item = null;
+                                            $valor = null;             
+                                            // Llamada al método del controlador para obtener los usuarios
+                                            $equipos = ControladorMantenimiento::ctrMostrarEquiposGenerales($item, $valor);
+
+                                            // Verificar si $equipos es un array válido
+                                            if (!empty($equipos) && is_array($equipos)) {
+                                                foreach ($equipos as $key => $value) {
+                                                    echo '<option value="' . htmlspecialchars($value["id_activo"]) . '" 
+                                                        data-marca="' . htmlspecialchars($value["marca_articulo"]) . '" 
+                                                        data-modelo="' . htmlspecialchars($value["modelo_articulo"]) . '" 
+                                                        data-serie="' . htmlspecialchars($value["referencia_articulo"]) . '">' . 
+                                                        htmlspecialchars($value["nombre_articulo"] . ' ' . $value["modelo_articulo"]) . '</option>';
+                                                }
+                                            } else {
+                                                // Mostrar un mensaje en caso de que no haya datos disponibles
+                                                echo '<option value="">No hay equipos disponibles</option>';
+                                            }
+                                            ?>
+                                        </select>
                                     </div>
                                     <div class="col-3"><br>
                                         <label for="marca_general">Marca</label>
-                                        <input type="text" class="form-control" id="marca_general" name="marca_general">
+                                        <input type="text" class="form-control" id="marca_general" name="marca_general" style="height: 45px;">
                                     </div>
                                     <div class="col-3"><br>
                                         <label for="modelo_general">Modelo</label>
-                                        <input list="browsers" id="modelo_general" name="modelo_general" class="form-control" placeholder="modelo" required>
+                                        <input type="text" id="modelo_general" name="modelo_general" class="form-control" placeholder="Modelo" style="height: 45px;" required>
                                     </div>
                                     <div class="col-3"><br>
                                         <label for="serial_general">Serial</label>
-                                        <input list="browsers" id="serial_general" name="serial_general" class="form-control" placeholder="serial" required>
+                                        <input type="text" id="serial_general" name="serial_general" class="form-control" placeholder="Serial" style="height: 45px;" required>
                                     </div>
                                     <div class="col-md-12"> <br>
                                         <div class="card card-info collapsed-card">
@@ -135,3 +157,18 @@
         </div>
     </div>
 </section>
+<script>
+    function cargarDatosEquipoGenerales(selectElement) {
+        const selectedOption = selectElement.options[selectElement.selectedIndex];
+        if (selectedOption) {
+            document.getElementById('marca_general').value = selectedOption.getAttribute('data-marca') || '';
+            document.getElementById('modelo_general').value = selectedOption.getAttribute('data-modelo') || '';
+            document.getElementById('serial_general').value = selectedOption.getAttribute('data-serie') || '';
+        } else {
+            // Limpiar los campos si no se selecciona un equipo
+            document.getElementById('marca_general').value = '';
+            document.getElementById('modelo_general').value = '';
+            document.getElementById('serial_general').value = '';
+        }
+    }
+</script>
