@@ -10,71 +10,49 @@ class ModeloBackup
 	MOSTRAR USUARIOS
 	=============================================*/
 
-    public static function mdlMostrarBackup($tabla, $item, $valor, $consulta)
+    public static function mdlMostrarBackupUsuarios($tabla, $item, $valor)
     {
-        switch ($consulta) {
-          
-            case 'backup':
-                // Preparar y ejecutar la consulta
-                $conexion = Conexion::conectar();
-                $stmt = $conexion->prepare("SELECT * FROM usuarios"); 
-                $stmt->execute();
-            
-                // Retornar todos los resultados
-                $resultados = $stmt->fetchAll();
-            
-                // Cerrar la conexión y liberar recursos
-                $stmt = null;
-                $conexion = null;
-            
-                return $resultados;
-                break;
-            case 'backup-Verificar':
-                    // Preparar y ejecutar la consulta
-                    $conexion = Conexion::conectar();
+        try {
+            $id_usuario_backup = $_SESSION["id"];
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM copias_seguridad WHERE id_usuario_backup_fk = :id_usuario");
+            $stmt->bindParam(':id_usuario', $id_usuario_backup, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+            return [];
+        }
+    }
+
+    public static function mdlMostrarUsuariosRuta($tabla, $item, $valor)
+    {
+        try {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM usuarios");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+            return [];
+        }
+    }
+
+    public static function mdlAsignarVerificacion($tabla, $item, $valor)
+    {
+        try {
+
+            $conexion = Conexion::conectar();
                     $stmt = $conexion->prepare("SELECT usuarios.*, copias_seguridad.carpeta_backup, copias_seguridad.verificado
                         FROM  usuarios 
                         INNER JOIN copias_seguridad 
                         ON usuarios.id = copias_seguridad.id_usuario_backup_fk
                     ");
-                    $stmt->execute();
-                
-                    // Retornar todos los resultados
-                    $resultados = $stmt->fetchAll();
-                
-                    // Cerrar la conexión y liberar recursos
-                    $stmt = null;
-                    $conexion = null;
-                
-                    return $resultados;
-                    break;
-                case 'backup-Panel':
-                       // Obtener el ID del usuario que inició sesión desde la sesión
-                $id_usuario = $_SESSION["id"];
-                        // Preparar y ejecutar la consulta
-                        $conexion = Conexion::conectar();
-                        $stmt = $conexion->prepare("SELECT usuarios.*, copias_seguridad.carpeta_backup, copias_seguridad.verificado,  copias_seguridad.fecha_verificacion,  copias_seguridad.observaciones_copia
-                            FROM  usuarios 
-                            INNER JOIN copias_seguridad 
-                            ON usuarios.id = copias_seguridad.id_usuario_backup_fk
-                        WHERE usuarios.id = :id_usuario");
-                        $stmt->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
-                        $stmt->execute();
-                    
-                        // Retornar todos los resultados
-                        $resultados = $stmt->fetchAll();
-                    
-                        // Cerrar la conexión y liberar recursos
-                        $stmt = null;
-                        $conexion = null;
-                    
-                        return $resultados;
-                        break;
-                default:
-                $consulta = null;
-                $item = null;
-                $valor = null;
-                break;
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+            return [];
         }
     }
 
@@ -154,39 +132,31 @@ class ModeloBackup
              MOSTRAR EL FORMATO DE LAS VERIFICACIONES DE COPIAS DE SEGURIDAD 
                 =============================================*/
 
-                public static function mdlMostrarBackuppdf($tabla, $item, $valor, $consulta)
+                public static function mdlMostrarBackuppdf($tabla, $item, $valor)
                 {
                     try {
-                        // Conectar a la base de datos
-                        $stmt = Conexion::conectar()->prepare("SELECT 
-                                a.id_usuario_backup_fk,
-                                a.id_backup,
-                                a.carpeta_backup,
-                                a.fecha_verificacion,
-                                a.verificado,
-                                a.observaciones_copia,
-                                u.nombre,
-                                u.apellidos_usuario,
-                                p.nombre_proceso
-                            FROM $tabla a
-                            INNER JOIN usuarios u ON a.id_usuario_backup_fk = u.id
-                            INNER JOIN proceso p ON u.id_proceso_fk = p.id_proceso
-                            WHERE $item = :$item
-                        ");
-                
-                        // Vincular el parámetro de la consulta
-                        $stmt->bindParam(":$item", $valor, PDO::PARAM_INT);
-                
-                        // Ejecutar la consulta
-                        $stmt->execute();
-                
-                        // Devolver los resultados
-                        return $stmt->fetchAll();
-                    } catch (PDOException $e) {
-                        // Manejo de errores
-                        die("Error al obtener datos del Backup: " . $e->getMessage());
-                    }
-                }
+        $stmt = Conexion::conectar()->prepare(" SELECT
+                                    a.id_usuario_backup_fk,
+                                    a.id_backup,
+                                    a.carpeta_backup,
+                                    a.fecha_verificacion,
+                                    a.verificado,
+                                    a.observaciones_copia,
+                                    u.nombre,
+                                    u.apellidos_usuario,
+                                    p.nombre_proceso
+                                FROM $tabla a
+                                INNER JOIN usuarios u ON a.id_usuario_backup_fk = u.id
+                                INNER JOIN proceso p ON u.id_proceso_fk = p.id_proceso
+                                WHERE id_usuario_backup_fk = :item");
+                 $stmt->bindParam(':item', $valor, PDO::PARAM_INT);
+                 $stmt->execute();
+                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
+             } catch (PDOException $e) {
+                 echo 'Error: ' . $e->getMessage();
+                 return [];
+             }
+         }
                 
 
 }

@@ -58,13 +58,11 @@
                     </div>
                     <div class="card-body">
                     <div class="table-responsive">
-                        <table id="tabla-panel-backup" class="table table-bordered table-striped dt-responsive" width="100%">
+                    <table class="display table table-bordered" width="100%">
                             <thead class="bg-dark">
                                 <tr>
                                     <th>#</th>
-                                    <th>Nombre</th>
-                                    <th>Apellidos</th>
-                                    <th>Correo</th>
+                                    <th class="d-none">is usuario</th>
                                     <th>Carpeta</th>
                                     <th>Fecha Verificacion</th>
                                     <th>Verificado</th>
@@ -72,6 +70,24 @@
                                     <th>Informe</th>
                                 </tr>
                             </thead>
+                            <?php
+                            $item = 'id_usuario_fk';
+                            $valor = $_SESSION['id'];
+                            $backup_principal = ControladorBackup::ctrMostrarBackupUsuarios($item, $valor);
+                            foreach ($backup_principal as $s) {
+                                $informe = "<a target='_blank' href='extensiones/tcpdf/pdf/backuppdf.php?id={$s["id_usuario_backup_fk"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
+                                echo "<tr>
+                                        <td>" . $s["id_backup"] . "</td>
+                                        <td class='d-none'>" . $s["id_usuario_backup_fk"] . "</td>
+                                        <td>" . $s["carpeta_backup"] . "</td>
+                                        <td>" . $s["fecha_verificacion"] . "</td>
+                                        <td>" . $s["verificado"] . "</td>
+                                        <td>" . $s["observaciones_copia"] . "</td>
+                                        <td>" . $informe . "</td>
+                                    </tr>";
+                            }
+                                            ?>
+                                        </tbody>
                         </table>
                     </div>
                     </div>

@@ -25,8 +25,8 @@ $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
 // Configurar la información del documento
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('Zona Franca Internacional de Pereira');
-$pdf->SetTitle('Formato de ACPM');
-$pdf->SetSubject('Detalles de la ACPM');
+$pdf->SetTitle('Formato de BACKUP');
+$pdf->SetSubject('Detalles de las Copias de Seguridad');
 
 // Eliminar las líneas de encabezado y pie de página
 $pdf->setPrintHeader(false);

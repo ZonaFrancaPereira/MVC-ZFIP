@@ -8,14 +8,34 @@ class ControladorBackup
 	MOSTRAR Usuario
 	=============================================*/
 
-    static public function ctrMostrarBackup($item, $valor, $consulta)
+    static public function ctrAsignarVerificacion($item, $valor)
     {
         $tabla = "usuarios";
 
-        $respuesta = ModeloBackup::mdlMostrarBackup($tabla, $item, $valor, $consulta);
+        $respuesta = ModeloBackup::mdlAsignarVerificacion($tabla, $item, $valor);
 
         return $respuesta;
     }
+
+    static public function ctrMostraUsuariosRuta($item, $valor)
+    {
+        $tabla = "usuarios";
+
+        $respuesta = ModeloBackup::mdlMostrarUsuariosRuta($tabla, $item, $valor);
+
+        return $respuesta;
+    }
+
+    static public function ctrMostrarBackupUsuarios($item, $valor)
+    {
+        $tabla = "copias_seguridad";
+
+        $respuesta = ModeloBackup::mdlMostrarBackupUsuarios($tabla, $item, $valor);
+
+        return $respuesta;
+    }
+
+    
 
     /*=============================================
 	ASIGNAR RUTA DE BACKUP

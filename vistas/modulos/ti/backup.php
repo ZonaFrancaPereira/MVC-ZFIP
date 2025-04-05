@@ -25,7 +25,7 @@
                         <h3 class="card-title">Verificacion Backup</h3>
                     </div>
                     <div class="card-body">
-                        <table id="tabla-backup" class="table table-bordered table-striped dt-responsive" width="100%">
+                    <table class="display table table-bordered" width="100%">
                             <thead class="bg-dark">
                                 <tr>
                                     <th>#</th>
@@ -35,6 +35,23 @@
                                     <th>Asignar Ruta</th>
                                 </tr>
                             </thead>
+                            <tbody>
+                                            <?php
+                                            $item = 'id_usuario_fk';
+                                            $valor = $_SESSION['id'];
+                                            $backup_principal = ControladorBackup::ctrMostraUsuariosRuta($item, $valor);
+                                            foreach ($backup_principal as $s) {
+                                                $asignar_ruta = "<button type='button' class='btn btn-outline-info' data-toggle='modal' data-target='#modal-ruta' data-id_usuario_backup_fk='{$s["id"]}'>Asignar Ruta</button>";
+                                                echo "<tr>
+                                                        <td>" . $s["id"] . "</td>
+                                                        <td>" . $s["nombre"] . "</td>
+                                                        <td>" . $s["apellidos_usuario"] . "</td>
+                                                        <td>" . $s["correo_usuario"] . "</td>
+                                                        <td>" . $asignar_ruta . "</td>
+                                                    </tr>";
+                                            }
+                                            ?>
+                                        </tbody>
                         </table>
                     </div>
                 </div>

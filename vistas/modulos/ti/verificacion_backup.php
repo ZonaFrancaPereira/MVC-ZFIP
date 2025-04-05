@@ -26,7 +26,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="tabla-verificar-backup" class="table table-bordered table-striped dt-responsive" width="100%">
+                        <table class="display table table-bordered" width="100%">
                                 <thead class="bg-dark">
                                     <tr>
                                         <th>#</th>
@@ -39,6 +39,27 @@
                                         <th>Verificar</th>
                                     </tr>
                                 </thead>
+                                <tbody>
+                                            <?php
+                                            $item = 'id_usuario_fk';
+                                            $valor = $_SESSION['id'];
+                                            $backup_principal = ControladorBackup::ctrAsignarVerificacion($item, $valor);
+                                            foreach ($backup_principal as $s) {
+                                                $verificar_backup = "<button type='button' class='btn btn-outline-info' data-toggle='modal' data-target='#modal-verificar_backup' data-id_usuario_copia='{$s["id"]}' data-carpeta_copia='{$s["carpeta_backup"]}'>Verificar</button>";
+                                                $informe = "<a target='_blank' href='extensiones/tcpdf/pdf/backuppdf.php?id={$s["id"]}' class='btn btn-outline-success'><i class='fas fa-file-signature'></i> Formato</a>";
+                                                echo "<tr>
+                                                        <td>" . $s["id"] . "</td>
+                                                        <td>" . $s["nombre"] . "</td>
+                                                        <td>" . $s["apellidos_usuario"] . "</td>
+                                                        <td>" . $s["correo_usuario"] . "</td>
+                                                        <td>" . $s["carpeta_backup"] . "</td>
+                                                        <td>" . $s["verificado"] . "</td>
+                                                        <td>" . $verificar_backup . "</td>
+                                                        <td>" . $informe . "</td>
+                                                    </tr>";
+                                            }
+                                            ?>
+                                        </tbody>
                             </table>
                         </div>
 
