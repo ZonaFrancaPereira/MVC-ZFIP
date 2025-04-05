@@ -4,8 +4,7 @@ require_once "conexion.php";
 
 class ModeloSadoc
 {
-
-    /*=============================================
+/*=============================================
 REGISTRO DE archivos
 =============================================*/
     static public function mdlIngresarArchivo($tabla, $datos)
@@ -51,6 +50,47 @@ REGISTRO DE archivos
             return "error: " . $e->getMessage();
         }
     }
+
+    /*=============================================
+    ASIGNAR CATEGORIAS A LOS ARCHIVOS
+    =============================================*/
+
+    static public function mdlAsignarCategorias($tabla, $datos)
+    {
+        try {
+            // Conectar a la base de datos
+            $pdo = Conexion::conectar();
+            
+            // Consulta SQL para insertar cada proceso con su categoría
+            $stmt = $pdo->prepare("INSERT INTO $tabla (
+                id_categoria_fk,
+                id_proceso_fk,
+                estado_detalle
+            ) VALUES (
+                :id_categoria_fk,
+                :id_proceso_fk,
+                :estado_detalle
+            )");
+    
+            // Vinculamos los parámetros
+            $stmt->bindParam(":id_categoria_fk", $datos["id_categoria"], PDO::PARAM_INT);
+            $stmt->bindParam(":id_proceso_fk", $datos["id_proceso_fk"], PDO::PARAM_INT);
+            $stmt->bindParam(":estado_detalle", $datos["estado_detalle"], PDO::PARAM_STR);
+    
+            // Ejecutamos la consulta
+            if ($stmt->execute()) {
+                // Cerrar la consulta y liberar recursos
+                $stmt->closeCursor();
+                return "ok";
+            } else {
+                $error = $stmt->errorInfo();
+                return "error: " . $error[2]; // Devuelve el error SQL
+            }
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage(); // Captura y muestra cualquier error de PDO
+        }
+    }
+    
 
     /*=============================================
 	MOSTRAR ARCHIVOS POR PROCESO
