@@ -33,6 +33,9 @@
       <li class="nav-item d-none d-sm-inline-block " hidden>
         <a href="tecnica" class="nav-link">G-Tecnica</a>
       </li>
+      <li class="nav-item d-none d-sm-inline-block " hidden>
+        <a href="administrativa" class="nav-link">G-Administrativa</a>
+      </li>
     </ul>
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
@@ -120,7 +123,7 @@
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
 
         <div class="info">
-          <a href="#" class="brand-text font-weight-light d-block"><?php echo $_SESSION['nombre'] ?></a>
+          <a href="perfil_usuario" class="brand-text font-weight-light d-block"><?php echo $_SESSION['nombre'] ?></a>
         </div>
       </div>
 

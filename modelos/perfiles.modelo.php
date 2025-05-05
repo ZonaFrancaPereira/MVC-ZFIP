@@ -139,7 +139,7 @@ class ModeloPerfiles
 		}
 
 
-	
+
 
 		$stmt = null;
 	}
@@ -328,7 +328,7 @@ class ModeloPerfiles
 			return "error";
 		}
 
-	
+
 
 		$stmt = null;
 	}
@@ -353,8 +353,54 @@ class ModeloPerfiles
 			return "error";
 		}
 
-		
+
 
 		$stmt = null;
 	}
+
+	static public function mdlObtenerUsuario($tabla, $id)
+{
+    try {
+        $pdo = Conexion::conectar();
+        $stmt = $pdo->prepare("SELECT password, foto FROM $tabla WHERE id = :id");
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log($e->getMessage());
+        return null;
+    }
+}
+
+/*=============================================
+	ACTUALIZAR PERFIL USUARIOS
+	=============================================*/
+	static public function mdlActualizarPerfil($tabla, $datos)
+	{
+		try {
+			$pdo = Conexion::conectar();
+
+			$stmt = $pdo->prepare("UPDATE $tabla SET 
+			nombre = :nombre,
+			password = :password,
+			foto = :foto
+			WHERE id = :id");
+
+			$stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
+			$stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
+			$stmt->bindParam(":password", $datos["password"], PDO::PARAM_STR);
+			$stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
+			if ($stmt->execute()) {
+				return "ok";
+			} else {
+				error_log(print_r($stmt->errorInfo(), true));
+				return $stmt->errorInfo();
+			}
+		} catch (PDOException $e) {
+			error_log($e->getMessage());
+			return "error: " . $e->getMessage();
+		}
+	}
+
+
 }

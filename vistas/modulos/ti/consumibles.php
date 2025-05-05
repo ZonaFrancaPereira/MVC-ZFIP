@@ -47,8 +47,6 @@
         </a>
     </li>
 </ul>
-
-
 <!-- Tab Content -->
 <div class="tab-content" id="myTabContent">
 

@@ -1096,6 +1096,7 @@ $(document).ready(function () {
         }
     });
 });
+
 // Abre el modal y establece el ID en el formulario
 $('#modal-aprobar').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget); // Botón que activó el modal

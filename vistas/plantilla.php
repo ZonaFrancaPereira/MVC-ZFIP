@@ -59,6 +59,7 @@ session_start();
   <!-- Elimina esta línea si no quieres usar el CSS predeterminado -->
 <link rel="stylesheet" href="vistas/plugins/cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
 
+
   <!-- iCheck for checkboxes and radio inputs -->
   <link rel="stylesheet" href="vistas/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
 
@@ -210,6 +211,7 @@ CUERPO DOCUMENTO
 
       if (
         $_GET["ruta"] == "inicio" ||
+        $_GET["ruta"] == "perfil_usuario" ||
         $_GET["ruta"] == "ti" ||
         $_GET["ruta"] == "soporte" ||
         $_GET["ruta"] == "perfiles" ||
@@ -223,6 +225,7 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "sadoc" ||
         $_GET["ruta"] == "acpm" ||
         $_GET["ruta"] == "tecnica" ||
+        $_GET["ruta"] == "administrativa" ||
         $_GET["ruta"] == "juridico" ||
         $_GET["ruta"] == "acciones_verificacion" ||
         $_GET["ruta"] == "salir"
@@ -273,6 +276,7 @@ CUERPO DOCUMENTO
   <script src="vistas/js/backup.js"></script>
   <script src="vistas/js/consumibles.js"></script>
   <script src="vistas/js/sig.js"></script>
+  <script src="vistas/js/administrativa.js"></script>
   
   <script>
 

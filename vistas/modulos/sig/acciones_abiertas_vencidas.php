@@ -38,7 +38,7 @@
                                     <th>Fecha Finalización</th>
                                     <th>Estado</th>
                                     <th>Informe</th>
-                                    <th>Actividades</th>
+                                    <th>Gestionar</th>
                                 </tr>
                             </thead>
                         </table>
