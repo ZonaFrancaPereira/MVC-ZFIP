@@ -49,6 +49,10 @@
                                     <label for="fecha_ingreso_administrativa" class="form-label">Fecha de Ingreso</label>
                                     <input type="date" class="form-control" id="fecha_ingreso_administrativa" name="fecha_ingreso_administrativa" required>
                                 </div>
+                                <div class="col-md-6 mb-3" hidden>
+                                    <label for="estado_usuario_administrativa" class="form-label">Estado</label>
+                                    <input type="text" class="form-control" id="estado_usuario_administrativa" name="estado_usuario_administrativa" value="Activo" readonly>
+                                </div>
                             </div>
                             <div class="text-end">
                                 <button type="submit" class="btn btn-success px-4" id="guardar_administrativa" name="guardar_administrativa">Guardar</button>
@@ -92,9 +96,9 @@
                                             <td>' . $usuario["cedula_administrativa"] . '</td>
                                             <td>' . $usuario["fecha_ingreso_administrativa"] . '</td>
                                             <td>
-                                                <button class="btn btn-warning btn-sm">Editar</button>
-                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal-cambiar-estado" data-nombre_administrativa="' . $usuario["nombre_administrativa"] . '">Eliminar</button>
-                                                 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal-periodo" data-id_vacaciones_fk="' . $usuario["id"] . '" data-id_usuario_fk="' . $usuario["nombre_administrativa"] . '">Insertar</button>
+                                                <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modal-cambiar-estado" data-id_editar="' . $usuario["id"] . '" data-editar_cedula="' . $usuario["cedula_administrativa"] . '" data-editar_nombre="' . $usuario["nombre_administrativa"] . '" data-editar_ingreso="' . $usuario["fecha_ingreso_administrativa"] . '">Editar</button>
+                                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal-periodo" data-id_vacaciones_fk="' . $usuario["id"] . '" data-id_usuario_fk="' . $usuario["nombre_administrativa"] . '">Insertar</button>
+                                                <a target="_blank" type="button" class="btn btn-danger btn-sm"  href="index.php?ruta=gh&id=' .$usuario["nombre_administrativa"] .'">Gestionar</a>
                                             </td>
                                           </tr>';
                                 }
@@ -126,8 +130,12 @@
                                     <input type="text" class="form-control border-primary" id="id_usuario_fk" name="id_usuario_fk" placeholder="Ingrese el periodo" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="periodo_vacaciones" class="form-label fw-bold">Periodo</label>
-                                    <input type="text" class="form-control border-primary" id="periodo_vacaciones" name="periodo_vacaciones" placeholder="Ingrese el periodo" required>
+                                    <label for="periodo_inicio" class="form-label fw-bold">Periodo Inicio</label>
+                                    <input type="number" class="form-control border-primary" id="periodo_inicio" name="periodo_inicio" placeholder="Ingrese el periodo" min="2005" max="2099" step="1" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="periodo_fin" class="form-label fw-bold">Periodo Fin</label>
+                                    <input type="number" class="form-control border-primary" id="periodo_fin" name="periodo_fin" placeholder="Ingrese el año" min="2005" max="2099" step="1" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="disfrutadas" class="form-label fw-bold">Disfrutadas</label>
@@ -136,10 +144,6 @@
                                 <div class="col-md-6">
                                     <label for="pendientes_periodo" class="form-label fw-bold">Pendientes del Periodo</label>
                                     <input type="number" class="form-control border-primary" id="pendientes_periodo" name="pendientes_periodo" placeholder="Ingrese el dato" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="dias_pendientes" class="form-label fw-bold">Días Pendientes</label>
-                                    <input type="number" class="form-control border-primary" id="dias_pendientes" name="dias_pendientes" placeholder="Ingrese el dato" required>
                                 </div>
                                 <div class="col-md-12">
                                     <label for="observaciones_vacaciones" class="form-label fw-bold">Observaciones</label>
@@ -160,32 +164,61 @@
             </div>
         </div>
 
-        <!-- Modal Eliminar -->     
+        <!-- Modal Editar Usuario -->
         <div class="modal fade" id="modal-cambiar-estado" tabindex="-1" aria-labelledby="cambiarEstadoLabel" aria-hidden="true">
-            <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header bg-warning text-white">
-                <h5 class="modal-title" id="cambiarEstadoLabel"><i class="fas fa-exchange-alt"></i> Cambiar Estado del Usuario</h5>
-                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                <p>¿Está seguro de cambiar el estado del usuario?</p>
-                <form method="POST" enctype="multipart/form-data">
-                    <input type="" id="nombre_administrativa" name="nombre_administrativa" value="">
-                    <input type="" id="estado_usuario_administrativa" name="estado_usuario_administrativa" value="Inactivo">
-                    <div class="text-end mt-4">
-                    <button type="submit" class="btn btn-warning px-4" id="cambiarEstadoUsuario" name="cambiarEstadoUsuario"><i class="fas fa-exchange-alt"></i> Cambiar Estado</button>
-                    <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal"><i class="fas fa-times"></i> Cancelar</button>
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="cambiarEstadoLabel">
+                            <i class="fas fa-user-edit"></i> Editar Información del Usuario
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <?php
-                    $cambiarEstadoUsuario = new ControladorAdministrativa();
-                    $cambiarEstadoUsuario->ctrCambiarEstadoUsuario();
-                    ?>
-                </form>
+                    <div class="modal-body">
+                        <form method="POST" enctype="multipart/form-data">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <input type="hidden" id="id_editar" name="id_editar">
+
+                                    <label for="editar_nombre" class="form-label fw-bold">Nombre</label>
+                                    <input type="text" class="form-control border-primary" id="editar_nombre" name="editar_nombre" placeholder="Editar nombre" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="editar_cedula" class="form-label fw-bold">Cédula</label>
+                                    <input type="text" class="form-control border-primary" id="editar_cedula" name="editar_cedula" placeholder="Editar cédula" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="editar_ingreso" class="form-label fw-bold">Fecha de Ingreso</label>
+                                    <input type="date" class="form-control border-primary" id="editar_ingreso" name="editar_ingreso" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="editar_estado" class="form-label fw-bold">Estado</label>
+                                    <select class="form-control border-primary" id="editar_estado" name="editar_estado" required>
+                                        <option value="" disabled selected>Seleccione un estado</option>
+                                        <option value="activo">Activo</option>
+                                        <option value="inactivo">Inactivo</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="text-end mt-4">
+                                <button type="submit" class="btn btn-success px-4" id="guardarCambiosUsuario" name="guardarCambiosUsuario">
+                                    <i class="fas fa-save"></i> Guardar
+                                </button>
+                                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">
+                                    <i class="fas fa-times"></i> Cancelar
+                                </button>
+                            </div>
+                            <?php
+                            $guardarCambiosUsuario = new ControladorAdministrativa();
+                            $guardarCambiosUsuario->ctrEditarUsuario();
+                            ?>
+                        </form>
+                    </div>
                 </div>
-            </div>
             </div>
         </div>
+
+
 
     </div>
 </section>

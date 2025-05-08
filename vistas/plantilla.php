@@ -226,6 +226,7 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "acpm" ||
         $_GET["ruta"] == "tecnica" ||
         $_GET["ruta"] == "administrativa" ||
+        $_GET["ruta"] == "gh" ||
         $_GET["ruta"] == "juridico" ||
         $_GET["ruta"] == "acciones_verificacion" ||
         $_GET["ruta"] == "salir"
