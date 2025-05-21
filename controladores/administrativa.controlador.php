@@ -149,7 +149,6 @@ Class ControladorAdministrativa
             $datos = array(
                 "disfrutadas" => $_POST["editar_disfrutadas"],
                 "pendientes_periodo" => $_POST["editar_pendientes_periodo"],
-                "dias_pendientes" => $_POST["editar_dias_pendientes"],
                 "observaciones_vacaciones" => $_POST["editar_observaciones_vacaciones"],
                 "id_detalle_vacaciones" => $_POST["editar_id_vacacion"]
             );
@@ -185,6 +184,158 @@ Class ControladorAdministrativa
         }
     }
 
+
+    static public function ctrEnviarVacaciones()
+    {
+        if (isset($_POST["id_detalle_vacaciones_fk"])) {
+
+            $tabla = "vacaciones_solicitudes";
+            $datos = array(
+                "correo_aprobador" => $_POST["correo_aprobador"],
+                "descripcion_solicitud" => $_POST["descripcion_solicitud"],
+                "id_detalle_vacaciones_fk" => $_POST["id_detalle_vacaciones_fk"],
+                "id_usuario_fk" => $_POST["id_usuario_detalle_fk"],
+                "id_vacaciones_fk" => $_POST["id_vacaciones_detalle_fk"],
+                "estado_solicitud" =>"Pendiente"
+            );
+
+            $respuesta = ModeloAdministrativa::mdlEnviarVacaciones($tabla, $datos);
+
+            if ($respuesta == "ok") {
+                echo '<script>
+                    Swal.fire(
+                        "Buen Trabajo!",
+                        "Las vacaciones han sido enviadas.",
+                        "success"
+                    ).then(function() {
+                        var datosCorreo = {
+                            id_usuario_fk: "' . $_SESSION["id"] . '",
+                            modulo: "vacaciones",
+                            id_consulta: "' . $_POST["id_detalle_vacaciones_fk"] . '",
+                            destinatario: "' . $_POST["correo_aprobador"] . '"
+                        };
+
+                        $.ajax({
+                            url: "ajax/enviarCorreo.php",
+                            method: "POST",
+                            data: JSON.stringify(datosCorreo),
+                            cache: false,
+                            contentType: "application/json",
+                            processData: false,
+                            success: function(respuesta) {
+                                console.log("Correo enviado:", respuesta);
+                            }
+                        });
+                    });
+                </script>';
+            } else {
+                echo '<script>
+                    Swal.fire({
+                        icon: "error",
+                        title: "¡Las vacaciones no pudieron ser enviadas!",
+                        confirmButtonText: "Cerrar"
+                    });
+                </script>';
+            }
+        }
+    }
+
+
+    static public function ctrMotrarSolicitudesVacaciones($item, $valor)
+    {
+        // Verifica que haya sesión iniciada y que el correo esté disponible
+        if (isset($_SESSION["correo_usuario"])) {
+            $tabla = "vacaciones_solicitudes";
+            $item = "correo_aprobador";
+            $valor = $_SESSION["correo_usuario"];
+
+            $respuesta = ModeloAdministrativa::mdlMostrarSolicitudesVacaciones($tabla, $item, $valor);
+            return $respuesta;
+        } else {
+            return []; // O manejar error por falta de sesión
+        }
+    }
+
+    static public function ctrAprobarSolicitud()
+    {
+        if (isset($_POST["id_solicitud"])) {
+            $tabla = "vacaciones_solicitudes";
+            $datos = array(
+                "id_solicitud" => $_POST["id_solicitud"],
+                "estado_solicitud" => "Proceso"
+            );
+
+            $respuesta = ModeloAdministrativa::mdlAprobarSolicitud($tabla, $datos);
+
+            if ($respuesta == "ok") {
+                 echo '<script>
+                        Swal.fire(
+                        "Buen Trabajo!",
+                        "La solicitud ha sido Aprobada.",
+                        "success"
+                        ).then(function() {
+                            document.getElementById("formAprobarSolicitud").reset();
+                            window.location.href = "administrativa";
+                        });
+                    </script>
+                ';
+            } else {
+                echo '<script>
+                    Swal.fire({
+                        type: "error",
+                        title: "¡La solicitud no pudo ser aprobada!",
+                        showConfirmButton: true,
+                        confirmButtonText: "Cerrar"
+                    }).then(function(result){
+                        if(result.value){
+                            $("#").addClass("active");
+                        }
+                    });
+                </script>';
+            }
+        }
+    }
+
+    static public function ctrRechazarSolicitud()
+    {
+        if (isset($_POST["id_solicitud_rechazo"])) {
+            $tabla = "vacaciones_solicitudes";
+            $datos = array(
+                "id_solicitud" => $_POST["id_solicitud_rechazo"],
+                "observaciones_solicitud" => $_POST["observaciones_solicitud"],
+                "estado_solicitud" => "Rechazada"
+            );
+
+            $respuesta = ModeloAdministrativa::mdlRechazarSolicitud($tabla, $datos);
+
+            if ($respuesta == "ok") {
+                echo '<script>
+                        Swal.fire(
+                        "Buen Trabajo!",
+                        "La solicitud ha sido rechazada.",
+                        "success"
+                        ).then(function() {
+                            document.getElementById("formRechazarSolicitud").reset();
+                            window.location.href = "administrativa";
+                        });
+                    </script>
+                ';
+            } else {
+                echo '<script>
+                    Swal.fire({
+                        type: "error",
+                        title: "¡La solicitud no pudo ser rechazada!",
+                        showConfirmButton: true,
+                        confirmButtonText: "Cerrar"
+                    }).then(function(result){
+                        if(result.value){
+                            $("#").addClass("active");
+                        }
+                    });
+                </script>';
+            }
+        }
+    }
     
     
 }

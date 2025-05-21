@@ -176,10 +176,30 @@ class ModeloUsuarios
 		}
 	}
 
-			
+	
+	/*================================================================
+	ENVIAR CORREO DE SOLICITUD DE VACACIONES AL DIRECTOR O COORDINADOR
+	==================================================================*/
 
+		static public function mdlEnviarSolicitudVacaciones($tabla, $item, $valor)
+		{
+			try {
+				$stmt = Conexion::conectar()->prepare(
+					"SELECT nombre, apellidos_usuario, correo_usuario 
+					FROM $tabla 
+					WHERE $item = :valor"
+				);
+				$stmt->bindParam(":valor", $valor, PDO::PARAM_INT);
+				$stmt->execute();
 
+				return $stmt->fetch(PDO::FETCH_ASSOC); // Un solo resultado
+			} catch (PDOException $e) {
+				echo "Error en la consulta: " . $e->getMessage();
+				return [];
+			}
+		}
 
+		
 	/*=============================================
 	REGISTRO DE USUARIO
 	=============================================*/

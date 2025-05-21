@@ -314,7 +314,7 @@ static public function ctrMostrarUsuariosCorreoJuridico($item, $valor)
 	return $respuesta;
 }
 
-		/*=============================================
+/*=============================================
 MOSTRAR USUARIO CORREO
 =============================================*/
 static public function ctrMostrarUsuariosCorreoSolucion($item)
@@ -322,6 +322,15 @@ static public function ctrMostrarUsuariosCorreoSolucion($item)
 	$tabla = "usuarios";
 	$respuesta = ModeloUsuarios::mdlEnviarSolucion($tabla, $item);
 	return $respuesta;
+}
+
+/*=============================================
+MOSTRAR USUARIO CORREO
+=============================================*/
+static public function ctrMostrarUsuariosVacaciones($item, $valor)
+{
+    $tabla = "usuarios";
+    return ModeloUsuarios::mdlEnviarSolicitudVacaciones($tabla, $item, $valor);
 }
 
 			/*=============================================

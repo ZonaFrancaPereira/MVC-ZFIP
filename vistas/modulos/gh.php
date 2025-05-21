@@ -134,123 +134,90 @@ if ($id_gh > 0) {
                     <div class="card">
                         <div class="card-header p-2">
                             <ul class="nav nav-pills">
-                                <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Información</a></li>
+                                <li class="nav-item"><a class="nav-link active" href="#informacion" data-toggle="tab">Información</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Periodos Vacacionales</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Solicitar Vacaciones</a></li>
                             </ul>
                         </div><!-- /.card-header -->
                         <div class="card-body">
                             <div class="tab-content">
-                                <div class="active tab-pane" id="activity">
+
+                                <div class="active tab-pane" id="informacion">
                                     <!-- Post -->
                                     <div class="post">
                                         <div class="user-block">
-                                            <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
+                                            <img class="profile-user-img img-fluid img-circle" src="vistas/img/logo2.png" alt="User profile picture">
                                             <span class="username">
-                                                <a href="#">Jonathan Burke Jr.</a>
-                                                <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
+                                                <a href="#">CIRCULAR No. 006</a>
                                             </span>
-                                            <span class="description">Shared publicly - 7:30 PM today</span>
                                         </div>
                                         <!-- /.user-block -->
-                                        <p>
-                                            Lorem ipsum represents a long-held tradition for designers,
-                                            typographers and the like. Some people hate it and argue for
-                                            its demise, but others ignore the hate as they create awesome
-                                            tools to help create filler text for everyone from bacon lovers
-                                            to Charlie Sheen fans.
-                                        </p>
-
-                                        <p>
-                                            <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
-                                            <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
-                                            <span class="float-right">
-                                                <a href="#" class="link-black text-sm">
-                                                    <i class="far fa-comments mr-1"></i> Comments (5)
-                                                </a>
-                                            </span>
-                                        </p>
-
-                                        <input class="form-control form-control-sm" type="text" placeholder="Type a comment">
-                                    </div>
-                                    <!-- /.post -->
-
-                                    <!-- Post -->
-                                    <div class="post clearfix">
-                                        <div class="user-block">
-                                            <img class="img-circle img-bordered-sm" src="../../dist/img/user7-128x128.jpg" alt="User Image">
-                                            <span class="username">
-                                                <a href="#">Sarah Ross</a>
-                                                <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                                            </span>
-                                            <span class="description">Sent you a message - 3 days ago</span>
-                                        </div>
-                                        <!-- /.user-block -->
-                                        <p>
-                                            Lorem ipsum represents a long-held tradition for designers,
-                                            typographers and the like. Some people hate it and argue for
-                                            its demise, but others ignore the hate as they create awesome
-                                            tools to help create filler text for everyone from bacon lovers
-                                            to Charlie Sheen fans.
-                                        </p>
-
-                                        <form class="form-horizontal">
-                                            <div class="input-group input-group-sm mb-0">
-                                                <input class="form-control form-control-sm" placeholder="Response">
-                                                <div class="input-group-append">
-                                                    <button type="submit" class="btn btn-danger">Send</button>
-                                                </div>
+                                        <div class="post-content">
+                                            <p>
+                                                <strong>DE:</strong> Gestión Humana y Administración.<br>
+                                                <strong>PARA:</strong> Colaboradores de la Zona Franca Internacional de Pereira.<br>
+                                                <strong>FECHA:</strong> Julio 27 de 2017.<br>
+                                            </p>
+                                            <p>
+                                                Comprometidos con la mejora continua de los procesos que conlleven a la eficacia en los resultados esperados por la organización,
+                                                comedidamente les comparto los tiempos de respuesta definidos por el proceso para los trámites que sean solicitados por los colaboradores como clientes internos:
+                                            </p>
+                                            <div class="table-responsive">
+                                                <table class="table table-hover table-striped">
+                                                    <thead class="thead-dark">
+                                                        <tr>
+                                                            <th>Trámite Solicitado</th>
+                                                            <th>Tiempo de Respuesta</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Permisos ordinarios</td>
+                                                            <td>2 días hábiles</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Periodo de Vacaciones completo</td>
+                                                            <td>15 días</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Periodo de Vacaciones parcial</td>
+                                                            <td>5 días</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Certificados laborales</td>
+                                                            <td>1 día</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Trámites de seguridad social (EPS, AFP)</td>
+                                                            <td>8 días</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Reporte de novedades laborales (horas extras)</td>
+                                                            <td>2 días previos a la quincena</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Requerimientos de personal</td>
+                                                            <td>30 días</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Requerimiento de reemplazos temporales (cirugías, licencias, otros)</td>
+                                                            <td>30 días</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Servicios de mensajería</td>
+                                                            <td>1 día antes hasta las 5:00 PM (mañana para trámite en la tarde)</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Requerimiento de información laboral</td>
+                                                            <td>2 días</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
-                                        </form>
-                                    </div>
-                                    <!-- /.post -->
-
-                                    <!-- Post -->
-                                    <div class="post">
-                                        <div class="user-block">
-                                            <img class="img-circle img-bordered-sm" src="../../dist/img/user6-128x128.jpg" alt="User Image">
-                                            <span class="username">
-                                                <a href="#">Adam Jones</a>
-                                                <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                                            </span>
-                                            <span class="description">Posted 5 photos - 5 days ago</span>
+                                            <p>
+                                                El objetivo siempre será prestar a nuestros colaboradores un servicio oportuno procurando la satisfacción de sus necesidades.
+                                                Es importante aclarar que los tiempos definidos pueden ser acortados o ampliados.
+                                            </p>
                                         </div>
-                                        <!-- /.user-block -->
-                                        <div class="row mb-3">
-                                            <div class="col-sm-6">
-                                                <img class="img-fluid" src="../../dist/img/photo1.png" alt="Photo">
-                                            </div>
-                                            <!-- /.col -->
-                                            <div class="col-sm-6">
-                                                <div class="row">
-                                                    <div class="col-sm-6">
-                                                        <img class="img-fluid mb-3" src="../../dist/img/photo2.png" alt="Photo">
-                                                        <img class="img-fluid" src="../../dist/img/photo3.jpg" alt="Photo">
-                                                    </div>
-                                                    <!-- /.col -->
-                                                    <div class="col-sm-6">
-                                                        <img class="img-fluid mb-3" src="../../dist/img/photo4.jpg" alt="Photo">
-                                                        <img class="img-fluid" src="../../dist/img/photo1.png" alt="Photo">
-                                                    </div>
-                                                    <!-- /.col -->
-                                                </div>
-                                                <!-- /.row -->
-                                            </div>
-                                            <!-- /.col -->
-                                        </div>
-                                        <!-- /.row -->
-
-                                        <p>
-                                            <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
-                                            <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
-                                            <span class="float-right">
-                                                <a href="#" class="link-black text-sm">
-                                                    <i class="far fa-comments mr-1"></i> Comments (5)
-                                                </a>
-                                            </span>
-                                        </p>
-
-                                        <input class="form-control form-control-sm" type="text" placeholder="Type a comment">
                                     </div>
                                     <!-- /.post -->
                                 </div>
@@ -270,7 +237,7 @@ if ($id_gh > 0) {
                                                     <i class="fas fa-envelope bg-primary"></i>
 
                                                     <div class="timeline-item">
-                                                    
+
                                                         <h3 class="timeline-header"><a href="#">Vacaciones del Periodo:</a> En la parte de abajo podra visualizar los dias de vacaciones que se tiene de este periodo.</h3>
 
                                                         <div class="timeline-body">
@@ -290,6 +257,15 @@ if ($id_gh > 0) {
                                                                 data-editar_id_vacacion="<?php echo htmlspecialchars($vacacion['id_detalle_vacaciones']); ?>">
                                                                 Editar
                                                             </button>
+                                                            <button
+                                                                class="btn btn-danger btn-sm"
+                                                                data-toggle="modal"
+                                                                data-target="#vacacionesModal"
+                                                                data-id_detalle_vacaciones_fk="<?php echo htmlspecialchars($vacacion['id_detalle_vacaciones']); ?>"
+                                                                data-id_usuario_detalle_fk="<?php echo htmlspecialchars($id_gh); ?>"
+                                                                data-id_vacaciones_detalle_fk="<?php echo htmlspecialchars($vacacion['id_vacaciones_fk']); ?>">
+                                                                Solicitar Vacaciones
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -306,101 +282,103 @@ if ($id_gh > 0) {
                                     </div>
                                 </div>
                                 <!-- /.tab-pane -->
-                              
-                                    <!-- Modal Editar Vacaciones -->
-                                    <div class="modal fade" id="editVacationModal" tabindex="-1" aria-labelledby="editVacationModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg">
-                                            <div class="modal-content">
-                                                <div class="modal-header bg-primary text-white">
-                                                    <h5 class="modal-title" id="editVacationModalLabel"><i class="fas fa-edit"></i> Editar Vacaciones</h5>
-                                                    <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form id="editVacationForm" method="POST" enctype="multipart/form-data">
-                                                        <div class="row g-3">
-                                                            <input type="hidden" name="editar_id_vacacion" id="editar_id_vacacion">
-                                                            <div class="col-md-6">
-                                                                <label for="editar_disfrutadas" class="form-label fw-bold">Disfrutadas</label>
-                                                                <input type="number" class="form-control border-primary" id="editar_disfrutadas" name="editar_disfrutadas" required>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <label for="editar_pendientes_periodo" class="form-label fw-bold">Pendientes</label>
-                                                                <input type="number" class="form-control border-primary" id="editar_pendientes_periodo" name="editar_pendientes_periodo" required>
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                <label for="editar_observaciones_vacaciones" class="form-label fw-bold">Observaciones</label>
-                                                                <textarea class="form-control border-primary" id="editar_observaciones_vacaciones" name="editar_observaciones_vacaciones" rows="3" placeholder="Ingrese las observaciones" required></textarea>
-                                                            </div>
-                                                        </div>
-                                                        <div class="text-end mt-4">
-                                                            <button type="submit" class="btn btn-primary px-4"><i class="fas fa-save"></i> Guardar Cambios</button>
-                                                            <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal"><i class="fas fa-times"></i> Cerrar</button>
-                                                        </div>
 
-                                                        <?php
-                                                        $ActualizarVacaciones = new ControladorAdministrativa();
-                                                        $ActualizarVacaciones-> ctrActualizarVacaciones();
-                                                        ?>
-                                                    </form>
-                                                </div>
+                                <!-- Modal Editar Vacaciones -->
+                                <div class="modal fade" id="editVacationModal" tabindex="-1" aria-labelledby="editVacationModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-primary text-white">
+                                                <h5 class="modal-title" id="editVacationModalLabel"><i class="fas fa-edit"></i> Editar Vacaciones</h5>
+                                                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form id="editVacationForm" method="POST" enctype="multipart/form-data">
+                                                    <div class="row g-3">
+                                                        <input type="hidden" name="editar_id_vacacion" id="editar_id_vacacion">
+                                                        <div class="col-md-6">
+                                                            <label for="editar_disfrutadas" class="form-label fw-bold">Disfrutadas</label>
+                                                            <input type="number" class="form-control border-primary" id="editar_disfrutadas" name="editar_disfrutadas" required>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="editar_pendientes_periodo" class="form-label fw-bold">Pendientes</label>
+                                                            <input type="number" class="form-control border-primary" id="editar_pendientes_periodo" name="editar_pendientes_periodo" required>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <label for="editar_observaciones_vacaciones" class="form-label fw-bold">Observaciones</label>
+                                                            <textarea class="form-control border-primary" id="editar_observaciones_vacaciones" name="editar_observaciones_vacaciones" rows="3" placeholder="Ingrese las observaciones" required></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-end mt-4">
+                                                        <button type="submit" class="btn btn-primary px-4"><i class="fas fa-save"></i> Guardar Cambios</button>
+                                                        <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal"><i class="fas fa-times"></i> Cerrar</button>
+                                                    </div>
+
+                                                    <?php
+                                                    $ActualizarVacaciones = new ControladorAdministrativa();
+                                                    $ActualizarVacaciones->ctrActualizarVacaciones();
+                                                    ?>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
-
-                                <div class="tab-pane" id="settings">
-                                    <form class="form-horizontal">
-                                        <div class="form-group row">
-                                            <label for="inputName" class="col-sm-2 col-form-label">Name</label>
-                                            <div class="col-sm-10">
-                                                <input type="email" class="form-control" id="inputName" placeholder="Name">
+                                </div>
+                                <!-- /.modal -->
+                                <div class="modal fade" id="vacacionesModal" tabindex="-1" aria-labelledby="vacacionesModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-primary text-white">
+                                                <h5 class="modal-title" id="vacacionesModalLabel"><i class="fas fa-calendar-alt"></i> Solicitar Vacaciones</h5>
+                                                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form id="vacacionesForm" method="POST" enctype="multipart/form-data">
+                                                    <div class="row g-4">
+                                                        <input type="" name="id_detalle_vacaciones_fk" id="id_detalle_vacaciones_fk">
+                                                        <input type="" name="id_usuario_detalle_fk" id="id_usuario_detalle_fk">
+                                                         <input type="" name="id_vacaciones_detalle_fk" id="id_vacaciones_detalle_fk">
+                                                        <div class="col-md-12 mb-3">
+                                                            <label for="correo_aprobador" class="form-label fw-bold text-primary">
+                                                                Seleccione el aprobador
+                                                            </label>
+                                                            <select id="correo_aprobador" name="correo_aprobador" class="form-select border-primary" required>
+                                                                <option value="" disabled selected>Seleccione un usuario</option>
+                                                                <?php
+                                                                $item = null;
+                                                                $valor = null;
+                                                                $usuario = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
+                                                                foreach ($usuario as $key => $value) {
+                                                                    echo '<option value="' . htmlspecialchars($value["correo_usuario"]) . '">' . htmlspecialchars($value["nombre"] . ' ' . $value["apellidos_usuario"]) . '</option>';
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-12 mb-3">
+                                                            <label for="descripcion_solicitud" class="form-label fw-bold text-primary">
+                                                                Describa su solicitud
+                                                            </label>
+                                                            <textarea class="form-control border-primary" id="descripcion_solicitud" name="descripcion_solicitud" rows="4" placeholder="Ingrese los detalles de su solicitud..." required></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-end gap-2 mt-4">
+                                                        <button type="submit" class="btn btn-primary px-4">
+                                                            <i class="fas fa-paper-plane"></i> Solicitar Vacaciones
+                                                        </button>
+                                                        <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">
+                                                            <i class="fas fa-times"></i> Cerrar
+                                                        </button>
+                                                    </div>
+                                                    <?php
+                                                    $EnviarVacaciones = new ControladorAdministrativa();
+                                                    $EnviarVacaciones->ctrEnviarVacaciones();
+                                                    ?>
+                                                </form>
                                             </div>
                                         </div>
-                                        <div class="form-group row">
-                                            <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
-                                            <div class="col-sm-10">
-                                                <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="inputName2" class="col-sm-2 col-form-label">Name</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputName2" placeholder="Name">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="inputExperience" class="col-sm-2 col-form-label">Experience</label>
-                                            <div class="col-sm-10">
-                                                <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <div class="offset-sm-2 col-sm-10">
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <div class="offset-sm-2 col-sm-10">
-                                                <button type="submit" class="btn btn-danger">Submit</button>
-                                            </div>
-                                        </div>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
     </section>
 </div>
 </form>

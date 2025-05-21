@@ -477,6 +477,42 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
                             </div>
                                 </body></html>";
                 break;
+
+           case 'vacaciones':
+        // Obtener información del usuario solicitante
+        $usuarios = ControladorUsuarios::ctrMostrarUsuariosVacaciones("id", $id_usuario_fk);
+
+        if (!empty($usuarios)) {
+            $nombre_solicitante = $usuarios["nombre"] . ' ' . $usuarios["apellidos_usuario"];
+
+            // Armar correo
+            $mail->addAddress($destinatario); // Correo del aprobador
+
+            $titulo_correo = "Solicitud de Vacaciones del usuario: " . $nombre_solicitante;
+            $message = "
+            <html><body>
+                        <div style='max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px;'>
+                            <div style='background-color: #F8F9F9; color: black; text-align: center; padding: 10px; border-radius: 5px 5px 0 0;'>
+                                <img src='https://zonafrancadepereira.com/wp-content/uploads/2020/11/cropped-ZONA-FRANCA-LOGO-PNG-1-1-1-206x81.png'>
+                            </div>
+                            <div style='padding: 20px;'>
+                                <p>Estimado usuario,</p>
+                                <p>Se ha realizado una nueva solicitud de vacaciones y está pendiente de su revisión y aprobación. A continuación podrá gestionar la solicitud desde el sistema:</p>
+                                <center>
+                                    <a href='https://app.zonafrancadepereira.com/' target='_blank'>
+                                        <button style='border: none; color: white; padding: 14px 28px; cursor: pointer; border-radius: 5px; background: #0b7dda;'>Iniciar Sesión</button>
+                                    </a>
+                                </center>
+                                <p>¡Gracias por su paciencia y colaboración!</p>
+                            </div>
+                            <div style='text-align: center; padding: 10px; background-color: #f4f4f4; border-radius: 0 0 5px 5px;'>
+                                <p>Este es un mensaje automático, por favor no responda a este correo.</p>
+                            </div>
+                        </div>
+                        </body></html>";
+        }
+        break;
+
             default:
                 // Lógica para otros módulos si es necesario
                 break;

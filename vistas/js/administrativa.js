@@ -119,3 +119,52 @@ $('#editVacationModal').on('show.bs.modal', function (event) {
     var modal = $(this);
     modal.find('#editar_id_vacacion').val(editar_id_vacacion);
 });
+
+/*=============================================
+CAPTURA EL ID PARA SOLICITAR VACACIONES
+=============================================*/
+$('#vacacionesModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); 
+    var id_detalle_vacaciones_fk = button.data('id_detalle_vacaciones_fk');
+
+    var modal = $(this);
+    modal.find('#id_detalle_vacaciones_fk').val(id_detalle_vacaciones_fk);
+});
+
+$('#vacacionesModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); 
+    var id_usuario_detalle_fk = button.data('id_usuario_detalle_fk');
+
+    var modal = $(this);
+    modal.find('#id_usuario_detalle_fk').val(id_usuario_detalle_fk);
+});
+
+$('#vacacionesModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); 
+    var id_vacaciones_detalle_fk = button.data('id_vacaciones_detalle_fk');
+
+    var modal = $(this);
+    modal.find('#id_vacaciones_detalle_fk').val(id_vacaciones_detalle_fk);
+});
+
+/*=============================================
+CAPTURA EL ID PARA APROBAR LAS VACACIONES
+=============================================*/
+$('#modal-Aprobar').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); 
+    var id_solicitud = button.data('id_solicitud');
+
+    var modal = $(this);
+    modal.find('#id_solicitud').val(id_solicitud);
+});
+
+/*=============================================
+CAPTURA EL ID PARA RECHAZAR LAS VACACIONES
+=============================================*/
+$('#modal-Rechazar').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); 
+    var id_solicitud_rechazo = button.data('id_solicitud_rechazo');
+
+    var modal = $(this);
+    modal.find('#id_solicitud_rechazo').val(id_solicitud_rechazo);
+});

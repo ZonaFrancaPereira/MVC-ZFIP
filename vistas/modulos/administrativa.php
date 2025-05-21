@@ -4,7 +4,7 @@ require_once "configuracion.php";
 <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <li class="nav-item">
-            <a data-toggle="tab" href="#" class="nav-link">
+            <a data-toggle="tab" href="#principal_administrativa" class="nav-link">
                 <i class="nav-icon fas fa-user-tie"></i>
                 <p>Principal</p>
             </a>
@@ -43,10 +43,18 @@ if ($_SESSION["ti"] == "off") {
             <div class="container-fluid">
                 <div class="tab-content card">
 
-                <div id="usuarios_administrativa" class="tab-pane">
+                    <div id="usuarios_administrativa" class="tab-pane">
                         <div class="row">
                             <div class="col-md-12">
                                 <?php require "administrativa/usuarios_administrativa.php"; ?>
+                            </div>
+                        </div>
+                    </div>
+
+                     <div id="principal_administrativa" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "administrativa/principal_administrativa.php"; ?>
                             </div>
                         </div>
                     </div>
