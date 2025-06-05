@@ -8,9 +8,8 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <form id="form-categoria">
-          <div class="form-group">
+      <form id="form-categoria" method="POST">  
+        <div class="form-group">
             <label for="nombre-categoria">Nombre Categoría</label>
             <input type="text" class="form-control" id="nuevaCategoria" name="nuevaCategoria" required>
           </div>
@@ -22,14 +21,13 @@
             <button type="button" class="btn bg-danger" data-dismiss="modal">Cerrar</button>
             <button type="submit" class="btn bg-success" name="guardar_categoria">Guardar</button>
             <?php  
-                
+                 if (isset($_POST['guardar_categoria'])) {
                   $CategoriaSadoc = new ControladorSadoc();
                   $CategoriaSadoc->ctrCrearCategoria();
-                
+                 }
             ?>
           </div>
         </form>
       </div>
     </div>
   </div>
-</div>

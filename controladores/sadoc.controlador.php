@@ -71,42 +71,75 @@ class ControladorSadoc
 		}
 	}
 
+	/**
+	 * Asigna una o varias categorías a procesos seleccionados.
+	 *
+	 * Este método verifica si se ha enviado el formulario de asignación de procesos.
+	 * Si se reciben procesos válidos, itera sobre cada uno y realiza la asignación
+	 * en la base de datos utilizando el modelo correspondiente. Muestra mensajes
+	 * de éxito o error mediante SweetAlert según el resultado de la operación.
+	 *
+	 * @static
+	 * @return void
+	 *
+	 * Variables POST esperadas:
+	 * - 'asignar-procesos': Indicador de envío del formulario.
+	 * - 'categoria_detalle': ID de la categoría a asignar.
+	 * - 'id_proceso_fk': Array de IDs de procesos a los que se asignará la categoría.
+	 */
 	static public function ctrAsignarCategorias()
-{
-    if (isset($_POST["btn-asignar-sadoc"])) {
-        // Obtener el valor de la categoría (único)
-        $id_categoria = $_POST["asignar_categoria_sadoc"];  // Este valor será una cadena como "ID - Nombre"
-        
-        // Obtener los procesos seleccionados (esto será un arreglo)
-        $id_proceso_fk = $_POST["id_proceso_fk"]; // Este es un arreglo de procesos
-        
-        $estado_detalle = "Activo";
-        $tabla = "categoria_sadoc_detalle";
+	{
+		if (isset($_POST["asignar-procesos"])) {
 
-        // Verificar que los procesos estén seleccionados
-        if (is_array($id_proceso_fk) && count($id_proceso_fk) > 0) {
-            foreach ($id_proceso_fk as $proceso) {
-                // Guardamos cada proceso con la categoría seleccionada
-                $datos = array(
-                    "id_categoria" => $id_categoria,  // Categoría seleccionada
-                    "id_proceso_fk" => $proceso,      // Cada proceso seleccionado
-                    "estado_detalle" => $estado_detalle
-                );
-                
-                // Insertamos en la base de datos
-                $respuesta = ModeloSadoc::mdlAsignarCategorias($tabla, $datos);
-                
-                if ($respuesta != "ok") {
-                    return $respuesta; // Si hay un error, lo devolvemos
-                }
-            }
-            return "ok"; // Si todo salió bien
-        } else {
-            return "Error: No se han seleccionado procesos.";
-        }
-    }
-}
-	
+			$id_categoria = $_POST["categoria_detalle"];
+			$procesos = $_POST["id_proceso_fk"];
+			$estado_detalle = "Activo";
+			$tabla = "categoria_sadoc_detalle";
+
+			if (!is_array($procesos) || empty($procesos)) {
+				echo '<script>
+                Swal.fire({
+                    icon: "error",
+                    title: "No se recibieron procesos para asignar.",
+                    showConfirmButton: true,
+                    confirmButtonText: "Cerrar"
+                });
+            </script>';
+				return;
+			}
+
+			for ($i = 0; $i < count($procesos); $i++) {
+				$datos = array(
+					"id_categoria_fk" => $id_categoria,
+					"id_proceso" => $procesos[$i],
+					"estado_detalle" => $estado_detalle,
+				);
+
+				$respuesta = ModeloSadoc::mdlAsignarCategorias($tabla, $datos);
+
+				if ($respuesta !== "ok") {
+					echo '<script>
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error al insertar el proceso: ' . htmlspecialchars($procesos[$i]) . '",
+                        showConfirmButton: true,
+                        confirmButtonText: "Cerrar"
+                    });
+                </script>';
+					return;
+				}
+			}
+
+			echo '<script>
+            Swal.fire({
+                icon: "success",
+                title: "Procesos asignados correctamente",
+                showConfirmButton: true,
+                confirmButtonText: "Cerrar"
+            });
+        </script>';
+		}
+	}
 	/*=============================================
 	MOSTRAR ARCHIVOS POR PROCESO
 	=============================================*/
@@ -134,31 +167,31 @@ class ControladorSadoc
 	=============================================*/
 	static public function ctrCrearCategoria()
 	{
-		if (isset($_POST["nuevaCategoria"])) {
-			
-				$nombre_categoria = $_POST["nuevaCategoria"];
-				$descripcion_categoria = $_POST["descripcionCategoria"];
-				$tabla = "categoria_sadoc";
-				$datos = array(
-					"nombre_categoria" => $nombre_categoria,
-					"descripcion_categoria" => $descripcion_categoria,
-					"estado_categoria" => "Activo"
-				);
+		if (isset($_POST["guardar_categoria"])) {
 
-				$respuesta = ModeloSadoc::mdlIngresarCategoria($tabla, $datos);
+			$nombre_categoria = $_POST["nuevaCategoria"];
+			$descripcion_categoria = $_POST["descripcionCategoria"];
+			$tabla = "categoria_sadoc";
+			$datos = array(
+				"nombre_categoria" => $nombre_categoria,
+				"descripcion_categoria" => $descripcion_categoria,
+				"estado_categoria" => "Activo"
+			);
 
-				if ($respuesta == "ok") {
-					echo '<script>
+			$respuesta = ModeloSadoc::mdlIngresarCategoria($tabla, $datos);
+
+			if ($respuesta == "ok") {
+				echo '<script>
 						Swal.fire(
 							"Buen Trabajo!",
 							"La categoría ha sido guardada correctamente.",
 							"success"
 						).then(function() {
-							window.location = "index.php?ruta=categorias";
+							window.location = "sadoc";
 						});
 					</script>';
-				} else {
-					echo '<script>
+			} else {
+				echo '<script>
 						Swal.fire({
 							icon: "error",
 							title: "Oops...",
@@ -166,8 +199,29 @@ class ControladorSadoc
 							footer: "<a href=\'ti\'>Soporte TI</a>"
 						});
 					</script>';
-				}
-		
+			}
 		}
 	}
+
+	/*=============================================
+	MOSTRAR ARCHIVOS POR PROCESO
+	=============================================*/
+	static public function mostrarDetalleCategorias($id_proceso_fk)
+	{
+		$tabla = "categoria_sadoc_detalle";
+		$respuesta = ModeloSadoc::mdlObtenerDetalleCategorias($tabla, $id_proceso_fk);
+		return $respuesta;
+	}
+
+	/*=============================================
+	MOSTRAR ARCHIVOS POR PROCESO Y CATEGORIA
+	=============================================*/
+
+	static public function mostrarArchivosPorCategoria($id_proceso_fk,$idCategoria)
+	{
+		$respuesta = ModeloSadoc::mdlObtenerArchivosPorCategoria($id_proceso_fk, $idCategoria);
+		return $respuesta;
+	}
+
+
 }
