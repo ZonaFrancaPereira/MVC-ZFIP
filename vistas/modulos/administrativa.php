@@ -3,16 +3,28 @@ require_once "configuracion.php";
 ?>
 <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <li class="nav-item">
+            <a data-toggle="tab" href="#solicitudes_usuario" class="nav-link">
+                <i class="nav-icon fas fa-user-tie"></i>
+                <p>Principal</p>
+            </a>
+        </li>
         <li class="nav-item">
             <a data-toggle="tab" href="#principal_administrativa" class="nav-link">
                 <i class="nav-icon fas fa-user-tie"></i>
-                <p>Principal</p>
+                <p>Aprobar Solicitudes</p>
             </a>
         </li>
         <li class="nav-item">
             <a data-toggle="tab" href="#usuarios_administrativa" class="nav-link">
                 <i class="nav-icon fas fa-user-tie"></i>
                 <p>Usuarios</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a data-toggle="tab" href="#solicitudes_aprobadas" class="nav-link">
+                <i class="nav-icon fas fa-user-tie"></i>
+                <p>Solicitudes Aprobadas</p>
             </a>
         </li>
     </ul>
@@ -58,6 +70,23 @@ if ($_SESSION["ti"] == "off") {
                             </div>
                         </div>
                     </div>
+
+                    <div id="solicitudes_usuario" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "administrativa/solicitudes_usuario.php"; ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="solicitudes_aprobadas" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "administrativa/solicitudes_aprobadas.php"; ?>
+                            </div>
+                        </div>
+                    </div>
+
 
                 </div>
             </div>

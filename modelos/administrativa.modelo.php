@@ -263,49 +263,67 @@ class ModeloAdministrativa
         }
     }
 
-public static function mdlMostrarVacacionespdf($tabla, $item, $valor)
-{
-    try {
-        $stmt = Conexion::conectar()->prepare("SELECT 
-                u.nombre,
-                u.apellidos_usuario,
-                u.id_proceso_fk,
-                p.nombre_proceso,
-                
-                a.nombre_administrativa,
-                a.cedula_administrativa,
-                a.fecha_ingreso_administrativa,
-                a.estado_usuario_administrativa,
-                
-                o.periodo_inicio,
-                o.periodo_fin,
-                o.disfrutadas,
-                o.pendientes_periodo,
-                o.observaciones_vacaciones,
-                
-                s.fecha_solicitud,
-                s.descripcion_solicitud,
-                s.estado_solicitud,
-                s.observaciones_solicitud,
-                s.correo_aprobador
+    public static function mdlMostrarVacacionespdf($tabla, $item, $valor)
+    {
+        try {
+            $stmt = Conexion::conectar()->prepare("SELECT 
+                    u.nombre,
+                    u.apellidos_usuario,
+                    u.id_proceso_fk,
+                    p.nombre_proceso,
+                    
+                    a.nombre_administrativa,
+                    a.cedula_administrativa,
+                    a.fecha_ingreso_administrativa,
+                    a.estado_usuario_administrativa,
+                    
+                    o.periodo_inicio,
+                    o.periodo_fin,
+                    o.disfrutadas,
+                    o.pendientes_periodo,
+                    o.observaciones_vacaciones,
+                    
+                    s.fecha_solicitud,
+                    s.descripcion_solicitud,
+                    s.estado_solicitud,
+                    s.observaciones_solicitud,
+                    s.correo_aprobador
 
-            FROM vacaciones_solicitudes s
-            INNER JOIN detalle_vacaciones o ON s.id_detalle_vacaciones_fk = o.id_detalle_vacaciones
-            INNER JOIN vacaciones a ON o.id_vacaciones_fk = a.id
-            INNER JOIN usuarios u ON a.nombre_administrativa = u.id
-            INNER JOIN proceso p ON u.id_proceso_fk = p.id_proceso
-            WHERE s.$item = :$item
-        ");
+                FROM vacaciones_solicitudes s
+                INNER JOIN detalle_vacaciones o ON s.id_detalle_vacaciones_fk = o.id_detalle_vacaciones
+                INNER JOIN vacaciones a ON o.id_vacaciones_fk = a.id
+                INNER JOIN usuarios u ON a.nombre_administrativa = u.id
+                INNER JOIN proceso p ON u.id_proceso_fk = p.id_proceso
+                WHERE s.$item = :$item
+            ");
 
-        $stmt->bindParam(":$item", $valor, PDO::PARAM_INT);
-        $stmt->execute();
+            $stmt->bindParam(":$item", $valor, PDO::PARAM_INT);
+            $stmt->execute();
 
-        return $stmt->fetchAll();
-        
-    } catch (PDOException $e) {
-        die("Error al obtener datos de vacaciones: " . $e->getMessage());
+            return $stmt->fetchAll();
+            
+        } catch (PDOException $e) {
+            die("Error al obtener datos de vacaciones: " . $e->getMessage());
+        }
     }
-}
+
+    public static function mdlMostrarVacacionesUsuarios($tabla, $item, $valor)
+    {
+        try {
+            $pdo = Conexion::conectar();
+            if ($item != null && $valor != null) {
+                $stmt = $pdo->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+                $stmt->bindParam(":$item", $valor, PDO::PARAM_INT);
+            } else {
+                $stmt = $pdo->prepare("SELECT * FROM $tabla");
+            }
+
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        }
+    }
 
 
 

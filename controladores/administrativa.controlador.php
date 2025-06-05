@@ -241,7 +241,7 @@ Class ControladorAdministrativa
     }
 
 
-    static public function ctrMotrarSolicitudesVacaciones($item, $valor)
+    static public function ctrMotrarSolicitudesVacaciones()
     {
         // Verifica que haya sesión iniciada y que el correo esté disponible
         if (isset($_SESSION["correo_usuario"])) {
@@ -337,5 +337,11 @@ Class ControladorAdministrativa
         }
     }
     
+    static public function ctrMotrarVacacionesUsuarios($item, $valor)
+    {
+        $tabla = "vacaciones_solicitudes";
+        $respuesta = ModeloAdministrativa::mdlMostrarVacacionesUsuarios($tabla, $item, $valor);
+        return $respuesta;
+    }
     
 }
