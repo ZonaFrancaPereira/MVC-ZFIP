@@ -4,7 +4,7 @@ require_once "conexion.php";
 
 class ModeloSadoc
 {
-/*=============================================
+    /*=============================================
 REGISTRO DE archivos
 =============================================*/
     static public function mdlIngresarArchivo($tabla, $datos)
@@ -60,7 +60,7 @@ REGISTRO DE archivos
         try {
             // Conectar a la base de datos
             $pdo = Conexion::conectar();
-            
+
             // Consulta SQL para insertar cada proceso con su categoría
             $stmt = $pdo->prepare("INSERT INTO $tabla (
                 id_categoria_fk,
@@ -71,12 +71,12 @@ REGISTRO DE archivos
                 :id_proceso_fk,
                 :estado_detalle
             )");
-    
+
             // Vinculamos los parámetros
-            $stmt->bindParam(":id_categoria_fk", $datos["id_categoria"], PDO::PARAM_INT);
-            $stmt->bindParam(":id_proceso_fk", $datos["id_proceso_fk"], PDO::PARAM_INT);
+            $stmt->bindParam(":id_categoria_fk", $datos["id_categoria_fk"], PDO::PARAM_INT);
+            $stmt->bindParam(":id_proceso_fk", $datos["id_proceso"], PDO::PARAM_INT);
             $stmt->bindParam(":estado_detalle", $datos["estado_detalle"], PDO::PARAM_STR);
-    
+
             // Ejecutamos la consulta
             if ($stmt->execute()) {
                 // Cerrar la consulta y liberar recursos
@@ -90,7 +90,7 @@ REGISTRO DE archivos
             return "error: " . $e->getMessage(); // Captura y muestra cualquier error de PDO
         }
     }
-    
+
 
     /*=============================================
 	MOSTRAR ARCHIVOS POR PROCESO
@@ -99,7 +99,12 @@ REGISTRO DE archivos
     static public function mdlObtenerArchivosPorProceso($id_proceso_fk)
     {
         try {
-            $stmt = Conexion::conectar()->prepare('SELECT * FROM sadoc WHERE id_proceso_fk = :id_proceso_fk AND estado = "activo"');
+            $stmt = Conexion::conectar()->prepare('
+        SELECT s.*
+        FROM sadoc s
+        INNER JOIN categoria_sadoc_detalle c ON s.id_cs_fk = c.id_cs_detalle
+        WHERE c.id_proceso_fk = :id_proceso_fk AND s.estado = "activo"
+    ');
             $stmt->bindParam(':id_proceso_fk', $id_proceso_fk, PDO::PARAM_INT);
             $stmt->execute();
             return $stmt->fetchAll();
@@ -107,6 +112,31 @@ REGISTRO DE archivos
             return [];
         }
     }
+
+        /*=============================================
+	MOSTRAR ARCHIVOS POR PROCESO Y CATEGORIA
+	=============================================*/
+
+  static public function mdlObtenerArchivosPorCategoria($id_proceso_fk, $idCategoria)
+{
+    try {
+        $stmt = Conexion::conectar()->prepare('
+            SELECT s.*
+            FROM sadoc s
+            INNER JOIN categoria_sadoc_detalle c ON s.id_cs_fk = c.id_cs_detalle
+            WHERE c.id_proceso_fk = :id_proceso_fk 
+              AND c.id_categoria_fk = :id_categoria_fk
+              AND s.estado = "Activo"
+        ');
+        $stmt->bindParam(':id_proceso_fk', $id_proceso_fk, PDO::PARAM_INT);
+        $stmt->bindParam(':id_categoria_fk', $idCategoria, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        return [];
+    }
+}
+
 
     /*=============================================
 	MOSTRAR ARCHIVOS POR PROCESO
@@ -163,5 +193,50 @@ REGISTRO DE archivos
             return "error: " . $e->getMessage();
         }
     }
-   
+
+        /*=============================================
+	MOSTRAR CATEGORIAS POR PROCESO
+	=============================================*/
+
+    static public function mdlObtenerDetalleCategorias($tabla,$id_proceso_fk)
+    {
+        if($id_proceso_fk != null){
+        try {
+            $stmt = Conexion::conectar()->prepare("SELECT d.id_cs_detalle, d.id_categoria_fk, d.id_proceso_fk, d.estado_detalle,
+                       cat.nombre_categoria
+                FROM $tabla AS d
+                INNER JOIN categoria_sadoc AS cat ON d.id_categoria_fk = cat.id_categoria
+                WHERE d.id_proceso_fk = :id_proceso_fk 
+                  AND d.estado_detalle = 'Activo'
+                ORDER BY cat.nombre_categoria ASC");
+            $stmt->bindParam(':id_proceso_fk', $id_proceso_fk, PDO::PARAM_INT); 
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            return [];
+        }
+
+    }else{
+
+       try {
+            $stmt = Conexion::conectar()->prepare("SELECT d.id_cs_detalle, d.id_categoria_fk, d.id_proceso_fk, d.estado_detalle,
+                       cat.nombre_categoria,
+                       p.nombre_proceso,
+                       p.siglas_proceso
+                FROM $tabla AS d
+                INNER JOIN categoria_sadoc AS cat ON d.id_categoria_fk = cat.id_categoria
+                INNER JOIN proceso AS p ON d.id_proceso_fk = p.id_proceso
+                WHERE d.estado_detalle = 'Activo'
+                ORDER BY cat.nombre_categoria ASC");
+            
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            return [];
+        }
+
+    }
+
+
+    }
 }

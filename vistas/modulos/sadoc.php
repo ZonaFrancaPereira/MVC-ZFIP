@@ -260,13 +260,13 @@ switch ($procesoActivo) {
                                 <?php
                                 $procesos = ControladorProcesos::ctrMostrarProcesos();
                                 ?>
-                                <form method="POST" id="formCategorias">
+                                <form method="POST" id="formCategorias" enctype="multipart/form-data">
                                   <div class="row mt-3">
                                     <div class="col-md-12 mb-3">
                                       <label for="asignar_categoria_sadoc" class="form-label">Selecciona una
                                         categoría:</label>
                                       <input list="categorias_sadoc" id="asignar_categoria_sadoc"
-                                        name="asignar_categoria_sadoc[]" class="form-control"
+                                        name="categoria_detalle" class="form-control"
                                         placeholder="Escribe para buscar..." required>
                                       <datalist id="categorias_sadoc">
                                         <?php
@@ -277,7 +277,7 @@ switch ($procesoActivo) {
                                         ?>
                                       </datalist>
                                       <label for="procesos_categoria_sadoc" class="form-label">Selecciona los
-                                        activos:</label>
+                                        Procesos:</label>
                                       <select id="procesos_categoria_sadoc" name="id_proceso_fk[]" multiple
                                         class="select2 form-control">
                                         <?php foreach ($procesos as $proceso): ?>
@@ -288,19 +288,20 @@ switch ($procesoActivo) {
                                       </select>
                                     </div>
                                     <div class="col-md-12 text-center">
-                                      <button type="submit" name="btn-asignar-sadoc" class="btn bg-success">Guardar
+                                      <button type="submit" name="asignar-procesos" class="btn bg-success">Guardar
                                         Cambios</button>
                                     </div>
                                   </div>
-                                  <?php
-                                  if (isset($_POST['btn-asignar-sadoc'])) {
-                                    $asignarCategorias = new ControladorSadoc();
-                                    $asignarCategorias->ctrAsignarCategorias();
-                                  }
-                                  ?>
+                               
                                 </form>
 
-
+                                <?php
+                                // ESTE BLOQUE VA AL INICIO DEL ARCHIVO PHP
+                                if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['asignar-procesos'])) {
+                                  $asignarCategorias = new ControladorSadoc();
+                                  $asignarCategorias->ctrAsignarCategorias();
+                                }
+                                ?>
                               </div>
                               <?php require "sadoc/categoria_sadoc.php"; ?>
                             </div>
@@ -326,8 +327,52 @@ switch ($procesoActivo) {
                         <h3 class="card-title">Gestionar Archivos</h3>
                       </div>
                       <div class="card-body">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in venenatis enim. Integer
-                          nec odio. Praesent libero. Sed cursus ante dapibus diam.</p>
+                          <form class="FormArchivos" action="" method="POST" enctype="multipart/form-data">
+                            <div class="row">
+                              <div class="col-md-6">
+                                <input type="text" class="form-control" name="codigo" id="codigo" placeholder="<?php echo $codigo; ?>" required>
+                              </div>
+                              <div class="col-md-6">
+                                <input type="file" class="form-control" name="archivo" required>
+                              </div>
+                              <div class="col-md-6">
+                                <input type="hidden" name="id_proceso_fk" value="<?php echo $id_proceso_fk; ?>" class="form-control" required>
+                              </div>
+                              <div class="col-md-6">
+                                <input type="hidden" name="carpeta" value="<?php echo $proceso; ?>" class="form-control" required>
+                              </div>
+                              <div class="col-md-12 mt-2">
+                                <label for="categoria_detalle">Selecciona la categoría:</label>
+                                <input list="categoria_detalle_list" name="categoria_detalle" id="categoria_detalle" class="form-control" placeholder="Escribe para buscar..." required>
+                                <datalist id="categoria_detalle_list">
+                                  <?php
+                                  // Traer los detalles de categoría y mostrar nombre de categoría y proceso
+                                  // Usa el id_proceso_fk correcto ya definido en el contexto
+                                  $detalles = ControladorSadoc::mostrarDetalleCategorias($id_proceso_fk);
+                                  if ($detalles && is_array($detalles)) {
+                                    foreach ($detalles as $detalle) {
+                                      $id = htmlspecialchars($detalle['id_cs_detalle']);
+                                      $nombreCategoria = htmlspecialchars($detalle['nombre_categoria']);
+                                      $nombreProceso = htmlspecialchars($detalle['nombre_proceso']);
+                                      $siglasProceso = htmlspecialchars($detalle['siglas_proceso']);
+                                      echo "<option value=\"$id\">$nombreCategoria - $siglasProceso - $nombreProceso</option>";
+                                    }
+                                  }
+                                  ?>
+                                </datalist>
+                              </div>
+                            </div>
+                            <br>
+                            <button type="submit" class="btn bg-success btn-block" name="subir">
+                              <span class="fa fa-upload" aria-hidden="true"></span> Subir Archivo
+                            </button>
+                            <?php
+                              if (isset($_POST['subir'])) {
+                                $crearSadoc = new ControladorSadoc();
+                                $crearSadoc->ctrCrearArchivo();
+                              }
+                            ?>
+                          </form>
                       </div>
                     </div>
                   </div>
@@ -345,7 +390,6 @@ switch ($procesoActivo) {
                     <div class="card">
                       <div class="card-header">
                         <h3 class="card-title">Búsqueda General de Archivos</h3>
-
                       </div>
                       <!-- /.card-header -->
                       <div class="card-body">
@@ -424,51 +468,51 @@ switch ($procesoActivo) {
           </div><!-- /.tab-pane -->
 
           <div id="menu1" class="tab-pane fade <?php echo ($activeTab === 'menu1') ? 'show active' : ''; ?>">
-            <?php generarPanelProceso("modal-SIG", "Archivos Sistema Integrado de Gestión", "Código ej: SIG-", 1, "SIG"); ?>
+            <?php generarPanelProceso("modal-SIG", "Proceso: Sistema Integrado de Gestión", "Código ej: SIG-", 1, "SIG"); ?>
           </div>
 
           <div id="menu2" class="tab-pane fade <?php echo ($activeTab === 'menu2') ? 'show active' : ''; ?>">
-            <?php generarPanelProceso("modal-TI", "Archivos Tecnología e Informática", "Código ej: TI-", 2, "TI"); ?>
+            <?php generarPanelProceso("modal-TI", "Proceso: Tecnología e Informática", "Código ej: TI-", 2, "TI"); ?>
           </div>
 
           <div id="menu3" class="tab-pane fade <?php echo ($activeTab === 'menu3') ? 'show active' : ''; ?>">
-            <?php generarPanelProceso("modal-CT", "Archivos Contabilidad", "Código ej: CT-", 3, "CT"); ?>
+            <?php generarPanelProceso("modal-CT", "Proceso: Contabilidad", "Código ej: CT-", 3, "CT"); ?>
           </div>
 
           <div id="menu4" class="tab-pane fade <?php echo ($activeTab === 'menu4') ? 'show active' : ''; ?>">
-            <?php generarPanelProceso("modal-TEC", "Archivos Técnico", "Código ej: TEC-", 4, "TEC"); ?>
+            <?php generarPanelProceso("modal-TEC", "Proceso: Técnico", "Código ej: TEC-", 4, "TEC"); ?>
           </div>
 
           <div id="menu5" class="tab-pane fade <?php echo ($activeTab === 'menu5') ? 'show active' : ''; ?>">
-            <?php generarPanelProceso("modal-GH", "Archivos Gestión Humana", "Código ej: GH-", 5, "GH"); ?>
+            <?php generarPanelProceso("modal-GH", "Proceso: Gestión Humana", "Código ej: GH-", 5, "GH"); ?>
           </div>
 
           <div id="menu6" class="tab-pane fade <?php echo ($activeTab === 'menu6') ? 'show active' : ''; ?>">
-            <?php generarPanelProceso("modal-GD", "Archivos Gestión Documental", "Código ej: GD-", 6, "GD"); ?>
+            <?php generarPanelProceso("modal-GD", "Proceso: Gestión Documental", "Código ej: GD-", 6, "GD"); ?>
           </div>
 
           <div id="menu7" class="tab-pane fade <?php echo ($activeTab === 'menu7') ? 'show active' : ''; ?>">
-            <?php generarPanelProceso("modal-OP", "Archivos Operaciones", "Código ej: OP-", 7, "OP"); ?>
+            <?php generarPanelProceso("modal-OP", "Proceso: Operaciones", "Código ej: OP-", 7, "OP"); ?>
           </div>
 
           <div id="menu9" class="tab-pane fade <?php echo ($activeTab === 'menu9') ? 'show active' : ''; ?>">
-            <?php generarPanelProceso("modal-SST", "Archivos Seguridad Salud en el Trabajo", "Código ej: SST-", 9, "SST"); ?>
+            <?php generarPanelProceso("modal-SST", "Proceso: Seguridad Salud en el Trabajo", "Código ej: SST-", 9, "SST"); ?>
           </div>
 
           <div id="menu10" class="tab-pane fade <?php echo ($activeTab === 'menu10') ? 'show active' : ''; ?>">
-            <?php generarPanelProceso("modal-GR", "Archivos Gerencia", "Código ej: GR-", 10, "GR"); ?>
+            <?php generarPanelProceso("modal-GR", "Proceso: Gerencia", "Código ej: GR-", 10, "GR"); ?>
           </div>
 
           <div id="menu11" class="tab-pane fade <?php echo ($activeTab === 'menu11') ? 'show active' : ''; ?>">
-            <?php generarPanelProceso("modal-JR", "Archivos Gestión Jurídica", "Código ej: JR-", 11, "JR"); ?>
+            <?php generarPanelProceso("modal-JR", "Proceso: Gestión Jurídica", "Código ej: JR-", 11, "JR"); ?>
           </div>
 
           <div id="menu12" class="tab-pane fade <?php echo ($activeTab === 'menu12') ? 'show active' : ''; ?>">
-            <?php generarPanelProceso("modal-PLE", "Archivos Planeación Estratégica", "Código ej: PLE-", 12, "PLE"); ?>
+            <?php generarPanelProceso("modal-PLE", "Proceso: Planeación Estratégica", "Código ej: PLE-", 12, "PLE"); ?>
           </div>
 
           <div id="menu13" class="tab-pane fade <?php echo ($activeTab === 'menu13') ? 'show active' : ''; ?>">
-            <?php generarPanelProceso("modal-SG", "Archivos Seguridad", "Código ej: SG-", 13, "SG"); ?>
+            <?php generarPanelProceso("modal-SG", "Proceso: Seguridad", "Código ej: SG-", 13, "SG"); ?>
           </div>
         </div><!-- /.tab-content card -->
       </div><!-- /.container-fluid -->
@@ -539,52 +583,160 @@ function generarTabla($id_id_proceso_fk)
   echo "</table>";
   echo "</div>";
 }
-
-
-function generarFormulario($codigo, $id_proceso_fk, $proceso)
+// Función para generar el formulario de subida de archivos
+function generarTablaCategorias($id_proceso_fk,$idCategoria)
 {
-  echo '<form class="FormArchivos" action="" method="POST" enctype="multipart/form-data">';
+  $archivos = ControladorSadoc::mostrarArchivosPorCategoria($id_proceso_fk,$idCategoria);
+  echo "<div class='table-responsive'>";
+  echo "<table class='display table table-striped table-bordered w-100'>";
+  echo "<thead class='text-center'>
+              <tr>
+                <th>Código</th>
+                <th>Nombre del Archivo</th>
+                <th>Fecha de Actualización</th>
+                <th>Opciones</th>
+              </tr>
+          </thead>";
+  echo "<tbody>";
 
-  echo '  <div class="row">';
-  echo '  <div class="col-md-6"><input type="text" class="form-control" name="codigo" id="codigo" placeholder="' . $codigo . '" required></div>';
-  echo '      <div class="col-md-6"> <input type="file"  class="form-control" name="archivo" required></div>';
-  echo '      <div class="col-md-6"> <input type="hidden" name="id_proceso_fk" value="' . $id_proceso_fk . '" class="form-control" required></div>';
-  echo '      <div class="col-md-6"> <input type="hidden" name="carpeta" value="' . $proceso . '" class="form-control" required></div>';
-  echo ' </div><br>';
+  if (count($archivos) > 0) {
+    foreach ($archivos as $row) {
+      $nombre = basename($row["ruta"]);
+      $previo = $row["ruta"];
+      $codigo = $row["codigo"];
+      $id = $row["id"];
 
+      // Obtener la extensión del archivo
+      $ext = strtolower(pathinfo($nombre, PATHINFO_EXTENSION));
 
-  echo '  <button type="submit" class="btn bg-success btn-block" name="subir">';
-  echo '      <span class="fa fa-upload" aria-hidden="true"></span> Subir Archivo';
-  echo '  </button>
-  
-  ';
-  if (isset($_POST['subir'])) {
-    $crearSadoc = new ControladorSadoc();
-    $crearSadoc->ctrCrearArchivo();
+      // Determinar el ícono según la extensión
+      $icon = "";
+      switch ($ext) {
+        case 'pdf':
+          $icon = '<button class="btn bg-danger"><i class="fas fa-file-pdf" aria-hidden="true"></i></button>';
+          break;
+        case 'xls':
+        case 'xlsx':
+          $icon = '<button class="btn bg-success"><i class="fas fa-file-excel" aria-hidden="true"></i></button>';
+          break;
+        case 'doc':
+        case 'docx':
+          $icon = '<button class="btn bg-primary"><i class="fas fa-file-word" aria-hidden="true"></i></button>';
+          break;
+        case 'ppt':
+        case 'pptx':
+          $icon = '<button class="btn bg-warning"><i class="fas fa-file-powerpoint" aria-hidden="true"></i></button>';
+          break;
+        default:
+          $icon = '<button class="btn bg-secondary"><i class="fas fa-file" aria-hidden="true"></i></button>';
+          break;
+      }
+
+      echo "<tr class='sobras'>";
+      echo "<td class='text-center'>" . $codigo . "</td>";
+      echo "<td>" . $nombre . "</td>";
+      echo "<td class='text-center'>" . $row["fecha_subida"] . "</td>";
+      echo "<td class='text-center'>";
+      echo '<a href="vistas/modulos/sig/descarga_archivos.php?archivo=' . $nombre . '&ruta=' . $previo . '" target="_blank"> ' . $icon . '</a>';
+      echo "</td>";
+      echo "</tr>";
+    }
   }
-  echo '</form>
-  ';
+
+  echo "</tbody>";
+  echo "</table>";
+  echo "</div>";
 }
+// Función para generar el formulario de subida de archivos
+
+
 
 function generarPanelProceso($modalId, $tituloModal, $codigo, $id_proceso_fk, $proceso)
 {
-  echo $modalId;
-  echo $tituloModal;
-  echo $codigo;
-  echo $id_proceso_fk;
-  echo $proceso;
+  
+      echo '<section class="content">';
+      echo '  <div class="container-fluid">';
+      echo '    <div class="row">';
+      echo '      <div class="col-12">';
+      echo '        <br>';
+      echo '        <div class="card">';
+      echo '          <div class="card-header">';
+      echo '            <h3 class="card-title">'.$tituloModal.'</h3>';
+      echo '          </div>';
+      echo '          <!-- /.card-header -->';
+      echo '          <div class="card-body">';
+      echo '            <div class="card">';
+  
+
+    // Obtener categorías asignadas al proceso
+    $categoriaDetalle = ControladorSadoc::mostrarDetalleCategorias($id_proceso_fk);
+
+    if (empty($categoriaDetalle)) {
+        echo "<div class='alert alert-warning'>No hay categorías asignadas a este proceso.</div>";
+        return;
+    }
+
+    // Nav tabs
+    echo '<ul class="nav nav-tabs" id="categoriaTabs" role="tablist">';
+    foreach ($categoriaDetalle as $index => $categoria) {
+        $activeClass = ($index === 0) ? 'active' : '';
+        $ariaSelected = ($index === 0) ? 'true' : 'false';
+        $tabId = "tab-" . $categoria['id_cs_detalle'];
+        $nombreCategoria = htmlspecialchars($categoria['nombre_categoria']);
+
+        echo <<<HTML
+        <li class="nav-item">
+            <a class="nav-link $activeClass" id="{$tabId}-tab" data-toggle="tab" href="#$tabId" role="tab" aria-controls="$tabId" aria-selected="$ariaSelected">
+                $nombreCategoria
+            </a>
+        </li>
+        HTML;
+    }
+    echo '</ul>';
+// Contenido de los tabs
+echo '<div class="tab-content mt-3" id="categoriaTabsContent">';
+
+foreach ($categoriaDetalle as $index => $categoria) {
+    $activeClass = ($index === 0) ? 'show active' : '';
+    $tabId = "tab-" . $categoria['id_cs_detalle'];
+    $nombreCategoria = htmlspecialchars($categoria['nombre_categoria']);
+    $idCategoria = htmlspecialchars($categoria['id_categoria_fk']);
+
+    echo '<div class="tab-pane fade ' . $activeClass . '" id="' . $tabId . '" role="tabpanel" aria-labelledby="' . $tabId . '-tab">';
+    echo '  <div class="card card-primary">';
+
+    echo '    <div class="card-body">';
+    
+
+    // Llamar a la función que muestra la tabla de archivos u otros datos
+    generarTablaCategorias($id_proceso_fk,$idCategoria);
+
+    echo '    </div>';
+    echo '  </div>';
+    echo '</div>';
+}
+
+echo '</div>';
+      // Aquí iría el contenido de la cabecera de la tarjeta si es necesario
+  
+      echo '            </div>'; // Cierre de .card
+      echo '          </div>'; // Cierre de .card-body
+      echo '        </div>'; // Cierre de .card
+      echo '      </div>'; // Cierre de .col-12
+      echo '    </div>'; // Cierre de .row
+      echo '  </div>'; // Cierre de .container-fluid
+      echo '</section>'; // Cierre de section.content
+
 }
 
 ?>
-
 <!-- MODAL PARA CREAR NUEVA CATEGORIA -->
-
 <!-- Script -->
 <script>
   $(document).ready(function () {
     // Inicializar Select2
     $('.select2').select2({
-      placeholder: "Selecciona activos",
+      placeholder: "Selecciona  al menos 1 proceso",
       allowClear: true,
       width: '100%'
     });
