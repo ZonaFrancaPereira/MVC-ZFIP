@@ -16,17 +16,13 @@ if ($id_gh > 0) {
                 u.apellidos_usuario,
                 v.*
             FROM 
-                $tabla_vacaciones dv
-            INNER JOIN 
-                usuarios u 
-            ON 
-                dv.id_usuario_fk = u.id
-            INNER JOIN 
-                vacaciones v
-            ON 
-                dv.id_usuario_fk = v.nombre_administrativa
+                usuarios u
+            LEFT JOIN 
+                $tabla_vacaciones dv ON dv.id_usuario_fk = u.id
+            LEFT JOIN 
+                vacaciones v ON dv.id_usuario_fk = v.nombre_administrativa
             WHERE 
-                dv.id_usuario_fk = :id_gh
+                u.id = :id_gh
         ";
 
         $stmt = Conexion::conectar()->prepare($query_vacaciones);
@@ -41,6 +37,7 @@ if ($id_gh > 0) {
 } else {
     echo 'ID no válido.';
 }
+
 
 ?>
 
@@ -247,16 +244,7 @@ if ($id_gh > 0) {
                                                             Observaciones: <?php echo htmlspecialchars($vacacion['observaciones_vacaciones']); ?><br>
                                                         </div>
                                                         <div class="timeline-footer">
-                                                            <button
-                                                                class="btn btn-primary btn-sm"
-                                                                data-toggle="modal"
-                                                                data-target="#editVacationModal"
-                                                                data-editar_disfrutadas="<?php echo htmlspecialchars($vacacion['disfrutadas']); ?>"
-                                                                data-editar_pendientes_periodo="<?php echo htmlspecialchars($vacacion['pendientes_periodo']); ?>"
-                                                                data-editar_observaciones_vacaciones="<?php echo htmlspecialchars($vacacion['observaciones_vacaciones']); ?>"
-                                                                data-editar_id_vacacion="<?php echo htmlspecialchars($vacacion['id_detalle_vacaciones']); ?>">
-                                                                Editar
-                                                            </button>
+                                                           
                                                             <button
                                                                 class="btn btn-danger btn-sm"
                                                                 data-toggle="modal"
@@ -283,45 +271,7 @@ if ($id_gh > 0) {
                                 </div>
                                 <!-- /.tab-pane -->
 
-                                <!-- Modal Editar Vacaciones -->
-                                <div class="modal fade" id="editVacationModal" tabindex="-1" aria-labelledby="editVacationModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header bg-primary text-white">
-                                                <h5 class="modal-title" id="editVacationModalLabel"><i class="fas fa-edit"></i> Editar Vacaciones</h5>
-                                                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form id="editVacationForm" method="POST" enctype="multipart/form-data">
-                                                    <div class="row g-3">
-                                                        <input type="hidden" name="editar_id_vacacion" id="editar_id_vacacion">
-                                                        <div class="col-md-6">
-                                                            <label for="editar_disfrutadas" class="form-label fw-bold">Disfrutadas</label>
-                                                            <input type="number" class="form-control border-primary" id="editar_disfrutadas" name="editar_disfrutadas" required>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label for="editar_pendientes_periodo" class="form-label fw-bold">Pendientes</label>
-                                                            <input type="number" class="form-control border-primary" id="editar_pendientes_periodo" name="editar_pendientes_periodo" required>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <label for="editar_observaciones_vacaciones" class="form-label fw-bold">Observaciones</label>
-                                                            <textarea class="form-control border-primary" id="editar_observaciones_vacaciones" name="editar_observaciones_vacaciones" rows="3" placeholder="Ingrese las observaciones" required></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="text-end mt-4">
-                                                        <button type="submit" class="btn btn-primary px-4"><i class="fas fa-save"></i> Guardar Cambios</button>
-                                                        <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal"><i class="fas fa-times"></i> Cerrar</button>
-                                                    </div>
 
-                                                    <?php
-                                                    $ActualizarVacaciones = new ControladorAdministrativa();
-                                                    $ActualizarVacaciones->ctrActualizarVacaciones();
-                                                    ?>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <!-- /.modal -->
                                 <div class="modal fade" id="vacacionesModal" tabindex="-1" aria-labelledby="vacacionesModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-lg">

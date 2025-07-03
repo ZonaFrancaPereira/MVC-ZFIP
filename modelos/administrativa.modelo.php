@@ -110,13 +110,13 @@ class ModeloAdministrativa
             fecha_ingreso_administrativa = :fecha_ingreso_administrativa,
             estado_usuario_administrativa = :estado_usuario_administrativa
         WHERE id = :id");
-        
-        $stmt->bindParam(":nombre_administrativa", $datos["nombre_administrativa"], PDO::PARAM_STR);
-        $stmt->bindParam(":cedula_administrativa", $datos["cedula_administrativa"], PDO::PARAM_STR);
-        $stmt->bindParam(":fecha_ingreso_administrativa", $datos["fecha_ingreso_administrativa"], PDO::PARAM_STR);
-        $stmt->bindParam(":estado_usuario_administrativa", $datos["estado_usuario_administrativa"], PDO::PARAM_STR);
-        $stmt->bindParam(":id", $datos["id"], PDO::PARAM_STR);
-        
+
+            $stmt->bindParam(":nombre_administrativa", $datos["nombre_administrativa"], PDO::PARAM_STR);
+            $stmt->bindParam(":cedula_administrativa", $datos["cedula_administrativa"], PDO::PARAM_STR);
+            $stmt->bindParam(":fecha_ingreso_administrativa", $datos["fecha_ingreso_administrativa"], PDO::PARAM_STR);
+            $stmt->bindParam(":estado_usuario_administrativa", $datos["estado_usuario_administrativa"], PDO::PARAM_STR);
+            $stmt->bindParam(":id", $datos["id"], PDO::PARAM_STR);
+
 
             if ($stmt->execute()) {
                 return "ok";
@@ -215,7 +215,21 @@ class ModeloAdministrativa
         }
     }
 
-  public static function mdlAprobarSolicitud($tabla, $datos)
+    public static function mdlMotrarVacacionesAprobadas($tabla)
+    {
+        try {
+            $pdo = Conexion::conectar();
+
+            $stmt = $pdo->prepare("SELECT * FROM $tabla WHERE estado_solicitud = 'proceso'");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        }
+    }
+
+
+    public static function mdlAprobarSolicitud($tabla, $datos)
     {
         try {
             $pdo = Conexion::conectar();
@@ -301,7 +315,6 @@ class ModeloAdministrativa
             $stmt->execute();
 
             return $stmt->fetchAll();
-            
         } catch (PDOException $e) {
             die("Error al obtener datos de vacaciones: " . $e->getMessage());
         }
@@ -324,10 +337,69 @@ class ModeloAdministrativa
             return "error: " . $e->getMessage();
         }
     }
+    
+    public static function mdlDescontarDias($tabla, $datos)
+    {
+        try {
+            $pdo = Conexion::conectar();
 
+            // 1. Obtener valores actuales
+            $stmtSelect = $pdo->prepare("SELECT disfrutadas, pendientes_periodo FROM $tabla WHERE id_detalle_vacaciones = :id_detalle_vacaciones");
+            $stmtSelect->bindParam(":id_detalle_vacaciones", $datos["id_detalle_vacaciones"], PDO::PARAM_INT);
+            $stmtSelect->execute();
+
+            $resultado = $stmtSelect->fetch(PDO::FETCH_ASSOC);
+
+            if ($resultado) {
+                // 2. Calcular nuevos valores
+                $nuevasDisfrutadas = $resultado["disfrutadas"] + $datos["dias_descuento"];
+                $nuevosPendientes = $resultado["pendientes_periodo"] - $datos["dias_descuento"];
+
+                // Validación: prevenir negativos
+                if ($nuevosPendientes < 0) {
+                    return "error: los días a descontar superan los días pendientes";
+                }
+
+                // 3. Actualizar disfrutadas y pendientes_periodo en detalle_vacaciones
+                $stmtUpdate = $pdo->prepare("UPDATE $tabla SET 
+                    disfrutadas = :disfrutadas,
+                    pendientes_periodo = :pendientes_periodo
+                    WHERE id_detalle_vacaciones = :id_detalle_vacaciones");
+
+                $stmtUpdate->bindParam(":disfrutadas", $nuevasDisfrutadas, PDO::PARAM_INT);
+                $stmtUpdate->bindParam(":pendientes_periodo", $nuevosPendientes, PDO::PARAM_INT);
+                $stmtUpdate->bindParam(":id_detalle_vacaciones", $datos["id_detalle_vacaciones"], PDO::PARAM_INT);
+
+                if ($stmtUpdate->execute()) {
+                    // 4. Actualizar estado_solicitud en vacaciones_solicitudes
+                    $stmtEstado = $pdo->prepare("UPDATE vacaciones_solicitudes 
+                                                SET estado_solicitud = :estado_solicitud 
+                                                WHERE id_detalle_vacaciones_fk = :id_detalle_vacaciones_fk");
+
+                    $stmtEstado->bindParam(":estado_solicitud", $datos["estado_solicitud"], PDO::PARAM_STR);
+                    $stmtEstado->bindParam(":id_detalle_vacaciones_fk", $datos["id_detalle_vacaciones"], PDO::PARAM_INT);
+
+                    if ($stmtEstado->execute()) {
+                        return "ok";
+                    } else {
+                        $errorInfo = $stmtEstado->errorInfo();
+                        return "error SQL estado: " . $errorInfo[2];
+                    }
+
+                } else {
+                    $errorInfo = $stmtUpdate->errorInfo();
+                    return "error SQL detalle: " . $errorInfo[2];
+                }
+
+            } else {
+                return "no encontrado";
+            }
+
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        }
+    }
 
 
 
 }
-
-

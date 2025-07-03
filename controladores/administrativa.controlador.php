@@ -256,6 +256,12 @@ Class ControladorAdministrativa
         }
     }
 
+    static public function ctrMotrarVacacionesAprobadas($item, $valor)
+    {
+        $tabla = "vacaciones_solicitudes";
+        $respuesta = ModeloAdministrativa::mdlMotrarVacacionesAprobadas($tabla, $item, $valor);
+        return $respuesta;
+    }
     static public function ctrAprobarSolicitud()
     {
         if (isset($_POST["id_solicitud"])) {
@@ -344,4 +350,53 @@ Class ControladorAdministrativa
         return $respuesta;
     }
     
+   static public function ctrDescontarDias()
+    {
+    if (isset($_POST["id_detalle_vacaciones"]) && isset($_POST["dias_descuento"])) {
+        $tabla = "detalle_vacaciones";
+        $datos = array(
+            "id_detalle_vacaciones" => $_POST["id_detalle_vacaciones"],
+            "estado_solicitud" => "Aprobada",
+            "dias_descuento" => intval($_POST["dias_descuento"])
+        );
+
+        $respuesta = ModeloAdministrativa::mdlDescontarDias($tabla, $datos);
+
+        if ($respuesta == "ok") {
+            echo '<script>
+                Swal.fire(
+                    "Buen trabajo!",
+                    "Se han descontado los días con éxito.",
+                    "success"
+                ).then(function() {
+                    document.getElementById("formDescontarDias").reset();
+                    window.location.href = "administrativa";
+                });
+            </script>';
+        } else {
+            echo '<script>
+                Swal.fire({
+                    icon: "error",
+                    title: "¡La solicitud no pudo ser aprobada!",
+                    text: "' . $respuesta . '"
+                });
+            </script>';
+        }
+    }
+}
+
+ static public function ctrObtenerNombrePorId($id)
+{
+    $tabla = "usuarios";
+    $item = "id";
+    $valor = $id;
+    $respuesta = ModeloUsuarios::mdlMostrarUsuarios($tabla, $item, $valor);
+    return $respuesta ? $respuesta["nombre"] : "No encontrado";
+}
+
+
+
+
+
+
 }

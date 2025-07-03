@@ -22,7 +22,7 @@
             <div class="col-md-12">
                 <div class="card shadow-lg rounded-lg">
                     <div class="card-header bg-primary text-white">
-                        <h4 class="mb-0">Solicitudes de Vacaciones</h4>
+                        <h4 class="mb-0">Aprobar de Vacaciones</h4>
                     </div>
                     <div class="card-body">
                         <div class="row justify-content-center mt-4">

@@ -89,20 +89,47 @@
                                 $item = null;
                                 $valor = null;
                                 $usuarios = ControladorAdministrativa::ctrMostrarUsuariosAdministrativa($item, $valor);
+
                                 foreach ($usuarios as $key => $usuario) {
+
+                                    // Obtener el nombre desde la tabla usuarios
+                                    $nombreVisible = ControladorAdministrativa::ctrObtenerNombrePorId($usuario["nombre_administrativa"]);
+
                                     echo '<tr>
-                                            <td>' . $usuario["id"] . '</td>
-                                            <td>' . $usuario["nombre_administrativa"] . '</td>
-                                            <td>' . $usuario["cedula_administrativa"] . '</td>
-                                            <td>' . $usuario["fecha_ingreso_administrativa"] . '</td>
-                                            <td>
-                                                <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modal-cambiar-estado" data-id_editar="' . $usuario["id"] . '" data-editar_cedula="' . $usuario["cedula_administrativa"] . '" data-editar_nombre="' . $usuario["nombre_administrativa"] . '" data-editar_ingreso="' . $usuario["fecha_ingreso_administrativa"] . '">Editar</button>
-                                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal-periodo" data-id_vacaciones_fk="' . $usuario["id"] . '" data-id_usuario_fk="' . $usuario["nombre_administrativa"] . '">Insertar</button>
-                                                <a target="_blank" type="button" class="btn btn-danger btn-sm"  href="index.php?ruta=gh&id=' .$usuario["nombre_administrativa"] .'">Gestionar</a>
-                                            </td>
-                                          </tr>';
+                                    <td>' . $usuario["id"] . '</td>
+                                    <td>' . $nombreVisible . '</td>
+                                    <td>' . $usuario["cedula_administrativa"] . '</td>
+                                    <td>' . $usuario["fecha_ingreso_administrativa"] . '</td>
+                                    <td>
+                                        <button class="btn btn-warning btn-sm"
+                                                data-toggle="modal"
+                                                data-target="#modal-cambiar-estado"
+                                                data-id_editar="' . $usuario["id"] . '"
+                                                data-editar_cedula="' . $usuario["cedula_administrativa"] . '"
+                                                data-editar_nombre="' . $usuario["nombre_administrativa"] . '"
+                                                data-editar_ingreso="' . $usuario["fecha_ingreso_administrativa"] . '">
+                                            Editar
+                                        </button>
+
+                                        <button type="button"
+                                                class="btn btn-success btn-sm"
+                                                data-toggle="modal"
+                                                data-target="#modal-periodo"
+                                                data-id_vacaciones_fk="' . $usuario["id"] . '"
+                                                data-id_usuario_fk="' . $usuario["nombre_administrativa"] . '">
+                                            Insertar
+                                        </button>
+
+                                        <a target="_blank"
+                                        class="btn btn-danger btn-sm"
+                                        href="index.php?ruta=gh&id=' . $usuario["nombre_administrativa"] . '">
+                                        Gestionar
+                                        </a>
+                                    </td>
+                                </tr>';
                                 }
                                 ?>
+
                             </tbody>
                         </table>
                     </div>

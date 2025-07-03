@@ -65,62 +65,6 @@ $('#modal-cambiar-estado').on('show.bs.modal', function (event) {
 });
 
 /*=============================================
-CAPTURA LA CEDULA DEL USUARIO PARA EL MODAL
-=============================================*/
-$('#editVacationModal').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget); 
-    var editar_disfrutadas = button.data('editar_disfrutadas');
-
-    var modal = $(this);
-    modal.find('#editar_disfrutadas').val(editar_disfrutadas);
-});
-
-
-/*=============================================
-CAPTURA LA CEDULA DEL USUARIO PARA EL MODAL
-=============================================*/
-$('#editVacationModal').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget); 
-    var editar_pendientes_periodo = button.data('editar_pendientes_periodo');
-
-    var modal = $(this);
-    modal.find('#editar_pendientes_periodo').val(editar_pendientes_periodo);
-});
-
-/*=============================================
-CAPTURA LA CEDULA DEL USUARIO PARA EL MODAL
-=============================================*/
-$('#editVacationModal').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget); 
-    var editar_disfrutadas = button.data('editar_disfrutadas');
-
-    var modal = $(this);
-    modal.find('#editar_disfrutadas').val(editar_disfrutadas);
-});
-
-/*=============================================
-CAPTURA LA CEDULA DEL USUARIO PARA EL MODAL
-=============================================*/
-$('#editVacationModal').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget); 
-    var editar_observaciones_vacaciones = button.data('editar_observaciones_vacaciones');
-
-    var modal = $(this);
-    modal.find('#editar_observaciones_vacaciones').val(editar_observaciones_vacaciones);
-});
-
-/*=============================================
-CAPTURA LA CEDULA DEL USUARIO PARA EL MODAL
-=============================================*/
-$('#editVacationModal').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget); 
-    var editar_id_vacacion = button.data('editar_id_vacacion');
-
-    var modal = $(this);
-    modal.find('#editar_id_vacacion').val(editar_id_vacacion);
-});
-
-/*=============================================
 CAPTURA EL ID PARA SOLICITAR VACACIONES
 =============================================*/
 $('#vacacionesModal').on('show.bs.modal', function (event) {
@@ -167,4 +111,16 @@ $('#modal-Rechazar').on('show.bs.modal', function (event) {
 
     var modal = $(this);
     modal.find('#id_solicitud_rechazo').val(id_solicitud_rechazo);
+});
+
+
+/*=============================================
+CAPTURA EL ID PARA RECHAZAR LAS VACACIONES
+=============================================*/
+$('#modal-Descontar').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); 
+    var id_detalle_vacaciones = button.data('id_detalle_vacaciones');
+
+    var modal = $(this);
+    modal.find('#id_detalle_vacaciones').val(id_detalle_vacaciones);
 });
