@@ -333,12 +333,12 @@ if ($id_gh > 0) {
                                             <div class="modal-body">
                                                 <form id="vacacionesForm" method="POST" enctype="multipart/form-data">
                                                     <div class="row g-4">
-                                                        <input type="" name="id_detalle_vacaciones_fk" id="id_detalle_vacaciones_fk">
-                                                        <input type="" name="id_usuario_detalle_fk" id="id_usuario_detalle_fk">
-                                                         <input type="" name="id_vacaciones_detalle_fk" id="id_vacaciones_detalle_fk">
+                                                        <input type="hidden" name="id_detalle_vacaciones_fk" id="id_detalle_vacaciones_fk">
+                                                        <input type="hidden" name="id_usuario_detalle_fk" id="id_usuario_detalle_fk">
+                                                         <input type="hidden" name="id_vacaciones_detalle_fk" id="id_vacaciones_detalle_fk">
                                                         <div class="col-md-12 mb-3">
                                                             <label for="correo_aprobador" class="form-label fw-bold text-primary">
-                                                                Seleccione el aprobador
+                                                                Seleccione al Jefe Inmediato
                                                             </label>
                                                             <select id="correo_aprobador" name="correo_aprobador" class="form-select border-primary" required>
                                                                 <option value="" disabled selected>Seleccione un usuario</option>
