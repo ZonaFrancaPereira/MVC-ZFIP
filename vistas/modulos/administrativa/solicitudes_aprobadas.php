@@ -34,6 +34,7 @@
                                                     <th>#</th>
                                                     <th>Fecha de la Solicitud</th>
                                                     <th>Descripcion de la Solicitud</th>
+                                                    <th hidden>id detalle vacaciones</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
@@ -41,18 +42,16 @@
                                                 <?php
                                                 $item = null;
                                                 $valor = null;
-                                                $usuarios = ControladorAdministrativa::ctrMotrarSolicitudesVacaciones($item, $valor);
+                                                $usuarios = ControladorAdministrativa::ctrMotrarVacacionesAprobadas($item, $valor);
                                                 foreach ($usuarios as $key => $usuario) {
                                                     echo '<tr>
                                                     <td>' . $usuario["id_solicitud"] . '</td>
                                                     <td>' . $usuario["fecha_solicitud"] . '</td>
                                                     <td>' . $usuario["descripcion_solicitud"] . '</td>
+                                                    <td hidden>' . $usuario["id_detalle_vacaciones_fk"] . '</td>
                                                     <td>
-                                                        <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modal-Aprobar" 
-                                                        data-id_solicitud="' . $usuario["id_solicitud"] . '">Aprobar</button>
-
-                                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal-Rechazar" 
-                                                        data-id_solicitud_rechazo="' . $usuario["id_solicitud"] . '" >Rechazar</button>
+                                                        <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modal-Descontar" 
+                                                        data-id_descuento="' . $usuario["id_solicitud"] . '" data-id_detalle_vacaciones="' . $usuario["id_detalle_vacaciones_fk"] . '">Descontar Dias</button>
 
                                                         <a target="_blank" href="extensiones/tcpdf/pdf/administrativapdf.php?id=' . $usuario["id_solicitud"] . '" class="btn btn-success btn-sm"><i class="fas fa-file-signature"></i> Formato</a>
                                                     </td>
@@ -63,85 +62,48 @@
                                         </table>
                                     </div>
                                     <!-- Modal Aprobar Solicitud -->
-                                    <div class="modal fade" id="modal-Aprobar" tabindex="-1" role="dialog" aria-labelledby="modalAprobarLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                            <div class="modal-content border-0 shadow-lg">
-                                                <div class="modal-header bg-gradient-primary text-white">
-                                                    <h5 class="modal-title" id="modalAprobarLabel">
-                                                        <i class="fas fa-check-circle mr-2"></i>Confirmar Aprobación
-                                                    </h5>
-                                                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <form method="POST" id="formAprobarSolicitud" enctype="multipart/form-data">
-                                                    <div class="modal-body">
-                                                        <input type="hidden" id="id_solicitud" name="id_solicitud">
-                                                        <div class="text-center mb-3">
-                                                            <i class="fas fa-user-check fa-3x text-success mb-2"></i>
-                                                            <h6 class="font-weight-bold">¿Está seguro que desea aprobar esta solicitud de vacaciones?</h6>
-                                                            <p class="text-muted mb-0">Esta acción no se puede deshacer.</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer justify-content-center">
-                                                        <button type="button" class="btn btn-outline-secondary px-4" data-dismiss="modal">
-                                                            <i class="fas fa-times mr-1"></i>Cancelar
-                                                        </button>
-                                                        <button type="submit" class="btn btn-success px-4">
-                                                            <i class="fas fa-check mr-1"></i>Aprobar
-                                                        </button>
-                                                    </div>
-                                                    <?php
-                                                    $aprobarVacaciones = new ControladorAdministrativa();
-                                                    $aprobarVacaciones->ctrAprobarSolicitud();
-                                                    ?>
-                                                </form>
+                                    <div class="modal fade" id="modal-Descontar" tabindex="-1" role="dialog" aria-labelledby="modalDescontarLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content border-0 shadow-lg">
+                                            <div class="modal-header bg-gradient-primary text-white">
+                                                <h5 class="modal-title" id="modalDescontarLabel">
+                                                    <i class="fas fa-check-circle mr-2"></i>Descontar Días de Vacaciones
+                                                </h5>
+                                                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
                                             </div>
-                                        </div>
-                                    </div>
 
-                                    <!-- Modal Rechazar Solicitud -->
-                                    <div class="modal fade" id="modal-Rechazar" tabindex="-1" role="dialog" aria-labelledby="modalRechazarLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                            <div class="modal-content border-0 shadow-lg">
-                                                <div class="modal-header bg-gradient-danger text-white">
-                                                    <h5 class="modal-title" id="modalRechazarLabel">
-                                                        <i class="fas fa-times-circle mr-2"></i>Confirmar Rechazo
-                                                    </h5>
-                                                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
-                                                        <span aria-hidden="true">&times;</span>
+                                            <form method="POST" id="formDescontarDias" enctype="multipart/form-data">
+                                                <div class="modal-body">
+                                                    <div class="form-group" hidden>
+                                                        <label for="">ID detalle vacaciones</label>
+                                                        <input type="text" class="form-control" id="id_detalle_vacaciones" name="id_detalle_vacaciones" placeholder="Ingrese el ID correspondiente" required>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label for="dias_descuento">Días a descontar</label>
+                                                        <input type="number" class="form-control" id="dias_descuento" name="dias_descuento" placeholder="Ingrese los días a descontar" required min="1">
+                                                    </div>
+                                                </div>
+
+                                                <div class="modal-footer justify-content-center">
+                                                    <button type="button" class="btn btn-outline-secondary px-4" data-dismiss="modal">
+                                                        <i class="fas fa-times mr-1"></i>Cancelar
+                                                    </button>
+                                                    <button type="submit" class="btn btn-success px-4">
+                                                        <i class="fas fa-check mr-1"></i>Descontar Días
                                                     </button>
                                                 </div>
-                                                <form method="POST" id="formRechazarSolicitud" enctype="multipart/form-data" >
-                                                    <div class="modal-body">
-                                                        <input type="hidden" id="id_solicitud_rechazo" name="id_solicitud_rechazo">
-                                                        <div class="text-center mb-3">
-                                                            <i class="fas fa-user-times fa-3x text-danger mb-2"></i>
-                                                            <h6 class="font-weight-bold">¿Está seguro que desea rechazar esta solicitud de vacaciones?</h6>
-                                                            <p class="text-muted mb-0">Esta acción no se puede deshacer.</p>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="observaciones_solicitud" class="font-weight-bold">Motivo del rechazo</label>
-                                                            <textarea class="form-control" id="observaciones_solicitud" name="observaciones_solicitud" rows="3" required placeholder="Ingrese el motivo del rechazo"></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer justify-content-center">
-                                                        <button type="button" class="btn btn-outline-secondary px-4" data-dismiss="modal">
-                                                            <i class="fas fa-times mr-1"></i>Cancelar
-                                                        </button>
-                                                        <button type="submit" class="btn btn-danger px-4">
-                                                            <i class="fas fa-times-circle mr-1"></i>Rechazar
-                                                        </button>
-                                                    </div>
-                                                     <?php
-                                                    $RechazarVacaciones = new ControladorAdministrativa();
-                                                    $RechazarVacaciones->ctrRechazarSolicitud();
-                                                    ?>
-                                                </form>
-                                            </div>
+
+                                                <?php
+                                                $descontarDias = new ControladorAdministrativa();
+                                                $descontarDias->ctrDescontarDias();
+                                                ?>
+                                            </form>
                                         </div>
                                     </div>
-                                            
+                                </div>
 
                                 
                             </div>
