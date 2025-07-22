@@ -292,7 +292,7 @@ switch ($procesoActivo) {
                                         Cambios</button>
                                     </div>
                                   </div>
-                               
+
                                 </form>
 
                                 <?php
@@ -324,55 +324,82 @@ switch ($procesoActivo) {
                     <br>
                     <div class="card">
                       <div class="card-header">
-                        <h3 class="card-title">Gestionar Archivos</h3>
+                        <h3 class="card-title">Subir Archivos</h3>
                       </div>
                       <div class="card-body">
-                          <form class="FormArchivos" action="" method="POST" enctype="multipart/form-data">
-                            <div class="row">
-                              <div class="col-md-6">
-                                <input type="text" class="form-control" name="codigo" id="codigo" placeholder="<?php echo $codigo; ?>" required>
-                              </div>
-                              <div class="col-md-6">
-                                <input type="file" class="form-control" name="archivo" required>
-                              </div>
-                              <div class="col-md-6">
-                                <input type="hidden" name="id_proceso_fk" value="<?php echo $id_proceso_fk; ?>" class="form-control" required>
-                              </div>
-                              <div class="col-md-6">
-                                <input type="hidden" name="carpeta" value="<?php echo $proceso; ?>" class="form-control" required>
-                              </div>
-                              <div class="col-md-12 mt-2">
-                                <label for="categoria_detalle">Selecciona la categoría:</label>
-                                <input list="categoria_detalle_list" name="categoria_detalle" id="categoria_detalle" class="form-control" placeholder="Escribe para buscar..." required>
-                                <datalist id="categoria_detalle_list">
-                                  <?php
-                                  // Traer los detalles de categoría y mostrar nombre de categoría y proceso
-                                  // Usa el id_proceso_fk correcto ya definido en el contexto
-                                  $detalles = ControladorSadoc::mostrarDetalleCategorias($id_proceso_fk);
-                                  if ($detalles && is_array($detalles)) {
-                                    foreach ($detalles as $detalle) {
-                                      $id = htmlspecialchars($detalle['id_cs_detalle']);
-                                      $nombreCategoria = htmlspecialchars($detalle['nombre_categoria']);
-                                      $nombreProceso = htmlspecialchars($detalle['nombre_proceso']);
-                                      $siglasProceso = htmlspecialchars($detalle['siglas_proceso']);
-                                      echo "<option value=\"$id\">$nombreCategoria - $siglasProceso - $nombreProceso</option>";
-                                    }
-                                  }
-                                  ?>
-                                </datalist>
+                        <form class="FormArchivos" action="" method="POST" enctype="multipart/form-data">
+                          <div class="row">
+
+                            <div class="col-md-12 col-xs-12 col-sm-12 pt-2">
+                              <table class="table pt-2" id="tabla">
+                                <thead>
+                                  <tr>
+                                    <th>Código Formato </th>
+                                    <th>Cargar Archivo</th>
+                                    <th>Seleccionar Categoria</th>
+                                    <th>Quitar</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr class="fila-fija ">
+                                    <td class="col-md-3">
+                                      <input type="text" class="form-control" name="codigo_sadoc[]" id="codigo" placeholder="FO-TI-XX" required>
+                                    </td>
+                                    <td class=" col-md-4">
+                                      <input type="file" class="form-control" name="archivo_sadoc[]" required>
+                                    </td>
+                                    <td class=" col-md-3">
+                                      <!-- Este input guarda el ID -->
+                                      <!-- Dentro de <td class="col-md-3"> -->
+                                      <input list="categoria_detalle_list" class="form-control categoria_texto" placeholder="Escribe para buscar...">
+
+                                      <datalist id="categoria_detalle_list">
+                                        <?php
+                                        $detalles = ControladorSadoc::mostrarDetalleCategorias($id_proceso_fk);
+                                        if ($detalles && is_array($detalles)) {
+                                          foreach ($detalles as $detalle) {
+                                            $id = htmlspecialchars($detalle['id_cs_detalle']);
+                                            $nombreCategoria = htmlspecialchars($detalle['nombre_categoria']);
+                                            $nombreProceso = htmlspecialchars($detalle['nombre_proceso']);
+                                            $siglasProceso = htmlspecialchars($detalle['siglas_proceso']);
+                                            $id_proceso_fk = htmlspecialchars($detalle['id_proceso_fk']);
+                                            $texto = "$nombreCategoria - $siglasProceso - $nombreProceso";
+                                            echo "<option value=\"$texto\" data-id=\"$id_proceso_fk\" data-siglas=\"$siglasProceso\" data-id_cd_detalle=\"$id\"></option>";
+                                          }
+                                        }
+                                        ?>
+                                      </datalist>
+                                      <input type="text" name="id_cs_detalle[]" class="form-control id_cs_detalle" required>
+                                      <input type="text" name="id_proceso_fk[]" class="form-control id_proceso_fk" required>
+                                      <input type="text" name="carpeta[]" class="form-control carpeta" required>
+                                    </td>
+                                    <td class="eliminar col-md-1">
+
+                                      <input type="button" class="btn btn-danger" value="X" />
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <label for=""><B>Añade más archivos</B></label>
+                                  <button id="adicional" name="adicional" type="button" class="adicional btn btn-info "> <i class="fas fa-plus"></i> Agregar</button>
+                                </div>
                               </div>
                             </div>
-                            <br>
-                            <button type="submit" class="btn bg-success btn-block" name="subir">
-                              <span class="fa fa-upload" aria-hidden="true"></span> Subir Archivo
-                            </button>
-                            <?php
-                              if (isset($_POST['subir'])) {
-                                $crearSadoc = new ControladorSadoc();
-                                $crearSadoc->ctrCrearArchivo();
-                              }
-                            ?>
-                          </form>
+                          </div>
+
+                          <br>
+                          <button type="submit" class="btn bg-success btn-block" name="subir">
+                            <span class="fa fa-upload" aria-hidden="true"></span> Subir Archivo
+                          </button>
+                          <?php
+                          if (isset($_POST['subir'])) {
+                            $crearSadoc = new ControladorSadoc();
+                            $crearSadoc->ctrCrearArchivo();
+                          }
+                          ?>
+                        </form>
                       </div>
                     </div>
                   </div>
@@ -380,8 +407,40 @@ switch ($procesoActivo) {
               </div>
             </section>
           </div>
-          <!-- DESPLIEGUE DE INFORMACIÓN ACCESO RAPIDO ARCHIVOS Y RUTAS -->
+
           <div id="accesoRapido" class="tab-pane fade">
+            <!-- 
+           * Sección de despliegue de información de acceso rápido a archivos y rutas.
+           *
+           * Esta sección contiene una interfaz tabulada que permite la búsqueda general de archivos
+           * y la navegación por diferentes áreas de gestión de la organización. Cada pestaña representa
+           * un área específica y despliega una tabla de archivos relacionada mediante la función generarTabla().
+           *
+           * Áreas incluidas en las pestañas:
+           * - Gerencia
+           * - Planeación Estratégica
+           * - SIG (Sistema Integrado de Gestión)
+           * - Gestión T.I (Tecnología e Informática)
+           * - Gestión Contable y Financiera
+           * - Gestión Técnica
+           * - Gestión Administrativa
+           * - Gestión Documental
+           * - Gestión de Operaciones
+           * - Seguridad
+           * - SST (Seguridad y Salud en el Trabajo)
+           *
+           * Además, se incluyen paneles de procesos específicos, cada uno representado por una pestaña adicional,
+           * que despliega información detallada del proceso correspondiente mediante la función generarPanelProceso().
+           *
+           * Variables utilizadas:
+           * - $activeTab: Indica la pestaña activa en la navegación de procesos.
+           *
+           * Funciones utilizadas:
+           * - generarTabla(int $idArea): Genera la tabla de archivos para el área especificada.
+           * - generarPanelProceso(string $modalId, string $titulo, string $codigoEjemplo, int $idProceso, string $sigla): 
+           *   Genera el panel de información para el proceso especificado.
+           -->
+            <!-- DESPLIEGUE DE INFORMACIÓN ACCESO RAPIDO ARCHIVOS Y RUTAS -->
             <section class="content">
               <div class="container-fluid">
                 <div class="row">
@@ -542,38 +601,17 @@ function generarTabla($id_id_proceso_fk)
       $codigo = $row["codigo"];
       $id = $row["id"];
 
-      // Obtener la extensión del archivo
-      $ext = strtolower(pathinfo($nombre, PATHINFO_EXTENSION));
-
-      // Determinar el ícono según la extensión
-      $icon = "";
-      switch ($ext) {
-        case 'pdf':
-          $icon = '<button class="btn bg-danger"><i class="fas fa-file-pdf" aria-hidden="true"></i></button>';
-          break;
-        case 'xls':
-        case 'xlsx':
-          $icon = '<button class="btn bg-success"><i class="fas fa-file-excel" aria-hidden="true"></i></button>';
-          break;
-        case 'doc':
-        case 'docx':
-          $icon = '<button class="btn bg-primary"><i class="fas fa-file-word" aria-hidden="true"></i></button>';
-          break;
-        case 'ppt':
-        case 'pptx':
-          $icon = '<button class="btn bg-warning"><i class="fas fa-file-powerpoint" aria-hidden="true"></i></button>';
-          break;
-        default:
-          $icon = '<button class="btn bg-secondary"><i class="fas fa-file" aria-hidden="true"></i></button>';
-          break;
-      }
 
       echo "<tr class='sobras'>";
       echo "<td class='text-center'>" . $codigo . "</td>";
       echo "<td>" . $nombre . "</td>";
       echo "<td class='text-center'>" . $row["fecha_subida"] . "</td>";
       echo "<td class='text-center'>";
-      echo '<a href="vistas/modulos/sig/descarga_archivos.php?archivo=' . $nombre . '&ruta=' . $previo . '" target="_blank"> ' . $icon . '</a>';
+       echo '<button class="btn bg-success btnVerDocumento" 
+        data-ruta="' . $previo . '" 
+        data-tipo="pdf">
+  Ver
+</button> ';
       echo "</td>";
       echo "</tr>";
     }
@@ -584,9 +622,9 @@ function generarTabla($id_id_proceso_fk)
   echo "</div>";
 }
 // Función para generar el formulario de subida de archivos
-function generarTablaCategorias($id_proceso_fk,$idCategoria)
+function generarTablaCategorias($id_proceso_fk, $idCategoria)
 {
-  $archivos = ControladorSadoc::mostrarArchivosPorCategoria($id_proceso_fk,$idCategoria);
+  $archivos = ControladorSadoc::mostrarArchivosPorCategoria($id_proceso_fk, $idCategoria);
   echo "<div class='table-responsive'>";
   echo "<table class='display table table-striped table-bordered w-100'>";
   echo "<thead class='text-center'>
@@ -637,7 +675,11 @@ function generarTablaCategorias($id_proceso_fk,$idCategoria)
       echo "<td>" . $nombre . "</td>";
       echo "<td class='text-center'>" . $row["fecha_subida"] . "</td>";
       echo "<td class='text-center'>";
-      echo '<a href="vistas/modulos/sig/descarga_archivos.php?archivo=' . $nombre . '&ruta=' . $previo . '" target="_blank"> ' . $icon . '</a>';
+      echo '<button class="btn btn-primary btnVerDocumento" 
+        data-ruta="' . $previo . '" 
+        data-tipo="pdf">
+  Ver
+</button> ';
       echo "</td>";
       echo "</tr>";
     }
@@ -648,55 +690,52 @@ function generarTablaCategorias($id_proceso_fk,$idCategoria)
   echo "</div>";
 }
 // Función para generar el formulario de subida de archivos
-
-
-
 function generarPanelProceso($modalId, $tituloModal, $codigo, $id_proceso_fk, $proceso)
 {
-  
-      echo '<section class="content">';
-      echo '  <div class="container-fluid">';
-      echo '    <div class="row">';
-      echo '      <div class="col-12">';
-      echo '        <br>';
-      echo '        <div class="card">';
-      echo '          <div class="card-header">';
-      echo '            <h3 class="card-title">'.$tituloModal.'</h3>';
-      echo '          </div>';
-      echo '          <!-- /.card-header -->';
-      echo '          <div class="card-body">';
-      echo '            <div class="card">';
-  
 
-    // Obtener categorías asignadas al proceso
-    $categoriaDetalle = ControladorSadoc::mostrarDetalleCategorias($id_proceso_fk);
+  echo '<section class="content">';
+  echo '  <div class="container-fluid">';
+  echo '    <div class="row">';
+  echo '      <div class="col-12">';
+  echo '        <br>';
+  echo '        <div class="card">';
+  echo '          <div class="card-header">';
+  echo '            <h3 class="card-title">' . $tituloModal . '</h3>';
+  echo '          </div>';
+  echo '          <!-- /.card-header -->';
+  echo '          <div class="card-body">';
+  echo '            <div class="card">';
 
-    if (empty($categoriaDetalle)) {
-        echo "<div class='alert alert-warning'>No hay categorías asignadas a este proceso.</div>";
-        return;
-    }
 
-    // Nav tabs
-    echo '<ul class="nav nav-tabs" id="categoriaTabs" role="tablist">';
-    foreach ($categoriaDetalle as $index => $categoria) {
-        $activeClass = ($index === 0) ? 'active' : '';
-        $ariaSelected = ($index === 0) ? 'true' : 'false';
-        $tabId = "tab-" . $categoria['id_cs_detalle'];
-        $nombreCategoria = htmlspecialchars($categoria['nombre_categoria']);
+  // Obtener categorías asignadas al proceso
+  $categoriaDetalle = ControladorSadoc::mostrarDetalleCategorias($id_proceso_fk);
 
-        echo <<<HTML
+  if (empty($categoriaDetalle)) {
+    echo "<div class='alert alert-warning'>No hay categorías asignadas a este proceso.</div>";
+    return;
+  }
+
+  // Nav tabs
+  echo '<ul class="nav nav-tabs" id="categoriaTabs" role="tablist">';
+  foreach ($categoriaDetalle as $index => $categoria) {
+    $activeClass = ($index === 0) ? 'active' : '';
+    $ariaSelected = ($index === 0) ? 'true' : 'false';
+    $tabId = "tab-" . $categoria['id_cs_detalle'];
+    $nombreCategoria = htmlspecialchars($categoria['nombre_categoria']);
+
+    echo <<<HTML
         <li class="nav-item">
             <a class="nav-link $activeClass" id="{$tabId}-tab" data-toggle="tab" href="#$tabId" role="tab" aria-controls="$tabId" aria-selected="$ariaSelected">
                 $nombreCategoria
             </a>
         </li>
         HTML;
-    }
-    echo '</ul>';
-// Contenido de los tabs
-echo '<div class="tab-content mt-3" id="categoriaTabsContent">';
+  }
+  echo '</ul>';
+  // Contenido de los tabs
+  echo '<div class="tab-content mt-3" id="categoriaTabsContent">';
 
-foreach ($categoriaDetalle as $index => $categoria) {
+  foreach ($categoriaDetalle as $index => $categoria) {
     $activeClass = ($index === 0) ? 'show active' : '';
     $tabId = "tab-" . $categoria['id_cs_detalle'];
     $nombreCategoria = htmlspecialchars($categoria['nombre_categoria']);
@@ -706,34 +745,60 @@ foreach ($categoriaDetalle as $index => $categoria) {
     echo '  <div class="card card-primary">';
 
     echo '    <div class="card-body">';
-    
+
 
     // Llamar a la función que muestra la tabla de archivos u otros datos
-    generarTablaCategorias($id_proceso_fk,$idCategoria);
+    generarTablaCategorias($id_proceso_fk, $idCategoria);
 
     echo '    </div>';
     echo '  </div>';
     echo '</div>';
-}
+  }
 
-echo '</div>';
-      // Aquí iría el contenido de la cabecera de la tarjeta si es necesario
-  
-      echo '            </div>'; // Cierre de .card
-      echo '          </div>'; // Cierre de .card-body
-      echo '        </div>'; // Cierre de .card
-      echo '      </div>'; // Cierre de .col-12
-      echo '    </div>'; // Cierre de .row
-      echo '  </div>'; // Cierre de .container-fluid
-      echo '</section>'; // Cierre de section.content
+  echo '</div>';
+  // Aquí iría el contenido de la cabecera de la tarjeta si es necesario
+
+  echo '            </div>'; // Cierre de .card
+  echo '          </div>'; // Cierre de .card-body
+  echo '        </div>'; // Cierre de .card
+  echo '      </div>'; // Cierre de .col-12
+  echo '    </div>'; // Cierre de .row
+  echo '  </div>'; // Cierre de .container-fluid
+  echo '</section>'; // Cierre de section.content
 
 }
 
 ?>
+<!-- MODAL PARA VISTA PREVIA DOCUMENTO-->
+<!-- Modal -->
+<div class="modal fade" id="modalVerDocumento" tabindex="-1" aria-labelledby="modalDocumentoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Visualización del Documento</h5>
+
+        <!-- 🔽 Botón de descarga, solo visible para imágenes -->
+        <a id="btnDescargarImagen" class="btn btn-success me-2" download target="_blank">
+          Descargar Imagen
+        </a>
+
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body text-center">
+        <!-- Visualizador PDF y Office -->
+        <iframe id="iframeDocumento" style="width:100%; height:80vh; display:none;" frameborder="0"></iframe>
+
+        <!-- Visualizador de imagen -->
+        <img id="imagenDocumento" src="" style="max-width:100%; height:auto; display:none;" />
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL PARA CREAR NUEVA CATEGORIA -->
 <!-- Script -->
 <script>
-  $(document).ready(function () {
+  $(document).ready(function() {
     // Inicializar Select2
     $('.select2').select2({
       placeholder: "Selecciona  al menos 1 proceso",
@@ -741,11 +806,108 @@ echo '</div>';
       width: '100%'
     });
 
-  
+
+  });
+</script>
+<!-- FUNCION PARA AGREGAR EL ID Y LA CARPETA EN LA QUE SE DEBE GUARDAR EL ARCHIVO-->
+<script>
+  // Escucha cualquier evento de entrada en el documento
+  document.addEventListener("input", function(e) {
+    // Verifica si el evento proviene de un input con la clase 'categoria_texto'
+    if (e.target && e.target.classList.contains("categoria_texto")) {
+      const input = e.target; // El input donde se escribió
+      const fila = input.closest("tr"); // Busca la fila de la tabla que contiene el input
+      const opciones = document.querySelectorAll("#categoria_detalle_list option"); // Todas las opciones del select
+      const inputValue = input.value; // Valor ingresado por el usuario
+
+      let encontrado = false; // Bandera para saber si se encontró coincidencia
+
+      // Recorre todas las opciones del select
+      opciones.forEach((opcion) => {
+        // Si el valor de la opción coincide con el valor ingresado
+        if (opcion.value === inputValue) {
+          // Obtiene el id del detalle de la categoría
+          const idDetalle = opcion.getAttribute("data-id_cd_detalle"); // Obtiene el id del detalle de la categoría
+          const idProceso = opcion.getAttribute("data-id"); // Obtiene el id del proceso
+          const siglas = opcion.getAttribute("data-siglas"); // Obtiene las siglas
+
+          // Actualiza los campos correspondientes en la misma fila
+          fila.querySelector(".id_proceso_fk").value = idProceso;
+          fila.querySelector(".carpeta").value = siglas;
+          fila.querySelector(".id_cs_detalle").value = idDetalle; // Actualiza el id del detalle de la categoría
+          // Imprime un mensaje de éxito en la consola
+          console.clear(); // Limpia la consola antes de imprimir el mensaje
+          console.log("✔ ID Proceso:", idProceso, " | Siglas:", siglas, " |Categoria detalle :", idDetalle); // Mensaje de éxito
+          encontrado = true;
+        }
+      });
+      // Si no se encontró coincidencia, limpia los campos
+      if (!encontrado) {
+        fila.querySelector(".id_proceso_fk").value = "";
+        fila.querySelector(".carpeta").value = "";
+        fila.querySelector(".id_cs_detalle").value = ""; // Limpia el id del detalle de la categoría
+        console.warn("⚠ No se encontró coincidencia para:", inputValue); // Mensaje de advertencia
+      }
+    }
   });
 </script>
 
+/**
+* Script para la visualización previa de documentos en el modal.
+*
+* Este script escucha el evento de clic en los botones con la clase 'btnVerDocumento'.
+* Según la extensión del archivo, muestra el documento en un iframe (PDF, Office, otros) o como imagen.
+* Utiliza el modal 'modalVerDocumento' para desplegar la vista previa.
+*
+* - PDF: Se muestra directamente en el iframe.
+* - Office (doc, docx, xls, xlsx, ppt, pptx): Se utiliza el visor de Office online.
+* - Imágenes (jpg, jpeg, png, gif, bmp, webp): Se muestran en un elemento <img>.
+* - Otros tipos: Se intenta mostrar en el iframe.
+*/
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const iframe = document.getElementById("iframeDocumento");
+    const img = document.getElementById("imagenDocumento");
+    const btnDescargarImg = document.getElementById("btnDescargarImagen");
 
+    document.querySelectorAll(".btnVerDocumento").forEach(btn => {
+      btn.addEventListener("click", function() {
+        const ruta = this.getAttribute("data-ruta");
+        const extension = ruta.split('.').pop().toLowerCase();
+
+        // Resetear visibilidad
+        iframe.style.display = "none";
+        img.style.display = "none";
+        btnDescargarImg.style.display = "none";
+
+        // Mostrar según tipo
+        if (["jpg", "jpeg", "png", "gif", "bmp", "webp"].includes(extension)) {
+          img.src = ruta;
+          img.style.display = "block";
+
+          // Mostrar botón descargar imagen
+          btnDescargarImg.href = ruta;
+          const nombreArchivo = ruta.split('/').pop();
+          btnDescargarImg.setAttribute("download", nombreArchivo);
+          btnDescargarImg.style.display = "inline-block";
+        } else if (extension === "pdf") {
+          iframe.src = ruta;
+          iframe.style.display = "block";
+        } else if (["doc", "docx", "xls", "xlsx", "ppt", "pptx"].includes(extension)) {
+          iframe.src = "https://view.officeapps.live.com/op/embed.aspx?src=" + encodeURIComponent(ruta);
+          iframe.style.display = "block";
+        } else {
+          iframe.src = ruta;
+          iframe.style.display = "block";
+        }
+
+        // Mostrar el modal
+        const modal = new bootstrap.Modal(document.getElementById("modalVerDocumento"));
+        modal.show();
+      });
+    });
+  });
+</script>
 
 </body>
 

@@ -2,74 +2,103 @@
 
 class ControladorSadoc
 {
+
+
 	/*=============================================
 	SUBIR ARCHIVO DEPENDIENDO CATEGORÍA
 	=============================================*/
 	static public function ctrCrearArchivo()
-	{
-		if (isset($_POST["subir"])) {
-			// Verifica si hay errores en el archivo subido
-			if ($_FILES["archivo"]["error"] === UPLOAD_ERR_OK) {
-				// Extraer los datos del archivo y las variables del formulario
-				$codigo = $_POST["codigo"];
-				$archivoTmp = $_FILES["archivo"]["tmp_name"];
-				$nombreArchivo = basename($_FILES["archivo"]["name"]);
-				$ruta_principal = "vistas/modulos/files/";
-				$ruta = $ruta_principal . $nombreArchivo;
-				$estado = "activo";
-				$id_proceso_fk = $_POST["id_proceso_fk"];
+{
+    function limpiarNombreArchivo($cadena)
+    {
+        $cadena = strtolower($cadena);
+        $cadena = preg_replace('/\.[^.]+$/', '', $cadena); // quitar la extensión
+        $cadena = str_replace(
+            ['á', 'é', 'í', 'ó', 'ú', 'ñ', 'Á', 'É', 'Í', 'Ó', 'Ú', 'Ñ'],
+            ['a', 'e', 'i', 'o', 'u', 'n', 'a', 'e', 'i', 'o', 'u', 'n'],
+            $cadena
+        );
+        $cadena = preg_replace('/[^a-z0-9_\- ]/', '', $cadena); // quitar símbolos raros
+        $cadena = trim($cadena);
+        return $cadena;
+    }
 
-				// Asegúrate de que la carpeta de destino exista
-				if (!is_dir($ruta_principal)) {
-					mkdir($ruta_principal, 0777, true);
-				}
-				// Mover archivo al directorio de destino
-				if (move_uploaded_file($archivoTmp, $ruta)) {
-					echo "Archivo subido correctamente.";
-					// Aquí va la lógica para guardar los datos en la base de datos
-					$tabla = "sadoc";
-					$datos = array(
-						"codigo" => $codigo,
-						"ruta" => $ruta,
-						"estado" => $estado,
-						"id_proceso_fk" => $id_proceso_fk
-					);
-					$respuesta = ModeloSadoc::mdlIngresarArchivo($tabla, $datos);
+    if (isset($_POST["codigo_sadoc"])) {
 
-					if (is_array($respuesta)) {
-						$ruta = $respuesta["ruta"];
-						$nombreArchivo = basename($ruta);
-						echo '<script>
-							Swal.fire(
-							"Buen Trabajo!",
-							"El archivo ha sido registrado con éxito.",
-							"success"
-							).then(function() {
-							
-							document.querySelector(".FormArchivos").reset();
-								$("#accesoRapido").addClass("active");
-								// Abrir una nueva ventana con la vista previa del archivo
-								window.open("vistas/modulos/sig/descarga_archivos.php?archivo=' . $nombreArchivo . '&ruta=' . $ruta . '", "_blank");
-							});
-						</script>';
-					} else {
-						echo '<script>
-						Swal.fire({
-							icon: "error",
-							title: "Oops...",
-							text: "No funciono correctamente",
-							footer: "<a href="ti">Soporte TI</a>"
-						  });
-						  </script>';
-					}
-				} else {
-					//echo "Error al mover el archivo.";
-				}
-			} else {
-				//echo "Error en la carga del archivo: " . $_FILES["archivo"]["error"];
-			}
-		}
-	}
+        $total = count($_POST["codigo_sadoc"]);
+        $errores = [];
+
+        for ($i = 0; $i < $total; $i++) {
+
+            if (isset($_FILES["archivo_sadoc"]["tmp_name"][$i]) && !empty($_FILES["archivo_sadoc"]["tmp_name"][$i])) {
+
+                $nombreArchivo = basename($_FILES["archivo_sadoc"]["name"][$i]);
+                $nombreLimpio  = limpiarNombreArchivo($nombreArchivo);
+
+                // Carpeta enviada desde el formulario
+               $carpetaNombre = isset($_POST["carpeta"][$i]) ? $_POST["carpeta"][$i] : 'sin_nombre';
+                $carpeta = "vistas/modulos/files/$carpetaNombre/";
+
+                if (!file_exists($carpeta)) {
+                    mkdir($carpeta, 0777, true);
+                }
+
+                // Crear nombre único
+                $nombreUnico = date("Ymd_His") . "_" . $nombreArchivo;
+                $rutaArchivo = $carpeta . $nombreUnico;
+
+                if (move_uploaded_file($_FILES["archivo_sadoc"]["tmp_name"][$i], $rutaArchivo)) {
+
+                    $datos = array(
+                        "codigo"        => $_POST["codigo_sadoc"][$i],
+                        "ruta"          => $rutaArchivo,
+                        "fecha"         => date("Y-m-d H:i:s"),
+                        "estado"        => "activo",
+                        "id_cs_fk"      => $_POST["id_cs_detalle"][$i],
+                        "nombre_sadoc"  => $nombreLimpio
+                    );
+
+                    $respuesta = ModeloSadoc::mdlIngresarArchivo($datos);
+
+                    if ($respuesta !== "ok") {
+                        $errores[] = "Error al guardar los datos de la fila " . ($i + 1);
+                    }
+                } else {
+                    $errores[] = "No se pudo subir el archivo en la fila " . ($i + 1);
+                }
+            } else {
+                $errores[] = "No se seleccionó archivo en la fila " . ($i + 1);
+            }
+        }
+
+        if (empty($errores)) {
+            echo '
+            <script>
+                Swal.fire({
+                    icon: "success",
+                    title: "Archivos subidos correctamente",
+                    showConfirmButton: false,
+                    timer: 2000
+                }).then(() => {
+                    window.location = "sadoc";
+                });
+            </script>';
+        } else {
+            $mensaje = implode("<br>", $errores);
+            echo '
+            <script>
+                Swal.fire({
+                    icon: "error",
+                    title: "Se presentaron errores",
+                    html: "' . $mensaje . '",
+                    confirmButtonText: "Aceptar"
+                });
+            </script>';
+        }
+    }
+}
+
+
 
 	/**
 	 * Asigna una o varias categorías a procesos seleccionados.
@@ -217,11 +246,9 @@ class ControladorSadoc
 	MOSTRAR ARCHIVOS POR PROCESO Y CATEGORIA
 	=============================================*/
 
-	static public function mostrarArchivosPorCategoria($id_proceso_fk,$idCategoria)
+	static public function mostrarArchivosPorCategoria($id_proceso_fk, $idCategoria)
 	{
 		$respuesta = ModeloSadoc::mdlObtenerArchivosPorCategoria($id_proceso_fk, $idCategoria);
 		return $respuesta;
 	}
-
-
 }
