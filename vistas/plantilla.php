@@ -175,6 +175,14 @@ CUERPO DOCUMENTO
 ======================================-->
 <?php
 
+require_once __DIR__ . '/../extensiones/vlucas/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
+
+
+
+
   
   if (isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] == "ok") {
     echo '<body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">

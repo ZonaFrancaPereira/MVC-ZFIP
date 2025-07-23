@@ -632,15 +632,16 @@ function generarTablaCategorias($id_proceso_fk, $idCategoria)
                 <th>Código</th>
                 <th>Nombre del Archivo</th>
                 <th>Fecha de Actualización</th>
-                <th>Opciones</th>
+                <th>Opciones TABLAS</th>
               </tr>
           </thead>";
   echo "<tbody>";
 
   if (count($archivos) > 0) {
     foreach ($archivos as $row) {
-      $nombre = basename($row["ruta"]);
-      $previo = $row["ruta"];
+      $nombre = $row["nombre_sadoc"];
+     $previo = $_ENV['APP_URL'] . $row["ruta"];
+
       $codigo = $row["codigo"];
       $id = $row["id"];
 
@@ -680,6 +681,7 @@ function generarTablaCategorias($id_proceso_fk, $idCategoria)
         data-tipo="pdf">
   Ver
 </button> ';
+
       echo "</td>";
       echo "</tr>";
     }
@@ -852,18 +854,7 @@ function generarPanelProceso($modalId, $tituloModal, $codigo, $id_proceso_fk, $p
   });
 </script>
 
-/**
-* Script para la visualización previa de documentos en el modal.
-*
-* Este script escucha el evento de clic en los botones con la clase 'btnVerDocumento'.
-* Según la extensión del archivo, muestra el documento en un iframe (PDF, Office, otros) o como imagen.
-* Utiliza el modal 'modalVerDocumento' para desplegar la vista previa.
-*
-* - PDF: Se muestra directamente en el iframe.
-* - Office (doc, docx, xls, xlsx, ppt, pptx): Se utiliza el visor de Office online.
-* - Imágenes (jpg, jpeg, png, gif, bmp, webp): Se muestran en un elemento <img>.
-* - Otros tipos: Se intenta mostrar en el iframe.
-*/
+
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     const iframe = document.getElementById("iframeDocumento");
