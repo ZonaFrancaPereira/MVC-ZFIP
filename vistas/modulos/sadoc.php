@@ -779,10 +779,15 @@ function generarPanelProceso($modalId, $tituloModal, $codigo, $id_proceso_fk, $p
       <div class="modal-header">
         <h5 class="modal-title">Visualización del Documento</h5>
 
-        <!-- 🔽 Botón de descarga, solo visible para imágenes -->
-        <a id="btnDescargarImagen" class="btn btn-success me-2" download target="_blank">
-          Descargar Imagen
-        </a>
+        <!-- Botón para descargar imágenes -->
+<a id="btnDescargarImagen" class="btn btn-success" href="#" style="display: none;" download>
+  Descargar Imagen
+</a>
+
+<!-- Botón para descargar archivos Office -->
+<a id="btnDescargarArchivo" class="btn btn-primary" href="#" style="display: none;" download>
+  Descargar Archivo
+</a>
 
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
@@ -856,13 +861,14 @@ function generarPanelProceso($modalId, $tituloModal, $codigo, $id_proceso_fk, $p
 
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("DOMContentLoaded", function () {
     const iframe = document.getElementById("iframeDocumento");
     const img = document.getElementById("imagenDocumento");
     const btnDescargarImg = document.getElementById("btnDescargarImagen");
+    const btnDescargarArchivo = document.getElementById("btnDescargarArchivo");
 
     document.querySelectorAll(".btnVerDocumento").forEach(btn => {
-      btn.addEventListener("click", function() {
+      btn.addEventListener("click", function () {
         const ruta = this.getAttribute("data-ruta");
         const extension = ruta.split('.').pop().toLowerCase();
 
@@ -870,24 +876,36 @@ function generarPanelProceso($modalId, $tituloModal, $codigo, $id_proceso_fk, $p
         iframe.style.display = "none";
         img.style.display = "none";
         btnDescargarImg.style.display = "none";
+        btnDescargarArchivo.style.display = "none";
 
-        // Mostrar según tipo
+        const nombreArchivo = ruta.split('/').pop();
+
+        // Mostrar según tipo de archivo
         if (["jpg", "jpeg", "png", "gif", "bmp", "webp"].includes(extension)) {
           img.src = ruta;
           img.style.display = "block";
 
-          // Mostrar botón descargar imagen
+          // Botón descargar imagen
           btnDescargarImg.href = ruta;
-          const nombreArchivo = ruta.split('/').pop();
           btnDescargarImg.setAttribute("download", nombreArchivo);
           btnDescargarImg.style.display = "inline-block";
+
         } else if (extension === "pdf") {
           iframe.src = ruta;
           iframe.style.display = "block";
+          // No se muestra botón de descarga porque visor PDF ya permite hacerlo
+
         } else if (["doc", "docx", "xls", "xlsx", "ppt", "pptx"].includes(extension)) {
           iframe.src = "https://view.officeapps.live.com/op/embed.aspx?src=" + encodeURIComponent(ruta);
           iframe.style.display = "block";
+
+          // Mostrar botón para descargar el archivo de Office
+          btnDescargarArchivo.href = ruta;
+          btnDescargarArchivo.setAttribute("download", nombreArchivo);
+          btnDescargarArchivo.style.display = "inline-block";
+
         } else {
+          // Tipo desconocido: mostrar en iframe por defecto
           iframe.src = ruta;
           iframe.style.display = "block";
         }
@@ -899,6 +917,7 @@ function generarPanelProceso($modalId, $tituloModal, $codigo, $id_proceso_fk, $p
     });
   });
 </script>
+
 
 </body>
 
