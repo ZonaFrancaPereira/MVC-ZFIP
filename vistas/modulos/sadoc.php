@@ -607,7 +607,7 @@ function generarTabla($id_id_proceso_fk)
       echo "<td>" . $nombre . "</td>";
       echo "<td class='text-center'>" . $row["fecha_subida"] . "</td>";
       echo "<td class='text-center'>";
-       echo '<button class="btn bg-success btnVerDocumento" 
+      echo '<button class="btn bg-success btnVerDocumento" 
         data-ruta="' . $previo . '" 
         data-tipo="pdf">
   Ver
@@ -640,7 +640,7 @@ function generarTablaCategorias($id_proceso_fk, $idCategoria)
   if (count($archivos) > 0) {
     foreach ($archivos as $row) {
       $nombre = $row["nombre_sadoc"];
-     $previo = $_ENV['APP_URL'] . $row["ruta"];
+      $previo = $_ENV['APP_URL'] . $row["ruta"];
 
       $codigo = $row["codigo"];
       $id = $row["id"];
@@ -780,14 +780,14 @@ function generarPanelProceso($modalId, $tituloModal, $codigo, $id_proceso_fk, $p
         <h5 class="modal-title">Visualización del Documento</h5>
 
         <!-- Botón para descargar imágenes -->
-<a id="btnDescargarImagen" class="btn btn-success" href="#" style="display: none;" download>
-  Descargar Imagen
-</a>
+        <a id="btnDescargarImagen" class="btn bg-success" href="#" style="display: none;" download>
+          Descargar Imagen
+        </a>
 
-<!-- Botón para descargar archivos Office -->
-<a id="btnDescargarArchivo" class="btn btn-primary" href="#" style="display: none;" download>
-  Descargar Archivo
-</a>
+        <!-- Botón para descargar archivos Office -->
+        <a id="btnDescargarArchivo" class="btn bg-success" href="#" style="display: none;" download>
+          Descargar Archivo
+        </a>
 
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
@@ -861,14 +861,14 @@ function generarPanelProceso($modalId, $tituloModal, $codigo, $id_proceso_fk, $p
 
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function() {
     const iframe = document.getElementById("iframeDocumento");
     const img = document.getElementById("imagenDocumento");
     const btnDescargarImg = document.getElementById("btnDescargarImagen");
     const btnDescargarArchivo = document.getElementById("btnDescargarArchivo");
 
     document.querySelectorAll(".btnVerDocumento").forEach(btn => {
-      btn.addEventListener("click", function () {
+      btn.addEventListener("click", function() {
         const ruta = this.getAttribute("data-ruta");
         const extension = ruta.split('.').pop().toLowerCase();
 

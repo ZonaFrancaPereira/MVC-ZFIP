@@ -9,19 +9,18 @@ class ControladorSadoc
 	=============================================*/
 	static public function ctrCrearArchivo()
 {
-    function limpiarNombreArchivo($cadena)
-    {
-        $cadena = strtolower($cadena);
-        $cadena = preg_replace('/\.[^.]+$/', '', $cadena); // quitar la extensión
-        $cadena = str_replace(
-            ['á', 'é', 'í', 'ó', 'ú', 'ñ', 'Á', 'É', 'Í', 'Ó', 'Ú', 'Ñ'],
-            ['a', 'e', 'i', 'o', 'u', 'n', 'a', 'e', 'i', 'o', 'u', 'n'],
-            $cadena
-        );
-        $cadena = preg_replace('/[^a-z0-9_\- ]/', '', $cadena); // quitar símbolos raros
-        $cadena = trim($cadena);
-        return $cadena;
-    }
+function limpiarNombreArchivo($cadena)
+{
+    $cadena = preg_replace('/\.[^.]+$/', '', $cadena); // quitar la extensión
+    $cadena = str_replace(
+        ['á', 'é', 'í', 'ó', 'ú', 'ñ', 'Á', 'É', 'Í', 'Ó', 'Ú', 'Ñ'],
+        ['A', 'E', 'I', 'O', 'U', 'Ñ', 'A', 'E', 'I', 'O', 'U', 'Ñ'],
+        $cadena
+    );
+    $cadena = preg_replace('/[^a-zA-Z0-9_\- ]/', '', $cadena); // quitar símbolos raros
+    $cadena = strtoupper(trim($cadena)); // convertir a MAYÚSCULAS
+    return $cadena;
+}
 
     if (isset($_POST["codigo_sadoc"])) {
 
