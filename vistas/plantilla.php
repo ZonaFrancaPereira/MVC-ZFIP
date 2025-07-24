@@ -1,30 +1,18 @@
 <?php
-date_default_timezone_set('America/Bogota');
-session_start();
-
+  date_default_timezone_set('America/Bogota');
+  session_start();
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html>
-
 <head>
-
-
-
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
   <title>PLATAFORMA ZFIP</title>
-
   <!-- Tell the browser to be responsive to screen width -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <link rel="icon" href="vistas/img/plantilla/icono-negro.png">
-
   <!--=====================================
   vistas/PLUGINS DE CSS
   ======================================-->
@@ -58,11 +46,8 @@ session_start();
   <link rel="stylesheet" href="vistas/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- Elimina esta línea si no quieres usar el CSS predeterminado -->
 <link rel="stylesheet" href="vistas/plugins/cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-
-
   <!-- iCheck for checkboxes and radio inputs -->
   <link rel="stylesheet" href="vistas/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-
   <link rel="stylesheet" href="vistas/dist/css/acpm.css">
   
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">

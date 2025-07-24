@@ -7,71 +7,69 @@ class ControladorSadoc
 	/*=============================================
 	SUBIR ARCHIVO DEPENDIENDO CATEGORÍA
 	=============================================*/
-	static public function ctrCrearArchivo()
-{
-function limpiarNombreArchivo($cadena)
-{
-    $cadena = preg_replace('/\.[^.]+$/', '', $cadena); // quitar la extensión
-    $cadena = str_replace(
-        ['á', 'é', 'í', 'ó', 'ú', 'ñ', 'Á', 'É', 'Í', 'Ó', 'Ú', 'Ñ'],
-        ['A', 'E', 'I', 'O', 'U', 'Ñ', 'A', 'E', 'I', 'O', 'U', 'Ñ'],
-        $cadena
-    );
-    $cadena = preg_replace('/[^a-zA-Z0-9_\- ]/', '', $cadena); // quitar símbolos raros
-    $cadena = strtoupper(trim($cadena)); // convertir a MAYÚSCULAS
-    return $cadena;
-}
+	static public function ctrCrearArchivo(){
+		function limpiarNombreArchivo($cadena){
+			$cadena = preg_replace('/\.[^.]+$/', '', $cadena); // quitar la extensión
+			$cadena = str_replace(
+				['á', 'é', 'í', 'ó', 'ú', 'ñ', 'Á', 'É', 'Í', 'Ó', 'Ú', 'Ñ'],
+				['A', 'E', 'I', 'O', 'U', 'Ñ', 'A', 'E', 'I', 'O', 'U', 'Ñ'],
+				$cadena
+			);
+			$cadena = preg_replace('/[^a-zA-Z0-9_\- ]/', '', $cadena); // quitar símbolos raros
+			$cadena = strtoupper(trim($cadena)); // convertir a MAYÚSCULAS
+			return $cadena;
+		}
 
-    if (isset($_POST["codigo_sadoc"])) {
+		if (isset($_POST["codigo_sadoc"])) {
 
-        $total = count($_POST["codigo_sadoc"]);
-        $errores = [];
+			$total = count($_POST["codigo_sadoc"]);
+			$errores = [];
 
-        for ($i = 0; $i < $total; $i++) {
+			for ($i = 0; $i < $total; $i++) {
 
-            if (isset($_FILES["archivo_sadoc"]["tmp_name"][$i]) && !empty($_FILES["archivo_sadoc"]["tmp_name"][$i])) {
+				if (isset($_FILES["archivo_sadoc"]["tmp_name"][$i]) && !empty($_FILES["archivo_sadoc"]["tmp_name"][$i])) {
 
-                $nombreArchivo = basename($_FILES["archivo_sadoc"]["name"][$i]);
-                $nombreLimpio  = limpiarNombreArchivo($nombreArchivo);
+					$nombreArchivo = basename($_FILES["archivo_sadoc"]["name"][$i]);
+					$nombreLimpio  = limpiarNombreArchivo($nombreArchivo);
 
-                // Carpeta enviada desde el formulario
-               $carpetaNombre = isset($_POST["carpeta"][$i]) ? $_POST["carpeta"][$i] : 'sin_nombre';
-                $carpeta = "vistas/modulos/files/$carpetaNombre/";
+					// Carpeta enviada desde el formulario
+					$carpetaNombre = isset($_POST["carpeta"][$i]) ? $_POST["carpeta"][$i] : 'sin_nombre';
+					$carpeta = "vistas/modulos/files/$carpetaNombre/";
 
-                if (!file_exists($carpeta)) {
-                    mkdir($carpeta, 0777, true);
-                }
+					if (!file_exists($carpeta)) {
+						mkdir($carpeta, 0777, true);
+					}
 
-                // Crear nombre único
-                $nombreUnico = date("Ymd_His") . "_" . $nombreArchivo;
-                $rutaArchivo = $carpeta . $nombreUnico;
+					// Crear nombre único
+					$nombreUnico = date("Ymd_His") . "_" . $nombreArchivo;
+					$rutaArchivo = $carpeta . $nombreUnico;
 
-                if (move_uploaded_file($_FILES["archivo_sadoc"]["tmp_name"][$i], $rutaArchivo)) {
+					if (move_uploaded_file($_FILES["archivo_sadoc"]["tmp_name"][$i], $rutaArchivo)) {
 
-                    $datos = array(
-                        "codigo"        => $_POST["codigo_sadoc"][$i],
-                        "ruta"          => $rutaArchivo,
-                        "fecha"         => date("Y-m-d H:i:s"),
-                        "estado"        => "activo",
-                        "id_cs_fk"      => $_POST["id_cs_detalle"][$i],
-                        "nombre_sadoc"  => $nombreLimpio
-                    );
+						$datos = array(
+							"codigo"        => $_POST["codigo_sadoc"][$i],
+							"ruta"          => $rutaArchivo,
+							"fecha"         => date("Y-m-d H:i:s"),
+							"estado"        => "activo",
+							"id_cs_fk"      => $_POST["id_cs_detalle"][$i],
+							"nombre_sadoc"  => $nombreLimpio
+						);
 
-                    $respuesta = ModeloSadoc::mdlIngresarArchivo($datos);
+						$respuesta = ModeloSadoc::mdlIngresarArchivo($datos);
 
-                    if ($respuesta !== "ok") {
-                        $errores[] = "Error al guardar los datos de la fila " . ($i + 1);
-                    }
-                } else {
-                    $errores[] = "No se pudo subir el archivo en la fila " . ($i + 1);
-                }
-            } else {
-                $errores[] = "No se seleccionó archivo en la fila " . ($i + 1);
-            }
-        }
+						if ($respuesta !== "ok") {
+							$errores[] = "Error al guardar los datos de la fila " . ($i + 1);
+						}
+					} else {
+						$errores[] = "No se pudo subir el archivo en la fila " . ($i + 1);
+					}
+				} else {
+					$errores[] = "No se seleccionó archivo en la fila " . ($i + 1);
+				}
+			}
 
-        if (empty($errores)) {
-            echo '
+			if (empty($errores)) {
+				echo '
             <script>
                 Swal.fire({
                     icon: "success",
@@ -82,9 +80,9 @@ function limpiarNombreArchivo($cadena)
                     window.location = "sadoc";
                 });
             </script>';
-        } else {
-            $mensaje = implode("<br>", $errores);
-            echo '
+			} else {
+				$mensaje = implode("<br>", $errores);
+				echo '
             <script>
                 Swal.fire({
                     icon: "error",
@@ -93,11 +91,89 @@ function limpiarNombreArchivo($cadena)
                     confirmButtonText: "Aceptar"
                 });
             </script>';
-        }
+			}
+		}
+	}
+
+static public function ctrActualizarArchivo($datos, $archivo)
+{
+  $tabla = "sadoc";
+  $id = $datos["idArchivo"];
+  $codigo = $datos["codigo"];
+
+  // Buscar el archivo actual
+  $archivoActual = ModeloSadoc::mdlObtenerArchivoPorId($tabla, $id);
+
+  // Si se subió un nuevo archivo
+  if (!empty($archivo["archivo"]["tmp_name"])) {
+    $directorio = "vistas/modulos/files/SIG/";
+    $nombreArchivoNuevo = basename($archivo["archivo"]["name"]);
+    $rutaNueva = $directorio . uniqid() . "_" . $nombreArchivoNuevo;
+
+    if (move_uploaded_file($archivo["archivo"]["tmp_name"], $rutaNueva)) {
+      // Eliminar el archivo viejo
+      if (file_exists($archivoActual["ruta"])) {
+        unlink($archivoActual["ruta"]);
+      }
+    } else {
+      return "error_subida";
     }
+  } else {
+    $rutaNueva = $archivoActual["ruta"]; // mantener ruta anterior
+  }
+
+  $datosActualizados = array(
+    "id" => $id,
+    "codigo" => $codigo,
+    "ruta" => $rutaNueva
+  );
+
+  return ModeloSadoc::mdlActualizarArchivo($tabla, $datosActualizados);
 }
 
 
+
+static public function ctrEliminarArchivo()
+{
+	$id = $_POST["idArchivoEliminar"];
+	$tabla = "sadoc";
+	// Obtener información del archivo antes de eliminarlo de la base de datos
+	$archivo = ModeloSadoc::mdlObtenerArchivoPorId($tabla, $id);
+
+	if ($archivo && isset($archivo["ruta"]) && file_exists($archivo["ruta"])) {
+		// Eliminar el archivo físico
+		unlink($archivo["ruta"]);
+	}
+
+	// Eliminar el registro de la base de datos
+	$respuesta = ModeloSadoc::mdlEliminarArchivo($tabla, $id);
+
+	if ($respuesta == "ok") {
+		echo '<script>
+			Swal.fire({
+				icon: "success",
+				title: "Archivo eliminado correctamente",
+				showConfirmButton: true,
+				confirmButtonText: "Cerrar",
+				allowOutsideClick: false,
+				allowEscapeKey: true
+			}).then(() => {
+				window.location = "sadoc";
+			});
+		</script>';
+	} else {
+		echo '<script>
+			Swal.fire({
+				icon: "error",
+				title: "No se pudo eliminar el archivo.",
+				showConfirmButton: true,
+				confirmButtonText: "Cerrar",
+				allowOutsideClick: false,
+				allowEscapeKey: true
+			});
+		</script>';
+	}
+}
 
 	/**
 	 * Asigna una o varias categorías a procesos seleccionados.
@@ -195,6 +271,15 @@ function limpiarNombreArchivo($cadena)
 	=============================================*/
 	static public function ctrCrearCategoria()
 	{
+		// Verifica si se ha enviado el formulario para guardar una nueva categoría
+		// y si el campo 'guardar_categoria' está presente en la solicitud POST.
+		// Si es así, recoge los datos de la categoría desde el formulario.
+		// Luego, llama al modelo para guardar la categoría en la base de datos.
+		// Si la respuesta del modelo es "ok", muestra un mensaje de éxito con SweetAlert.
+		// Si hay un error al guardar, muestra un mensaje de error con SweetAlert.
+		// Finalmente, redirige al usuario a la página de categorías.
+		// Si no se ha enviado el formulario, no hace nada.
+
 		if (isset($_POST["guardar_categoria"])) {
 
 			$nombre_categoria = $_POST["nuevaCategoria"];
@@ -231,6 +316,49 @@ function limpiarNombreArchivo($cadena)
 		}
 	}
 
+	/*=============================================
+	EDITAR CATEGORÍA
+	=============================================*/
+	static public function ctrEditarCategorias()
+	{
+		// Verifica si se ha enviado el formulario para editar una categoría
+		if (isset($_POST["editar_categoria"])) {
+
+			$id_categoria = $_POST["id_categoria"];
+			$nombre_categoria = $_POST["nombre_categoria"];
+			$descripcion_categoria = $_POST["descripcion_categoria"];
+			$tabla = "categoria_sadoc";
+
+			$datos = array(
+				"id_categoria" => $id_categoria,
+				"nombre_categoria" => $nombre_categoria,
+				"descripcion_categoria" => $descripcion_categoria
+			);
+
+			$respuesta = ModeloSadoc::mdlEditarCategoria($tabla, $datos);
+
+			if ($respuesta == "ok") {
+				echo '<script>
+						Swal.fire(
+							"¡Actualizado!",
+							"La categoría ha sido actualizada correctamente.",
+							"success"
+						).then(function() {
+							window.location = "sadoc";
+						});
+					</script>';
+			} else {
+				echo '<script>
+						Swal.fire({
+							icon: "error",
+							title: "Oops...",
+							text: "No se pudo actualizar la categoría.",
+							footer: "<a href=\'ti\'>Soporte TI</a>"
+						});
+					</script>';
+			}
+		}
+	}
 	/*=============================================
 	MOSTRAR ARCHIVOS POR PROCESO
 	=============================================*/

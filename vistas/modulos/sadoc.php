@@ -54,28 +54,46 @@ switch ($procesoActivo) {
 
 <nav class="mt-2">
   <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-    <li class="nav-item has-treeview">
+    <li class="nav-header font-weight-bold text-center">PANEL SIG</li>
+    <li>
+      <hr style="margin: 0 1rem; border-top: 1px solid #6c757d;">
+    </li>
+    <li class="nav-item has-treeview ">
       <a href="#" class="nav-link">
-        <i class="nav-icon fas fa-cogs"></i>
+        <i class="nav-icon fas fa-file-import"></i>
         <p>
           Administrar Sadoc
           <i class="right fas fa-angle-left"></i>
         </p>
       </a>
       <ul class="nav nav-treeview">
+
         <li class="nav-item">
           <a href="#categorias-container" class="nav-link" data-toggle="tab">
-            <i class="far fa-circle nav-icon"></i>
+            <i class="fas fa-list"></i>
             <p>Administrar Categorías</p>
           </a>
         </li>
         <li class="nav-item">
           <a href="#gestionarArchivos" class="nav-link" data-toggle="tab">
-            <i class="far fa-circle nav-icon"></i>
-            <p>Gestionar Archivos</p>
+            <i class="fas fa-file-medical"></i>
+            <p>Cargar Archivos</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#CambiarArchivos" class="nav-link" data-toggle="tab">
+            <i class="fas fa-file-signature"></i>
+            <p>Actualizar Archivos</p>
           </a>
         </li>
       </ul>
+    </li>
+    <li>
+      <hr style="margin: 0 1rem; border-top: 1px solid #6c757d;">
+    </li>
+    <li class="nav-header font-weight-bold text-center">PROCESOS ZFIP</li>
+    <li>
+      <hr style="margin: 0 1rem; border-top: 1px solid #6c757d;">
     </li>
     <li class="nav-item <?php echo ($procesoActivo === 'AC') ? 'active' : ''; ?>" role="presentation">
       <a href="#accesoRapido" class="nav-link" data-toggle="tab">
@@ -160,15 +178,12 @@ switch ($procesoActivo) {
 </div>
 <!-- /.sidebar -->
 </aside>
-
-
+<!-- /TODO EL PANEL DE CATEGORÍAS Y ARCHIVOS -->
 <div class="content-wrapper">
   <div id="wrapper" class="toggled">
-
     <div id="page-content-wrapper">
       <div class="container-fluid">
         <div class="tab-content card">
-
           <div id="categorias-container" class="tab-pane fade">
             <section class="content">
               <div class="container-fluid">
@@ -241,10 +256,16 @@ switch ($procesoActivo) {
                                           echo "<td class='text-center'>" . $id_categoria . "</td>";
                                           echo "<td>" . $nombre_categoria . "</td>";
                                           echo "<td>" . $descripcion_categoria . "</td>";
-                                          echo "<td>" . $estado_categoria . "</td>";
+                                          echo "<td class='text-center'><span class='badge bg-success'>" . $estado_categoria . "</span></td>";
                                           echo "<td class='text-center'>";
-                                          echo "<button class='btn bg-warning btn-sm'><i class='fas fa-edit'></i> Editar</button>";
-                                          echo "<button class='btn bg-danger btn-sm'><i class='fas fa-trash-alt'></i> Eliminar</button>";
+                                          echo "<button class='btn bg-warning btn-sm' 
+                                                data-toggle='modal' 
+                                                data-target='#modalEditarCategoria' 
+                                                data-id='" . $id_categoria . "' 
+                                                data-nombre='" . htmlspecialchars($nombre_categoria, ENT_QUOTES) . "' 
+                                                data-descripcion='" . htmlspecialchars($descripcion_categoria, ENT_QUOTES) . "'>
+                                                <i class='fas fa-edit'></i> Editar
+                                              </button>";
                                           echo "</td>";
                                           echo "</tr>";
                                         }
@@ -292,9 +313,7 @@ switch ($procesoActivo) {
                                         Cambios</button>
                                     </div>
                                   </div>
-
                                 </form>
-
                                 <?php
                                 // ESTE BLOQUE VA AL INICIO DEL ARCHIVO PHP
                                 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['asignar-procesos'])) {
@@ -315,7 +334,6 @@ switch ($procesoActivo) {
             </section>
           </div>
 
-
           <div id="gestionarArchivos" class="tab-pane fade">
             <section class="content">
               <div class="container-fluid">
@@ -324,7 +342,7 @@ switch ($procesoActivo) {
                     <br>
                     <div class="card">
                       <div class="card-header">
-                        <h3 class="card-title">Subir Archivos</h3>
+                        <h3 class="card-title">Cargar Archivos</h3>
                       </div>
                       <div class="card-body">
                         <form class="FormArchivos" action="" method="POST" enctype="multipart/form-data">
@@ -342,13 +360,13 @@ switch ($procesoActivo) {
                                 </thead>
                                 <tbody>
                                   <tr class="fila-fija ">
-                                    <td class="col-md-3">
+                                    <td class="col-md-2">
                                       <input type="text" class="form-control" name="codigo_sadoc[]" id="codigo" placeholder="FO-TI-XX" required>
                                     </td>
                                     <td class=" col-md-4">
                                       <input type="file" class="form-control" name="archivo_sadoc[]" required>
                                     </td>
-                                    <td class=" col-md-3">
+                                    <td class=" col-md-4">
                                       <!-- Este input guarda el ID -->
                                       <!-- Dentro de <td class="col-md-3"> -->
                                       <input list="categoria_detalle_list" class="form-control categoria_texto" placeholder="Escribe para buscar...">
@@ -369,9 +387,9 @@ switch ($procesoActivo) {
                                         }
                                         ?>
                                       </datalist>
-                                      <input type="text" name="id_cs_detalle[]" class="form-control id_cs_detalle" required>
-                                      <input type="text" name="id_proceso_fk[]" class="form-control id_proceso_fk" required>
-                                      <input type="text" name="carpeta[]" class="form-control carpeta" required>
+                                      <input type="hidden" name="id_cs_detalle[]" class="form-control id_cs_detalle" required>
+                                      <input type="hidden" name="id_proceso_fk[]" class="form-control id_proceso_fk" required>
+                                      <input type="hidden" name="carpeta[]" class="form-control carpeta" required>
                                     </td>
                                     <td class="eliminar col-md-1">
 
@@ -388,7 +406,6 @@ switch ($procesoActivo) {
                               </div>
                             </div>
                           </div>
-
                           <br>
                           <button type="submit" class="btn bg-success btn-block" name="subir">
                             <span class="fa fa-upload" aria-hidden="true"></span> Subir Archivo
@@ -406,6 +423,23 @@ switch ($procesoActivo) {
                 </div>
               </div>
             </section>
+          </div>
+          <div id="CambiarArchivos" class="tab-pane fade">
+            <div class="card-body">
+              <div class="tab-content">
+
+                <div class="card shadow-sm border-0 mb-4">
+                  <div class="card-header bg-gradient-primary text-white d-flex align-items-center">
+                    <i class="fas fa-folder-open mr-2"></i>
+                    <h5 class="mb-0">Archivos de Todos los Procesos</h5>
+                  </div>
+                  <div class="card-body bg-light">
+                    <?php generarTablaSig(0); ?>
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- /.card-body -->
           </div>
 
           <div id="accesoRapido" class="tab-pane fade">
@@ -456,31 +490,50 @@ switch ($procesoActivo) {
                           <div class="card-header p-2">
                             <!-- Navegación por pestañas -->
                             <ul class="nav nav-pills">
-                              <li class="nav-item"><a class="nav-link active" href="#gerencia"
-                                  data-toggle="tab">Gerencia</a></li>
-                              <li class="nav-item"><a class="nav-link" href="#planeacion" data-toggle="tab">Plantación
-                                  Estratégica</a></li>
-                              <li class="nav-item"><a class="nav-link" href="#sig" data-toggle="tab">SIG</a></li>
-                              <li class="nav-item"><a class="nav-link" href="#ti" data-toggle="tab">Gestión T.I</a></li>
-                              <li class="nav-item"><a class="nav-link" href="#contabilidad" data-toggle="tab">Gestión
-                                  Contable y Financiera</a></li>
-                              <li class="nav-item"><a class="nav-link" href="#tecnica" data-toggle="tab">Gestión
-                                  Técnica</a></li>
-                              <li class="nav-item"><a class="nav-link" href="#gh" data-toggle="tab">Gestión
-                                  Administrativa</a></li>
-                              <li class="nav-item"><a class="nav-link" href="#documental" data-toggle="tab">Gestión
-                                  Documental</a></li>
-                              <li class="nav-item"><a class="nav-link" href="#op" data-toggle="tab">Gestión de
-                                  Operaciones</a></li>
-                              <li class="nav-item"><a class="nav-link" href="#seguridad" data-toggle="tab">Seguridad</a>
+                              <li class="nav-item">
+                                <a class="nav-link active" href="#todosProcesos" data-toggle="tab">Todos los Procesos</a>
                               </li>
-                              <li class="nav-item"><a class="nav-link" href="#sst" data-toggle="tab">SST</a></li>
+                              <li class="nav-item">
+                                <a class="nav-link " href="#gerencia" data-toggle="tab">Gerencia</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" href="#planeacion" data-toggle="tab">Plantación Estratégica</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" href="#sig" data-toggle="tab">SIG</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" href="#ti" data-toggle="tab">Gestión T.I</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" href="#contabilidad" data-toggle="tab">Gestión Contable y Financiera</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" href="#tecnica" data-toggle="tab"> Gestión Técnica</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" href="#gh" data-toggle="tab">Gestión Administrativa</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" href="#documental" data-toggle="tab">Gestión Documental</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" href="#op" data-toggle="tab">Gestión de Operaciones</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" href="#seguridad" data-toggle="tab">Seguridad</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" href="#sst" data-toggle="tab">SST</a>
+                              </li>
                             </ul>
                           </div><!-- /.card-header -->
-
                           <div class="card-body">
                             <div class="tab-content">
-                              <div class="active tab-pane" id="gerencia">
+                              <div class="active tab-pane" id="todosProcesos">
+                                <?php generarTabla(0); ?>
+                              </div>
+                              <div class=" tab-pane" id="gerencia">
                                 <?php generarTabla(10); ?>
                               </div>
                               <div class=" tab-pane" id="planeacion">
@@ -511,7 +564,6 @@ switch ($procesoActivo) {
                                 <?php generarTabla(13); ?>
                               </div>
                               <div class=" tab-pane" id="sst">
-
                                 <?php generarTabla(9); ?>
                               </div>
                             </div>
@@ -522,54 +574,41 @@ switch ($procesoActivo) {
                   </div><!-- /.col-12 -->
                 </div><!-- /.row -->
               </div><!-- /.container-fluid -->
-
             </section><!-- /.content -->
           </div><!-- /.tab-pane -->
-
           <div id="menu1" class="tab-pane fade <?php echo ($activeTab === 'menu1') ? 'show active' : ''; ?>">
             <?php generarPanelProceso("modal-SIG", "Proceso: Sistema Integrado de Gestión", "Código ej: SIG-", 1, "SIG"); ?>
           </div>
-
           <div id="menu2" class="tab-pane fade <?php echo ($activeTab === 'menu2') ? 'show active' : ''; ?>">
             <?php generarPanelProceso("modal-TI", "Proceso: Tecnología e Informática", "Código ej: TI-", 2, "TI"); ?>
           </div>
-
           <div id="menu3" class="tab-pane fade <?php echo ($activeTab === 'menu3') ? 'show active' : ''; ?>">
             <?php generarPanelProceso("modal-CT", "Proceso: Contabilidad", "Código ej: CT-", 3, "CT"); ?>
           </div>
-
           <div id="menu4" class="tab-pane fade <?php echo ($activeTab === 'menu4') ? 'show active' : ''; ?>">
             <?php generarPanelProceso("modal-TEC", "Proceso: Técnico", "Código ej: TEC-", 4, "TEC"); ?>
           </div>
-
           <div id="menu5" class="tab-pane fade <?php echo ($activeTab === 'menu5') ? 'show active' : ''; ?>">
             <?php generarPanelProceso("modal-GH", "Proceso: Gestión Humana", "Código ej: GH-", 5, "GH"); ?>
           </div>
-
           <div id="menu6" class="tab-pane fade <?php echo ($activeTab === 'menu6') ? 'show active' : ''; ?>">
             <?php generarPanelProceso("modal-GD", "Proceso: Gestión Documental", "Código ej: GD-", 6, "GD"); ?>
           </div>
-
           <div id="menu7" class="tab-pane fade <?php echo ($activeTab === 'menu7') ? 'show active' : ''; ?>">
             <?php generarPanelProceso("modal-OP", "Proceso: Operaciones", "Código ej: OP-", 7, "OP"); ?>
           </div>
-
           <div id="menu9" class="tab-pane fade <?php echo ($activeTab === 'menu9') ? 'show active' : ''; ?>">
             <?php generarPanelProceso("modal-SST", "Proceso: Seguridad Salud en el Trabajo", "Código ej: SST-", 9, "SST"); ?>
           </div>
-
           <div id="menu10" class="tab-pane fade <?php echo ($activeTab === 'menu10') ? 'show active' : ''; ?>">
             <?php generarPanelProceso("modal-GR", "Proceso: Gerencia", "Código ej: GR-", 10, "GR"); ?>
           </div>
-
           <div id="menu11" class="tab-pane fade <?php echo ($activeTab === 'menu11') ? 'show active' : ''; ?>">
             <?php generarPanelProceso("modal-JR", "Proceso: Gestión Jurídica", "Código ej: JR-", 11, "JR"); ?>
           </div>
-
           <div id="menu12" class="tab-pane fade <?php echo ($activeTab === 'menu12') ? 'show active' : ''; ?>">
             <?php generarPanelProceso("modal-PLE", "Proceso: Planeación Estratégica", "Código ej: PLE-", 12, "PLE"); ?>
           </div>
-
           <div id="menu13" class="tab-pane fade <?php echo ($activeTab === 'menu13') ? 'show active' : ''; ?>">
             <?php generarPanelProceso("modal-SG", "Proceso: Seguridad", "Código ej: SG-", 13, "SG"); ?>
           </div>
@@ -579,6 +618,55 @@ switch ($procesoActivo) {
   </div><!-- /#wrapper -->
 </div><!-- /.content-wrapper -->
 <?php
+// Función para generar la tabla de archivos por área solo para la dirección de SIG
+function generarTablaSig($id_id_proceso_fk)
+{
+  $archivos = ControladorSadoc::mostrarArchivosPorProceso($id_id_proceso_fk);
+  echo "<div class='table-responsive'>";
+  echo "<table class='display table table-striped table-bordered w-100'>";
+  echo "<thead class='text-center'>
+              <tr>
+                <th>Código</th>
+                <th>Nombre del Archivo</th>
+                <th>Fecha de Actualización</th>
+                <th>Opciones</th>
+              </tr>
+          </thead>";
+  echo "<tbody>";
+
+  if (count($archivos) > 0) {
+    foreach ($archivos as $row) {
+      $nombre = basename($row["ruta"]);
+      $previo = $row["ruta"];
+      $codigo = $row["codigo"];
+      $id = $row["id_sadoc"];
+      echo "<tr class='sobras'>";
+      echo "<td class='text-center'>" . $codigo . "</td>";
+      echo "<td>" . $nombre . "</td>";
+      echo "<td class='text-center'>" . $row["fecha_subida"] . "</td>";
+      echo "<td class='text-center'>";
+      echo '<button class="btn btn-sm bg-warning btnEditarArchivo" 
+        data-id="' . $id . '" 
+        data-codigo="' . $codigo . '" 
+        data-nombre="' . $nombre . '"
+        data-toggle="modal" 
+        data-target="#modalEditarArchivo">Editar</button> ';
+
+      echo '<form method="POST" class="form-eliminar-archivo" style="display:inline;">
+  <input type="text" name="idArchivoEliminar" value="'.$id.'">
+  <button type="submit" class="btn btn-sm btn-danger" name="eliminarArchivo" >Eliminar</button>
+</form>';
+      echo "</td>";
+      echo "</tr>";
+    }
+  }
+
+  echo "</tbody>";
+  echo "</table>";
+  echo "</div>";
+}
+// Función para generar la tabla de archivos por proceso
+// Esta función genera una tabla de archivos para un proceso específico
 function generarTabla($id_id_proceso_fk)
 {
   $archivos = ControladorSadoc::mostrarArchivosPorProceso($id_id_proceso_fk);
@@ -600,8 +688,6 @@ function generarTabla($id_id_proceso_fk)
       $previo = $row["ruta"];
       $codigo = $row["codigo"];
       $id = $row["id"];
-
-
       echo "<tr class='sobras'>";
       echo "<td class='text-center'>" . $codigo . "</td>";
       echo "<td>" . $nombre . "</td>";
@@ -609,9 +695,7 @@ function generarTabla($id_id_proceso_fk)
       echo "<td class='text-center'>";
       echo '<button class="btn bg-success btnVerDocumento" 
         data-ruta="' . $previo . '" 
-        data-tipo="pdf">
-  Ver
-</button> ';
+        data-tipo="pdf">Ver</button> ';
       echo "</td>";
       echo "</tr>";
     }
@@ -678,10 +762,7 @@ function generarTablaCategorias($id_proceso_fk, $idCategoria)
       echo "<td class='text-center'>";
       echo '<button class="btn btn-primary btnVerDocumento" 
         data-ruta="' . $previo . '" 
-        data-tipo="pdf">
-  Ver
-</button> ';
-
+        data-tipo="pdf">Ver</button> ';
       echo "</td>";
       echo "</tr>";
     }
@@ -707,8 +788,6 @@ function generarPanelProceso($modalId, $tituloModal, $codigo, $id_proceso_fk, $p
   echo '          <!-- /.card-header -->';
   echo '          <div class="card-body">';
   echo '            <div class="card">';
-
-
   // Obtener categorías asignadas al proceso
   $categoriaDetalle = ControladorSadoc::mostrarDetalleCategorias($id_proceso_fk);
 
@@ -716,7 +795,6 @@ function generarPanelProceso($modalId, $tituloModal, $codigo, $id_proceso_fk, $p
     echo "<div class='alert alert-warning'>No hay categorías asignadas a este proceso.</div>";
     return;
   }
-
   // Nav tabs
   echo '<ul class="nav nav-tabs" id="categoriaTabs" role="tablist">';
   foreach ($categoriaDetalle as $index => $categoria) {
@@ -771,6 +849,43 @@ function generarPanelProceso($modalId, $tituloModal, $codigo, $id_proceso_fk, $p
 }
 
 ?>
+<!-- Modal para editar categoría -->
+<div class="modal fade" id="modalEditarCategoria" tabindex="-1" role="dialog" aria-labelledby="modalEditarCategoriaLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form method="POST">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalEditarCategoriaLabel">Editar Categoría</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="id_categoria" id="modal-id-categoria">
+          <div class="form-group">
+            <label for="modal-nombre-categoria">Nombre Categoria</label>
+            <input type="text" class="form-control" name="nombre_categoria" id="modal-nombre-categoria" required>
+          </div>
+          <div class="form-group">
+            <label for="modal-descripcion-categoria">Descripción</label>
+            <textarea class="form-control" name="descripcion_categoria" id="modal-descripcion-categoria" required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn bg-danger" data-dismiss="modal">Cancelar</button>
+          <button type="submit" name="editar_categoria" class="btn bg-success">Guardar Cambios</button>
+        </div>
+      </div>
+    </form>
+    <?php
+    // ESTE BLOQUE VA AL INICIO DEL ARCHIVO PHP
+    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['editar_categoria'])) {
+      $EditarCategorias = new ControladorSadoc();
+      $EditarCategorias->ctrEditarCategorias();
+    }
+    ?>
+  </div>
+</div>
 <!-- MODAL PARA VISTA PREVIA DOCUMENTO-->
 <!-- Modal -->
 <div class="modal fade" id="modalVerDocumento" tabindex="-1" aria-labelledby="modalDocumentoLabel" aria-hidden="true">
@@ -801,8 +916,63 @@ function generarPanelProceso($modalId, $tituloModal, $codigo, $id_proceso_fk, $p
     </div>
   </div>
 </div>
-
 <!-- MODAL PARA CREAR NUEVA CATEGORIA -->
+
+<!-- Modal Editar Archivo -->
+<div class="modal fade" id="modalEditarArchivo" tabindex="-1" role="dialog" aria-labelledby="modalEditarArchivoLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form id="formEditarArchivo" enctype="multipart/form-data" method="post">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="modalEditarArchivoLabel">Editar Archivo</h5>
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <input type="hidden" name="idArchivo" id="editarIdArchivo">
+
+          <div class="form-group">
+            <label for="editarCodigo">Código</label>
+            <input type="text" class="form-control" name="codigo" id="editarCodigo" required>
+          </div>
+
+          <div class="form-group">
+            <label for="editarArchivo">Archivo (opcional)</label>
+            <input type="file" class="form-control-file" name="archivo" id="editarArchivo">
+            <small class="form-text text-muted">Si no seleccionas un nuevo archivo, se mantiene el actual.</small>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        </div>
+      </div>
+    </form>
+    <?php
+
+
+                                // ESTE BLOQUE VA AL INICIO DEL ARCHIVO PHP
+                                if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['idArchivoEliminar'])) {
+                                  $eliminarArchivo = new ControladorSadoc();
+                                  $eliminarArchivo->ctrEliminarArchivo();
+                                }
+                              
+
+// Actualizar archivo si se envió el formulario de edición
+if (isset($_POST["idArchivo"])) {
+  // Aquí actualizas código y si viene archivo nuevo, lo reemplazas.
+  ControladorSadoc::ctrActualizarArchivo($_POST, $_FILES);
+}
+
+
+
+
+    ?>
+  </div>
+</div>
+
 <!-- Script -->
 <script>
   $(document).ready(function() {
@@ -858,8 +1028,7 @@ function generarPanelProceso($modalId, $tituloModal, $codigo, $id_proceso_fk, $p
     }
   });
 </script>
-
-
+<!-- FUNCION PARA VISUALIZAR LOS ARCHIVOS-->
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     const iframe = document.getElementById("iframeDocumento");
@@ -917,7 +1086,56 @@ function generarPanelProceso($modalId, $tituloModal, $codigo, $id_proceso_fk, $p
     });
   });
 </script>
+<!-- Script para manejar el modal de edición de categoría -->
+<script>
+  $('#modalEditarCategoria').on('show.bs.modal', function(event) {
+    var button = $(event.relatedTarget); // Botón que abre el modal
+    var id = button.data('id');
+    var nombre = button.data('nombre');
+    var descripcion = button.data('descripcion');
 
+    var modal = $(this);
+    modal.find('#modal-id-categoria').val(id);
+    modal.find('#modal-nombre-categoria').val(nombre);
+    modal.find('#modal-descripcion-categoria').val(descripcion);
+  });
+</script>
+
+<script>
+  // Rellenar modal de edición
+  $(document).on("click", ".btnEditarArchivo", function() {
+    const id = $(this).data("id");
+    const codigo = $(this).data("codigo");
+
+    $("#editarIdArchivo").val(id);
+    $("#editarCodigo").val(codigo);
+  });
+
+  // Eliminar archivo
+
+document.querySelectorAll(".form-eliminar-archivo").forEach(form => {
+  form.addEventListener("submit", function(e) {
+    e.preventDefault(); // Previene envío automático
+
+    Swal.fire({
+      title: '¿Estás segura?',
+      text: "Esta acción no se puede deshacer.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        form.submit(); // Envía el formulario si confirma
+      }
+    });
+  });
+});
+
+
+</script>
 
 </body>
 

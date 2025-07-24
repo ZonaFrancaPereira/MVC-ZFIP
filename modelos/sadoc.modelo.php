@@ -26,7 +26,50 @@ class ModeloSadoc
 
         $stmt = null;
     }
+static public function mdlActualizarArchivo($tabla, $datos)
+{
+  $stmt = Conexion::conectar()->prepare(
+    "UPDATE $tabla 
+     SET codigo = :codigo, ruta = :ruta, fecha_subida = NOW() 
+     WHERE id_sadoc = :id"
+  );
 
+  $stmt->bindParam(":codigo", $datos["codigo"], PDO::PARAM_STR);
+  $stmt->bindParam(":ruta", $datos["ruta"], PDO::PARAM_STR);
+  $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
+
+  return $stmt->execute() ? "ok" : "error";
+}
+
+static public function mdlObtenerArchivoPorId($tabla, $id)
+{
+  $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_sadoc = :id");
+  $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+  $stmt->execute();
+
+  return $stmt->fetch();
+}
+/*=============================================
+ELIMINAR ARCHIVO
+=============================================*/
+static public function mdlEliminarArchivo($tabla, $id)
+{
+    // Primero obtenemos la ruta del archivo para eliminarlo del sistema
+    $stmt = Conexion::conectar()->prepare("SELECT ruta FROM $tabla WHERE id_sadoc = :id");
+    $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+    $stmt->execute();
+    $archivo = $stmt->fetch();
+
+    if ($archivo && file_exists($archivo["ruta"])) {
+        unlink($archivo["ruta"]); // Elimina el archivo físico
+    }
+
+    // Luego eliminamos el registro en la base de datos
+    $stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id_sadoc = :id");
+    $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+
+    return $stmt->execute() ? "ok" : "error";
+}
 
     /*=============================================
     ASIGNAR CATEGORIAS A LOS ARCHIVOS
@@ -72,23 +115,35 @@ class ModeloSadoc
     /*=============================================
 	MOSTRAR ARCHIVOS POR PROCESO
 	=============================================*/
-
-    static public function mdlObtenerArchivosPorProceso($id_proceso_fk)
-    {
-        try {
+static public function mdlObtenerArchivosPorProceso($id_proceso_fk)
+{
+    try {
+        if ($id_proceso_fk == 0) {
+            // Traer todos los archivos activos sin filtrar por proceso
             $stmt = Conexion::conectar()->prepare('
-        SELECT s.*
-        FROM sadoc s
-        INNER JOIN categoria_sadoc_detalle c ON s.id_cs_fk = c.id_cs_detalle
-        WHERE c.id_proceso_fk = :id_proceso_fk AND s.estado = "activo"
-    ');
+                SELECT s.*
+                FROM sadoc s
+                INNER JOIN categoria_sadoc_detalle c ON s.id_cs_fk = c.id_cs_detalle
+                WHERE s.estado = "activo"
+            ');
+        } else {
+            // Filtrar por proceso específico
+            $stmt = Conexion::conectar()->prepare('
+                SELECT s.*
+                FROM sadoc s
+                INNER JOIN categoria_sadoc_detalle c ON s.id_cs_fk = c.id_cs_detalle
+                WHERE c.id_proceso_fk = :id_proceso_fk AND s.estado = "activo"
+            ');
             $stmt->bindParam(':id_proceso_fk', $id_proceso_fk, PDO::PARAM_INT);
-            $stmt->execute();
-            return $stmt->fetchAll();
-        } catch (PDOException $e) {
-            return [];
         }
+
+        $stmt->execute();
+        return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        return [];
     }
+}
+
 
     /*=============================================
 	MOSTRAR ARCHIVOS POR PROCESO Y CATEGORIA
@@ -167,6 +222,31 @@ class ModeloSadoc
             }
         } catch (PDOException $e) {
             // Manejar errores
+            return "error: " . $e->getMessage();
+        }
+    }
+    /*=============================================
+	EDITAR CATEGORÍA
+	=============================================*/
+    static public function mdlEditarCategoria($tabla, $datos)
+    {
+        try {
+            $pdo = Conexion::conectar();
+            $stmt = $pdo->prepare("UPDATE $tabla SET nombre_categoria = :nombre_categoria, descripcion_categoria = :descripcion_categoria WHERE id_categoria = :id_categoria");
+
+            $stmt->bindParam(":nombre_categoria", $datos["nombre_categoria"], PDO::PARAM_STR);
+            $stmt->bindParam(":descripcion_categoria", $datos["descripcion_categoria"], PDO::PARAM_STR);
+            $stmt->bindParam(":id_categoria", $datos["id_categoria"], PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                $stmt->closeCursor();
+                $stmt = null;
+                return "ok";
+            } else {
+                $error = $stmt->errorInfo();
+                return "error: " . $error[2];
+            }
+        } catch (PDOException $e) {
             return "error: " . $e->getMessage();
         }
     }
