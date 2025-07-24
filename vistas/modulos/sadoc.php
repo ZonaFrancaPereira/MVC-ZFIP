@@ -636,7 +636,7 @@ function generarTablaSig($id_id_proceso_fk)
 
   if (count($archivos) > 0) {
     foreach ($archivos as $row) {
-      $nombre = basename($row["ruta"]);
+      $nombre =$row["nombre_sadoc"];
       $previo = $row["ruta"];
       $codigo = $row["codigo"];
       $id = $row["id_sadoc"];
@@ -650,11 +650,11 @@ function generarTablaSig($id_id_proceso_fk)
         data-codigo="' . $codigo . '" 
         data-nombre="' . $nombre . '"
         data-toggle="modal" 
-        data-target="#modalEditarArchivo">Editar</button> ';
+        data-target="#modalEditarArchivo"><i class="fas fa-edit"></i> Editar</button> ';
 
       echo '<form method="POST" class="form-eliminar-archivo" style="display:inline;">
-  <input type="text" name="idArchivoEliminar" value="'.$id.'">
-  <button type="submit" class="btn btn-sm btn-danger" name="eliminarArchivo" >Eliminar</button>
+  <input type="hidden" name="idArchivoEliminar" value="'.$id.'">
+  <button type="submit" class="btn btn-sm btn-danger" name="eliminarArchivo" ><i class="fas fa-trash"></i> Eliminar</button>
 </form>';
       echo "</td>";
       echo "</tr>";

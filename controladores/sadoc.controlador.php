@@ -12,7 +12,7 @@ class ControladorSadoc
 			$cadena = preg_replace('/\.[^.]+$/', '', $cadena); // quitar la extensión
 			$cadena = str_replace(
 				['á', 'é', 'í', 'ó', 'ú', 'ñ', 'Á', 'É', 'Í', 'Ó', 'Ú', 'Ñ'],
-				['A', 'E', 'I', 'O', 'U', 'Ñ', 'A', 'E', 'I', 'O', 'U', 'Ñ'],
+				['A', 'E', 'I', 'O', 'U', 'N', 'A', 'E', 'I', 'O', 'U', 'N'],
 				$cadena
 			);
 			$cadena = preg_replace('/[^a-zA-Z0-9_\- ]/', '', $cadena); // quitar símbolos raros
@@ -41,7 +41,7 @@ class ControladorSadoc
 					}
 
 					// Crear nombre único
-					$nombreUnico = date("Ymd_His") . "_" . $nombreArchivo;
+					$nombreUnico = date("Ymd_His") . "_" . $nombreLimpio . "." . pathinfo($nombreArchivo, PATHINFO_EXTENSION);
 					$rutaArchivo = $carpeta . $nombreUnico;
 
 					if (move_uploaded_file($_FILES["archivo_sadoc"]["tmp_name"][$i], $rutaArchivo)) {
@@ -70,66 +70,127 @@ class ControladorSadoc
 
 			if (empty($errores)) {
 				echo '
-            <script>
-                Swal.fire({
-                    icon: "success",
-                    title: "Archivos subidos correctamente",
-                    showConfirmButton: false,
-                    timer: 2000
-                }).then(() => {
-                    window.location = "sadoc";
-                });
-            </script>';
+			<script>
+				Swal.fire({
+					icon: "success",
+					title: "Archivos subidos correctamente",
+					showConfirmButton: false,
+					timer: 2000
+				}).then(() => {
+					window.location = "sadoc";
+				});
+			</script>';
 			} else {
 				$mensaje = implode("<br>", $errores);
 				echo '
-            <script>
-                Swal.fire({
-                    icon: "error",
-                    title: "Se presentaron errores",
-                    html: "' . $mensaje . '",
-                    confirmButtonText: "Aceptar"
-                });
-            </script>';
+			<script>
+				Swal.fire({
+					icon: "error",
+					title: "Se presentaron errores",
+					html: "' . $mensaje . '",
+					confirmButtonText: "Aceptar"
+				});
+			</script>';
 			}
 		}
 	}
 
-static public function ctrActualizarArchivo($datos, $archivo)
-{
-  $tabla = "sadoc";
-  $id = $datos["idArchivo"];
-  $codigo = $datos["codigo"];
+	static public function ctrActualizarArchivo($datos, $archivo)
+	{
+		function limpiarNombreArchivoe($cadena){
+			$cadena = preg_replace('/\.[^.]+$/', '', $cadena); // quitar la extensión
+			$cadena = str_replace(
+				['á', 'é', 'í', 'ó', 'ú', 'ñ', 'Á', 'É', 'Í', 'Ó', 'Ú', 'Ñ'],
+				['A', 'E', 'I', 'O', 'U', 'N', 'A', 'E', 'I', 'O', 'U', 'N'],
+				$cadena
+			);
+			$cadena = preg_replace('/[^a-zA-Z0-9_\- ]/', '', $cadena); // quitar símbolos raros
+			$cadena = strtoupper(trim($cadena)); // convertir a MAYÚSCULAS
+			return $cadena;
+		}
 
-  // Buscar el archivo actual
-  $archivoActual = ModeloSadoc::mdlObtenerArchivoPorId($tabla, $id);
+		$tabla = "sadoc";
+		$id = $datos["idArchivo"];
+		$codigo = $datos["codigo"];
 
-  // Si se subió un nuevo archivo
-  if (!empty($archivo["archivo"]["tmp_name"])) {
-    $directorio = "vistas/modulos/files/SIG/";
-    $nombreArchivoNuevo = basename($archivo["archivo"]["name"]);
-    $rutaNueva = $directorio . uniqid() . "_" . $nombreArchivoNuevo;
+		// Buscar el archivo actual
+		$archivoActual = ModeloSadoc::mdlObtenerArchivoPorId($tabla, $id);
 
-    if (move_uploaded_file($archivo["archivo"]["tmp_name"], $rutaNueva)) {
-      // Eliminar el archivo viejo
-      if (file_exists($archivoActual["ruta"])) {
-        unlink($archivoActual["ruta"]);
-      }
-    } else {
-      return "error_subida";
-    }
-  } else {
-    $rutaNueva = $archivoActual["ruta"]; // mantener ruta anterior
-  }
+		$rutaAnterior = $archivoActual["ruta"];
+		$nombreAnterior = basename($rutaAnterior);
+		$directorio = dirname($rutaAnterior) . "/";
 
-  $datosActualizados = array(
-    "id" => $id,
-    "codigo" => $codigo,
-    "ruta" => $rutaNueva
-  );
+		// Si se subió un nuevo archivo
+		if (!empty($archivo["archivo"]["tmp_name"])) {
+			$nombreArchivoNuevo = basename($archivo["archivo"]["name"]);
+			$nombreLimpio = limpiarNombreArchivoe($nombreArchivoNuevo);
+			$extension = pathinfo($nombreArchivoNuevo, PATHINFO_EXTENSION);
 
-  return ModeloSadoc::mdlActualizarArchivo($tabla, $datosActualizados);
-}
+			// Nuevo nombre igual que en insertar
+			$nombreUnico = date("Ymd_His") . "_" . $nombreLimpio . "." . $extension;
+			$rutaNueva = $directorio . $nombreUnico;
+
+			if (move_uploaded_file($archivo["archivo"]["tmp_name"], $rutaNueva)) {
+				// Eliminar el archivo viejo
+				if (file_exists($rutaAnterior)) {
+					unlink($rutaAnterior);
+				}
+			} else {
+				echo '<script>
+					Swal.fire({
+						icon: "error",
+						title: "Error al subir el archivo.",
+						showConfirmButton: true,
+						confirmButtonText: "Cerrar",
+						allowOutsideClick: false,
+						allowEscapeKey: true
+					});
+				</script>';
+				return "error_subida";
+			}
+		} else {
+			$rutaNueva = $rutaAnterior; // mantener ruta anterior
+			$nombreLimpio = $archivoActual["nombre_sadoc"];
+		}
+
+		$datosActualizados = array(
+			"id" => $id,
+			"codigo" => $codigo,
+			"ruta" => $rutaNueva,
+			"fecha" => date("Y-m-d H:i:s"),
+			"nombre_sadoc" => $nombreLimpio
+		);
+
+		$respuesta = ModeloSadoc::mdlActualizarArchivo($tabla, $datosActualizados);
+
+		if ($respuesta == "ok") {
+			echo '<script>
+				Swal.fire({
+					icon: "success",
+					title: "Archivo actualizado correctamente",
+					showConfirmButton: true,
+					confirmButtonText: "Cerrar",
+					allowOutsideClick: false,
+					allowEscapeKey: true
+				}).then(() => {
+					window.location = "sadoc";
+				});
+			</script>';
+		} else {
+			echo '<script>
+				Swal.fire({
+					icon: "error",
+					title: "No se pudo actualizar el archivo.",
+					showConfirmButton: true,
+					confirmButtonText: "Cerrar",
+					allowOutsideClick: false,
+					allowEscapeKey: true
+				});
+			</script>';
+		}
+
+		return $respuesta;
+	}
 
 
 
