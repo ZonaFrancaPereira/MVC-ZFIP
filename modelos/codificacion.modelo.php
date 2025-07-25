@@ -183,13 +183,13 @@ class ModeloCodificar
 
                 case 'cod_realizadas':
                     // Obtener el ID del usuario que inició sesión desde la sesión
-                    $id_usuario = $_SESSION["id"];
+                    $id_usuario = $_SESSION["nombre"];
                     
                     // Preparar y ejecutar la consulta
                     $stmt = Conexion::conectar()->prepare("SELECT solicitud_codificacion.*, usuarios.nombre, usuarios.apellidos_usuario
                                                            FROM solicitud_codificacion
-                                                           INNER JOIN usuarios ON solicitud_codificacion.usuario_solicitud_cod = usuarios.id
-                                                           WHERE usuarios.id = :id_usuario");
+                                                           INNER JOIN usuarios ON solicitud_codificacion.usuario_solicitud_cod = usuarios.nombre
+                                                           WHERE usuarios.nombre = :id_usuario");
                     // Enlazar el parámetro :id_usuario con el ID del usuario actual
                     $stmt->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
                     $stmt->execute();
