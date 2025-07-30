@@ -218,7 +218,7 @@
                             <button type="submit" class="btn btn-primary">Guardar Compra</button>
                         </div>
                         <?php
-                        var_dump($_POST); // Para comprobar los datos que se envían
+                       
                         $crearCompra = new ControladorConsumibles();
                         $crearCompra->ctrCrearFactura();
                         ?>

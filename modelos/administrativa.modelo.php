@@ -236,10 +236,12 @@ class ModeloAdministrativa
 
             // Preparar la consulta de actualización
             $stmt = $pdo->prepare("UPDATE $tabla SET 
-            estado_solicitud = :estado_solicitud
+            estado_solicitud = :estado_solicitud,
+            firma_aprobador = :firma_aprobador
         WHERE id_solicitud = :id_solicitud");
 
             $stmt->bindParam(":estado_solicitud", $datos["estado_solicitud"], PDO::PARAM_STR);
+            $stmt->bindParam(":firma_aprobador", $datos["firma_aprobador"], PDO::PARAM_STR);
             $stmt->bindParam(":id_solicitud", $datos["id_solicitud"], PDO::PARAM_INT);
 
             if ($stmt->execute()) {
@@ -301,7 +303,8 @@ class ModeloAdministrativa
                     s.descripcion_solicitud,
                     s.estado_solicitud,
                     s.observaciones_solicitud,
-                    s.correo_aprobador
+                    s.correo_aprobador,
+                    s.firma_aprobador
 
                 FROM vacaciones_solicitudes s
                 INNER JOIN detalle_vacaciones o ON s.id_detalle_vacaciones_fk = o.id_detalle_vacaciones

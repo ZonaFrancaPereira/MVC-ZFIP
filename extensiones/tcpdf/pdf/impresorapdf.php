@@ -92,6 +92,15 @@ $rutaRelativa = $row["firma_impresora"];
 // Construct the full URL
 $firma_impresora = $baseUrl . $rutaRelativa;
 
+
+$ruta_firma = $row["firma_impresora"];
+$firma_impresora = $baseUrl . $ruta_firma;
+if (is_null($ruta_firma) || empty($ruta_firma)) {
+    $firma_impresora = $baseUrl . 'vistas/img/usuarios/default/sinautorizar.png';
+} else {
+    $firma_impresora = $baseUrl . $ruta_firma;
+}
+
 $nombreImagen = "images/logo_zf.png";
 $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($nombreImagen));
 

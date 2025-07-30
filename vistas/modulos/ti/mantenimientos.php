@@ -307,7 +307,7 @@
                                             $valor = null;
                                             $mantenimientos = ControladorMantenimiento::ctrMostrarMantenimientoGeneralTi($item, $valor);
                                             foreach ($mantenimientos as $s) {
-                                                $formatoequipo = "<a target='_blank' href='extensiones/tcpdf/pdf/impresorapdf.php?id=" . $s["id_general"] . "' class='btn btn-outline-info'>
+                                                $formatoequipo = "<a target='_blank' href='extensiones/tcpdf/pdf/generalpdf.php?id=" . $s["id_general"] . "' class='btn btn-outline-info'>
                                                 <i class='fas fa-file-signature'></i> Formato
                                               </a>";
                                               $nombreCompleto = $s["nombre"] . " " . $s["apellidos_usuario"];

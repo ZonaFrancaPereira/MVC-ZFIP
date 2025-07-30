@@ -22,7 +22,7 @@
             <div class="col-md-12">
                 <div class="card shadow-lg rounded-lg">
                     <div class="card-header bg-primary text-white">
-                        <h4 class="mb-0">Aprobar de Vacaciones</h4>
+                        <h4 class="mb-0">Aprobar Vacaciones</h4>
                     </div>
                     <div class="card-body">
                         <div class="row justify-content-center mt-4">
@@ -76,7 +76,11 @@
                                                 </div>
                                                 <form method="POST" id="formAprobarSolicitud" enctype="multipart/form-data">
                                                     <div class="modal-body">
-                                                        <input type="hidden" id="id_solicitud" name="id_solicitud">
+                                                        <input type="" id="id_solicitud" name="id_solicitud">
+                                                        <div class="form-group">
+                                                            <label for="firma" class="font-weight-bold" hidden>Firma</label>
+                                                            <input type="text" class="form-control" id="firma_aprobador" name="firma_aprobador" value="<?php echo $_SESSION['foto']; ?>" required style="background-color: #f8f9fa; border-radius: 5px; border: 1px solid #ced4da;" >
+                                                        </div>
                                                         <div class="text-center mb-3">
                                                             <i class="fas fa-user-check fa-3x text-success mb-2"></i>
                                                             <h6 class="font-weight-bold">¿Está seguro que desea aprobar esta solicitud de vacaciones?</h6>

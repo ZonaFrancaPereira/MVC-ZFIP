@@ -30,11 +30,11 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-md-6 col-xs-6 col-sm-6">
+                                            <div class="col-md-6 col-xs-6 col-sm-6" hidden>
                                                 <label>Nombre del Resposable</label>
                                                 <input type="text" name="" value="<?php echo $_SESSION['nombre']?>" class="form-control" readonly>
                                             </div>
-                                            <div class="col-md-6 col-xs-6 col-sm-6">
+                                            <div class="col-md-6 col-xs-6 col-sm-6" hidden>
                                                 <label>Cargo</label>
                                                 <input type="text" name="" value="<?php echo $_SESSION['id_cargo_fk'] ?>" class="form-control">
                                             </div>

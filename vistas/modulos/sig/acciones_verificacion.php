@@ -51,7 +51,7 @@
                                     <div class="row">
                                         <form id="form_actividades" method="POST" enctype="multipart/form-data" >
                                             <div class="card">
-                                                <div class="card-header">
+                                                <div class="card-header" hidden>
                                                     <label>Desea Asignar actividades a la siguiente ACPM:</label>
                                                     <input type="text" class="form-control" id="id_acpm_fk" readonly>
                                                 </div>
@@ -65,8 +65,8 @@
                                                             <label for="">Descripción de la Actividad</label>
                                                             <textarea class="form-control" id="descripcion_actividad" name="descripcion_actividad"></textarea>
                                                         </div>
-                                                        <div class="col-2 col-xs-12 col-sm-12" >
-                                                            <label for="">tipo actividad</label>
+                                                        <div class="col-2 col-xs-12 col-sm-12" hidden>
+                                                            <label for="">Tipo actividad</label>
                                                             <input type="text" class="form-control" value="Actividad" name="tipo_actividad" id="tipo_actividad" readonly>
                                                         </div>
                                                         <div class="col-2 col-xs-12 col-sm-12" hidden>

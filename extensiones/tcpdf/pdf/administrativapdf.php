@@ -47,6 +47,24 @@ $fecha_solicitud = $row["fecha_solicitud"];
 $estado_solicitud = $row["estado_solicitud"];
 $obs_solicitud = $row["observaciones_solicitud"];
 
+
+//$baseUrl = "https://beta.zonafrancadepereira.com/"; // Cambia esto según sea necesario para tu entorno de hosting
+$baseUrl = "/MVC-ZFIP/";
+
+$rutaRelativa = $row["firma_aprobador"];
+
+
+$ruta_firma = $row["firma_aprobador"];
+$firma_aprobador = $baseUrl . $ruta_firma;
+if (is_null($ruta_firma) || empty($ruta_firma)) {
+    $firma_aprobador = $baseUrl . 'vistas/img/usuarios/default/sinautorizar.png';
+} else {
+    $firma_aprobador = $baseUrl . $ruta_firma;
+}
+
+$nombreImagen = "images/logo_zf.png";
+$imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($nombreImagen));
+
 $html = <<<EOF
 <style>
     .title {
@@ -63,11 +81,13 @@ $html = <<<EOF
         font-size: 14px;
         font-weight: bold;
         margin-top: 15px;
+        text-align: center;
     }
     .content-table {
         width: 100%;
         border-collapse: collapse;
         margin-top: 10px;
+        text-align: center;
     }
     .content-table th, .content-table td {
         border: 1px solid #004080;
@@ -82,9 +102,20 @@ $html = <<<EOF
     .content-table td {
         background-color: #f9f9f9;
     }
-</style>
+        
 
-<div class="title">FORMATO DE SOLICITUD DE VACACIONES</div>
+</style>
+<table class="content-table">
+    <tr>
+        <td style="width: 120px;">
+            <img src="$imagenBase64" alt="Logo" width="100">
+        </td>
+        <td style="width: 390px;">
+        <BR>
+            <div class="title">FORMATO DE SOLICITUD DE VACACIONES</div>
+        </td>
+    </tr>
+</table>
 
 <div class="section-title">INFORMACIÓN DEL USUARIO</div>
 <table class="content-table">
@@ -109,6 +140,28 @@ $html = <<<EOF
     <tr><th>Fecha de Solicitud</th><td>$fecha_solicitud</td></tr>
     <tr><th>Estado de Solicitud</th><td>$estado_solicitud</td></tr>
     <tr><th>Observaciones</th><td>$obs_solicitud</td></tr>
+</table>
+
+<div class="section-title">FIRMA APROBADA</div>
+<table class="content-table">
+        <tr>
+            <td colspan="2"><img src="$firma_aprobador" alt="Firma" width="120" style="margin-left: 70px;"></td>
+        </tr>
+  
+</table>
+
+<table class="content-table">
+    <tr>
+        <th colspan="5">
+            <p style="text-align: justify;">Al registrar y entregar sus datos personales mediante este mecanismo de recolección de información, 
+            usted declara que conoce nuestra política de tratamiento de datos personales disponible en: 
+            <a href="http://www.politicadeprivacidad.co/politica/zfipusuariooperador" target="_blank">www.politicadeprivacidad.co/politica/zfipusuariooperador</a>, 
+            también declara que conoce sus derechos como titular de la información y que autoriza de manera libre, 
+            voluntaria, previa, explícita, informada e inequívoca a ZONA FRANCA INTERNACIONAL DE PEREIRA SAS USUARIO OPERADOR DE ZONAS FRANCAS 
+            con NIT 900311215 para gestionar sus datos personales bajo los parámetros indicados en dicha política de tratamiento.
+            </p>
+        </th>
+    </tr>
 </table>
 EOF;
 

@@ -187,30 +187,33 @@
 
                                                                 <div class="form-group">
                                                                     <label for="">Seleccionar Colaboradores</label>
+                                                                    <br>
                                                                     <div class="icheck-success d-inline">
-                                                                        <input type="radio" id="radioAll" name="todos_colaboradores" value="Si" onclick="handleRadioChange()">
-                                                                        <label for="radioAll">Todos los Colaboradores</label>
+                                                                        <input type="checkbox" id="checkAll" name="todos_colaboradores" value="Si" onclick="handleCheckboxChange()">
+                                                                        <label for="checkAll">Todos los Colaboradores</label>
                                                                     </div>
+                                                                    <br>
                                                                     <div class="icheck-success d-inline">
-                                                                        <input type="radio" id="radioLeaders" name="solo_lider" value="Si" onclick="handleRadioChange()">
-                                                                        <label for="radioLeaders">Sólo Líderes de Proceso</label>
+                                                                        <input type="checkbox" id="checkLeaders" name="solo_lider" value="Si" onclick="handleCheckboxChange()">
+                                                                        <label for="checkLeaders">Sólo Líderes de Proceso</label>
                                                                     </div>
+                                                                    <br>
                                                                     <div class="icheck-success d-inline">
-                                                                        <input type="radio" id="radioMembers" name="miembros_proceso" value="Si" onclick="handleRadioChange()">
-                                                                        <label for="radioMembers">Sólo Miembros de un Proceso</label>
+                                                                        <input type="checkbox" id="checkMembers" name="miembros_proceso" value="Si" onclick="handleCheckboxChange()">
+                                                                        <label for="checkMembers">Colaborador(s) Específico </label>
                                                                     </div>
+                                                                    <br>
                                                                     <div class="icheck-success d-inline">
-                                                                        <input type="radio" id="radioSpecific" name="colaborador_expecifico" value="Si" onclick="handleRadioChange()">
-                                                                        <label for="radioSpecific">Colaborador (s) Específico</label>
+                                                                        <input type="checkbox" id="checkSpecific" name="colaborador_expecifico" value="Si" onclick="handleCheckboxChange()">
+                                                                        <label for="checkSpecific"> Sólo Miembros de un Proceso</label>
                                                                     </div>
                                                                 </div>
 
-                                                                <!-- Input oculto -->
+                                                                <!-- Campo oculto para especificar miembros -->
                                                                 <div id="memberInput" class="form-group" style="display: none;">
                                                                     <label for="nombre_proceso_cod">Especificar Miembros:</label>
                                                                     <input type="text" id="nombre_proceso_cod" name="nombre_proceso_cod" class="form-control" placeholder="Ingrese el nombre del miembro">
                                                                 </div>
-         
 
                                                                 <table class="table" id="tabla3">
                                                                     <thead>
@@ -312,3 +315,16 @@
         </div>
     </div>
 </section>
+
+ <script>
+function handleCheckboxChange() {
+    const checkSpecific = document.getElementById('checkSpecific');
+    const memberInput = document.getElementById('memberInput');
+
+    if (checkSpecific.checked) {
+        memberInput.style.display = 'block';
+    } else {
+        memberInput.style.display = 'none';
+    }
+}
+</script>

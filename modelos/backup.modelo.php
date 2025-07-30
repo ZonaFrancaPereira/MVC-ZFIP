@@ -46,8 +46,7 @@ class ModeloBackup
                     $stmt = $conexion->prepare("SELECT usuarios.*, copias_seguridad.carpeta_backup, copias_seguridad.verificado
                         FROM  usuarios 
                         INNER JOIN copias_seguridad 
-                        ON usuarios.id = copias_seguridad.id_usuario_backup_fk
-                    ");
+                        ON usuarios.id = copias_seguridad.id_usuario_backup_fk WHERE verificado = 'No verificado'");
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {

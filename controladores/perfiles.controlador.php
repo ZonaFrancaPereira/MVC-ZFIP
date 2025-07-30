@@ -194,85 +194,81 @@ class ControladorPerfiles
 	ACTUALIZAR DATOS DEL PERFIL
 	=============================================*/
 	static public function ctrActualizarPerfil()
-{
-    if (isset($_POST['id'])) {
-        // Ruta donde se guardará el archivo
-        $directorio = "vistas/img/usuarios/firmas/";
+	{
+			if (isset($_POST['id'])) {
+				$directorio = "vistas/img/usuarios/firmas/";
 
-        // Obtener datos actuales del usuario antes de actualizar
-        $usuarioActual = ModeloPerfiles::mdlObtenerUsuario("usuarios", $_POST["id"]);
-        $passwordActual = $usuarioActual["password"];
-        $fotoActual = $usuarioActual["foto"];
+				// Obtener datos actuales
+				$usuarioActual = ModeloPerfiles::mdlObtenerUsuario("usuarios", $_POST["id"]);
+				$passwordActual = $usuarioActual["password"];
+				$fotoActual = $usuarioActual["foto"];
 
-        // Verificar si el directorio existe, si no, crearlo
-        if (!file_exists($directorio)) {
-            mkdir($directorio, 0755, true);
-        }
+				// Verificar directorio
+				if (!file_exists($directorio)) {
+					mkdir($directorio, 0755, true);
+				}
 
-        // Verificar si se ha subido un nuevo archivo de foto
-        if (!empty($_FILES['foto']['name'])) {
-            $archivo = $_FILES['foto'];
-            $nombreArchivo = $archivo['name'];
-            $rutaArchivo = $directorio . basename($nombreArchivo);
+				// Procesar firma
+				if (!empty($_FILES['foto']['name'])) {
+					$archivo = $_FILES['foto'];
+					$nombreArchivo = $archivo['name'];
+					$rutaArchivo = $directorio . basename($nombreArchivo);
 
-            // Mover el archivo cargado al directorio
-            if (move_uploaded_file($archivo['tmp_name'], $rutaArchivo)) {
-                $foto = $rutaArchivo; // Guardamos la nueva foto
-            } else {
-                echo '<script>
-                    Swal.fire(
-                        "ERROR!",
-                        "No se pudo mover el archivo al servidor.",
-                        "error"
-                    );
-                </script>';
-                return;
-            }
-        } else {
-            $foto = $fotoActual; // Mantener la foto actual si no se sube una nueva
-        }
+					if (move_uploaded_file($archivo['tmp_name'], $rutaArchivo)) {
+						$foto = $rutaArchivo;
+					} else {
+						echo '<script>
+							Swal.fire("ERROR!", "No se pudo mover el archivo al servidor.", "error");
+						</script>';
+						return;
+					}
+				} else {
+					$foto = $fotoActual;
+				}
 
-        // Si el campo de contraseña no está vacío, se encripta, si no, se mantiene la actual
-        if (!empty($_POST["password"])) {
-            $password = crypt($_POST["password"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
-        } else {
-            $password = $passwordActual; // Mantener la contraseña actual
-        }
+				// Verificar si se cambió la contraseña
+				$cambioPassword = false;
+				if (!empty($_POST["password"])) {
+					$password = crypt($_POST["password"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+					if ($password !== $passwordActual) {
+						$cambioPassword = true;
+					}
+				} else {
+					$password = $passwordActual;
+				}
 
-        // Datos para el modelo
-        $tabla = "usuarios";
-        $datos = array(
-            "id" => $_POST["id"],
-            "nombre" => $_POST["nombre"],
-            "foto" => $foto, // Se mantiene la foto actual si no se subió una nueva
-            "password" => $password // Se mantiene la contraseña si no se ingresó una nueva
-        );
+				$tabla = "usuarios";
+				$datos = array(
+					"id" => $_POST["id"],
+					"nombre" => $_POST["nombre"],
+					"foto" => $foto,
+					"password" => $password
+				);
 
-        // Llamar al modelo
-        $respuesta = ModeloPerfiles::mdlActualizarPerfil($tabla, $datos);
+				$respuesta = ModeloPerfiles::mdlActualizarPerfil($tabla, $datos);
 
-        // Manejar la respuesta del modelo
-        if ($respuesta == "ok") {
-            echo '<script>
-                Swal.fire(
-                    "Guardado!",
-                    "Se actualizó el perfil correctamente",
-                    "success"
-                ).then(function() {
-                    document.getElementById("").reset();
-                });
-            </script>';
-        } else {
-            echo '<script>
-                Swal.fire(
-                    "ERROR!",
-                    "Hubo un problema al guardar los datos.",
-                    "error"
-                );
-            </script>';
-        }
-    }
-}
+				if ($respuesta == "ok") {
+					if ($cambioPassword) {
+						session_destroy();
+						echo '<script>
+							Swal.fire("Contraseña actualizada", "Por seguridad, debes iniciar sesión nuevamente.", "info")
+							.then(() => {
+								window.location = "login"; // Ajusta esta ruta según tu estructura
+							});
+						</script>';
+					} else {
+						echo '<script>
+							Swal.fire("Guardado!", "Se actualizó el perfil correctamente", "success");
+						</script>';
+					}
+				} else {
+					echo '<script>
+						Swal.fire("ERROR!", "Hubo un problema al guardar los datos.", "error");
+					</script>';
+				}
+			}	
+	}
+
 
 
 }

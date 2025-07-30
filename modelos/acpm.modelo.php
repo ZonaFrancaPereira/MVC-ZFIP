@@ -237,87 +237,6 @@ class ModeloAcpm
                 return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
                 $stmt = null;
                 break;
-            case 'tecnica':
-                // Consulta sin filtro
-                $stmt = Conexion::conectar()->prepare("SELECT acpm.*, usuarios.nombre, usuarios.apellidos_usuario
-                FROM acpm
-                INNER JOIN usuarios ON acpm.id_usuario_fk = usuarios.id");
-                $stmt->execute();
-                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
-                $stmt = null;
-                break;
-            case 'sig':
-                // Consulta sin filtro
-                $stmt = Conexion::conectar()->prepare("SELECT acpm.*, usuarios.nombre, usuarios.apellidos_usuario
-                    FROM acpm
-                    INNER JOIN usuarios ON acpm.id_usuario_fk = usuarios.id");
-                $stmt->execute();
-                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
-                $stmt = null;
-                break;
-            case 'administrativa':
-                // Consulta sin filtro
-                $stmt = Conexion::conectar()->prepare("SELECT acpm.*, usuarios.nombre, usuarios.apellidos_usuario
-                        FROM acpm
-                        INNER JOIN usuarios ON acpm.id_usuario_fk = usuarios.id");
-                $stmt->execute();
-                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
-                $stmt = null;
-                break;
-            case 'contable':
-                // Consulta sin filtro
-                $stmt = Conexion::conectar()->prepare("SELECT acpm.*, usuarios.nombre, usuarios.apellidos_usuario
-                            FROM acpm
-                            INNER JOIN usuarios ON acpm.id_usuario_fk = usuarios.id");
-                $stmt->execute();
-                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
-                $stmt = null;
-                break;
-            case 'juridica':
-                // Consulta sin filtro
-                $stmt = Conexion::conectar()->prepare("SELECT acpm.*, usuarios.nombre, usuarios.apellidos_usuario
-                                FROM acpm
-                                INNER JOIN usuarios ON acpm.id_usuario_fk = usuarios.id");
-                $stmt->execute();
-                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
-                $stmt = null;
-                break;
-            case 'informatica':
-                // Consulta sin filtro
-                $stmt = Conexion::conectar()->prepare("SELECT acpm.*, usuarios.nombre, usuarios.apellidos_usuario
-                                    FROM acpm
-                                    INNER JOIN usuarios ON acpm.id_usuario_fk = usuarios.id");
-                $stmt->execute();
-                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
-                $stmt = null;
-                break;
-            case 'operaciones':
-                // Consulta sin filtro
-                $stmt = Conexion::conectar()->prepare("SELECT acpm.*, usuarios.nombre, usuarios.apellidos_usuario
-                                        FROM acpm
-                                        INNER JOIN usuarios ON acpm.id_usuario_fk = usuarios.id");
-                $stmt->execute();
-                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
-                $stmt = null;
-                break;
-            case 'gerencia':
-                // Consulta sin filtro
-                $stmt = Conexion::conectar()->prepare("SELECT acpm.*, usuarios.nombre, usuarios.apellidos_usuario
-                FROM acpm
-                INNER JOIN usuarios ON acpm.id_usuario_fk = usuarios.id");
-                $stmt->execute();
-                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
-                $stmt = null;
-                break;
-            case 'seguridad':
-                // Consulta sin filtro
-                $stmt = Conexion::conectar()->prepare("SELECT acpm.*, usuarios.nombre, usuarios.apellidos_usuario
-                    FROM acpm
-                    INNER JOIN usuarios ON acpm.id_usuario_fk = usuarios.id");
-                $stmt->execute();
-                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
-                $stmt = null;
-                break;
 
             default:
                 $consulta = null;
@@ -380,7 +299,163 @@ class ModeloAcpm
                 break;
         }
     }
+
+
+     /*=============================================
+	MOSTRAR ACPM TECNICO
+	=============================================*/
+
+    public static function mdlMostrarAcpmTecnico($tabla, $item, $valor)
+    {
+        try {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario_fk = 11");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+            return [];
+        }
+    }
     
+    
+     /*=============================================
+	MOSTRAR ACPM SIG
+	=============================================*/
+
+    public static function mdlMostrarAcpmSig($tabla, $item, $valor)
+    {
+        try {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario_fk = 14");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+            return [];
+        }
+    }
+    
+    /*=============================================
+	MOSTRAR ACPM GESTION ADMINISTRATIVA
+	=============================================*/
+
+    public static function mdlMostrarAcpmAdministrativa($tabla, $item, $valor)
+    {
+        try {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario_fk = 19");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+            return [];
+        }
+    }
+
+    /*=============================================
+	MOSTRAR ACPM GESTION JURIDICA
+	=============================================*/
+
+    public static function mdlMostrarAcpmJuridica($tabla, $item, $valor)
+    {
+        try {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario_fk = 18");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+            return [];
+        }
+    }
+
+    /*=============================================
+	MOSTRAR ACPM GESTION TECNOLOGIA
+	=============================================*/
+
+    public static function mdlMostrarAcpmTecnologia($tabla, $item, $valor)
+    {
+        try {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario_fk = 2");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+            return [];
+        }
+    }
+
+    /*=============================================
+	MOSTRAR ACPM GESTION CONTABLE
+	=============================================*/
+
+    public static function mdlMostrarAcpmContable($tabla, $item, $valor)
+    {
+        try {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario_fk = 4");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+            return [];
+        }
+    }
+
+
+    /*=============================================
+	MOSTRAR ACPM OPERACIONES
+	=============================================*/
+
+    public static function mdlMostrarAcpmOperaciones($tabla, $item, $valor)
+    {
+        try {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario_fk = 5");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+            return [];
+        }
+    }
+
+    /*=============================================
+	MOSTRAR ACPM GERENCIA
+	=============================================*/
+
+    public static function mdlMostrarAcpmGerencia($tabla, $item, $valor)
+    {
+        try {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario_fk = 8");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+            return [];
+        }
+    }
+
+    /*=============================================
+	MOSTRAR ACPM SEGURIDAD
+	=============================================*/
+
+    public static function mdlMostrarAcpmSeguridad($tabla, $item, $valor)
+    {
+        try {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario_fk = 22");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+            return [];
+        }
+    }
+
 
     /*=============================================
 	INGRESAR ACTIVIDAD
@@ -1227,7 +1302,8 @@ class ModeloAcpm
        /*=============================================
    TOTAL DE ACPM PARA EL USUARIO QUE INICIA SESSION
     =============================================*/
-    public static function mdlContarACPMs($idUsuario) {
+    public static function mdlContarACPMs($idUsuario) 
+    {
         try {
             $stmt = Conexion::conectar()->prepare(
                 "SELECT COUNT(*) AS total FROM acpm WHERE id_usuario_fk = :id_usuario"
@@ -1246,7 +1322,8 @@ class ModeloAcpm
    ACPM ABIERTAS PARA EL USUARIO QUE INICIA SESSION
     =============================================*/
 
-    public static function mdlContarACPMsAbiertas($idUsuario) {
+    public static function mdlContarACPMsAbiertas($idUsuario) 
+    {
         try {
             $stmt = Conexion::conectar()->prepare(
                 "SELECT COUNT(*) AS total 
@@ -1267,7 +1344,8 @@ class ModeloAcpm
    ACPM ABIERTA VENCIDA PARA EL USUARIO QUE INICIA SESSION
     =============================================*/
 
-    public static function mdlContarACPMsAbiertaVencida($idUsuario) {
+    public static function mdlContarACPMsAbiertaVencida($idUsuario) 
+    {
         try {
             $stmt = Conexion::conectar()->prepare(
                 "SELECT COUNT(*) AS total 
@@ -1288,7 +1366,8 @@ class ModeloAcpm
     /*=============================================
     ACPM EN PROCESO PARA EL USUARIO QUE INICIA SESSION
     =============================================*/
-    public static function mdlContarACPMsProceso($idUsuario) {
+    public static function mdlContarACPMsProceso($idUsuario) 
+    {
         try {
             $stmt = Conexion::conectar()->prepare(
                 "SELECT COUNT(*) AS total 
@@ -1309,7 +1388,8 @@ class ModeloAcpm
     /*=============================================
     ACPM CERRADAS PARA EL USUARIO QUE INICIA SESSION
     =============================================*/
-    public static function mdlContarACPMsCerrada($idUsuario) {
+    public static function mdlContarACPMsCerrada($idUsuario) 
+    {
         try {
             $stmt = Conexion::conectar()->prepare(
                 "SELECT COUNT(*) AS total 
@@ -1329,7 +1409,8 @@ class ModeloAcpm
     /*=============================================
     ACPM EN VERIFICACIÓN PARA EL USUARIO QUE INICIA SESSION
     =============================================*/
-    public static function mdlContarACPMsVerificacion($idUsuario) {
+    public static function mdlContarACPMsVerificacion($idUsuario) 
+    {
         try {
             $stmt = Conexion::conectar()->prepare(
                 "SELECT COUNT(*) AS total 
@@ -1350,7 +1431,8 @@ class ModeloAcpm
     /*=============================================
     ACPM EN PROCESO PARA EL USUARIO QUE INICIA SESSION
     =============================================*/
-    public static function mdlContarACPMsRechazada($idUsuario) {
+    public static function mdlContarACPMsRechazada($idUsuario) 
+    {
         try {
             $stmt = Conexion::conectar()->prepare(
                 "SELECT COUNT(*) AS total 

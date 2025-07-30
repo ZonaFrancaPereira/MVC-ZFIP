@@ -224,45 +224,46 @@ if ($id_gh > 0) {
                                     <div class="timeline timeline-inverse">
                                         <!-- timeline time label -->
                                         <?php if (!empty($vacaciones_data)) : ?>
-                                            <?php foreach ($vacaciones_data as $vacacion) : ?>
+                                                <?php foreach ($vacaciones_data as $vacacion) : ?>
+                                                    <?php if ((int)$vacacion['pendientes_periodo'] > 0) : ?>
+                                                        <div class="time-label">
+                                                            <span class="bg-danger">
+                                                                <?php echo htmlspecialchars($vacacion['periodo_inicio']) . ' - ' . htmlspecialchars($vacacion['periodo_fin']); ?>
+                                                            </span>
+                                                        </div>
+                                                        <div>
+                                                            <i class="fas fa-envelope bg-primary"></i>
+
+                                                            <div class="timeline-item">
+                                                                <h3 class="timeline-header"><a href="#">Vacaciones del Periodo:</a> En la parte de abajo podra visualizar los dias de vacaciones que se tiene de este periodo.</h3>
+
+                                                                <div class="timeline-body">
+                                                                    <input type="hidden" value="<?php echo htmlspecialchars($vacacion['id_detalle_vacaciones']); ?>">
+                                                                    Disfrutadas: <?php echo htmlspecialchars($vacacion['disfrutadas']); ?><br>
+                                                                    Pendientes: <?php echo htmlspecialchars($vacacion['pendientes_periodo']); ?><br>
+                                                                    Observaciones: <?php echo htmlspecialchars($vacacion['observaciones_vacaciones']); ?><br>
+                                                                </div>
+                                                                <div class="timeline-footer">
+                                                                    <button
+                                                                        class="btn btn-danger btn-sm"
+                                                                        data-toggle="modal"
+                                                                        data-target="#vacacionesModal"
+                                                                        data-id_detalle_vacaciones_fk="<?php echo htmlspecialchars($vacacion['id_detalle_vacaciones']); ?>"
+                                                                        data-id_usuario_detalle_fk="<?php echo htmlspecialchars($id_gh); ?>"
+                                                                        data-id_vacaciones_detalle_fk="<?php echo htmlspecialchars($vacacion['id_vacaciones_fk']); ?>">
+                                                                        Solicitar Vacaciones
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                <?php endforeach; ?>
+                                            <?php else : ?>
                                                 <div class="time-label">
-                                                    <span class="bg-danger">
-                                                        <?php echo htmlspecialchars($vacacion['periodo_inicio']) . ' - ' . htmlspecialchars($vacacion['periodo_fin']); ?>
-                                                    </span>
+                                                    <span class="bg-danger">No hay periodos disponibles</span>
                                                 </div>
-                                                <div>
-                                                    <i class="fas fa-envelope bg-primary"></i>
+                                            <?php endif; ?>
 
-                                                    <div class="timeline-item">
-
-                                                        <h3 class="timeline-header"><a href="#">Vacaciones del Periodo:</a> En la parte de abajo podra visualizar los dias de vacaciones que se tiene de este periodo.</h3>
-
-                                                        <div class="timeline-body">
-                                                            <input type="hidden" value="<?php echo htmlspecialchars($vacacion['id_detalle_vacaciones']); ?>">
-                                                            Disfrutadas: <?php echo htmlspecialchars($vacacion['disfrutadas']); ?><br>
-                                                            Pendientes: <?php echo htmlspecialchars($vacacion['pendientes_periodo']); ?><br>
-                                                            Observaciones: <?php echo htmlspecialchars($vacacion['observaciones_vacaciones']); ?><br>
-                                                        </div>
-                                                        <div class="timeline-footer">
-                                                           
-                                                            <button
-                                                                class="btn btn-danger btn-sm"
-                                                                data-toggle="modal"
-                                                                data-target="#vacacionesModal"
-                                                                data-id_detalle_vacaciones_fk="<?php echo htmlspecialchars($vacacion['id_detalle_vacaciones']); ?>"
-                                                                data-id_usuario_detalle_fk="<?php echo htmlspecialchars($id_gh); ?>"
-                                                                data-id_vacaciones_detalle_fk="<?php echo htmlspecialchars($vacacion['id_vacaciones_fk']); ?>">
-                                                                Solicitar Vacaciones
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            <?php endforeach; ?>
-                                        <?php else : ?>
-                                            <div class="time-label">
-                                                <span class="bg-danger">No hay periodos disponibles</span>
-                                            </div>
-                                        <?php endif; ?>
                                         <!-- END timeline item -->
                                         <div>
                                             <i class="far fa-clock bg-gray"></i>

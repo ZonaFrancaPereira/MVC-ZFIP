@@ -226,6 +226,7 @@ Class ControladorAdministrativa
                                 console.log("Correo enviado:", respuesta);
                             }
                         });
+                        
                     });
                 </script>';
             } else {
@@ -268,6 +269,7 @@ Class ControladorAdministrativa
             $tabla = "vacaciones_solicitudes";
             $datos = array(
                 "id_solicitud" => $_POST["id_solicitud"],
+                "firma_aprobador" => $_POST["firma_aprobador"],
                 "estado_solicitud" => "Proceso"
             );
 

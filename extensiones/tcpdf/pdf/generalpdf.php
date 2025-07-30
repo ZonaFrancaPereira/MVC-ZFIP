@@ -18,6 +18,7 @@ $consulta = 'mantenimiento_general';
 // Llamar a la función para obtener los datos
 $datos = ModeloMantenimiento::mdlMostrarMantenimientoGeneralpdf($tabla, $item, $valor, $consulta);
 
+
 // Verificar si se obtuvieron datos
 if (empty($datos)) {
     die('No se encontraron datos para el ID de mantenimiento proporcionado.');
@@ -73,6 +74,15 @@ $rutaRelativa = $row["firma_general"];
 
 // Construct the full URL
 $firma_general = $baseUrl . $rutaRelativa;
+
+$ruta_firma = $row["firma_general"];
+$firma_general = $baseUrl . $ruta_firma;
+if (is_null($ruta_firma) || empty($ruta_firma)) {
+    $firma_general = $baseUrl . 'vistas/img/usuarios/default/sinautorizar.png';
+} else {
+    $firma_general = $baseUrl . $ruta_firma;
+}
+
 
 $nombreImagen = "images/logo_zf.png";
 $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($nombreImagen));

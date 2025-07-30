@@ -461,29 +461,28 @@ class ModeloMantenimiento
     }
 
 
-    public static function mdlMostrarMantenimientoGeneralpdf($tabla, $item, $valor, $consulta)
-    {
-        switch ($consulta) {
-            case 'mantenimiento_general':
-                // Consulta con filtro
-                $stmt = Conexion::conectar()->prepare("SELECT m.*, p.nombre_proceso, u.*, c.nombre_cargo
+   public static function mdlMostrarMantenimientoGeneralpdf($tabla, $item, $valor, $consulta)
+{
+    switch ($consulta) {
+        case 'mantenimiento_general':
+            $stmt = Conexion::conectar()->prepare("SELECT m.*, p.nombre_proceso, u.*, c.nombre_cargo
                 FROM usuarios m
                 INNER JOIN proceso p ON m.id_proceso_fk = p.id_proceso
                 INNER JOIN mantenimiento_general u ON m.id = u.id_usuario_fk3
-                INNER JOIN cargos c ON m.id_cargo_fk = c.id_cargo WHERE $item = :valor");
-                $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
-                $stmt->execute();
-                return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
-                $stmt = null;
-                break;
+                INNER JOIN cargos c ON m.id_cargo_fk = c.id_cargo
+                WHERE u.$item = :valor");
+            $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+            $stmt = null;
+            return $result;
+            break;
 
-            default:
-                $consulta = null;
-                $item = null;
-                $valor = null;
-                break;
-        }
+        default:
+            return null;
     }
+}
+
 
 
     public static function mdlFirmarMantenimiento($tabla, $datos)

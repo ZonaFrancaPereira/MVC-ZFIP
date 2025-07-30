@@ -131,80 +131,197 @@ class ControladorAcpm
         return $respuesta;
     }
 
+     /*=============================================
+	MOSTRAR ACPM TECNICO
+	=============================================*/
+
+    static public function ctrMostrarAcpmTecnico($item, $valor)
+    {
+        $tabla = "acpm";
+
+        $respuesta = ModeloAcpm::mdlMostrarAcpmTecnico($tabla, $item, $valor);
+
+        return $respuesta;
+    }
+
+    /*=============================================
+	MOSTRAR ACPM SIG
+	=============================================*/
+
+    static public function ctrMostrarAcpmSig($item, $valor)
+    {
+        $tabla = "acpm";
+
+        $respuesta = ModeloAcpm::mdlMostrarAcpmSig($tabla, $item, $valor);
+
+        return $respuesta;
+    }
+
+     /*=============================================
+	MOSTRAR ACPM ADMINISTRATIVA
+	=============================================*/
+
+    static public function ctrMostrarAcpmAdministrativa($item, $valor)
+    {
+        $tabla = "acpm";
+
+        $respuesta = ModeloAcpm::mdlMostrarAcpmAdministrativa($tabla, $item, $valor);
+
+        return $respuesta;
+    }
+
+    
+     /*=============================================
+	MOSTRAR ACPM JURIDICA
+	=============================================*/
+
+    static public function ctrMostrarAcpmJuridica($item, $valor)
+    {
+        $tabla = "acpm";
+
+        $respuesta = ModeloAcpm::mdlMostrarAcpmJuridica($tabla, $item, $valor);
+
+        return $respuesta;
+    }
+
+       /*=============================================
+	MOSTRAR ACPM TECNOLOGIA
+	=============================================*/
+
+    static public function ctrMostrarAcpmTecnologia($item, $valor)
+    {
+        $tabla = "acpm";
+
+        $respuesta = ModeloAcpm::mdlMostrarAcpmTecnologia($tabla, $item, $valor);
+
+        return $respuesta;
+    }
+
+           /*=============================================
+	MOSTRAR ACPM CONTABLE
+	=============================================*/
+
+    static public function ctrMostrarAcpmContable($item, $valor)
+    {
+        $tabla = "acpm";
+
+        $respuesta = ModeloAcpm::mdlMostrarAcpmContable($tabla, $item, $valor);
+
+        return $respuesta;
+    }
 
 
-   /*=============================================
-CREAR ACTIVIDAD
-=============================================*/
-static public function ctrCrearActividad()
-{
-    if (isset($_POST["fecha_actividad"])) {
-        // Capturamos el ID del usuario desde el formulario
-        $id_usuario_fk = $_POST["id_usuario_fk_6"];
+           /*=============================================
+	MOSTRAR ACPM OPERACIONES
+	=============================================*/
 
-        // Datos de la actividad a insertar en la base de datos
-        $tabla = "actividades_acpm";
-        $datos = array(
-            "fecha_actividad" => $_POST["fecha_actividad"],
-            "descripcion_actividad" => $_POST["descripcion_actividad"],
-            "tipo_actividad" => $_POST["tipo_actividad"],
-            "estado_actividad" => $_POST["estado_actividad"],
-            "id_usuario_fk" => $id_usuario_fk,
-            "id_acpm_fk" => $_POST["id_acpm_fk"]
-        );
+    static public function ctrMostrarAcpmOperaciones($item, $valor)
+    {
+        $tabla = "acpm";
 
-        $respuesta = ModeloAcpm::mdlIngresarActividad($tabla, $datos);
+        $respuesta = ModeloAcpm::mdlMostrarAcpmOperaciones($tabla, $item, $valor);
 
-        if ($respuesta == "ok") {
-            echo
-            '<script>
-            Swal.fire({
-                title: "Buen Trabajo!!",
-                text: "La actividad fue creada con éxito.",
-                icon: "success"
-            }).then(function() {
-                // Enviar datos por AJAX después de cerrar la alerta
-                var datosCorreo = {
-                    id_usuario_fk: "' . $id_usuario_fk . '", // Capturando el ID del formulario
-                    modulo: "acciones_verificacion",
-                    id_consulta: "' . $respuesta . '",
-                    destinatario: "ninguno"
-                };
-                $.ajax({
-                    url: "ajax/enviarCorreo.php",
-                    method: "POST",
-                    data: JSON.stringify(datosCorreo),
-                    cache: false,
-                    contentType: "application/json",
-                    processData: false,
-                    success: function(respuesta) {
-                        console.log("respuesta", respuesta);
-                    }
-                });
-                // Resetear el formulario y agregar la clase al elemento después del AJAX
-                document.getElementById("form_actividades").reset();
-                $("#acciones_verificacion").addClass("active");
-            });
-            </script>';
-        } else {
-            echo '<script>
+        return $respuesta;
+    }
+
+
+    /*=============================================
+	MOSTRAR ACPM GERENCIA
+	=============================================*/
+
+    static public function ctrMostrarAcpmGerencia($item, $valor)
+    {
+        $tabla = "acpm";
+
+        $respuesta = ModeloAcpm::mdlMostrarAcpmGerencia($tabla, $item, $valor);
+
+        return $respuesta;
+    }
+
+    /*=============================================
+	MOSTRAR ACPM SEGURIDAD
+	=============================================*/
+
+    static public function ctrMostrarAcpmSeguridad($item, $valor)
+    {
+        $tabla = "acpm";
+
+        $respuesta = ModeloAcpm::mdlMostrarAcpmSeguridad($tabla, $item, $valor);
+
+        return $respuesta;
+    }
+
+
+    /*=============================================
+    CREAR ACTIVIDAD
+    =============================================*/
+    static public function ctrCrearActividad()
+    {
+        if (isset($_POST["fecha_actividad"])) {
+            // Capturamos el ID del usuario desde el formulario
+            $id_usuario_fk = $_POST["id_usuario_fk_6"];
+
+            // Datos de la actividad a insertar en la base de datos
+            $tabla = "actividades_acpm";
+            $datos = array(
+                "fecha_actividad" => $_POST["fecha_actividad"],
+                "descripcion_actividad" => $_POST["descripcion_actividad"],
+                "tipo_actividad" => $_POST["tipo_actividad"],
+                "estado_actividad" => $_POST["estado_actividad"],
+                "id_usuario_fk" => $id_usuario_fk,
+                "id_acpm_fk" => $_POST["id_acpm_fk"]
+            );
+
+            $respuesta = ModeloAcpm::mdlIngresarActividad($tabla, $datos);
+
+            if ($respuesta == "ok") {
+                echo
+                '<script>
                 Swal.fire({
-                    icon: "error",
-                    title: "¡Error!",
-                    text: "Hubo un problema al crear la actividad.",
-                    showConfirmButton: true,
-                    confirmButtonText: "Cerrar"
-                }).then(function(result){
-                    if(result.value){
-                        $("#acciones_verificacion").addClass("active");
-                    }
+                    title: "Buen Trabajo!!",
+                    text: "La actividad fue creada con éxito.",
+                    icon: "success"
+                }).then(function() {
+                    // Enviar datos por AJAX después de cerrar la alerta
+                    var datosCorreo = {
+                        id_usuario_fk: "' . $id_usuario_fk . '", // Capturando el ID del formulario
+                        modulo: "acciones_verificacion",
+                        id_consulta: "' . $respuesta . '",
+                        destinatario: "ninguno"
+                    };
+                    $.ajax({
+                        url: "ajax/enviarCorreo.php",
+                        method: "POST",
+                        data: JSON.stringify(datosCorreo),
+                        cache: false,
+                        contentType: "application/json",
+                        processData: false,
+                        success: function(respuesta) {
+                            console.log("respuesta", respuesta);
+                        }
+                    });
+                    // Resetear el formulario y agregar la clase al elemento después del AJAX
+                    document.getElementById("form_actividades").reset();
+                    $("#acciones_verificacion").addClass("active");
                 });
-            </script>';
+                </script>';
+            } else {
+                echo '<script>
+                    Swal.fire({
+                        icon: "error",
+                        title: "¡Error!",
+                        text: "Hubo un problema al crear la actividad.",
+                        showConfirmButton: true,
+                        confirmButtonText: "Cerrar"
+                    }).then(function(result){
+                        if(result.value){
+                            $("#acciones_verificacion").addClass("active");
+                        }
+                    });
+                </script>';
+            }
         }
     }
-}
-
-
 
     /*=============================================
     APROBAR Y RECHAZAR ACPM
@@ -881,464 +998,6 @@ static public function ctrCrearActividad()
         }
     }
 
-      /*=============================================
-    OBETENER DATOS DE LA GRAFICA CON EL ID DEL USUARIO
-    =============================================*/
-    public static function graficaVerificacionAcpm() 
-    {
-        $id_usuario_fk = 14; // ID del usuario especificado
-
-        // Obtener datos del modelo
-        $abiertas = ModeloAcpm::contarAcpmAbiertas($id_usuario_fk);
-        $cerradas = ModeloAcpm::contarAcpmCerradas($id_usuario_fk);
-        $verificacion = ModeloAcpm::contarAcpmVerificacion($id_usuario_fk);
-        $proceso = ModeloAcpm::contarAcpmProceso($id_usuario_fk);
-        $vencida = ModeloAcpm::contarAcpmAbiertaVencida($id_usuario_fk);
-
-        // Preparar datos para la vista
-        $data = [
-            'abiertas' => $abiertas,
-            'cerradas' => $cerradas,
-            'verificacion' => $verificacion,
-            'proceso' => $proceso,
-            'vencida' => $vencida
-        ];
-
-        echo json_encode($data);
-    }
-
-       /*=============================================
-   OBTENER LOS DATOS DE LAS ACPM AM Y AP TECNICO
-    =============================================*/
- 
-
-    public static function graficaVerificacionAcciones() 
-    {
-        $id_usuario_fk = 14; // ID del usuario especificado
-
-        // Obtener datos del modelo
-        $mejora_abierta = ModeloAcpm::contarAcpmMejoraAbierta($id_usuario_fk);
-        $mejora_cerrada = ModeloAcpm::contarAcpmMejoraCerrada($id_usuario_fk);
-        $preventiva_abierta = ModeloAcpm::contarAcpmPreventivaAbierta($id_usuario_fk);
-        $preventiva_cerrada = ModeloAcpm::contarAcpmPreventivaCerrada($id_usuario_fk);
-
-        // Preparar datos para la vista
-        $data = [
-            'AM_abierto' => $mejora_abierta,
-            'AM_cerrado' => $mejora_cerrada,
-            'AP_abierto' => $preventiva_abierta,
-            'AP_cerrado' => $preventiva_cerrada
-        ];
-
-        echo json_encode($data);
-    }
-
-       /*=============================================
-    OBETENER DATOS DE LA GRAFICA CON EL ID DEL USUARIO
-    =============================================*/
-    public static function graficaVerificacionAcpmSig() 
-    {
-        $id_usuario_fk = 17; // ID del usuario especificado
-
-        // Obtener datos del modelo
-        $abiertassig = ModeloAcpm::contarAcpmAbiertas($id_usuario_fk);
-        $cerradassig = ModeloAcpm::contarAcpmCerradas($id_usuario_fk);
-        $verificacionsig = ModeloAcpm::contarAcpmVerificacion($id_usuario_fk);
-        $procesosig = ModeloAcpm::contarAcpmProceso($id_usuario_fk);
-        $vencidasig = ModeloAcpm::contarAcpmAbiertaVencida($id_usuario_fk);
-
-        // Preparar datos para la vista
-        $data = [
-            'abiertas' => $abiertassig,
-            'cerradas' => $cerradassig,
-            'verificacion' => $verificacionsig,
-            'proceso' => $procesosig,
-            'vencida' => $vencidasig
-        ];
-
-        echo json_encode($data);
-    }
-
-    /*=============================================
-   OBTENER LOS DATOS DE LAS ACPM AM Y AP SIG
-    =============================================*/
-    public static function graficaVerificacionAccionesSig() 
-    {
-        $id_usuario_fk = 17; // ID del usuario especificado
-
-         // Obtener datos del modelo
-         $mejora_abiertasig = ModeloAcpm::contarAcpmMejoraAbierta($id_usuario_fk);
-         $mejora_cerradasig = ModeloAcpm::contarAcpmMejoraCerrada($id_usuario_fk);
-         $preventiva_abiertasig = ModeloAcpm::contarAcpmPreventivaAbierta($id_usuario_fk);
-         $preventiva_cerradasig = ModeloAcpm::contarAcpmPreventivaCerrada($id_usuario_fk);
- 
-         // Preparar datos para la vista
-         $data = [
-             'AM_abierto' => $mejora_abiertasig,
-             'AM_cerrado' => $mejora_cerradasig,
-             'AP_abierto' => $preventiva_abiertasig,
-             'AP_cerrado' => $preventiva_cerradasig
-         ];
- 
-         echo json_encode($data);
-    }
-
-
-    /*=============================================
-    OBETENER DATOS DE LA GRAFICA CON EL ID DEL USUARIO
-    =============================================*/
-    public static function graficaVerificacionAcpmAdministrativa() 
-    {
-        $id_usuario_fk = 27; // ID del usuario especificado
-
-        // Obtener datos del modelo
-        $abiertasadministrativa = ModeloAcpm::contarAcpmAbiertas($id_usuario_fk);
-        $cerradasadministrativa = ModeloAcpm::contarAcpmCerradas($id_usuario_fk);
-        $verificacionadministrativa = ModeloAcpm::contarAcpmVerificacion($id_usuario_fk);
-        $procesoadministrativa = ModeloAcpm::contarAcpmProceso($id_usuario_fk);
-        $vencidaadministrativa = ModeloAcpm::contarAcpmAbiertaVencida($id_usuario_fk);
-
-        // Preparar datos para la vista
-        $data = [
-            'abiertas' => $abiertasadministrativa,
-            'cerradas' => $cerradasadministrativa,
-            'verificacion' => $verificacionadministrativa,
-            'proceso' => $procesoadministrativa,
-            'vencida' => $vencidaadministrativa
-            
-
-        ];
-
-        echo json_encode($data);
-    }
-
-    /*=============================================
-   OBTENER LOS DATOS DE LAS ACPM AM Y AP ADMINISTRATIVA
-    =============================================*/
-    public static function graficaVerificacionAccionesAdministrativa() 
-    {
-        $id_usuario_fk = 27; // ID del usuario especificado
-
-         // Obtener datos del modelo
-         $mejora_abiertaadministrativa = ModeloAcpm::contarAcpmMejoraAbierta($id_usuario_fk);
-         $mejora_cerradaadministrativa = ModeloAcpm::contarAcpmMejoraCerrada($id_usuario_fk);
-         $preventiva_abiertaadministrativa = ModeloAcpm::contarAcpmPreventivaAbierta($id_usuario_fk);
-         $preventiva_cerradaadministrativa = ModeloAcpm::contarAcpmPreventivaCerrada($id_usuario_fk);
- 
-         // Preparar datos para la vista
-         $data = [
-             'AM_abierto' => $mejora_abiertaadministrativa,
-             'AM_cerrado' => $mejora_cerradaadministrativa,
-             'AP_abierto' => $preventiva_abiertaadministrativa,
-             'AP_cerrado' => $preventiva_cerradaadministrativa
-         ];
- 
-         echo json_encode($data);
-    }
-
-    
-    /*=============================================
-    OBETENER DATOS DE LA GRAFICA CON EL ID DEL USUARIO
-    =============================================*/
-    public static function graficaVerificacionAcpmContable() 
-    {
-        $id_usuario_fk = 6; // ID del usuario especificado
-
-        // Obtener datos del modelo
-        $abiertascontable = ModeloAcpm::contarAcpmAbiertas($id_usuario_fk);
-        $cerradascontable = ModeloAcpm::contarAcpmCerradas($id_usuario_fk);
-        $verificacioncontable = ModeloAcpm::contarAcpmVerificacion($id_usuario_fk);
-        $procesocontable = ModeloAcpm::contarAcpmProceso($id_usuario_fk);
-        $vencidacontable = ModeloAcpm::contarAcpmAbiertaVencida($id_usuario_fk);
-
-        // Preparar datos para la vista
-        $data = [
-            'abiertas' => $abiertascontable,
-            'cerradas' => $cerradascontable,
-            'verificacion' => $verificacioncontable,
-            'proceso' => $procesocontable,
-            'vencida' => $vencidacontable
-        ];
-
-        echo json_encode($data);
-    }
-
-           /*=============================================
-   OBTENER LOS DATOS DE LAS ACPM AM Y AP CONTABLE
-    =============================================*/
-    public static function graficaVerificacionAccionesContable() 
-    {
-        $id_usuario_fk = 6; // ID del usuario especificado
-
-         // Obtener datos del modelo
-         $mejora_abiertacontable = ModeloAcpm::contarAcpmMejoraAbierta($id_usuario_fk);
-         $mejora_cerradacontable = ModeloAcpm::contarAcpmMejoraCerrada($id_usuario_fk);
-         $preventiva_abiertacontable = ModeloAcpm::contarAcpmPreventivaAbierta($id_usuario_fk);
-         $preventiva_cerradacontable = ModeloAcpm::contarAcpmPreventivaCerrada($id_usuario_fk);
- 
-         // Preparar datos para la vista
-         $data = [
-             'AM_abierto' => $mejora_abiertacontable,
-             'AM_cerrado' => $mejora_cerradacontable,
-             'AP_abierto' => $preventiva_abiertacontable,
-             'AP_cerrado' => $preventiva_cerradacontable
-         ];
- 
-         echo json_encode($data);
-    }
-
-     
-           /*=============================================
-    OBETENER DATOS DE LA GRAFICA CON EL ID DEL USUARIO
-    =============================================*/
-    public static function graficaVerificacionAcpmJuridica() 
-    {
-        $id_usuario_fk = 24; // ID del usuario especificado
-
-        // Obtener datos del modelo
-        $abiertasjuridica = ModeloAcpm::contarAcpmAbiertas($id_usuario_fk);
-        $cerradasjuridica = ModeloAcpm::contarAcpmCerradas($id_usuario_fk);
-        $verificacionjuridica = ModeloAcpm::contarAcpmVerificacion($id_usuario_fk);
-        $procesojuridica = ModeloAcpm::contarAcpmProceso($id_usuario_fk);
-        $vencidacontable = ModeloAcpm::contarAcpmAbiertaVencida($id_usuario_fk);
-
-        // Preparar datos para la vista
-        $data = [
-            'abiertas' => $abiertasjuridica,
-            'cerradas' => $cerradasjuridica,
-            'verificacion' => $verificacionjuridica,
-            'proceso' => $procesojuridica,
-            'vencida' => $vencidacontable
-        ];
-
-        echo json_encode($data);
-    }
-
-           /*=============================================
-   OBTENER LOS DATOS DE LAS ACPM AM Y AP JURIDICA
-    =============================================*/
-    public static function graficaVerificacionAccionesJuridica() 
-    {
-        $id_usuario_fk = 24; // ID del usuario especificado
-
-         // Obtener datos del modelo
-         $mejora_abiertajuridica = ModeloAcpm::contarAcpmMejoraAbierta($id_usuario_fk);
-         $mejora_cerradajuridica = ModeloAcpm::contarAcpmMejoraCerrada($id_usuario_fk);
-         $preventiva_abiertajuridica = ModeloAcpm::contarAcpmPreventivaAbierta($id_usuario_fk);
-         $preventiva_cerradajuridica = ModeloAcpm::contarAcpmPreventivaCerrada($id_usuario_fk);
- 
-         // Preparar datos para la vista
-         $data = [
-             'AM_abierto' => $mejora_abiertajuridica,
-             'AM_cerrado' => $mejora_cerradajuridica,
-             'AP_abierto' => $preventiva_abiertajuridica,
-             'AP_cerrado' => $preventiva_cerradajuridica
-         ];
- 
-         echo json_encode($data);
-    }
-
-            /*=============================================
-    OBETENER DATOS DE LA GRAFICA CON EL ID DEL USUARIO
-    =============================================*/
-    public static function graficaVerificacionAcpmInformatica() 
-    {
-        $id_usuario_fk = 2; // ID del usuario especificado
-
-        // Obtener datos del modelo
-        $abiertasinformatica = ModeloAcpm::contarAcpmAbiertas($id_usuario_fk);
-        $cerradasinformatica = ModeloAcpm::contarAcpmCerradas($id_usuario_fk);
-        $verificacioninformatica = ModeloAcpm::contarAcpmVerificacion($id_usuario_fk);
-        $procesoinformatica = ModeloAcpm::contarAcpmProceso($id_usuario_fk);
-        $vencidainformatica = ModeloAcpm::contarAcpmAbiertaVencida($id_usuario_fk);
-
-        // Preparar datos para la vista
-        $data = [
-            'abiertas' => $abiertasinformatica,
-            'cerradas' => $cerradasinformatica,
-            'verificacion' => $verificacioninformatica,
-            'proceso' => $procesoinformatica,
-            'vencida' => $vencidainformatica
-        ];
-
-        echo json_encode($data);
-    }
-
-           /*=============================================
-                INFORMATICA
-    =============================================*/
-    public static function graficaVerificacionAccionesInformatica() 
-    {
-        $id_usuario_fk = 2; // ID del usuario especificado
-
-         // Obtener datos del modelo
-         $mejora_abiertainformatica = ModeloAcpm::contarAcpmMejoraAbierta($id_usuario_fk);
-         $mejora_cerradainformatica = ModeloAcpm::contarAcpmMejoraCerrada($id_usuario_fk);
-         $preventiva_abiertainformatica = ModeloAcpm::contarAcpmPreventivaAbierta($id_usuario_fk);
-         $preventiva_cerradainformatica = ModeloAcpm::contarAcpmPreventivaCerrada($id_usuario_fk);
- 
-         // Preparar datos para la vista
-         $data = [
-             'AM_abierto' => $mejora_abiertainformatica,
-             'AM_cerrado' => $mejora_cerradainformatica,
-             'AP_abierto' => $preventiva_abiertainformatica,
-             'AP_cerrado' => $preventiva_cerradainformatica
-         ];
- 
-         echo json_encode($data);
-    }
-
-                /*=============================================
-    OBETENER DATOS DE LA GRAFICA CON EL ID DEL USUARIO
-    =============================================*/
-    public static function graficaVerificacionAcpmOperaciones() 
-    {
-        $id_usuario_fk = 7; // ID del usuario especificado
-
-        // Obtener datos del modelo
-        $abiertasoperaciones = ModeloAcpm::contarAcpmAbiertas($id_usuario_fk);
-        $cerradasoperaciones = ModeloAcpm::contarAcpmCerradas($id_usuario_fk);
-        $verificacionoperaciones = ModeloAcpm::contarAcpmVerificacion($id_usuario_fk);
-        $procesooperaciones = ModeloAcpm::contarAcpmProceso($id_usuario_fk);
-        $vencidaoperaciones = ModeloAcpm::contarAcpmAbiertaVencida($id_usuario_fk);
-
-        // Preparar datos para la vista
-        $data = [
-            'abiertas' => $abiertasoperaciones,
-            'cerradas' => $cerradasoperaciones,
-            'verificacion' => $verificacionoperaciones,
-            'proceso' => $procesooperaciones,
-            'vencida' => $vencidaoperaciones
-        ];
-
-        echo json_encode($data);
-    }
-
-           /*=============================================
-   OBTENER LOS DATOS DE LAS ACPM AM Y AP ADMINISTRATIVA
-    =============================================*/
-    public static function graficaVerificacionAccionesOperaciones() 
-    {
-        $id_usuario_fk = 7; // ID del usuario especificado
-
-         // Obtener datos del modelo
-         $mejora_abiertaoperaciones = ModeloAcpm::contarAcpmMejoraAbierta($id_usuario_fk);
-         $mejora_cerradaoperaciones = ModeloAcpm::contarAcpmMejoraCerrada($id_usuario_fk);
-         $preventiva_abiertaoperaciones = ModeloAcpm::contarAcpmPreventivaAbierta($id_usuario_fk);
-         $preventiva_cerradaoperaciones = ModeloAcpm::contarAcpmPreventivaCerrada($id_usuario_fk);
- 
-         // Preparar datos para la vista
-         $data = [
-             'AM_abierto' => $mejora_abiertaoperaciones,
-             'AM_cerrado' => $mejora_cerradaoperaciones,
-             'AP_abierto' => $preventiva_abiertaoperaciones,
-             'AP_cerrado' => $preventiva_cerradaoperaciones
-         ];
- 
-         echo json_encode($data);
-    }
-
-                 /*=============================================
-    OBETENER DATOS DE LA GRAFICA CON EL ID DEL USUARIO
-    =============================================*/
-    public static function graficaVerificacionAcpmGerencia() 
-    {
-        $id_usuario_fk = 11; // ID del usuario especificado
-
-        // Obtener datos del modelo
-        $abiertasgerencia = ModeloAcpm::contarAcpmAbiertas($id_usuario_fk);
-        $cerradasgerencia = ModeloAcpm::contarAcpmCerradas($id_usuario_fk);
-        $verificaciongerencia = ModeloAcpm::contarAcpmVerificacion($id_usuario_fk);
-        $procesogerencia = ModeloAcpm::contarAcpmProceso($id_usuario_fk);
-        $vencidagerencia = ModeloAcpm::contarAcpmAbiertaVencida($id_usuario_fk);
-
-        // Preparar datos para la vista
-        $data = [
-            'abiertas' => $abiertasgerencia,
-            'cerradas' => $cerradasgerencia,
-            'verificacion' => $verificaciongerencia,
-            'proceso' => $procesogerencia,
-            'vencida' => $vencidagerencia
-        ];
-
-        echo json_encode($data);
-    }
-
-           /*=============================================
-   OBTENER LOS DATOS DE LAS ACPM AM Y AP ADMINISTRATIVA
-    =============================================*/
-    public static function graficaVerificacionAccionesGerencia() 
-    {
-        $id_usuario_fk = 11; // ID del usuario especificado
-
-         // Obtener datos del modelo
-         $mejora_abiertagerencia = ModeloAcpm::contarAcpmMejoraAbierta($id_usuario_fk);
-         $mejora_cerradagerencia = ModeloAcpm::contarAcpmMejoraCerrada($id_usuario_fk);
-         $preventiva_abiertagerencia = ModeloAcpm::contarAcpmPreventivaAbierta($id_usuario_fk);
-         $preventiva_cerradagerencia = ModeloAcpm::contarAcpmPreventivaCerrada($id_usuario_fk);
- 
-         // Preparar datos para la vista
-         $data = [
-             'AM_abierto' => $mejora_abiertagerencia,
-             'AM_cerrado' => $mejora_cerradagerencia,
-             'AP_abierto' => $preventiva_abiertagerencia,
-             'AP_cerrado' => $preventiva_cerradagerencia
-         ];
- 
-         echo json_encode($data);
-    }
-
-
-     /*=============================================
-    OBETENER DATOS DE LA GRAFICA CON EL ID DEL USUARIO
-    =============================================*/
-    public static function graficaVerificacionAcpmSeguridad() 
-    {
-        $id_usuario_fk = 59; // ID del usuario especificado
-
-        // Obtener datos del modelo
-        $abiertasseguridad = ModeloAcpm::contarAcpmAbiertas($id_usuario_fk);
-        $cerradasseguridad = ModeloAcpm::contarAcpmCerradas($id_usuario_fk);
-        $verificacionseguridad = ModeloAcpm::contarAcpmVerificacion($id_usuario_fk);
-        $procesoseguridad = ModeloAcpm::contarAcpmProceso($id_usuario_fk);
-        $vencidaseguridad = ModeloAcpm::contarAcpmAbiertaVencida($id_usuario_fk);
-
-        // Preparar datos para la vista
-        $data = [
-            'abiertas' => $abiertasseguridad,
-            'cerradas' => $cerradasseguridad,
-            'verificacion' => $verificacionseguridad,
-            'proceso' => $procesoseguridad,
-            'vencida' => $vencidaseguridad
-        ];
-
-        echo json_encode($data);
-    }
-
-           /*=============================================
-   OBTENER LOS DATOS DE LAS ACPM AM Y AP ADMINISTRATIVA
-    =============================================*/
-    public static function graficaVerificacionAccionesSeguridad() 
-    {
-        $id_usuario_fk = 59; // ID del usuario especificado
-
-         // Obtener datos del modelo
-         $mejora_abiertaseguridad = ModeloAcpm::contarAcpmMejoraAbierta($id_usuario_fk);
-         $mejora_cerradaseguridad = ModeloAcpm::contarAcpmMejoraCerrada($id_usuario_fk);
-         $preventiva_abiertaseguridad = ModeloAcpm::contarAcpmPreventivaAbierta($id_usuario_fk);
-         $preventiva_cerradaseguridad = ModeloAcpm::contarAcpmPreventivaCerrada($id_usuario_fk);
- 
-         // Preparar datos para la vista
-         $data = [
-             'AM_abierto' => $mejora_abiertaseguridad,
-             'AM_cerrado' => $mejora_cerradaseguridad,
-             'AP_abierto' => $preventiva_abiertaseguridad,
-             'AP_cerrado' => $preventiva_cerradaseguridad
-         ];
- 
-         echo json_encode($data);
-    }
-
      /*=============================================
     OBETENER DATOS DE LA GRAFICA CON EL ID DEL USUARIO
     =============================================*/
@@ -1366,7 +1025,7 @@ static public function ctrCrearActividad()
     }
 
            /*=============================================
-   OBTENER LOS DATOS DE LAS ACPM AM Y AP ADMINISTRATIVA
+   OBTENER LOS DATOS DE LAS ACPM AM Y AP GENERAL
     =============================================*/
     public static function graficaVerificacionAccionesGeneral() 
     {
@@ -1389,53 +1048,6 @@ static public function ctrCrearActividad()
          echo json_encode($data);
     }
 
-     /*=============================================
-    OBETENER DATOS DE LA GRAFICA CON EL ID DEL USUARIO
-    =============================================*/
-    public static function graficaVerificacionAcpmUsuario() 
-    {
-        $id_usuario_fk = $_SESSION["id"]; // ID del usuario especificado
-
-        // Obtener datos del modelo
-        $abiertassig = ModeloAcpm::contarAcpmAbiertas($id_usuario_fk);
-        $cerradassig = ModeloAcpm::contarAcpmCerradas($id_usuario_fk);
-        $verificacionsig = ModeloAcpm::contarAcpmVerificacion($id_usuario_fk);
-        $procesosig = ModeloAcpm::contarAcpmProceso($id_usuario_fk);
-
-        // Preparar datos para la vista
-        $data = [
-            'abiertas' => $abiertassig,
-            'cerradas' => $cerradassig,
-            'verificacion' => $verificacionsig,
-            'proceso' => $procesosig
-        ];
-
-        echo json_encode($data);
-    }
-
-    /*=============================================
-   OBTENER LOS DATOS DE LAS ACPM AM Y AP SIG
-    =============================================*/
-    public static function graficaVerificacionAccionesUsuario() 
-    {
-        $id_usuario_fk = $_SESSION["id"]; // ID del usuario especificado
-
-         // Obtener datos del modelo
-         $mejora_abiertasig = ModeloAcpm::contarAcpmMejoraAbierta($id_usuario_fk);
-         $mejora_cerradasig = ModeloAcpm::contarAcpmMejoraCerrada($id_usuario_fk);
-         $preventiva_abiertasig = ModeloAcpm::contarAcpmPreventivaAbierta($id_usuario_fk);
-         $preventiva_cerradasig = ModeloAcpm::contarAcpmPreventivaCerrada($id_usuario_fk);
- 
-         // Preparar datos para la vista
-         $data = [
-             'AM_abierto' => $mejora_abiertasig,
-             'AM_cerrado' => $mejora_cerradasig,
-             'AP_abierto' => $preventiva_abiertasig,
-             'AP_cerrado' => $preventiva_cerradasig
-         ];
- 
-         echo json_encode($data);
-    }
 
      /*=============================================
             TOTAL DE ACPM PARA EL USUARIO LOGUEADO
@@ -1503,24 +1115,6 @@ static public function ctrCrearActividad()
 
 }
 
-
-/*=============================================
-               USUARIOS
-    =============================================*/
-
-// Manejar la acción de la solicitud AJAX
-if (isset($_GET['action']) && $_GET['action'] == 'graficaVerificacionAcpmUsuario') {
-    require_once '../modelos/acpm.modelo.php';
-    $controlador = new ControladorAcpm();
-    $controlador->graficaVerificacionAcpmUsuario();
-}
-
-// Manejar la acción de la solicitud AJAX
-if (isset($_GET['action']) && $_GET['action'] == 'graficaVerificacionAccionesUsuario') {
-    require_once '../modelos/acpm.modelo.php';
-    $controlador = new ControladorAcpm();
-    $controlador->graficaVerificacionAccionesUsuario();
-}
 /*=============================================
                GENERAL
     =============================================*/
@@ -1539,168 +1133,4 @@ if (isset($_GET['action']) && $_GET['action'] == 'graficaVerificacionAccionesGen
     $controlador->graficaVerificacionAccionesGeneral();
 }
 
-/*=============================================
-                TECNICO
-    =============================================*/
-
-// Manejar la acción de la solicitud AJAX
-if (isset($_GET['action']) && $_GET['action'] == 'graficaVerificacionAcpm') {
-    require_once '../modelos/acpm.modelo.php';
-    $controlador = new ControladorAcpm();
-    $controlador->graficaVerificacionAcpm();
-}
-
-// Manejar la acción de la solicitud AJAX
-if (isset($_GET['action']) && $_GET['action'] == 'graficaVerificacionAcciones') {
-    require_once '../modelos/acpm.modelo.php';
-    $controlador = new ControladorAcpm();
-    $controlador->graficaVerificacionAcciones();
-}
-
-/*=============================================
-                SIG
-    =============================================*/
-
-// Manejar la acción de la solicitud AJAX
-if (isset($_GET['action']) && $_GET['action'] == 'graficaVerificacionAcpmSig') {
-    require_once '../modelos/acpm.modelo.php';
-    $controlador = new ControladorAcpm();
-    $controlador->graficaVerificacionAcpmSig();
-}
-
-// Manejar la acción de la solicitud AJAX
-if (isset($_GET['action']) && $_GET['action'] == 'graficaVerificacionAccionesSig') {
-    require_once '../modelos/acpm.modelo.php';
-    $controlador = new ControladorAcpm();
-    $controlador->graficaVerificacionAccionesSig();
-}
-
-/*=============================================
-              GESTION ADMINISTRATIVA
-    =============================================*/
-
-// Manejar la acción de la solicitud AJAX
-if (isset($_GET['action']) && $_GET['action'] == 'graficaVerificacionAcpmAdministrativa') {
-    require_once '../modelos/acpm.modelo.php';
-    $controlador = new ControladorAcpm();
-    $controlador->graficaVerificacionAcpmAdministrativa();
-}
-
-// Manejar la acción de la solicitud AJAX
-if (isset($_GET['action']) && $_GET['action'] == 'graficaVerificacionAccionesAdministrativa') {
-    require_once '../modelos/acpm.modelo.php';
-    $controlador = new ControladorAcpm();
-    $controlador->graficaVerificacionAccionesAdministrativa();
-}
-
-/*=============================================
-                GESTION CONTABLE
-    =============================================*/
-
-// Manejar la acción de la solicitud AJAX
-if (isset($_GET['action']) && $_GET['action'] == 'graficaVerificacionAcpmContable') {
-    require_once '../modelos/acpm.modelo.php';
-    $controlador = new ControladorAcpm();
-    $controlador->graficaVerificacionAcpmContable();
-}
-
-// Manejar la acción de la solicitud AJAX
-if (isset($_GET['action']) && $_GET['action'] == 'graficaVerificacionAccionesContable') {
-    require_once '../modelos/acpm.modelo.php';
-    $controlador = new ControladorAcpm();
-    $controlador->graficaVerificacionAccionesContable();
-}
-
-/*=============================================
-                GESTION JURIDICA
-    =============================================*/
-
-// Manejar la acción de la solicitud AJAX
-if (isset($_GET['action']) && $_GET['action'] == 'graficaVerificacionAcpmJuridica') {
-    require_once '../modelos/acpm.modelo.php';
-    $controlador = new ControladorAcpm();
-    $controlador->graficaVerificacionAcpmJuridica();
-}
-
-// Manejar la acción de la solicitud AJAX
-if (isset($_GET['action']) && $_GET['action'] == 'graficaVerificacionAccionesJuridica') {
-    require_once '../modelos/acpm.modelo.php';
-    $controlador = new ControladorAcpm();
-    $controlador->graficaVerificacionAccionesJuridica();
-}
-
-/*=============================================
-                GESTION DE TECNOLOGIA INFORMATICA
-    =============================================*/
-
-// Manejar la acción de la solicitud AJAX
-if (isset($_GET['action']) && $_GET['action'] == 'graficaVerificacionAcpmInformatica') {
-    require_once '../modelos/acpm.modelo.php';
-    $controlador = new ControladorAcpm();
-    $controlador->graficaVerificacionAcpmInformatica();
-}
-
-// Manejar la acción de la solicitud AJAX
-if (isset($_GET['action']) && $_GET['action'] == 'graficaVerificacionAccionesInformatica') {
-    require_once '../modelos/acpm.modelo.php';
-    $controlador = new ControladorAcpm();
-    $controlador->graficaVerificacionAccionesInformatica();
-}
-
-
-/*=============================================
-                OPERACIONES
-    =============================================*/
-
-// Manejar la acción de la solicitud AJAX
-if (isset($_GET['action']) && $_GET['action'] == 'graficaVerificacionAcpmOperaciones') {
-    require_once '../modelos/acpm.modelo.php';
-    $controlador = new ControladorAcpm();
-    $controlador->graficaVerificacionAcpmOperaciones();
-}
-
-// Manejar la acción de la solicitud AJAX
-if (isset($_GET['action']) && $_GET['action'] == 'graficaVerificacionAccionesOperaciones') {
-    require_once '../modelos/acpm.modelo.php';
-    $controlador = new ControladorAcpm();
-    $controlador->graficaVerificacionAccionesOperaciones();
-}
-
-
-/*=============================================
-                GERENCIA
-    =============================================*/
-
-// Manejar la acción de la solicitud AJAX
-if (isset($_GET['action']) && $_GET['action'] == 'graficaVerificacionAcpmGerencia') {
-    require_once '../modelos/acpm.modelo.php';
-    $controlador = new ControladorAcpm();
-    $controlador->graficaVerificacionAcpmGerencia();
-}
-
-// Manejar la acción de la solicitud AJAX
-if (isset($_GET['action']) && $_GET['action'] == 'graficaVerificacionAccionesGerencia') {
-    require_once '../modelos/acpm.modelo.php';
-    $controlador = new ControladorAcpm();
-    $controlador->graficaVerificacionAccionesGerencia();
-}
-
-
-/*=============================================
-                SEGURIDAD
-    =============================================*/
-
-// Manejar la acción de la solicitud AJAX
-if (isset($_GET['action']) && $_GET['action'] == 'graficaVerificacionAcpmSeguridad') {
-    require_once '../modelos/acpm.modelo.php';
-    $controlador = new ControladorAcpm();
-    $controlador->graficaVerificacionAcpmSeguridad();
-}
-
-// Manejar la acción de la solicitud AJAX
-if (isset($_GET['action']) && $_GET['action'] == 'graficaVerificacionAccionesSeguridad') {
-    require_once '../modelos/acpm.modelo.php';
-    $controlador = new ControladorAcpm();
-    $controlador->graficaVerificacionAccionesSeguridad();
-}
 

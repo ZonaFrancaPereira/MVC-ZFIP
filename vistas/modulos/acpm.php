@@ -225,12 +225,12 @@ if ($id_acpm > 0) {
                     <div class="modal-body">
                       <form id="form_evidencia" method="POST" enctype="multipart/form-data">
                         <!-- Hidden input for activity ID -->
-                        <div class="form-group">
+                        <div class="form-group" hidden>
                           <label for="id_actividad_fk">Actividad</label>
                           <input type="text" id="id_actividad_fk" name="id_actividad_fk" class="form-control"  readonly>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" hidden>
                           <label for="id_usuario_e_fk">Nombre del Responsable</label>
                           <input type="text" id="id_usuario_e_fk" name="id_usuario_e_fk" value="<?php echo $_SESSION['id']; ?>" class="form-control" readonly>
                         </div>

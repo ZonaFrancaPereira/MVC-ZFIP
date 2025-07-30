@@ -81,7 +81,7 @@
                 </div>
                 <div class="modal-body">
                     <form method="POST" enctype="multipart/form-data">
-                        <div class="form-group mb-4">
+                        <div class="form-group mb-4" hidden>
                             <label for="id_usuario_copia" class="font-weight-bold">Id Usuario</label>
                             <input type="text" name="id_usuario_copia" class="form-control" id="id_usuario_copia" placeholder="Ingrese el nombre de usuario" required>
                         </div>
