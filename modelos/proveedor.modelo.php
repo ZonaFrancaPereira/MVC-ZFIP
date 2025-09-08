@@ -59,9 +59,7 @@ class ModeloProveedor
 
         if ($item != null) {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * 
-														
-														FROM 
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM 
 														$tabla 
 														WHERE $item = :$item");
 
@@ -92,10 +90,7 @@ class ModeloProveedor
     static public function mdlMostrarProveedorAjax()
     {
 
-
-
-        $stmt = Conexion::conectar()->prepare("SELECT id_proveedor 
-													,nombre_proveedor as text	
+        $stmt = Conexion::conectar()->prepare("SELECT id_proveedor,nombre_proveedor as text	
 													 FROM proveedor_compras");
 
         $stmt->execute();
@@ -110,10 +105,6 @@ class ModeloProveedor
 
             return $stmt->fetchAll();
         }
-
-
-
-
 
         $stmt = null;
     }
@@ -200,7 +191,6 @@ class ModeloProveedor
 
     static public function mdlMostrarNumRegistros($valor)
     {
-
 
         $stmt = Conexion::conectar()->prepare("SELECT count(documento) as contador FROM proveedor_compras 
                                 

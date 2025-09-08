@@ -46,8 +46,10 @@ class ModeloVerificaciones
     /*=============================================
     MOSTRAR Verificaciones por Inventario y Usuario
     =============================================*/
-    static public function mdlMostrarVerificacionesPorInventario($tablaVerificacion, $tablaActivos, $id_inventario, $id_usuario_fk)
-    {
+   static public function mdlMostrarVerificacionesPorInventario($tablaVerificacion, $tablaActivos, $id_inventario, $id_usuario_fk)
+{
+    if (isset($id_usuario_fk) && $id_usuario_fk !== null) {
+        // Consulta con usuario
         $stmt = Conexion::conectar()->prepare("
             SELECT v.*, a.*
             FROM $tablaVerificacion AS v
@@ -55,14 +57,22 @@ class ModeloVerificaciones
             WHERE v.id_inventario_fk = :id_inventario
             AND v.id_usuario_fk = :id_usuario_fk
         ");
-
         $stmt->bindParam(":id_inventario", $id_inventario, PDO::PARAM_INT);
         $stmt->bindParam(":id_usuario_fk", $id_usuario_fk, PDO::PARAM_INT);
-
-        $stmt->execute();
-        return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
-        $stmt = null;
+    } else {
+        // Consulta sin usuario
+        $stmt = Conexion::conectar()->prepare("SELECT v.*,v.estado AS estado_verificacion, a.*,u.*
+            FROM $tablaVerificacion AS v
+            INNER JOIN $tablaActivos AS a ON v.id_activo_fk = a.id_activo
+            INNER JOIN usuarios AS u ON v.id_usuario_fk = u.id
+            WHERE v.id_inventario_fk = :id_inventario
+        ");
+        $stmt->bindParam(":id_inventario", $id_inventario, PDO::PARAM_INT);
     }
+
+    $stmt->execute();
+    return $stmt->fetchAll();
+}
 
 
 
@@ -178,5 +188,6 @@ public static function mdlContarActivosNoVerificados($tablaVerificacion, $tablaA
         $stmt->execute();
         return $stmt->fetch();
     }
+    
 
 }

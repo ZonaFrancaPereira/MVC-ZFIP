@@ -97,6 +97,8 @@ class ModeloInventario
 			return $stmt -> fetchAll();
 
     }
+
+       
    
 }
 ?>

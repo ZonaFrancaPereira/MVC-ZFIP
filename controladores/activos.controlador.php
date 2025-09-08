@@ -35,7 +35,8 @@ class ControladorActivos
                     "descripcion_proveedor" => $_POST["descripcion_proveedor"],
                     "id_usuario_fk" => $_POST["id_usuario_fk"],
                     "estado_activo" => $_POST["estado_activo"],
-                    "recurso_tecnologico" => $_POST["recurso_tecnologico"]
+                    "recurso_tecnologico" => $_POST["recurso_tecnologico"],
+                    "id_categoriact_fk" => $_POST["id_categoriact_fk"]
                 );
 
 				$respuesta = ModeloActivos::mdlIngresarActivos($tabla, $datos);
@@ -315,6 +316,11 @@ class ControladorActivos
         return $stmt->fetchAll();
     }
     
+     public static function ctrMostrarCategoriaActivos() {
+        $tablaCategorias = "categorias_activos";
+        return ModeloActivos::mdlMostrarCategoriarActivos($tablaCategorias);
+    }
+      
 	/*=============================================
 	EDITAR Activos
 	=============================================*/
@@ -421,100 +427,88 @@ class ControladorActivos
     TRANSFERIR ACTIVO
     =============================================*/
      // Función para transferir un activo de un usuario a otro
-     public static function ctrTransferirActivo() {
-        if (isset($_POST["id_activo"], $_POST["usuario_destino"], $_POST["observaciones"])) {
-            // Obtener los datos del formulario POST
-            $id_activo = $_POST["id_activo"];
-            $usuario_destino = $_POST["usuario_destino"];
-            $observaciones = $_POST["observaciones"];
-            
-            // Obtener el usuario origen del activo
-            $item = "id_activo";
-            $valor = $id_activo;
-            $activos = ControladorActivos::ctrMostrarActivos($item, $valor);
-            $usuario_origen = null;
-            foreach ($activos as $row) {
-                $usuario_origen = $row['id_usuario_fk'];
-            }
+public static function ctrTransferirActivo() {
+    if (isset($_POST["tipo_acta_select"])) {
+        
+        // Datos del formulario
+        $id_activos       = $_POST["id_activo"];      // Array de activos
+        $usuario_destino  = $_POST["usuario_destino"] ?? null;
+        $observaciones    = $_POST["observaciones"];
+        $tipo_acta        = $_POST["tipo_acta_select"];
 
-            // Verificar si se encontró el usuario origen
-            if ($usuario_origen === null) {
-                // Manejar el caso donde no se pudo obtener el usuario origen
-                echo '<script>
-                    Swal.fire(
-                        type: "error",
-                        title: "Error al obtener el usuario origen del activo.",
-                        text: "Por favor, inténtelo de nuevo.",
-                        showConfirmButton: true,
-                        confirmButtonText: "Cerrar"
-                    }).then(function(result) {
-                        if (result.value) {
-                            window.location = "Activos";
-                        }
-                    });
-                </script>';
-                return;
-            }
+        // ✅ 1. Obtener el usuario origen desde el primer activo seleccionado
+        $item   = "id_activo";
+        $valor  = $id_activos[0]; // tomo el primero porque todos deben ser del mismo usuario
+        $activo = ControladorActivos::ctrMostrarActivos($item, $valor);
 
-            // Preparar los datos para la transferencia
-            $datos = array(
-                "id_activo" => $id_activo,
-                "usuario_origen" => $usuario_origen,
-                "usuario_destino" => $usuario_destino,
-                "observaciones" => $observaciones
-            );
+        $usuario_origen = $activo[0]["id_usuario_fk"] ?? null;
 
-            // Registrar la transferencia en el historial
-            $respuestaHistorial = ModeloActivos::mdlRegistrarTransferencia($datos);
-
-            // Actualizar el usuario del activo
-            $respuestaActivo = ModeloActivos::mdlActualizarUsuarioActivo($datos);
-
-            // Manejo de respuestas
-            if ($respuestaHistorial == "ok" && $respuestaActivo == "ok") {
-                echo '<script>
-                    Swal.fire(
-                        type: "success",
-                        title: "El activo ha sido cambiado correctamente",
-                        showConfirmButton: true,
-                        confirmButtonText: "Cerrar"
-                    }).then(function(result) {
-                        if (result.value) {
-                            window.location = "inicio";
-                        }
-                    });
-                </script>';
-            } else {
-                echo '<script>
-                    Swal.fire(
-                        type: "error",
-                        title: "¡Hubo un error al cambiar el activo!",
-                        showConfirmButton: true,
-                        confirmButtonText: "Cerrar"
-                    }).then(function(result) {
-                        if (result.value) {
-                            window.location = "inicio";
-                        }
-                    });
-                </script>';
-            }
-        } else {
-            // Manejar el caso donde faltan parámetros en el POST
+        if ($usuario_origen === null) {
             echo '<script>
-                Swal.fire(
-                    type: "error",
-                    title: "Faltan parámetros para transferir el activo.",
-                    text: "Por favor, complete todos los campos requeridos.",
-                    showConfirmButton: true,
-                    confirmButtonText: "Cerrar"
-                }).then(function(result) {
-                    if (result.value) {
-                        window.location = "inicio";
-                    }
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "No se pudo determinar el usuario origen."
                 });
             </script>';
+            return;
         }
+
+        // ✅ 2. Ajustar usuario_destino si es Baja
+        if ($tipo_acta === "Baja") {
+            $usuario_destino = $usuario_origen; // mismo usuario
+        }
+
+        // ✅ 3. Crear el acta
+        $datosActa = array(
+            "tipo_acta"        => $tipo_acta,
+            "usuario_origen"   => $usuario_origen,
+            "usuario_destino"  => $usuario_destino,
+            "observaciones"    => $observaciones
+        );
+
+        $id_acta_fk = ModeloActivos::mdlCrearActa($datosActa);
+
+        // ✅ 4. Insertar cada activo en historial_transferencias
+        foreach ($id_activos as $id_activo) {
+            $datosHistorial = array(
+                "id_activo" => $id_activo,
+                "id_acta_fk" => $id_acta_fk
+            );
+
+            ModeloActivos::mdlRegistrarTransferencia($datosHistorial);
+
+            // Si es baja, actualizar estado del activo
+            if ($tipo_acta === "Baja") {
+                ModeloActivos::mdlActualizarEstadoActivo(array(
+                    "id_activo" => $id_activo,
+                    "estado"    => "Dar de Baja"
+                ));
+            } else {
+                // Si no es baja, actualizar usuario del activo
+                ModeloActivos::mdlActualizarUsuarioActivo(array(
+                    "id_activo"       => $id_activo,
+                    "usuario_destino" => $usuario_destino
+                ));
+            }
+        }
+
+        // ✅ 5. Respuesta final
+        echo '<script>
+            Swal.fire({
+                icon: "success",
+                title: "Proceso realizado",
+                text: "Se creó el acta y se registraron las transferencias correctamente."
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    window.location = "contabilidad";
+                }
+            });
+        </script>';
     }
+}
+
+
 
 /*=============================================
 TRANSFERIR ACTIVOS DE UN USUARIO A OTRO

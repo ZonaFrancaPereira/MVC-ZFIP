@@ -8,7 +8,7 @@ $totalActivos = ControladorActivos::ctrContarActivosPorUsuario($idUsuario);
 $totalInactivos = ControladorActivos::ctrContarActivosInactivosPorUsuario($idUsuario);
 
 // Mostrar el resultado
-echo "Total de activos para el usuario actual: " . $totalActivos;
+//echo "Total de activos para el usuario actual: " . $totalActivos;
 ?>
   <!-- Info boxes -->
   <div class="row">
@@ -126,7 +126,7 @@ echo "Total de activos para el usuario actual: " . $totalActivos;
                     <h3 class="card-title">Activos Verificados</h3>
                   </div>
                   <div class="card-body table-responsive p-0">
-                    <table id="tabla-verificados" class="table table-striped table-valign-middle">
+                    <table id="tabla-Averificados" class="table table-striped table-valign-middle">
                       <thead>
                         <tr>
                           <th>Código</th>

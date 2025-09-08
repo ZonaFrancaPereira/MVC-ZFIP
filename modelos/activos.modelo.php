@@ -30,7 +30,8 @@ class ModeloActivos
             descripcion_proveedor,
             id_usuario_fk,
             estado_activo,
-            recurso_tecnologico
+            recurso_tecnologico,
+            id_categoriact_fk
         ) VALUES (
             :cod_renta,
             :nombre_articulo,
@@ -49,7 +50,8 @@ class ModeloActivos
             :descripcion_proveedor,
             :id_usuario_fk,
             :estado_activo,
-            :recurso_tecnologico
+            :recurso_tecnologico,
+            :id_categoriact_fk
         )");
 
 
@@ -71,6 +73,7 @@ class ModeloActivos
         $stmt->bindParam(":id_usuario_fk", $datos["id_usuario_fk"], PDO::PARAM_STR);
         $stmt->bindParam(":estado_activo", $datos["estado_activo"], PDO::PARAM_STR);
         $stmt->bindParam(":recurso_tecnologico", $datos["recurso_tecnologico"], PDO::PARAM_STR);
+        $stmt->bindParam(":id_categoriact_fk", $datos["id_categoriact_fk"], PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             return "ok";
@@ -228,21 +231,33 @@ class ModeloActivos
     /*=============================================
 	MOSTRAR Activos
 	=============================================*/
-    static public function mdlMostrarActivos($tabla, $item, $valor)
-    {
+   static public function mdlMostrarActivos($tabla, $item, $valor)
+{
+    // Verifica si se proporcionaron parámetros
+    if ($item != null && $valor != null) {
 
-        // Verifica si se proporcionaron parámetros
-        if ($item != null && $valor != null) {
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :valor");
-            $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
-            $stmt->execute();
-            return $stmt->fetchAll();
-        } else {
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
-            $stmt->execute();
-            return $stmt->fetchAll();
-        }
+        $stmt = Conexion::conectar()->prepare("SELECT a.*,p.id_proveedor, p.nombre_proveedor 
+            FROM $tabla a
+            INNER JOIN proveedor_compras p ON a.id_proveedor_fk = p.id_proveedor
+            WHERE a.$item = :valor
+        ");
+
+        $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchAll();
+
+    } else {
+
+        $stmt = Conexion::conectar()->prepare("SELECT a.*, p.id_proveedor,p.nombre_proveedor 
+            FROM $tabla a
+            INNER JOIN proveedor_compras p ON a.id_proveedor_fk = p.id_proveedor
+        ");
+
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
+}
+
 
     /*=============================================
 	MOSTRAR ACTIVOS TECNOLOGICOS DIFERENTES A EQUIPOS DE COMPUTO
@@ -501,6 +516,16 @@ class ModeloActivos
         return $stmt->fetchAll();
         $stmt = null;
     }
+    public static function mdlMostrarCategoriarActivos($tablaCategorias)
+    {
+        $stmt = Conexion::conectar()->prepare("SELECT *
+            FROM $tablaCategorias  ");
+
+        $stmt->execute();
+        return $stmt->fetchAll();
+        $stmt = null;
+    }
+    
     /*=============================================
 	EDITAR Activos
 	=============================================*/
@@ -586,6 +611,36 @@ class ModeloActivos
 
         $stmt = null;
     }
+
+
+public static function mdlCrearActa($datos) {
+    try {
+        $pdo = Conexion::conectar();
+
+        $stmt = $pdo->prepare("
+            INSERT INTO acta_activos (tipo_acta, usuario_origen, usuario_destino, observaciones_acta)
+            VALUES (:tipo_acta, :usuario_origen, :usuario_destino, :observaciones)
+        ");
+
+        $stmt->bindParam(":tipo_acta", $datos["tipo_acta"], PDO::PARAM_STR);
+        $stmt->bindParam(":usuario_origen", $datos["usuario_origen"], PDO::PARAM_INT);
+        $stmt->bindParam(":usuario_destino", $datos["usuario_destino"], PDO::PARAM_INT);
+        $stmt->bindParam(":observaciones", $datos["observaciones"], PDO::PARAM_STR);
+
+        if ($stmt->execute()) {
+            // ✅ Devolvemos el ID insertado
+            return $pdo->lastInsertId();
+        } else {
+            $error = $stmt->errorInfo();
+            return false;
+        }
+    } catch (Exception $e) {
+        return false;
+    } finally {
+        $stmt = null;
+        $pdo = null;
+    }
+}
     /*=============================================
 	ACTUALIZAR Activos
 	=============================================*/
@@ -611,40 +666,30 @@ class ModeloActivos
     /*=============================================
     REGISTRAR TRANSFERENCIA DE ACTIVO
     =============================================*/
-    public static function mdlRegistrarTransferencia($datos)
-    {
-        $stmt = Conexion::conectar()->prepare("
-            INSERT INTO historial_transferencias (id_activo, id_usuario_origen, id_usuario_destino, fecha_transferencia, observaciones)
-            VALUES (:id_activo, :id_usuario_origen, :id_usuario_destino, NOW(), :observaciones)
-        ");
+ public static function mdlRegistrarTransferencia($datos) {
+    $stmt = Conexion::conectar()->prepare("
+        INSERT INTO historial_transferencias (id_activo_fk, id_acta_fk)
+        VALUES (:id_activo, :id_acta_fk)
+    ");
 
-        $id_activo = $datos["id_activo"];
-        $id_usuario_origen = $datos["usuario_origen"];
-        $id_usuario_destino = $datos["usuario_destino"];
-        $observaciones = $datos["observaciones"];
+    $stmt->bindParam(":id_activo", $datos["id_activo"], PDO::PARAM_INT);
+    $stmt->bindParam(":id_acta_fk", $datos["id_acta_fk"], PDO::PARAM_INT);
 
-        $stmt->bindParam(":id_activo", $id_activo, PDO::PARAM_INT);
-        $stmt->bindParam(":id_usuario_origen", $id_usuario_origen, PDO::PARAM_INT);
-        $stmt->bindParam(":id_usuario_destino", $id_usuario_destino, PDO::PARAM_INT);
-        $stmt->bindParam(":observaciones", $observaciones, PDO::PARAM_STR);
-
-        if ($stmt->execute()) {
-            return "ok";
-        } else {
-            $arr = $stmt->errorInfo();
-            return $arr[2];
-        }
-
-        $stmt = null;
+    if ($stmt->execute()) {
+        return "ok";
+    } else {
+        return "error";
     }
+
+    $stmt = null;
+}
 
     /*=============================================
     ACTUALIZAR USUARIO DEL ACTIVO
     =============================================*/
     public static function mdlActualizarUsuarioActivo($datos)
     {
-        $stmt = Conexion::conectar()->prepare("
-            UPDATE activos
+        $stmt = Conexion::conectar()->prepare("UPDATE activos
             SET id_usuario_fk = :id_usuario_destino
             WHERE id_activo = :id_activo
         ");
@@ -664,6 +709,13 @@ class ModeloActivos
 
         $stmt = null;
     }
+
+    public static function mdlActualizarEstadoActivo($datos) {
+    $stmt = Conexion::conectar()->prepare("UPDATE activos SET estado = :estado WHERE id_activo = :id_activo");
+    $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_STR);
+    $stmt->bindParam(":id_activo", $datos["id_activo"], PDO::PARAM_INT);
+    return $stmt->execute();
+}
 
     /*=============================================
     CONTAR ACTIVOS VERIFICADOS

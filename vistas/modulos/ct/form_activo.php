@@ -97,7 +97,7 @@
                                     <div class="form-group">
 
                                         <label for="id_proveedor_fk"> Proveedor</label>
-                                        <input list="proveedor" class="form-control select2 seleccionarCliente" id="id_proveedor_fk" name="id_proveedor_fk" required style="width: 100%;">
+                                        <input list="proveedor" class="form-control  " id="id_proveedor_fk" name="id_proveedor_fk" required style="width: 100%;">
                                         <datalist id="proveedor">
                                             <?php
                                             if ($proveedor["documento"] <> 0) {
@@ -115,7 +115,7 @@
                                         </datalist>
                                     </div>
                                 </div>
-                                <div class="col-md-8 col-sm-12">
+                                <div class="col-md-4 col-sm-12">
                                     <div class="form-group">
                                         <label for="descripcion_proveedor">Descripción del Proveedor</label>
                                         <input type="text" class="form-control" id="descripcion_proveedor" name="descripcion_proveedor">
@@ -124,7 +124,7 @@
                                 <div class="col-md-4 col-sm-12">
                                     <div class="form-group">
                                         <label for="id_usuario_fk">Usuario</label>
-                                        <input list="usuarios" class="form-control select2 " id="id_usuario_fk" name="id_usuario_fk" required style="width: 100%;">
+                                        <input list="usuarios" class="form-control  " id="id_usuario_fk" name="id_usuario_fk" required style="width: 100%;">
                                         <datalist id="usuarios">
                                             <?php
                                             if ($usuario["id"] <> 0) {
@@ -145,6 +145,35 @@
                                 </div>
                                 <div class="col-md-4 col-sm-12">
                                     <div class="form-group">
+                                        <label for="recurso_tecnologico">Recurso Tecnológico</label>
+                                        <select class="form-control" id="recurso_tecnologico" name="recurso_tecnologico">
+                                            <option value="Si">Sí</option>
+                                            <option value="No">No</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="recurso_tecnologico">Categoria Activo</label>
+                                        <input list="categoria_activo" class="form-control  " id="id_categoriact_fk" name="id_categoriact_fk" required style="width: 100%;">
+                                        <datalist id="categoria_activo">
+                                            <?php
+                                           
+                                            $item = null;
+                                            $valor = null;
+                                            $usuario = ControladorActivos::ctrMostrarCategoriaActivos($item, $valor);
+                                            // Devolver los datos en formato JSON
+
+                                            foreach ($usuario as $key => $value) {
+                                                echo '<option value="' . $value["id_categoriact"] . '"> ' . $value["nombre_categoriact"] . ' </option>';
+                                            }
+                                            ?>
+                                        </datalist>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="form-group">
                                         <label for="estado_activo">Estado del Activo</label>
                                         <select class="form-control" id="estado_activo" name="estado_activo">
                                             <option value="Activo">Activo</option>
@@ -154,16 +183,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-4 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="recurso_tecnologico">Recurso Tecnológico</label>
-                                        <select class="form-control" id="recurso_tecnologico" name="recurso_tecnologico">
-                                            <option value="Si">Sí</option>
-                                            <option value="No">No</option>
 
-                                        </select>
-                                    </div>
-                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">

@@ -45,6 +45,7 @@ class ControladorVerificaciones
                         ).then(function() {
                             // Limpiar el formulario
                             $("#verificarActivo")[0].reset(); // Resetea el formulario
+                            window.location = "contabilidad"; // Redirige a la página de contabilidad
                             $("#panelcontabilidad").addClass("active");
                         });
                     </script>';
