@@ -338,7 +338,7 @@ if ($_SESSION["ti"] == "off") {
                             </div>
                         </div>
                     </div>
-                    <div id="realizar_solicitud" class="tab-pane">
+                    <div id="realizar_solicitud" class="tab-pane fade show active">
                         <div class="row">
                             <div class="col-md-12">
                                 <?php require "ti/soporte.php"; ?>
