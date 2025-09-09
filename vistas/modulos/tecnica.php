@@ -78,7 +78,7 @@ if ($_SESSION["ti"] == "off") {
                         </div>
                     </div>
 
-                    <div id="soporte_tecnica" class="tab-pane">
+                    <div id="soporte_tecnica" class="tab-pane fade show active">
                         <div class="row">
                             <div class="col-md-12">
                                 <?php require "tecnica/soporte_tecnica.php"; ?>
