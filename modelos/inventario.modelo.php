@@ -53,7 +53,7 @@ class ModeloInventario
     =============================================*/
     static public function mdlCerrarInventario($tabla, $datos)
     {
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado = :estado,fecha_cierre = :fecha_cierre, id_usuario_cierre = :id_usuario_cierre WHERE id_inventario = :id_inventario");
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado_inventario = :estado,fecha_cierre = :fecha_cierre, id_usuario_cierre = :id_usuario_cierre WHERE id_inventario = :id_inventario");
 
         $stmt->bindParam(":fecha_cierre", $datos["fecha_cierre"], PDO::PARAM_STR);
         $stmt->bindParam(":id_usuario_cierre", $datos["id_usuario_cierre"], PDO::PARAM_INT);

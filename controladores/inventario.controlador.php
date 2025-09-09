@@ -25,7 +25,11 @@ class ControladorInventario
 							"El inventario ' . $respuesta . ' ha sido registrado con éxito.",
 							"success"
 							).then(function() {
-							$("#nuevo_inventario").hide();
+                           
+                            $("#formNuevoInventario")[0].reset();
+                            $("#panelcontabilidad").removeClass("active");
+                            $("#inventario_activos").addClass("active");
+							 window.location = "contabilidad";
 							
 							});
 						</script>
@@ -76,8 +80,8 @@ class ControladorInventario
                                 "success"
                                 ).then(function() {
                                 $("#formCerrarInventario")[0].reset();
-                                $("#inventario_activos").addClass("active");
-								tablaInventario.ajax.reload();
+                                window.location = "contabilidad";
+								 
                                 
                                 });
                             </script>

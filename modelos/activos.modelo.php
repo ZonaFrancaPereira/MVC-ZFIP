@@ -641,6 +641,96 @@ public static function mdlCrearActa($datos) {
         $pdo = null;
     }
 }
+
+    /*=============================================
+	MOSTRAR Activos
+	=============================================*/
+static public function mdlMostrarActa($tabla, $item, $valor)
+{
+    try {
+        $db = Conexion::conectar();
+
+        // Query base: trae acta + datos completos de usuario origen/destino, procesos y cédulas desde vacaciones
+        $baseSelect = "
+            SELECT 
+                a.id_acta,
+                a.fecha_acta,
+                a.tipo_acta,
+                a.observaciones_acta,
+
+                -- Datos usuario origen
+                CONCAT(uo.nombre, ' ', uo.apellidos_usuario) AS usuario_origen,
+                uo.foto AS firma_origen,
+                vo.cedula_administrativa AS cedula_origen,
+                po.id_proceso AS id_proceso_origen,
+                po.siglas_proceso AS siglas_proceso_origen,
+                po.nombre_proceso AS nombre_proceso_origen,
+                po.centro_costos AS centro_costos_origen,
+
+                -- Datos usuario destino
+                CONCAT(ud.nombre, ' ', ud.apellidos_usuario) AS usuario_destino,
+                ud.foto AS firma_destino,
+                vd.cedula_administrativa AS cedula_destino,
+                pd.id_proceso AS id_proceso_destino,
+                pd.siglas_proceso AS siglas_proceso_destino,
+                pd.nombre_proceso AS nombre_proceso_destino,
+                pd.centro_costos AS centro_costos_destino
+
+            FROM {$tabla} a
+            LEFT JOIN usuarios uo ON a.usuario_origen = uo.id
+            LEFT JOIN usuarios ud ON a.usuario_destino = ud.id
+
+            -- Relación con procesos
+            LEFT JOIN proceso po ON uo.id_proceso_fk = po.id_proceso
+            LEFT JOIN proceso pd ON ud.id_proceso_fk = pd.id_proceso
+
+            -- Relación con vacaciones (para obtener la cédula)
+            LEFT JOIN vacaciones vo ON vo.nombre_administrativa = uo.id
+            LEFT JOIN vacaciones vd ON vd.nombre_administrativa = ud.id
+        ";
+
+        // Si nos pasan filtro
+        if ($item != null && $valor != null) {
+
+            // Caso específico: buscar actas donde el usuario es origen o destino
+            if ($item === "id_usuario_fk") {
+                $sql = $baseSelect . "
+                    WHERE a.usuario_origen = :valor OR a.usuario_destino = :valor
+                    ORDER BY a.fecha_acta DESC";
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(":valor", $valor, PDO::PARAM_INT);
+                $stmt->execute();
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
+
+            // Caso genérico: filtrar por la columna que nos pasan
+            $sql = $baseSelect . "
+                WHERE a.{$item} = :valor
+                ORDER BY a.fecha_acta DESC";
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(":valor", $valor, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        // Si no hay filtro, devolver todas las actas
+        $sql = $baseSelect . " ORDER BY a.fecha_acta DESC";
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    } catch (PDOException $e) {
+        // Loguear error y devolver array vacío
+        error_log("mdlMostrarActa error: " . $e->getMessage());
+        return [];
+    } finally {
+        // Liberar recursos
+        if (isset($stmt)) { $stmt = null; }
+        if (isset($db)) { $db = null; }
+    }
+}
+
+
     /*=============================================
 	ACTUALIZAR Activos
 	=============================================*/
@@ -684,6 +774,29 @@ public static function mdlCrearActa($datos) {
     $stmt = null;
 }
 
+public static function mdlObtenerActivosPorActa($id_acta)
+    {
+        $stmt = Conexion::conectar()->prepare("
+            SELECT 
+                a.id_activo,
+                a.cod_renta,
+                a.nombre_articulo,
+                a.marca_articulo,
+                a.modelo_articulo,
+                a.referencia_articulo,
+                ht.id_activo_fk,
+                ht.id_acta_fk
+            FROM historial_transferencias ht
+            INNER JOIN activos a ON ht.id_activo_fk = a.id_activo
+            WHERE ht.id_acta_fk = :id_acta
+        ");
+        
+        $stmt->bindParam(":id_acta", $id_acta, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
     /*=============================================
     ACTUALIZAR USUARIO DEL ACTIVO
     =============================================*/
@@ -711,7 +824,7 @@ public static function mdlCrearActa($datos) {
     }
 
     public static function mdlActualizarEstadoActivo($datos) {
-    $stmt = Conexion::conectar()->prepare("UPDATE activos SET estado = :estado WHERE id_activo = :id_activo");
+    $stmt = Conexion::conectar()->prepare("UPDATE activos SET estado_activo = :estado WHERE id_activo = :id_activo");
     $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_STR);
     $stmt->bindParam(":id_activo", $datos["id_activo"], PDO::PARAM_INT);
     return $stmt->execute();

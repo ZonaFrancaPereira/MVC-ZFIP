@@ -2,23 +2,23 @@
 
 class ControladorActivos
 {
-	/*=============================================
+    /*=============================================
 	CREAR Activos
 	=============================================*/
 
-	static public function ctrCrearActivos()
-	{
+    static public function ctrCrearActivos()
+    {
 
-		if (isset($_POST["nombre_articulo"])) {
+        if (isset($_POST["nombre_articulo"])) {
 
-			if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nombre_articulo"])) {
+            if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nombre_articulo"])) {
 
-				$tabla = "activos";
+                $tabla = "activos";
 
-				$datos = array(
-                    
+                $datos = array(
+
                     "cod_renta" => $_POST["cod_renta"],
-                    
+
                     "nombre_articulo" => $_POST["nombre_articulo"],
                     "descripcion_articulo" => $_POST["descripcion_articulo"],
                     "modelo_articulo" => $_POST["modelo_articulo"],
@@ -39,11 +39,11 @@ class ControladorActivos
                     "id_categoriact_fk" => $_POST["id_categoriact_fk"]
                 );
 
-				$respuesta = ModeloActivos::mdlIngresarActivos($tabla, $datos);
+                $respuesta = ModeloActivos::mdlIngresarActivos($tabla, $datos);
 
-				if ($respuesta == "ok") {
-					
-					echo '<script>
+                if ($respuesta == "ok") {
+
+                    echo '<script>
 
 					  Swal.fire(
 							"Buen Trabajo!",
@@ -58,10 +58,10 @@ class ControladorActivos
 							});
 
 					</script>';
-				}
-			} else {
+                }
+            } else {
 
-				echo '<script>
+                echo '<script>
 
 					 Swal.fire(
 						  type: "error",
@@ -79,39 +79,39 @@ class ControladorActivos
 						})
 
 			  	</script>';
-			}
-		} else {
-			return "error";
-		}
-	}
+            }
+        } else {
+            return "error";
+        }
+    }
 
-	/*=============================================
+    /*=============================================
 	CREAR ASIGNACION DE EQUIPOS
 	=============================================*/
 
-	static public function ctrCrearAsignacion()
-	{
+    static public function ctrCrearAsignacion()
+    {
 
-		if (isset($_POST["guardar_asignacion"])) {
+        if (isset($_POST["guardar_asignacion"])) {
 
-			
 
-				$tabla = "asignacion_equipos";
 
-				$datos = array(
-                    
-                    "fecha_asignacion" => $_POST["fecha_asignacion"],
-                    "estado_asignacion" =>"Activa",
-                    "id_ti_fk" => $_SESSION["id"],
-                    "id_usuario_fk" => $_POST["id_usuario_fk"]
-        
-                );
+            $tabla = "asignacion_equipos";
 
-				$respuesta = ModeloActivos::mdlIngresarAsignacion($tabla, $datos);
+            $datos = array(
 
-				if ($respuesta == "ok") {
-					
-					echo '<script>
+                "fecha_asignacion" => $_POST["fecha_asignacion"],
+                "estado_asignacion" => "Activa",
+                "id_ti_fk" => $_SESSION["id"],
+                "id_usuario_fk" => $_POST["id_usuario_fk"]
+
+            );
+
+            $respuesta = ModeloActivos::mdlIngresarAsignacion($tabla, $datos);
+
+            if ($respuesta == "ok") {
+
+                echo '<script>
 
 					  Swal.fire(
 							"Buen Trabajo!",
@@ -127,56 +127,55 @@ class ControladorActivos
 							});
 
 					</script>';
-				}
-			
-		} else {
-			return "error";
-		}
-	}
+            }
+        } else {
+            return "error";
+        }
+    }
 
     static public function ctrCrearDetallesEquipo()
-{
-    
-    if (isset($_POST["guardar_detalles"])) {
-        
+    {
 
-        $tabla = "detalles_equipos";
+        if (isset($_POST["guardar_detalles"])) {
 
-        $datos = array(
-            "msd" => $_POST["msd"],
-            "antivirus" => $_POST["antivirus"],
-            "visio_pro" => $_POST["visio_pro"],
-            "mac_osx" => $_POST["mac_osx"],
-            "windows" => $_POST["windows"],
-            "autocad" => $_POST["autocad"],
-            "office" => $_POST["office"],
-            "appolo" => $_POST["appolo"],
-            "zeus" => $_POST["zeus"],
-            "otros" => $_POST["otros"],
-            "procesador" => $_POST["procesador"],
-            "disco_duro" => $_POST["disco_duro"],
-            "memoria_ram" => $_POST["memoria_ram"],
-            "cd_dvd" => $_POST["cd_dvd"],
-            "tarjeta_video" => $_POST["tarjeta_video"],
-            "tarjeta_red" => $_POST["tarjeta_red"],
-            "tipo_red" => $_POST["tipo_red"],
-            "tiempo_bloqueo" => $_POST["tiempo_bloqueo"],
-            "usuario" => $_POST["usuario"],
-            "clave" => $_POST["clave"],
-            "zfip" => $_POST["zfip"],
-            "privilegios" => $_POST["privilegios"],
-            "observaciones_equipo" => $_POST["observaciones_equipo"],
-            "backup" => $_POST["backup"],
-            "dia_backup" => $_POST["dia_backup"],
-            "realiza_backup" => $_POST["realiza_backup"],
-            "justificacion_backup" => $_POST["justificacion_backup"],
-            "id_activo_fk" => $_POST["id_activo_fk"]
-        );
 
-        $respuesta = ModeloActivos::mdlIngresarDetallesEquipo($tabla, $datos);
+            $tabla = "detalles_equipos";
 
-        if ($respuesta == "ok") {
-            echo '<script>
+            $datos = array(
+                "msd" => $_POST["msd"],
+                "antivirus" => $_POST["antivirus"],
+                "visio_pro" => $_POST["visio_pro"],
+                "mac_osx" => $_POST["mac_osx"],
+                "windows" => $_POST["windows"],
+                "autocad" => $_POST["autocad"],
+                "office" => $_POST["office"],
+                "appolo" => $_POST["appolo"],
+                "zeus" => $_POST["zeus"],
+                "otros" => $_POST["otros"],
+                "procesador" => $_POST["procesador"],
+                "disco_duro" => $_POST["disco_duro"],
+                "memoria_ram" => $_POST["memoria_ram"],
+                "cd_dvd" => $_POST["cd_dvd"],
+                "tarjeta_video" => $_POST["tarjeta_video"],
+                "tarjeta_red" => $_POST["tarjeta_red"],
+                "tipo_red" => $_POST["tipo_red"],
+                "tiempo_bloqueo" => $_POST["tiempo_bloqueo"],
+                "usuario" => $_POST["usuario"],
+                "clave" => $_POST["clave"],
+                "zfip" => $_POST["zfip"],
+                "privilegios" => $_POST["privilegios"],
+                "observaciones_equipo" => $_POST["observaciones_equipo"],
+                "backup" => $_POST["backup"],
+                "dia_backup" => $_POST["dia_backup"],
+                "realiza_backup" => $_POST["realiza_backup"],
+                "justificacion_backup" => $_POST["justificacion_backup"],
+                "id_activo_fk" => $_POST["id_activo_fk"]
+            );
+
+            $respuesta = ModeloActivos::mdlIngresarDetallesEquipo($tabla, $datos);
+
+            if ($respuesta == "ok") {
+                echo '<script>
                 Swal.fire(
                     "Buen Trabajo!",
                     "Los detalles del equipo se han registrado con éxito.",
@@ -187,89 +186,91 @@ class ControladorActivos
                     window.location = "index.php?ruta=ti";
                 });
             </script>';
+            }
+        } else {
+            return "error";
         }
-    } else {
-        return "error";
     }
-}
 
-	/*=============================================
+    /*=============================================
 	MOSTRAR Activos
 	=============================================*/
 
-	static public function ctrMostrarActivos($item, $valor)
-	{
+    static public function ctrMostrarActivos($item, $valor)
+    {
 
-		$tabla = "activos";
+        $tabla = "activos";
 
-		$respuesta = ModeloActivos::mdlMostrarActivos($tabla, $item, $valor);
+        $respuesta = ModeloActivos::mdlMostrarActivos($tabla, $item, $valor);
 
-		return $respuesta;
-	}
+        return $respuesta;
+    }
 
-    
-	/*=============================================
+
+    /*=============================================
 	MOSTRAR ACTIVOS TECNOLOGICOS
 	=============================================*/
 
-	static public function ctrMostrarActivosTI($item, $valor)
-	{
+    static public function ctrMostrarActivosTI($item, $valor)
+    {
 
-		$tabla = "activos";
+        $tabla = "activos";
 
-		$respuesta = ModeloActivos::mdlMostrarActivosTI($tabla, $item, $valor);
+        $respuesta = ModeloActivos::mdlMostrarActivosTI($tabla, $item, $valor);
 
-		return $respuesta;
-	}
+        return $respuesta;
+    }
 
     /*=============================================
 	MOSTRAR ACTIVOS EQUIPOS TECNOLOGICOS SOLO PC
 	=============================================*/
 
-	static public function ctrMostrarEquipos($item, $valor)
-	{
+    static public function ctrMostrarEquipos($item, $valor)
+    {
 
-		$tabla = "activos";
+        $tabla = "activos";
 
-		$respuesta = ModeloActivos::mdlMostrarEquipos($tabla, $item, $valor);
+        $respuesta = ModeloActivos::mdlMostrarEquipos($tabla, $item, $valor);
 
-		return $respuesta;
-	}
-	/*=============================================
+        return $respuesta;
+    }
+    /*=============================================
 	MOSTRAR ASIGNACION DE ACTIVOS TECNOLOGICOS
 	=============================================*/
 
-	static public function ctrMostrarAsignaciones($item, $valor)
-	{
+    static public function ctrMostrarAsignaciones($item, $valor)
+    {
 
-		$tabla = "asignacion_equipos";
+        $tabla = "asignacion_equipos";
 
-		$respuesta = ModeloActivos::mdlMostrarAsignaciones($tabla, $item, $valor);
+        $respuesta = ModeloActivos::mdlMostrarAsignaciones($tabla, $item, $valor);
 
-		return $respuesta;
-	}
+        return $respuesta;
+    }
 
-	/*=============================================
+    /*=============================================
 	MOSTRAR Activos AJAX
 	=============================================*/
 
-	static public function ctrMostrarActivosAjax()
-	{
+    static public function ctrMostrarActivosAjax()
+    {
 
-		$tabla = "Activos";
+        $tabla = "Activos";
 
-		$respuesta = ModeloActivos::mdlMostrarActivosAjax();
+        $respuesta = ModeloActivos::mdlMostrarActivosAjax();
 
-		return $respuesta;
-	}
-    	/*=============================================
+        return $respuesta;
+    }
+    /*=============================================
 	MOSTRAR Activos fijos no verificados en el invenario
 	=============================================*/
-    public static function ctrMostrarActivosNoVerificados($id_inventario) {
+    public static function ctrMostrarActivosNoVerificados($id_inventario)
+    {
         $tablaActivos = "activos";
         $tablaVerificaciones = "verificaciones";
         return ModeloActivos::mdlMostrarActivosNoVerificados($tablaActivos, $tablaVerificaciones, $id_inventario);
     }
+
     /*=============================================
 	MOSTRAR ACTIVOS POR USUARIO
 	=============================================
@@ -290,7 +291,8 @@ class ControladorActivos
     /*=============================================
 	MOSTRAR ACTIVOS POR USUARIO PARA DAR DE BAJA
 	=============================================*/
-    public static function obtenerActivosConUsuariosBaja($idUsuario = null) {
+    public static function obtenerActivosConUsuariosBaja($idUsuario = null)
+    {
         if ($idUsuario) {
             $sql = "
                 SELECT a.id_activo, a.nombre_articulo, u.nombre AS nombre_usuario, u.apellidos_usuario
@@ -305,35 +307,37 @@ class ControladorActivos
                 INNER JOIN usuarios u ON a.id_usuario_fk = u.id
                 ORDER BY a.nombre_articulo ASC";
         }
-    
+
         $stmt = Conexion::conectar()->prepare($sql);
-    
+
         if ($idUsuario) {
             $stmt->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
         }
-    
+
         $stmt->execute();
         return $stmt->fetchAll();
     }
-    
-     public static function ctrMostrarCategoriaActivos() {
+
+    public static function ctrMostrarCategoriaActivos()
+    {
         $tablaCategorias = "categorias_activos";
         return ModeloActivos::mdlMostrarCategoriarActivos($tablaCategorias);
     }
-      
-	/*=============================================
+
+    /*=============================================
 	EDITAR Activos
 	=============================================*/
 
-    static public function ctrEditarActivos() {
+    static public function ctrEditarActivos()
+    {
 
         if (isset($_POST["editarActivos"])) {
-    
+
             // Validar el campo de nombre del artículo con una expresión regular (ajustar según los requisitos)
             if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nombre_articulo"])) {
-    
+
                 $tabla = "activos"; // Nombre de la tabla en la base de datos
-    
+
                 $datos = array(
                     "id_activo" => $_POST["id_activo"],
                     "cod_renta" => $_POST["cod_renta"],
@@ -356,9 +360,9 @@ class ControladorActivos
                     "estado_activo" => $_POST["estado_activo"],
                     "recurso_tecnologico" => $_POST["recurso_tecnologico"]
                 );
-    
+
                 $respuesta = ModeloActivos::mdlEditarActivos($tabla, $datos);
-    
+
                 if ($respuesta == "ok") {
                     echo '<script>
                         Swal.fire(
@@ -403,98 +407,99 @@ class ControladorActivos
         }
     }
 
-	/*=============================================
+    /*=============================================
 	ELIMINAR Activos
 	=============================================*/
 
-	static public function ctrEliminarActivos()
-	{
+    static public function ctrEliminarActivos()
+    {
 
-		if (isset($_POST["id_activo"])) {
+        if (isset($_POST["id_activo"])) {
 
-			$tabla = "activos";
-			$datos = $_POST["id_activo"];
+            $tabla = "activos";
+            $datos = $_POST["id_activo"];
 
-			$respuesta = ModeloActivos::mdlEliminarActivos($tabla, $datos);
+            $respuesta = ModeloActivos::mdlEliminarActivos($tabla, $datos);
 
-			if ($respuesta == "ok") {
+            if ($respuesta == "ok") {
 
-				echo 'ok';
-			}
-		}
-	}
+                echo 'ok';
+            }
+        }
+    }
     /*=============================================
-    TRANSFERIR ACTIVO
+    TRANSFERIR ACTIVOS SELECCIONADOS O DAR DE BAJA CONFORME AL ACTA
     =============================================*/
-     // Función para transferir un activo de un usuario a otro
-public static function ctrTransferirActivo() {
-    if (isset($_POST["tipo_acta_select"])) {
-        
-        // Datos del formulario
-        $id_activos       = $_POST["id_activo"];      // Array de activos
-        $usuario_destino  = $_POST["usuario_destino"] ?? null;
-        $observaciones    = $_POST["observaciones"];
-        $tipo_acta        = $_POST["tipo_acta_select"];
+    // Función para transferir un activo de un usuario a otro
+    public static function ctrTransferirActivo()
+    {
+        if (isset($_POST["tipo_acta_select"])) {
 
-        // ✅ 1. Obtener el usuario origen desde el primer activo seleccionado
-        $item   = "id_activo";
-        $valor  = $id_activos[0]; // tomo el primero porque todos deben ser del mismo usuario
-        $activo = ControladorActivos::ctrMostrarActivos($item, $valor);
+            // Datos del formulario
+            $id_activos       = $_POST["id_activo"];      // Array de activos
+            $usuario_destino  = $_POST["usuario_destino"] ?? null;
+            $observaciones    = $_POST["observaciones"];
+            $tipo_acta        = $_POST["tipo_acta_select"];
 
-        $usuario_origen = $activo[0]["id_usuario_fk"] ?? null;
+            // ✅ 1. Obtener el usuario origen desde el primer activo seleccionado
+            $item   = "id_activo";
+            $valor  = $id_activos[0]; // tomo el primero porque todos deben ser del mismo usuario
+            $activo = ControladorActivos::ctrMostrarActivos($item, $valor);
 
-        if ($usuario_origen === null) {
-            echo '<script>
+            $usuario_origen = $activo[0]["id_usuario_fk"] ?? null;
+
+            if ($usuario_origen === null) {
+                echo '<script>
                 Swal.fire({
                     icon: "error",
                     title: "Error",
                     text: "No se pudo determinar el usuario origen."
                 });
             </script>';
-            return;
-        }
+                return;
+            }
 
-        // ✅ 2. Ajustar usuario_destino si es Baja
-        if ($tipo_acta === "Baja") {
-            $usuario_destino = $usuario_origen; // mismo usuario
-        }
+            // ✅ 2. Ajustar usuario_destino si es Baja
+            if ($tipo_acta === "Baja") {
+                $usuario_destino = $usuario_origen; // mismo usuario
+            }
 
-        // ✅ 3. Crear el acta
-        $datosActa = array(
-            "tipo_acta"        => $tipo_acta,
-            "usuario_origen"   => $usuario_origen,
-            "usuario_destino"  => $usuario_destino,
-            "observaciones"    => $observaciones
-        );
-
-        $id_acta_fk = ModeloActivos::mdlCrearActa($datosActa);
-
-        // ✅ 4. Insertar cada activo en historial_transferencias
-        foreach ($id_activos as $id_activo) {
-            $datosHistorial = array(
-                "id_activo" => $id_activo,
-                "id_acta_fk" => $id_acta_fk
+            // ✅ 3. Crear el acta
+            $datosActa = array(
+                "tipo_acta"        => $tipo_acta,
+                "usuario_origen"   => $usuario_origen,
+                "usuario_destino"  => $usuario_destino,
+                "observaciones"    => $observaciones
             );
 
-            ModeloActivos::mdlRegistrarTransferencia($datosHistorial);
+            $id_acta_fk = ModeloActivos::mdlCrearActa($datosActa);
 
-            // Si es baja, actualizar estado del activo
-            if ($tipo_acta === "Baja") {
-                ModeloActivos::mdlActualizarEstadoActivo(array(
+            // ✅ 4. Insertar cada activo en historial_transferencias
+            foreach ($id_activos as $id_activo) {
+                $datosHistorial = array(
                     "id_activo" => $id_activo,
-                    "estado"    => "Dar de Baja"
-                ));
-            } else {
-                // Si no es baja, actualizar usuario del activo
-                ModeloActivos::mdlActualizarUsuarioActivo(array(
-                    "id_activo"       => $id_activo,
-                    "usuario_destino" => $usuario_destino
-                ));
-            }
-        }
+                    "id_acta_fk" => $id_acta_fk
+                );
 
-        // ✅ 5. Respuesta final
-        echo '<script>
+                ModeloActivos::mdlRegistrarTransferencia($datosHistorial);
+
+                // Si es baja, actualizar estado del activo
+                if ($tipo_acta === "Baja") {
+                    ModeloActivos::mdlActualizarEstadoActivo(array(
+                        "id_activo" => $id_activo,
+                        "estado"    => "Dar de Baja"
+                    ));
+                } else {
+                    // Si no es baja, actualizar usuario del activo
+                    ModeloActivos::mdlActualizarUsuarioActivo(array(
+                        "id_activo"       => $id_activo,
+                        "usuario_destino" => $usuario_destino
+                    ));
+                }
+            }
+
+            // ✅ 5. Respuesta final
+            echo '<script>
             Swal.fire({
                 icon: "success",
                 title: "Proceso realizado",
@@ -505,156 +510,210 @@ public static function ctrTransferirActivo() {
                 }
             });
         </script>';
+        }
     }
-}
 
+    /*=============================================
+    TRANSFERIR TODOS LOS ACTIVOS DE UN USUARIO A OTRO
+    =============================================*/
+    public static function ctrTransferirActivosUsuarioMasivo()
+    {
 
+        if (isset($_POST["global_origen"], $_POST["global_destino"], $_POST["observaciones_global"])) {
 
-/*=============================================
-TRANSFERIR ACTIVOS DE UN USUARIO A OTRO
-=============================================*/
-public static function ctrTransferirActivosUsuarioMasivo() {
-    if (isset($_POST["usuario_origen"], $_POST["usuario_destino"], $_POST["observaciones"])) {
-        $usuario_origen = $_POST["usuario_origen"];
-        $usuario_destino = $_POST["usuario_destino"];
-        $observaciones = $_POST["observaciones"];
+            $usuario_origen  = $_POST["global_origen"];
+            $usuario_destino = $_POST["global_destino"];
+            $observaciones   = $_POST["observaciones_global"];
 
-        // Obtener todos los activos del usuario origen
-        $item = "id_usuario_fk";
-        $valor = $usuario_origen;
-        $activos_usuario_origen = ControladorActivos::ctrMostrarActivos($item, $valor);
+            // ✅ 1. Validar que no sean el mismo usuario
+            if ($usuario_origen === $usuario_destino) {
+                echo '<script>
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "El usuario de origen y destino no pueden ser iguales."
+                });
+            </script>';
+                return;
+            }
 
-        // Iterar sobre los activos y transferir cada uno al usuario destino
-        foreach ($activos_usuario_origen as $activo) {
-            $datos = array(
-                "id_activo" => $activo["id_activo"],
-                "usuario_origen" => $usuario_origen,
-                "usuario_destino" => $usuario_destino,
-                "observaciones" => $observaciones
+            // ✅ 2. Obtener todos los activos del usuario origen
+            $item  = "id_usuario_fk";
+            $valor = $usuario_origen;
+            $activos_usuario_origen = ControladorActivos::ctrMostrarActivos($item, $valor);
+
+            if (empty($activos_usuario_origen)) {
+                echo '<script>
+                Swal.fire({
+                    icon: "info",
+                    title: "Sin activos",
+                    text: "El usuario seleccionado no tiene activos asignados."
+                });
+            </script>';
+                return;
+            }
+
+            // ✅ 3. Crear un acta para la transferencia masiva
+            $datosActa = array(
+                "tipo_acta"        => "Asignacion",
+                "usuario_origen"   => $usuario_origen,
+                "usuario_destino"  => $usuario_destino,
+                "observaciones"    => $observaciones
             );
 
-            // Registrar la transferencia en el historial
-            $respuestaHistorial = ModeloActivos::mdlRegistrarTransferencia($datos);
+            $id_acta_fk = ModeloActivos::mdlCrearActa($datosActa);
 
-            // Actualizar el usuario del activo
-            $respuestaActivo = ModeloActivos::mdlActualizarUsuarioActivo($datos);
-
-            // Verificar si hubo algún error en la transferencia
-            if ($respuestaHistorial != "ok" || $respuestaActivo != "ok") {
+            if (!$id_acta_fk) {
                 echo '<script>
-                    Swal.fire(
-                        type: "error",
-                        title: "¡Hubo un error al cambiar el activo!",
-                        showConfirmButton: true,
-                        confirmButtonText: "Cerrar"
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "No se pudo crear el acta para la transferencia."
+                });
+            </script>';
+                return;
+            }
+
+            // ✅ 4. Transferir todos los activos
+            foreach ($activos_usuario_origen as $activo) {
+                $id_activo = $activo["id_activo"];
+
+                // Guardar en historial de transferencias
+                $datosHistorial = array(
+                    "id_activo"  => $id_activo,
+                    "id_acta_fk" => $id_acta_fk
+                );
+
+                $respuestaHistorial = ModeloActivos::mdlRegistrarTransferencia($datosHistorial);
+
+                // Actualizar el usuario del activo
+                $respuestaActivo = ModeloActivos::mdlActualizarUsuarioActivo(array(
+                    "id_activo"       => $id_activo,
+                    "usuario_destino" => $usuario_destino
+                ));
+
+                if ($respuestaHistorial != "ok" || $respuestaActivo != "ok") {
+                    echo '<script>
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "Hubo un problema al transferir el activo con ID: ' . $id_activo . '"
                     }).then(function(result) {
-                        if (result.value) {
-                            window.location = "inicio";
+                        if (result.isConfirmed) {
+                            window.location = "activos";
                         }
                     });
                 </script>';
-                return; // Salir del proceso si hay errores
+                    return;
+                }
             }
-        }
 
-        // Si se transfieren todos los activos correctamente
-        echo '<script>
-            Swal.fire(
-                type: "success",
-                title: "Los activos han sido transferidos correctamente",
-                showConfirmButton: true,
-                confirmButtonText: "Cerrar"
+            // ✅ 5. Respuesta final exitosa
+            echo '<script>
+            Swal.fire({
+                icon: "success",
+                title: "Transferencia exitosa",
+                text: "Todos los activos fueron transferidos correctamente.",
+                confirmButtonText: "Aceptar"
             }).then(function(result) {
-                if (result.value) {
-                    window.location = "inicio";
+                if (result.isConfirmed) {
+                    window.location = "activos";
                 }
             });
         </script>';
-    } else {
-        echo '<script>
-            Swal.fire(
-                type: "error",
-                title: "Faltan datos requeridos para la transferencia de activos",
-                showConfirmButton: true,
-                confirmButtonText: "Cerrar"
-            }).then(function(result) {
-                if (result.value) {
-                    window.location = "inicio";
-                }
+        } else {
+            echo '<script>
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Faltan datos requeridos para la transferencia de activos."
             });
         </script>';
+        }
+    }
+
+    /*=============================================
+    GRAFICA DE ACTIVOS VERIFICADOS Y NO VERIFICADOS
+    =============================================*/
+    public static function graficaVerificacionActivos()
+    {
+        // Obtener datos del modelo
+
+        $verificados = ModeloActivos::contarActivosVerificados();
+        $total_activos = ModeloActivos::contarTotalActivos();
+
+        // Calcular activos no verificados
+        $no_verificados = $total_activos - $verificados;
+
+        // Preparar datos para la vista
+        $data = [
+            'verificados' => $verificados,
+            'no_verificados' => $no_verificados
+        ];
+
+
+        echo json_encode($data);
+    }
+
+    // Método para contar activos por usuario
+    public static function ctrContarActivosPorUsuario($idUsuario)
+    {
+        return ModeloActivos::contarActivosPorUsuario($idUsuario);
+    }
+
+    // Método para contar activos inactivos por usuario
+    public static function ctrContarActivosInactivosPorUsuario($idUsuario)
+    {
+        return ModeloActivos::contarActivosInactivosPorUsuario($idUsuario);
+    }
+    public static function ctrGraficaTI()
+    {
+        $respuesta = ModeloActivos::mdlContarActivosPorCategoria();
+        echo json_encode($respuesta);
+    }
+
+        /*=============================================
+	MOSTRAR Activos
+	=============================================*/
+
+    static public function ctrMostrarActas($item, $valor)
+    {
+
+        $tabla = "acta_activos";
+
+        $respuesta = ModeloActivos::mdlMostrarActa($tabla, $item, $valor);
+
+        return $respuesta;
     }
 }
-
-public static function graficaVerificacionActivos() {
-    // Obtener datos del modelo
-  
-    $verificados = ModeloActivos::contarActivosVerificados();
-    $total_activos = ModeloActivos:: contarTotalActivos();
-
-    // Calcular activos no verificados
-    $no_verificados = $total_activos - $verificados;
-
-    // Preparar datos para la vista
-    $data = [
-        'verificados' => $verificados,
-        'no_verificados' => $no_verificados
-    ];
-
-    
-    echo json_encode($data); 
-}
-
-  // Método para contar activos por usuario
-  public static function ctrContarActivosPorUsuario($idUsuario) {
-    return ModeloActivos::contarActivosPorUsuario($idUsuario);
-}
-
-// Método para contar activos inactivos por usuario
-public static function ctrContarActivosInactivosPorUsuario($idUsuario) {
-    return ModeloActivos::contarActivosInactivosPorUsuario($idUsuario);
-}
-public static function ctrGraficaTI()
-{
-    $respuesta = ModeloActivos::mdlContarActivosPorCategoria();
-    echo json_encode($respuesta);
-}
-
-
-}
-
 
 /*=============================================
 CREAR Activos
 =============================================*/
 
-
 if (isset($_POST["guardarAjax"])) {
 
 
-	require_once "../modelos/Activos.modelo.php";
+    require_once "../modelos/Activos.modelo.php";
 
 
-	$crearActivos = new ControladorActivos();
-	$respuesta = $crearActivos->ctrCrearActivos();
+    $crearActivos = new ControladorActivos();
+    $respuesta = $crearActivos->ctrCrearActivos();
 
-	echo  $respuesta;
+    echo  $respuesta;
 }
 
 /*=============================================
 LEER Activos AJAX
 =============================================*/
-
-
-
 if (isset($_POST["ajaxActivos"])) {
 
-	require_once "../modelos/activos.modelo.php";
+    require_once "../modelos/activos.modelo.php";
 
-	$leerActivos = new ControladorActivos();
-	$respuesta = $leerActivos->ctrMostrarActivosAjax();
+    $leerActivos = new ControladorActivos();
+    $respuesta = $leerActivos->ctrMostrarActivosAjax();
 
-	echo json_encode($respuesta);
+    echo json_encode($respuesta);
 }
 
 // Manejar la acción de la solicitud AJAX
@@ -667,8 +726,8 @@ if (isset($_GET['action']) && $_GET['action'] == 'graficaVerificacionActivos') {
 
 if (isset($_GET['action']) && $_GET['action'] == 'graficaCategorias') {
     require_once '../modelos/activos.modelo.php';
-$modelo = new ModeloActivos();
-$controlador = new ControladorActivos($modelo);
-   
+    $modelo = new ModeloActivos();
+    $controlador = new ControladorActivos($modelo);
+
     $controlador->ctrGraficaTI();
 }

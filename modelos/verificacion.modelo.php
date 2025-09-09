@@ -46,33 +46,76 @@ class ModeloVerificaciones
     /*=============================================
     MOSTRAR Verificaciones por Inventario y Usuario
     =============================================*/
-   static public function mdlMostrarVerificacionesPorInventario($tablaVerificacion, $tablaActivos, $id_inventario, $id_usuario_fk)
+/*=============================================
+MOSTRAR Verificaciones por Inventario y Usuario
+=============================================*/
+static public function mdlMostrarVerificacionesPorInventario($tablaVerificacion, $tablaActivos, $id_inventario, $id_usuario_fk = null)
 {
-    if (isset($id_usuario_fk) && $id_usuario_fk !== null) {
-        // Consulta con usuario
-        $stmt = Conexion::conectar()->prepare("
-            SELECT v.*, a.*
-            FROM $tablaVerificacion AS v
-            INNER JOIN $tablaActivos AS a ON v.id_activo_fk = a.id_activo
-            WHERE v.id_inventario_fk = :id_inventario
-            AND v.id_usuario_fk = :id_usuario_fk
-        ");
-        $stmt->bindParam(":id_inventario", $id_inventario, PDO::PARAM_INT);
-        $stmt->bindParam(":id_usuario_fk", $id_usuario_fk, PDO::PARAM_INT);
-    } else {
-        // Consulta sin usuario
-        $stmt = Conexion::conectar()->prepare("SELECT v.*,v.estado AS estado_verificacion, a.*,u.*
-            FROM $tablaVerificacion AS v
-            INNER JOIN $tablaActivos AS a ON v.id_activo_fk = a.id_activo
-            INNER JOIN usuarios AS u ON v.id_usuario_fk = u.id
-            WHERE v.id_inventario_fk = :id_inventario
-        ");
-        $stmt->bindParam(":id_inventario", $id_inventario, PDO::PARAM_INT);
+    // Base query: activos, usuario, cargo, proceso, inventario y usuarios de apertura/cierre
+    $sql = "
+        SELECT 
+            v.*,
+            v.estado AS estado_verificacion,
+            a.*,
+            u.id AS id_usuario,
+            u.nombre AS nombre_usuario,
+            u.apellidos_usuario,
+            u.foto,
+            c.id_cargo,
+            c.nombre_cargo,
+            p.id_proceso,
+            p.siglas_proceso,
+            p.nombre_proceso,
+            
+            -- Datos del inventario
+            i.id_inventario,
+            i.fecha_apertura,
+            i.estado_inventario,
+            i.fecha_cierre,
+            
+            -- Usuarios que abren y cierran el inventario
+            ua.nombre AS nombre_usuario_apertura,
+            ua.apellidos_usuario AS apellidos_usuario_apertura,
+            uc.nombre AS nombre_usuario_cierre,
+            uc.apellidos_usuario AS apellidos_usuario_cierre
+
+        FROM $tablaVerificacion AS v
+        INNER JOIN $tablaActivos AS a ON v.id_activo_fk = a.id_activo
+        INNER JOIN usuarios AS u ON v.id_usuario_fk = u.id
+        INNER JOIN inventario AS i ON v.id_inventario_fk = i.id_inventario
+        LEFT JOIN cargos AS c ON u.id_cargo_fk = c.id_cargo
+        LEFT JOIN proceso AS p ON u.id_proceso_fk = p.id_proceso
+        
+        -- JOIN para usuarios de apertura y cierre
+        LEFT JOIN usuarios AS ua ON i.id_usuario_apertura = ua.id
+        LEFT JOIN usuarios AS uc ON i.id_usuario_cierre = uc.id
+
+        WHERE v.id_inventario_fk = :id_inventario
+    ";
+
+    // Si se pasa un usuario específico, agregamos el filtro
+    if (!empty($id_usuario_fk)) {
+        $sql .= " AND v.id_usuario_fk = :id_usuario_fk";
     }
 
+    // Preparar la consulta
+    $stmt = Conexion::conectar()->prepare($sql);
+
+    // Parámetros
+    $stmt->bindParam(":id_inventario", $id_inventario, PDO::PARAM_INT);
+
+    if (!empty($id_usuario_fk)) {
+        $stmt->bindParam(":id_usuario_fk", $id_usuario_fk, PDO::PARAM_INT);
+    }
+
+    // Ejecutar
     $stmt->execute();
-    return $stmt->fetchAll();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+
+
 
 
 

@@ -89,6 +89,7 @@
                                                                     <option value="Mantenimiento">Traslado por Mantenimiento</option>
                                                                     <option value="Prestamo">Préstamo temporal del activo</option>
                                                                     <option value="Baja">Baja del activo</option>
+
                                                                 </select>
                                                             </div>
 
@@ -124,60 +125,87 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <!-- Tab de Formulario Global -->
                                     <div class="tab-pane fade" id="global" role="tabpanel" aria-labelledby="global-tab">
+
                                         <div class="card mt-3">
-                                            <div class="card-header bg-success text-white">
-                                                <h5 class="mb-0">Formulario Global</h5>
+                                            <div class="card-header bg-info text-white">
+                                                <h5 class="mb-0">Transferencia Masiva de Activos</h5>
                                             </div>
                                             <div class="card-body">
-                                                <!-- Aquí puedes agregar el formulario global -->
-                                                <form id="formGlobal" method="post" action="">
-                                                    <div class="form-group">
-                                                        <label for="usuario_origen">Usuario Origen</label>
-                                                        <input list="usuarios_origen" class="form-control" id="usuario_origen" name="usuario_origen" required>
-                                                        <datalist id="usuarios_origen">
-                                                            <?php
-                                                            $usuarios = ControladorUsuarios::ctrMostrarUsuarios(null, null);
-                                                            foreach ($usuarios as $value) {
-                                                                echo '<option value="' . $value["id"] . '">' . $value["nombre"] . ' ' . $value["apellidos_usuario"] . '</option>';
-                                                            }
-                                                            ?>
-                                                        </datalist>
-                                                    </div>
+                                                <div class="container mt-4">
 
-                                                    <div class="form-group">
-                                                        <label for="usuario_destino_global">Usuario Destino</label>
-                                                        <input list="usuarios_destino" class="form-control" id="usuario_destino_global" name="usuario_destino" required>
-                                                        <datalist id="usuarios_destino">
-                                                            <?php
-                                                            foreach ($usuarios as $value) {
-                                                                echo '<option value="' . $value["id"] . '">' . $value["nombre"] . ' ' . $value["apellidos_usuario"] . '</option>';
-                                                            }
-                                                            ?>
-                                                        </datalist>
-                                                    </div>
+                                                    <!-- Formulario Global -->
+                                                    <form id="formGlobal" method="post" action="">
+                                                        <div class="card card-primary">
 
-                                                    <div class="form-group">
-                                                        <label for="observaciones_global">Observaciones</label>
-                                                        <textarea class="form-control" id="observaciones_global" name="observaciones"></textarea>
-                                                    </div>
 
-                                                    <button type="submit" class="btn btn-primary" name="masivo">Transferir Activos</button>
+                                                            <!-- Cuerpo del formulario -->
+                                                            <div class="card-body">
+                                                                <div class="row">
+                                                                    <!-- Usuario Origen -->
+                                                                    <div class="form-group col-12 col-md-6">
+                                                                        <label for="global_origen">Usuario Origen</label>
+                                                                        <select name="global_origen" id="global_origen" class="form-control select2bs4" required>
+                                                                            <option value="">-- Seleccione un usuario --</option>
+                                                                            <?php foreach ($usuarios as $usuario): ?>
+                                                                                <option value="<?= $usuario["id"] ?>">
+                                                                                    <?= "{$usuario["nombre"]} {$usuario["apellidos_usuario"]}" ?>
+                                                                                </option>
+                                                                            <?php endforeach; ?>
+                                                                        </select>
+                                                                    </div>
 
+                                                                    <!-- Usuario Destino -->
+                                                                    <div class="form-group col-12 col-md-6">
+                                                                        <label for="global_destino">Usuario Destino</label>
+                                                                        <select name="global_destino" id="global_destino" class="form-control select2bs4" required>
+                                                                            <option value="">-- Seleccione un usuario --</option>
+                                                                            <?php foreach ($usuarios as $usuario): ?>
+                                                                                <option value="<?= $usuario["id"] ?>">
+                                                                                    <?= "{$usuario["nombre"]} {$usuario["apellidos_usuario"]}" ?>
+                                                                                </option>
+                                                                            <?php endforeach; ?>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Observaciones -->
+                                                                <div class="form-group">
+                                                                    <label for="observaciones_global">Observaciones</label>
+                                                                    <textarea
+                                                                        class="form-control"
+                                                                        id="observaciones_global"
+                                                                        name="observaciones_global"
+                                                                        rows="3"
+                                                                        placeholder="Agrega observaciones sobre la transferencia"></textarea>
+                                                                </div>
+                                                            </div>
+
+                                                            <input type="text" name="masivo" value="1">
+
+                                                            <!-- resto del formulario -->
+                                                            <div class="card-footer text-right">
+                                                                <button type="submit" class="btn bg-primary">
+                                                                    <i class="fas fa-exchange-alt"></i> Transferir Activos
+                                                                </button>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </form>
                                                     <?php
                                                     if (isset($_POST['masivo'])) {
                                                         $transferenciaM = new ControladorActivos();
                                                         $transferenciaM->ctrTransferirActivosUsuarioMasivo();
                                                     }
                                                     ?>
-                                                </form>
+                                                </div>
                                             </div>
                                         </div>
+
                                     </div>
                                 </div> <!-- /.tab-content -->
-
                             </div>
                         </div><!-- /.row -->
                     </div><!-- /.container-fluid -->
@@ -197,17 +225,17 @@
             width: '100%'
         });
         $("#tipo_acta_select").on("change", function() {
-        if ($(this).val() === "Baja") {
-            // Ocultar campo de usuario destino
-            $("#usuario_destino").closest(".col-md-12").hide();
-            $("#usuario_destino").prop("required", false);
-        } else {
-            // Mostrarlo si es otro tipo de acta
-            $("#usuario_destino").closest(".col-md-12").show();
-            $("#usuario_destino").prop("required", true);
-        }
-    }).trigger("change"); // Ejecuta al cargar por si ya viene con valor
-    
+            if ($(this).val() === "Baja") {
+                // Ocultar campo de usuario destino
+                $("#usuario_destino").closest(".col-md-12").hide();
+                $("#usuario_destino").prop("required", false);
+            } else {
+                // Mostrarlo si es otro tipo de acta
+                $("#usuario_destino").closest(".col-md-12").show();
+                $("#usuario_destino").prop("required", true);
+            }
+        }).trigger("change"); // Ejecuta al cargar por si ya viene con valor
+
 
         // Evento del botón
         $("#btnDarBaja").on("click", function(e) {
@@ -264,6 +292,75 @@
             });
         });
 
-        
+        /** ============================
+         *  Inicializar Select2
+         *  ============================ */
+
+
+        /** ============================
+         *  Evitar seleccionar el mismo usuario
+         *  ============================ */
+        $('#global_origen, #global_destino').on('change', function() {
+            let origen = $('#global_origen').val();
+            let destino = $('#global_destino').val();
+
+            if (origen && destino && origen === destino) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Usuarios inválidos",
+                    text: "El usuario de origen y destino no pueden ser el mismo.",
+                    confirmButtonColor: "#dc3545"
+                });
+
+                // Limpiar automáticamente el campo destino
+                $('#global_destino').val(null).trigger('change');
+            }
+        });
+
+        /** ============================
+         *  Validación y confirmación al enviar
+         *  ============================ */
+        $("#formGlobal").on("submit", function(e) {
+            e.preventDefault();
+
+            let usuarioOrigen = $("#global_origen").val();
+            let usuarioDestino = $("#global_destino").val();
+            let observaciones = $("#observaciones_global").val().trim();
+
+            if (!usuarioOrigen) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Atención",
+                    text: "Debes seleccionar un usuario de origen.",
+                    confirmButtonColor: "#007bff"
+                });
+                return;
+            }
+
+            if (!usuarioDestino) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Atención",
+                    text: "Debes seleccionar un usuario de destino.",
+                    confirmButtonColor: "#007bff"
+                });
+                return;
+            }
+
+            Swal.fire({
+                title: "¿Estás seguro?",
+                text: "Se transferirán los activos seleccionados al usuario destino.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#28a745",
+                cancelButtonColor: "#6c757d",
+                confirmButtonText: "Sí, transferir",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $("#formGlobal")[0].submit();
+                }
+            });
+        });
     });
 </script>

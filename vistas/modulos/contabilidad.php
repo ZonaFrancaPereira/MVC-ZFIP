@@ -175,7 +175,7 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
           <!-- /. CIERRE FORMULARIO PARA TRASLADAR LOS ACTIVOS -->
           <!-- /. ACTAS DE MOVIMIENTO ACTIVOS FIJOS -->
           <div id="acta_movimiento" class="tab-pane">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum eligendi tenetur aspernatur enim a eos accusantium, illum maiores magnam, ab dignissimos vitae expedita voluptate obcaecati nesciunt delectus provident nihil natus?
+            <?php require "ct/acta_movimiento.php"; ?>
           </div>
           <!-- /. CIERRE ACTAS DE MOVIMIENTO ACTIVOS FIJOS -->
 
@@ -207,8 +207,6 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
           <div id="manual_ordenes" class="tab-pane">
             Poner manual ordenes de compra
           </div>
-
-
         </div>
       </div>
     </div>
