@@ -17,7 +17,7 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
 <nav class="mt-2">
   <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
     <li class="nav-item">
-      <a data-toggle="tab" href="#panelcontabilidad" class="active nav-link">
+      <a data-toggle="tab" href="#panelcontabilidad" class=" nav-link">
         <i class="nav-icon fas fa-chart-line"></i>
         <p>Panel de Control</p>
       </a>

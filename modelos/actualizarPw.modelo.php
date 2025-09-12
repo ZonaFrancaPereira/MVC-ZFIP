@@ -100,62 +100,59 @@ MOSTRAR PW TRAER TODOS LOS DATOS
 static public function mdlMostrarPwGeneral($tabla, $valor)
 {
     try {
-        // Conectar a la base de datos
-        $stmt = Conexion::conectar()->prepare("SELECT 
-            u1.id, 
-            u1.nombre,
-            u1.apellidos_usuario,
-            u1.correo_usuario,
-            u1.perfil,
-            u1.foto,
-            u1.estado,
-            u1.id_cargo_fk,
-            u1.id_proceso_fk,
-            u1.ultimo_login,
-            u1.fecha,
-            u1.intentos,
-            d.id_detalle_pw,
-            d.fecha_pw,
-            d.estado_pw,
-            d.id_usuario_fk,
-            d.id_usuario_ti AS usuario_ti_id,
-            d.fecha_verificacion,
-            a.id_pw,
-            a.nombre_app,
-            a.usuario_app,
-            a.pw_app,
-            a.id_pw_fk,
-            u2.id AS usuario_ti_id,
-            u2.nombre AS nombre_ti,
-            u2.apellidos_usuario AS apellidos_ti,
-            u2.correo_usuario AS correo_ti,
-            u2.perfil AS perfil_ti,
-            u2.foto AS foto_ti,
-            u2.estado AS estado_ti,
-            u2.id_cargo_fk AS cargo_ti,
-            u2.id_proceso_fk AS proceso_ti,
-            u2.ultimo_login AS login_ti,
-            u2.fecha AS fecha_ti,
-            u2.intentos AS intentaos_ti
-        FROM detalle_pw d
-        INNER JOIN usuarios u1 ON d.id_usuario_fk = u1.id
-        INNER JOIN actualizacion_pw a ON d.id_detalle_pw = a.id_pw_fk
-        LEFT JOIN usuarios u2 ON d.id_usuario_ti = u2.id
-        WHERE d.id_detalle_pw = :valor");
+        $stmt = Conexion::conectar()->prepare("
+            SELECT 
+                u1.id, 
+                u1.nombre,
+                u1.apellidos_usuario,
+                u1.correo_usuario,
+                u1.perfil,
+                u1.foto,
+                u1.estado,
+                u1.id_cargo_fk,
+                u1.id_proceso_fk,
+                u1.ultimo_login,
+                u1.fecha,
+                u1.intentos,
+                d.id_detalle_pw,
+                d.fecha_pw,
+                d.estado_pw,
+                d.id_usuario_fk,
+                d.id_usuario_ti AS usuario_ti_id,
+                d.fecha_verificacion,
+                a.id_pw,
+                a.nombre_app,
+                a.usuario_app,
+                a.pw_app,
+                a.id_pw_fk,
+                u2.id AS usuario_ti_id,
+                u2.nombre AS nombre_ti,
+                u2.apellidos_usuario AS apellidos_ti,
+                u2.correo_usuario AS correo_ti,
+                u2.perfil AS perfil_ti,
+                u2.foto AS foto_ti,
+                u2.estado AS estado_ti,
+                u2.id_cargo_fk AS cargo_ti,
+                u2.id_proceso_fk AS proceso_ti,
+                u2.ultimo_login AS login_ti,
+                u2.fecha AS fecha_ti,
+                u2.intentos AS intentaos_ti
+            FROM detalle_pw d
+            INNER JOIN usuarios u1 ON d.id_usuario_fk = u1.id
+            INNER JOIN actualizacion_pw a ON d.id_detalle_pw = a.id_pw_fk
+            LEFT JOIN usuarios u2 ON d.id_usuario_ti = u2.id
+            WHERE d.id_detalle_pw = :valor
+        ");
 
-        // Vincular el parámetro de la consulta
         $stmt->bindParam(":valor", $valor, PDO::PARAM_INT);
-
-        // Ejecutar la consulta
         $stmt->execute();
 
-        // Devolver los resultados
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); // ✅ Array asociativo
     } catch (PDOException $e) {
-        // Manejo de errores
         die("Error al obtener datos del ACPM: " . $e->getMessage());
     }
 }
+
 
 
 

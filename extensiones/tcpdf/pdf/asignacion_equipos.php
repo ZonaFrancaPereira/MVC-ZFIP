@@ -61,7 +61,7 @@ $pdf = new TCPDF('P', 'mm', array(210, 297), true, 'UTF-8', false);
 // Configurar la información del documento
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('Zona Franca Internacional de Pereira');
-$pdf->SetTitle('Formato de Mantenimiento');
+$pdf->SetTitle('Formato de Asignación de Equipos');
 $pdf->SetSubject('Detalles del Mantenimiento');
 $pdf->SetKeywords('Mantenimiento, Soporte');
 
@@ -102,7 +102,7 @@ $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($nomb
 //CONSULTA ENCABEZADO DE LAS TABLAS
 $tablad = 'version_documentos';
 $itemd = 'id_documento';
-$valord = '3';  // Asegúrate de que este valor esté correcto y sea válido
+$valord = '6';  // Asegúrate de que este valor esté correcto y sea válido
 $datosd = ModeloCodificar::mdlMostrarVersionDocumentos($tablad, $itemd, $valord);
 
 // Verificar si se obtuvieron datos
@@ -206,14 +206,14 @@ $html .= <<<EOF
         <th>FECHA DE IMPLEMENTACIÓN</th>
         <th>FECHA DE ACTUALIZACIÓN</th>
         <th>VERSIÓN</th>
-        <th>PAGINA</th>
+        
     </tr>
     <tr>
         <td>$codigo_documento</td>
         <td>$fecha_implementacion</td>
         <td>$fecha_actualizacion</td>
         <td>$version_documento</td>
-        <td>1 de 4</td>
+        
     </tr>
 </table>
 <br>

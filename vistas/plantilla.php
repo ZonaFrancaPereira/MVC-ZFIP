@@ -159,7 +159,7 @@
 CUERPO DOCUMENTO
 ======================================-->
 <?php
-
+define('ENCRYPTION_KEY','/*--+159753$$$'); // Usa una clave fuerte
 require_once __DIR__ . '/../extensiones/vlucas/autoload.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');

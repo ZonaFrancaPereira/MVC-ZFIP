@@ -41,13 +41,14 @@
                 <div class="col-lg-4 col-md-5">
                     <div class="card card-primary card-outline">
                         <div class="card-body text-center">
-                            <img class="img-fluid rounded-circle mb-3" src="<?php echo $_SESSION['foto']; ?>" alt="Foto Perfil" style="width: 160px; height: 160px; object-fit: cover;">
-                            <h4 class="text-uppercase mb-0"><?php echo $_SESSION['nombre_usuario'] . " " . $_SESSION['apellidos_usuario']; ?></h4>
+                            <div style="width: 100%; height: 160px; background-color: white; display: flex; justify-content: center; align-items: center; border: 1px solid #ccc;  overflow: hidden;">
+                                <img  src="<?php echo $_SESSION['foto']; ?>" alt="Foto Perfil" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                            </div>
+                            <br>
+                            <h4 class="text-uppercase mb-0"><?php echo $_SESSION['nombre'] . " " . $_SESSION['apellidos_usuario']; ?></h4>
                             <p class="text-muted mb-1"><?php echo $_SESSION['nombre_cargo']; ?></p>
                             <p class="text-muted small"><?php echo $_SESSION['proceso_fk']; ?></p>
-                            <button class="btn btn-outline-primary show-password mt-2">
-                                <i class="fa fa-eye"></i> Mostrar Contraseña
-                            </button>
+                            
                         </div>
                         <div class="card-footer text-center">
                             <button class="btn bg-teal text-white" data-toggle="modal" data-target="#exampleModal">
