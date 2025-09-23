@@ -155,38 +155,146 @@ static public function mdlMostrarPwGeneral($tabla, $valor)
 
 
 
-
 static public function mdlMostrarPwIndividual($tabla, $item, $valor)
 {
-
-    if($item != null){
-
-        $stmt = Conexion::conectar()->prepare("SELECT * 
-            FROM $tabla
-            
-            WHERE id_usuario_fk = :valor ");
-
-         // Asignación del parámetro correctamente
-         $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
-
-        $stmt -> execute();
-
-        return $stmt -> fetch();
-
-    }else{
-
-        $stmt = Conexion::conectar()->prepare("SELECT * 
-            FROM $tabla 
-            ");
-
-        $stmt -> execute();
-
-        return $stmt -> fetchAll();
-
+    // Validación mínima del nombre de tabla/columna (evita inyección simple)
+    if (!preg_match('/^[a-zA-Z0-9_]+$/', $tabla)) {
+        return [];
     }
-    $stmt = null;
+    if ($item !== null && !preg_match('/^[a-zA-Z0-9_]+$/', $item)) {
+        return [];
+    }
 
+    $pdo = Conexion::conectar();
+
+    if ($item != null) {
+        // Si el filtro es por estado_pw, normalizamos (sin mayúsculas/espacios)
+        if ($item === 'estado_pw') {
+            $valorNorm = mb_strtolower(trim($valor));
+            $sql = "
+                SELECT 
+                    dp.id_detalle_pw,
+                    dp.fecha_pw,
+                    dp.estado_pw,
+                    dp.id_usuario_fk,
+                    dp.id_usuario_ti,
+                    dp.fecha_verificacion,
+                    u.id AS usuario_id,
+                    u.nombre,
+                    u.apellidos_usuario,
+                    u.correo_usuario,
+                    u.password,
+                    u.perfil,
+                    u.foto,
+                    u.estado AS usuario_estado,
+                    u.id_cargo_fk,
+                    u.id_proceso_fk,
+                    u.ultimo_login,
+                    u.fecha AS usuario_fecha,
+                    u.intentos,
+                    p.id_proceso,
+                    p.siglas_proceso,
+                    p.nombre_proceso,
+                    p.centro_costos,
+                    p.estado_proceso
+                FROM {$tabla} AS dp
+                INNER JOIN usuarios AS u ON dp.id_usuario_fk = u.id
+                INNER JOIN proceso AS p ON u.id_proceso_fk = p.id_proceso
+                WHERE LOWER(TRIM(dp.estado_pw)) = :valor
+            ";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindValue(':valor', $valorNorm, PDO::PARAM_STR);
+
+        } else {
+            // Filtro general (id_usuario_fk u otras columnas)
+            $sql = "
+                SELECT 
+                    dp.id_detalle_pw,
+                    dp.fecha_pw,
+                    dp.estado_pw,
+                    dp.id_usuario_fk,
+                    dp.id_usuario_ti,
+                    dp.fecha_verificacion,
+                    u.id AS usuario_id,
+                    u.nombre,
+                    u.apellidos_usuario,
+                    u.correo_usuario,
+                    u.password,
+                    u.perfil,
+                    u.foto,
+                    u.estado AS usuario_estado,
+                    u.id_cargo_fk,
+                    u.id_proceso_fk,
+                    u.ultimo_login,
+                    u.fecha AS usuario_fecha,
+                    u.intentos,
+                    p.id_proceso,
+                    p.siglas_proceso,
+                    p.nombre_proceso,
+                    p.centro_costos,
+                    p.estado_proceso
+                FROM {$tabla} AS dp
+                INNER JOIN usuarios AS u ON dp.id_usuario_fk = u.id
+                INNER JOIN proceso AS p ON u.id_proceso_fk = p.id_proceso
+                WHERE dp.{$item} = :valor
+            ";
+            $stmt = $pdo->prepare($sql);
+
+            // Detectar si es numérico -> bind int, sino string
+            if (is_numeric($valor)) {
+                $stmt->bindValue(':valor', (int)$valor, PDO::PARAM_INT);
+            } else {
+                $stmt->bindValue(':valor', $valor, PDO::PARAM_STR);
+            }
+        }
+
+        $stmt->execute();
+        $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    } else {
+
+        // Sin filtro: devolver todo (fetchAll para foreach en la vista)
+        $sql = "
+            SELECT 
+                dp.id_detalle_pw,
+                dp.fecha_pw,
+                dp.estado_pw,
+                dp.id_usuario_fk,
+                dp.id_usuario_ti,
+                dp.fecha_verificacion,
+                u.id AS usuario_id,
+                u.nombre,
+                u.apellidos_usuario,
+                u.correo_usuario,
+                u.password,
+                u.perfil,
+                u.foto,
+                u.estado AS usuario_estado,
+                u.id_cargo_fk,
+                u.id_proceso_fk,
+                u.ultimo_login,
+                u.fecha AS usuario_fecha,
+                u.intentos,
+                p.id_proceso,
+                p.siglas_proceso,
+                p.nombre_proceso,
+                p.centro_costos,
+                p.estado_proceso
+            FROM {$tabla} AS dp
+            INNER JOIN usuarios AS u ON dp.id_usuario_fk = u.id
+            INNER JOIN proceso AS p ON u.id_proceso_fk = p.id_proceso
+        ";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    $stmt = null;
+    return $resultado;
 }
+
+
+
 
     
     

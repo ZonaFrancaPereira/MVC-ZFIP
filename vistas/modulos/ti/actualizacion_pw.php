@@ -91,18 +91,18 @@
                                             <th>Fecha Actualización</th>
                                             <th>Estado</th>
                                             <th>Informe</th>
-                                            <th>Acciones</th>
+                                           
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
 
-                                        $item = null;
-                                        $valor = null;
+                                        $item = "id_usuario_fk";
+                                        $valor = $_SESSION["id"];
 
-                                        $MostrarPw = ControladorPw::ctrMostrarPwIndividual($item, $valor);
+                                        $MostrarPwIndividual = ControladorPw::ctrMostrarPwIndividual($item, $valor);
 
-                                        foreach ($MostrarPw as $key => $value) {
+                                        foreach ($MostrarPwIndividual as $key => $value) {
                                             $estado=$value["estado_pw"];
                                             $informe="<a href='extensiones/tcpdf/pdf/formato_pw.php?codigo={$value["id_detalle_pw"]}' target='_blank' class='btn bg-danger' title='Ver Informe'>
                                           <i class='fas fa-file-pdf'></i>
@@ -111,16 +111,11 @@
                                                 case 'Proceso':
                                                     $estado_pw = "<span class='badge badge-info'>Proceso</span>";
                                                     
-                                                    $boton="<button type='button' class='btn bg-warning' data-toggle='modal' data-target='#modalCerrarInventario' data-id_detalle_fk='{$value["id_detalle_fk"]}' title='Cerrar Inventario'>
-                                                            <i class='far fa-edit'></i>
-                                                          </button>";
+                                                   
                                                     break;
                                                 case 'Verificado':
                                                     $estado_pw = "<span class='badge badge-success'>Verificado</span>";
-                                                    $
-                                                  $boton="<button type='button' class='btn bg-success'>
-                                                    <i class='far fa-calendar-check'></i>
-                                                  </button>";
+                                                  
                                                     break;
                                               
                                                 default:
@@ -133,7 +128,7 @@
                                             <td>' . $value["fecha_pw"] . '</td>
                                             <td>' . $estado_pw . '</td>
                                              <td>'.$informe.'</td>
-                                             <td>'.$boton.'</td>
+                                          
                                              ';
 
                                         }

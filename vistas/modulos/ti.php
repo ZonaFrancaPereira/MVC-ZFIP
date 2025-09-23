@@ -188,6 +188,12 @@ require_once "configuracion.php";
                     </li>
                 <?php endif; ?>
             </ul>
+        </li>     
+        <li class="nav-item">
+            <a data-toggle="tab" href="#verificar_pw" class="nav-link">
+                <i class="fas fa-check"></i>
+                <p>Verificar Contraseñas</p>
+            </a>
         </li>
 
     </ul>
@@ -367,6 +373,13 @@ if ($_SESSION["ti"] == "off") {
                                 $borrarPerfil = new ControladorPerfiles();
                                 $borrarPerfil->ctrBorrarPerfil();
                                 ?>
+                            </div>
+                        </div>
+                    </div>
+                     <div id="verificar_pw" class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php require "ti/verificar_pw.php"; ?>
                             </div>
                         </div>
                     </div>
