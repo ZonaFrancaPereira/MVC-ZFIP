@@ -27,13 +27,15 @@
       <li class="nav-item dropdown">
         <a href="juridico" class="nav-link">JU</a>
       </li>
-      <li class="nav-item d-none d-sm-inline-block " hidden>
+       <?php if (isset($_SESSION["id_cargo_fk"]) && $_SESSION["id_cargo_fk"] == 10 || $_SESSION["id_cargo_fk"]==8 ): ?>
+      <li class="nav-item d-none d-sm-inline-block " >
         <a href="operaciones" class="nav-link">G-OP</a>
       </li>
-      <li class="nav-item d-none d-sm-inline-block " hidden>
+       <?php endif; ?>
+      <li class="nav-item d-none d-sm-inline-block " >
         <a href="tecnica" class="nav-link">G-Tecnica</a>
       </li>
-      <li class="nav-item d-none d-sm-inline-block " hidden>
+      <li class="nav-item d-none d-sm-inline-block " >
         <a href="administrativa" class="nav-link">G-Administrativa</a>
       </li>
     </ul>

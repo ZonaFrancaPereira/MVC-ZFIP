@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>Perfiles de Usuario</h1>
+        <h1>Usuarios ZFIP</h1>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
@@ -48,7 +48,12 @@
                         <th>Perfil</th>
                         <th>Estado</th>
                         <th>Último login</th>
-                        <th>Acciones</th>
+                        <?php
+                        $cargoTi = [1, 2];
+                        if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargoTi)):
+                        ?>
+                          <th>Acciones</th>
+                        <?php endif; ?>
 
                       </tr>
 
@@ -88,7 +93,11 @@
                           echo '<td><button class="btn btn-danger btn-xs btnActivar" idUsuario="' . $value["id"] . '" estadoUsuario="1">Desactivado</button></td>';
                         }
 
-                        echo '<td>' . $value["ultimo_login"] . '</td>
+                        echo '<td>' . $value["ultimo_login"] . '</td>';
+
+                        $cargoTi = [1, 2];
+                        if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargoTi)):
+                          echo '
                   <td>
 
                     <div class="btn-group">
@@ -101,7 +110,9 @@
 
                   </td>
 
-                  </tr>';
+                  </tr>
+                  ';
+                        endif;
                       }
 
 
@@ -282,16 +293,16 @@
 
                         </div>
                         <div class="modal-footer justify-content-between">
-                      <button type="button" class="btn bg-danger" data-dismiss="modal">Cancelar</button>
-                      <button type="submit" class="btn bg-success">Guardar</button>
-                      <?php
-                      $crearUsuario = new ControladorUsuarios();
-                      $crearUsuario->ctrCrearUsuario();
-                      ?>
-                    </div>
+                          <button type="button" class="btn bg-danger" data-dismiss="modal">Cancelar</button>
+                          <button type="submit" class="btn bg-success">Guardar</button>
+                          <?php
+                          $crearUsuario = new ControladorUsuarios();
+                          $crearUsuario->ctrCrearUsuario();
+                          ?>
+                        </div>
                       </form>
                     </div>
-                   
+
                   </div>
                   <!-- /.modal-content -->
                 </div>

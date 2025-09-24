@@ -12,13 +12,17 @@ require_once "configuracion.php";
         </li>
 
         <li class="nav-header">PANEL TI</li>
-
+<?php
+        $cargoTi = [1, 2];
+        if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargoTi)):
+        ?>
         <li class="nav-item">
             <a data-toggle="tab" href="#recursos_ti" class="nav-link">
                 <i class="fas fa-desktop"></i>
                 <p>Detalle de Equipos</p>
             </a>
         </li>
+<?php endif; ?>
         <li class="nav-item">
             <a data-toggle="tab" href="" class="nav-link">
                 <i class="far fa-save"></i>
@@ -90,12 +94,17 @@ require_once "configuracion.php";
                 </ul>
             </li>
         <?php endif; ?>
+        <?php
+        $cargoTi = [1, 2];
+        if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargoTi)):
+        ?>
         <li class="nav-item">
             <a data-toggle="tab" href="#inventario" class="nav-link">
                 <i class="fas fa-file-invoice"></i>
                 <p>Inventario TI</p>
             </a>
         </li>
+        <?php endif; ?>
         <li class="nav-item">
             <a data-toggle="tab" href="" class="nav-link">
                 <i class="fas fa-laptop-code"></i>
@@ -137,18 +146,29 @@ require_once "configuracion.php";
 
             </ul>
         </li>
+        <?php
+        $cargoTiSig = [1, 2,4];
+        if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargoTiSig)):
+        ?>
+       
         <li class="nav-item">
             <a data-toggle="tab" href="#usuarios" class="nav-link">
                 <i class="fas fa-users"></i>
                 <p>Usuarios</p>
             </a>
         </li>
+        <?php endif; ?>
+        <?php
+        $cargoTi = [1, 2];
+        if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargoTi)):
+        ?>
         <li class="nav-item">
             <a data-toggle="tab" href="#perfiles" class="nav-link">
                 <i class="fas fa-id-card"></i>
                 <p>Perfiles</p>
             </a>
         </li>
+        <?php endif; ?>
         <li class="nav-item">
             <a data-toggle="tab" href="" class="nav-link">
                 <i class="nav-icon fas fa-search-plus"></i>
@@ -188,13 +208,18 @@ require_once "configuracion.php";
                     </li>
                 <?php endif; ?>
             </ul>
-        </li>     
+        </li>  
+        <?php
+        $cargoTi = [1, 2];
+        if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargoTi)):
+        ?>   
         <li class="nav-item">
             <a data-toggle="tab" href="#verificar_pw" class="nav-link">
                 <i class="fas fa-check"></i>
                 <p>Verificar Contraseñas</p>
             </a>
         </li>
+        <?php endif; ?>
 
     </ul>
 </nav>

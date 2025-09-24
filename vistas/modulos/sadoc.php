@@ -54,6 +54,7 @@ switch ($procesoActivo) {
 
 <nav class="mt-2">
   <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+     <?php if (isset($_SESSION["id_cargo_fk"]) && $_SESSION["id_cargo_fk"] == 4): ?>
     <li class="nav-header font-weight-bold text-center">PANEL SIG</li>
     <li>
       <hr style="margin: 0 1rem; border-top: 1px solid #6c757d;">
@@ -88,9 +89,11 @@ switch ($procesoActivo) {
         </li>
       </ul>
     </li>
+     
     <li>
       <hr style="margin: 0 1rem; border-top: 1px solid #6c757d;">
     </li>
+    <?php endif; ?>
     <li class="nav-header font-weight-bold text-center">PROCESOS ZFIP</li>
     <li>
       <hr style="margin: 0 1rem; border-top: 1px solid #6c757d;">

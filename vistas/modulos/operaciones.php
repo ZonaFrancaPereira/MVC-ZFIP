@@ -2,16 +2,15 @@
 require_once "configuracion.php";
 
 
-if ($_SESSION["ConsultarBascula"] == "NULL") {
+if (isset($_SESSION["id_cargo_fk"]) && ($_SESSION["id_cargo_fk"] != 10 && $_SESSION["id_cargo_fk"] != 8)) {
 
     echo '<script>
-
-    window.location = "inicio";
-
-  </script>';
+        window.location = "inicio";
+    </script>';
 
     return;
 }
+
 
 ?>
 <nav class="mt-2">
