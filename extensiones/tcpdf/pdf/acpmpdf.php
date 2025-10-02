@@ -54,10 +54,10 @@ $fecha_acpm = $row["fecha_acpm"];
 $nombre_proceso = $row["nombre_proceso"];
 $nombre_cargo = $row["nombre_cargo"];
 $origen_acpm = $row["origen_acpm"];
-$fuente_acpm = $row["fuente_acpm"];
+//$fuente_acpm = $row["fuente_acpm"];
 $descripcion_fuente = $row["descripcion_fuente"];
 $descripcion_acpm = $row["descripcion_acpm"];
-$tipo_acpm = $row["tipo_acpm"];
+//$tipo_acpm = $row["tipo_acpm"];
 $causa_acpm = $row["causa_acpm"];
 $nc_similar = $row["nc_similar"];
 $descripcion_nsc = $row["descripcion_nsc"];
@@ -80,6 +80,40 @@ if (empty($descripcion_nsc)) {
 if (empty($justificacion_riesgo)) {
      $justificacion_riesgo = "<center></center><p style='text-align:center;'><b>No Aplica</b></p></center>";
 }
+
+$tipo_acpm_texto = $row["tipo_acpm"];
+
+switch ($tipo_acpm_texto) {
+    case "AM":
+        $tipo_acpm = "Acción de Mejora (AM)";
+        break;
+    case "AC":
+        $tipo_acpm = "Acción Correctiva (AC)";
+        break;
+    case "AP":
+        $tipo_acpm = "Acción Preventiva (AP)";
+        break;
+    default:
+        $tipo_acpm = "No Aplica";
+        break;
+}
+$fuente_acpm_texto = $row["fuente_acpm"];
+
+switch ($fuente_acpm_texto) {
+    case "AI":
+        $fuente_acpm = "Auditoría Interna (AI)";
+        break;
+    case "AE":
+        $fuente_acpm = "Auditoría Externa (AE)";
+        break;
+    case "Otros":
+        $fuente_acpm = "Otros";
+        break;
+    default:
+        $fuente_acpm = "No Aplica";
+        break;
+}
+
 
 $nombreImagen = "images/logo_zf.png";
 $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($nombreImagen));
@@ -201,7 +235,7 @@ $html = <<<EOF
 <br>
 <div class="section-title">Líder del Proceso</div>
 <table class="content-table">
-    <tr >
+    <tr>
         <th colspan="1">Nombre</th>
         <td colspan="3">$nombre_usuario $apellidos_usuario</td>
         
@@ -210,7 +244,7 @@ $html = <<<EOF
         <th>Cargo</th>
         <td>$nombre_cargo</td>
         <th>Proceso</th>
-        <td>$nombre_proceso</td>>
+        <td>$nombre_proceso</td>
     </tr>
 </table>
 <br>
