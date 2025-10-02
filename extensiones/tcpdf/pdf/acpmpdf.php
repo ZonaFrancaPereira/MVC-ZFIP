@@ -73,7 +73,13 @@ $fecha_finalizacion = $row["fecha_finalizacion"];
 $riesgos_sig = $row["riesgos_sig"];
 $jriesgos_sig = $row["jriesgos_sig"];
 
-
+// Si está vacía, asignamos "No Aplica"
+if (empty($descripcion_nsc)) {
+     $descripcion_nsc = "<center></center><p style='text-align:center;'><b>No Aplica</b></p></center>";
+}
+if (empty($justificacion_riesgo)) {
+     $justificacion_riesgo = "<center></center><p style='text-align:center;'><b>No Aplica</b></p></center>";
+}
 
 $nombreImagen = "images/logo_zf.png";
 $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($nombreImagen));
