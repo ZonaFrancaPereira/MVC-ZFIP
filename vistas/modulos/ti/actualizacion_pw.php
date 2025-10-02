@@ -89,6 +89,7 @@
                                         <tr>
                                             <th style="width:10px">#</th>
                                             <th>Fecha Actualización</th>
+                                            <th>Responsable</th>
                                             <th>Estado</th>
                                             <th>Informe</th>
                                            
@@ -103,6 +104,7 @@
                                         $MostrarPwIndividual = ControladorPw::ctrMostrarPwIndividual($item, $valor);
 
                                         foreach ($MostrarPwIndividual as $key => $value) {
+                                             $responsable_pw = $value["nombre"] . ' ' . $value["apellidos_usuario"];
                                             $estado=$value["estado_pw"];
                                             $informe="<a href='extensiones/tcpdf/pdf/formato_pw.php?codigo={$value["id_detalle_pw"]}' target='_blank' class='btn bg-danger' title='Ver Informe'>
                                           <i class='fas fa-file-pdf'></i>
@@ -126,6 +128,7 @@
                                             echo ' <tr>
                                             <td>' . ($key + 1) . '</td>
                                             <td>' . $value["fecha_pw"] . '</td>
+                                            <td>' . $responsable_pw. '</td>
                                             <td>' . $estado_pw . '</td>
                                              <td>'.$informe.'</td>
                                           

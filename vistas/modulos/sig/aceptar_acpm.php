@@ -79,7 +79,7 @@
                                     <input type="text" name="id_acpm_fk_sig1" id="id_acpm_fk_sig1" hidden>
                                     <div class="form-group">
                                         <label>¿Es Conforme?</label>
-                                        <select class="form-control" id="riesgo_acpm" name="riesgo_acpm" >
+                                        <select class="form-control" id="conforme_sig" name="conforme_sig" >
                                             <option value="">Selecciona una Opción</option>
                                             <option value="Si">SI</option>
                                             <option value="No">NO</option>
@@ -88,12 +88,12 @@
 
                                     <div class="form-group">
                                         <label>Justifique por qué es o no es conforme</label>
-                                        <textarea id="justificacion_riesgo" name="justificacion_riesgo" class="form-control" rows="3" ></textarea>
+                                        <textarea id="justificacion_conforme_sig" name="justificacion_conforme_sig" class="form-control" rows="3" ></textarea>
                                     </div>
 
                                     <div class="form-group">
                                         <label>¿Existe la necesidad de actualizar los riesgos y oportunidades actuales?</label>
-                                        <select class="form-control" id="cambios_sig" name="cambios_sig" >
+                                        <select class="form-control" id="riesgos_sig" name="riesgos_sig" >
                                             <option value="">Selecciona una Opción</option>
                                             <option value="SI">SI</option>
                                             <option value="NO">NO</option>
@@ -102,12 +102,12 @@
 
                                     <div class="form-group">
                                         <label>¿Cuáles riesgos u oportunidades se deben contemplar?</label>
-                                        <textarea id="justificacion_sig" name="justificacion_sig" class="form-control" rows="3" ></textarea>
+                                        <textarea id="jriesgos_sig" name="jriesgos_sig" class="form-control" rows="3" ></textarea>
                                     </div>
 
                                     <div class="form-group">
                                         <label>¿Es necesario hacer cambios al sistema de gestión?</label>
-                                        <select class="form-control" id="conforme_sig" name="conforme_sig" >
+                                        <select class="form-control" id="cambios_sig" name="cambios_sig" >
                                             <option value="">Selecciona una Opción</option>
                                             <option value="SI">SI</option>
                                             <option value="NO">NO</option>
@@ -116,7 +116,7 @@
 
                                     <div class="form-group">
                                         <label>¿Qué cambios se deben contemplar y documentar?</label>
-                                        <textarea id="justificacion_conforme_sig" name="justificacion_conforme_sig" class="form-control" rows="3" ></textarea>
+                                        <textarea id="justificacion_sig" name="justificacion_sig" class="form-control" rows="3" ></textarea>
                                     </div>
 
                                     <div class="form-group">

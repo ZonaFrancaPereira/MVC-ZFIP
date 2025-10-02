@@ -19,12 +19,13 @@ if (empty($MostrarPw)) {
 }
 $row = $MostrarPw[0];
 $fecha_pw = $row["fecha_pw"];
-$nombre_usuario = $row["nombre_usuario"];
+$nombre_usuario = $row["nombre"];
 $apellidos_usuario = $row["apellidos_usuario"];
 $estado = $row["estado_pw"];
 $fecha_verificacion = $row["fecha_verificacion"];
 $nombre_ti = $row["nombre_ti"];
 $apellidos_ti = $row["apellidos_ti"];
+$observacion_verificacion = $row["observacion_verificacion"];
 
 
 // Crear una instancia de TCPDF
@@ -167,6 +168,8 @@ $html = <<<EOF
   <td>$nombre_usuario $apellidos_usuario</td> </tr> <tr> <td class="font-weight-bold">Estado</td>
    <td>$estado</td> </tr> <tr> <td class="font-weight-bold">Verificación TI</td>
     <td>$nombre_ti $apellidos_ti - $fecha_verificacion</td> </tr> 
+    <tr> <td class="font-weight-bold">Observación Verificación </td>
+     <td>$observacion_verificacion</td> </tr>
     <tr> <td colspan="2" class="">Las contraseñas deberán estar compuestas por: mayúsculas, minúsculas, números y caracteres, según los criterios requeridos en el listado a su cargo. A continuación por favor subraye la contraseña de su elección.</td> </tr> </table>
 <div style="height:30px;"></div>
 EOF;

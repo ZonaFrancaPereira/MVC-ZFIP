@@ -1,15 +1,4 @@
-<?php
-// Obtener el ID del usuario desde la sesión
-$idUsuario = $_SESSION["id"];
 
-// Llamar al método del controlador
-$totalActivos = ControladorActivos::ctrContarActivosPorUsuario($idUsuario);
-// Llamar al método del controlador para activos inactivos
-$totalInactivos = ControladorActivos::ctrContarActivosInactivosPorUsuario($idUsuario);
-
-// Mostrar el resultado
-//echo "Total de activos para el usuario actual: " . $totalActivos;
-?>
   <!-- Info boxes -->
   <div class="row">
     <div class="col-md-4 col-sm-6 col-12">

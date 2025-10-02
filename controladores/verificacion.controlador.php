@@ -1,10 +1,8 @@
 <?php
 
-
-
 class ControladorVerificaciones
 {
-     /*=============================================
+    /*=============================================
     CREAR Verificación
     =============================================*/
     public function ctrCrearVerificacion()
@@ -71,12 +69,11 @@ class ControladorVerificaciones
     {
         $tablaActivos = "activos";
         $tablaVerificacion = "verificaciones";
-        
         // Llama al método estático del modelo para obtener las verificaciones por inventario y usuario
         $verificaciones = ModeloVerificaciones::mdlMostrarVerificacionesPorInventario($tablaVerificacion, $tablaActivos, $id_inventario, $id_usuario_fk);
 
         return $verificaciones;
     }
-    
+
+ 
 }
-?>

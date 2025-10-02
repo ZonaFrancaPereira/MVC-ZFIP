@@ -560,8 +560,8 @@ class ControladorAcpm
                 $tabla = "acpm";
                 $datos = array(
                     "id_consecutivo" => $_POST["id_acpm_fk_sig1"],
-                    "riesgo_acpm" => $_POST["riesgo_acpm"],
-                    "justificacion_riesgo" => $_POST["justificacion_riesgo"],
+                    "riesgos_sig" => $_POST["riesgos_sig"],
+                    "jriesgos_sig" => $_POST["jriesgos_sig"],
                     "cambios_sig" => $_POST["cambios_sig"],
                     "justificacion_sig" => $_POST["justificacion_sig"],
                     "conforme_sig" => $_POST["conforme_sig"],

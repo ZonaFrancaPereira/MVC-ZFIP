@@ -153,7 +153,18 @@
         color: black !important;
     }
 </style>
+<?php
+// Obtener el ID del usuario desde la sesión
+$idUsuario = $_SESSION["id"];
 
+// Llamar al método del controlador
+$totalActivos = ControladorActivos::ctrContarActivosPorUsuario($idUsuario);
+// Llamar al método del controlador para activos inactivos
+$totalInactivos = ControladorActivos::ctrContarActivosInactivosPorUsuario($idUsuario);
+
+// Mostrar el resultado
+//echo "Total de activos para el usuario actual: " . $totalActivos;
+?>
 
 <!--=====================================
 CUERPO DOCUMENTO

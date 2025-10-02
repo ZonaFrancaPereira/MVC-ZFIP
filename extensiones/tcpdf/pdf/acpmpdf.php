@@ -2,6 +2,8 @@
 require_once "../../../configuracion.php";
 require_once "../../../controladores/acpm.controlador.php";
 require_once "../../../modelos/acpm.modelo.php";
+require_once "../../../controladores/codificacion.controlador.php";
+require_once "../../../modelos/codificacion.modelo.php";
 require_once('tcpdf_include.php');
 
 // Obtener el ID de ACPM desde la URL
@@ -67,6 +69,32 @@ $conforme_sig = $row["conforme_sig"];
 $justificacion_conforme_sig = $row["justificacion_conforme_sig"];
 $fecha_estado = $row["fecha_estado"];
 $fecha_finalizacion = $row["fecha_finalizacion"];
+$riesgos_sig = $row["riesgos_sig"];
+$jriesgos_sig = $row["jriesgos_sig"];
+
+
+
+$nombreImagen = "images/logo_zf.png";
+$imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($nombreImagen));
+
+//CONSULTA ENCABEZADO DE LAS TABLAS
+$tablad = 'version_documentos';
+$itemd = 'id_documento';
+$valord = '8';  // Asegúrate de que este valor esté correcto y sea válido
+$datosd = ModeloCodificar::mdlMostrarVersionDocumentos($tablad, $itemd, $valord);
+
+// Verificar si se obtuvieron datos
+if (empty($datosd)) {
+    die('No se encontraron datos para formato');
+}
+// Obtener la información del primer registro
+$rowd = $datosd[0];
+$codigo_documento = $rowd["codigo_documento"];
+$nombre_documento = $rowd["nombre_documento"];
+$fecha_implementacion = $rowd["fecha_implementacion"];
+$fecha_actualizacion = $rowd["fecha_actualizacion"];
+$version_documento = $rowd["version_documento"];
+
 
 // Contenido del documento en formato HTML
 $html = <<<EOF
@@ -79,7 +107,7 @@ $html = <<<EOF
         color: #004080;
     }
     .section-title {
-        font-size: 14px;
+        
         font-weight: bold;
         background-color: #004080;
         color: #ffffff;
@@ -104,81 +132,177 @@ $html = <<<EOF
     .content-table td {
         background-color: #f2f2f2;
     }
+
+    .content-encabezado {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 10px;
+        text-align: center;
+    }
+    .content-encabezado th, .content-table td {
+     
+            border: 1px solid #004080;
+            border-collapse: collapse; /* Evita bordes duplicados */
+        padding: 8px;
+       text-align: center;
+    }
+    .content-encabezado th {
+        background-color: #004080;
+        color: #ffffff;
+    }
+    .content-encabezado td {
+         border: 1px solid #004080;
+            border-collapse: collapse; /* Evita bordes duplicados */
+        text-align: center;
+    }
+
+      .external-border-table {
+           border: 1px solid #004080;
+            border-collapse: collapse; /* Evita bordes duplicados */
+            width: 100%; /* Ajusta el ancho según necesidad */
+        }
+        .external-border-table th {
+            padding: 10px; /* Espaciado dentro de las celdas */
+            text-align: center;
+        }
+
 </style>
-
-<div class="title">FORMATO ACPM - ID # $id_acpm</div>
-
-<div class="section-title">INFORMACIÓN DEL RESPONSABLE</div>
-<table class="content-table">
+<table class="external-border-table">
     <tr>
-        <th>Nombre</th>
-        <td>$nombre_usuario $apellidos_usuario</td>
-        <th>Proceso</th>
-        <td>$nombre_proceso</td>
+        <td colspan="1"><img src="$imagenBase64" alt="Logo" width="100"></td>
+        <td colspan="4" style="text-align: center;  font-weight: bold;">
+            <h4>$nombre_documento : # $id_acpm</h4>
+        </td>
+    </tr>
+</table>
+<table class="content-encabezado">
+    <tr>
+        <th>CÓDIGO</th>
+        <th>FECHA DE IMPLEMENTACIÓN</th>
+        <th>FECHA DE ACTUALIZACIÓN</th>
+        <th>VERSIÓN</th>
+        
+    </tr>
+    <tr>
+        <td>$codigo_documento</td>
+        <td>$fecha_implementacion</td>
+        <td>$fecha_actualizacion</td>
+        <td>$version_documento</td>
+        
+    </tr>
+</table>
+<br>
+<div class="section-title">Líder del Proceso</div>
+<table class="content-table">
+    <tr >
+        <th colspan="1">Nombre</th>
+        <td colspan="3">$nombre_usuario $apellidos_usuario</td>
+        
     </tr>
     <tr>
         <th>Cargo</th>
         <td>$nombre_cargo</td>
-        <th>Fecha (DD-MM-AA)</th>
-        <td>$fecha_acpm</td>
+        <th>Proceso</th>
+        <td>$nombre_proceso</td>>
     </tr>
 </table>
-
-<div class="section-title">DETALLES DEL ACPM</div>
+<br>
+<div class="section-title">Información ACPM</div>
 <table class="content-table">
-    <tr>
-        <th>Origen ACPM</th>
-        <td>$origen_acpm</td>
-        <th>Fuente ACPM</th>
-        <td>$fuente_acpm</td>
+        <tr>
+        <th colspan="1">Tipo </th>
+        <td colspan="2">$tipo_acpm</td>
+       
     </tr>
     <tr>
-        <th>Descripción de la Fuente</th>
-        <td colspan="3">$descripcion_fuente</td>
+        <th colspan="1">Fecha de Registro</th>
+        <td colspan="2">$fecha_acpm</td>
     </tr>
     <tr>
-        <th>Tipo ACPM</th>
-        <td>$tipo_acpm</td>
-        <th>Fecha ACPM</th>
-        <td>$fecha_acpm</td>
+        <th colspan="1">Origen </th>
+        <td colspan="2" style="text-align: justify;" >$origen_acpm</td>
+        
     </tr>
     <tr>
-        <th>Causa ACPM</th>
-        <td>$causa_acpm</td>
-        <th>NC Similar</th>
-        <td>$nc_similar</td>
+        <th colspan="1">Fuente </th>
+        <td colspan="2">$fuente_acpm</td>
+    </tr>    
+    <tr>
+        <th colspan="1">Descripción de la Fuente</th>
+        <td colspan="2" style="text-align: justify;" >$descripcion_fuente</td>
+    </tr>
+     <tr>
+        <th colspan="1">NC Similares / Afecten otro Proceso</th>
+        <td colspan="2" >$nc_similar</td>
     </tr>
     <tr>
-        <th>Descripción del NC Similar</th>
-        <td colspan="3">$descripcion_nsc</td>
+        <th colspan="1">Describe Cuales y en que Proceso</th>
+        <td colspan="2" style="text-align: justify;">$descripcion_nsc</td>
+    </tr>
+    
+    <tr>
+        <th colspan="1">Se identificó peligros de SST nuevos o que han cambiado, o la necesidad de generar controles nuevos o modificar los existentes </th>
+        <td colspan="2">$riesgo_acpm</td>
     </tr>
     <tr>
-        <th>Estado ACPM</th>
-        <td>$estado_acpm</td>
-        <th>Riesgo ACPM</th>
-        <td>$riesgo_acpm</td>
+        <th>Describa cuales son los riegos</th>
+        <td colspan="3" style="text-align: justify;">$justificacion_riesgo</td>
     </tr>
     <tr>
-        <th>Justificación del Riesgo</th>
-        <td colspan="3">$justificacion_riesgo</td>
+        <th colspan="1">Estado </th>
+        <td colspan="2">$estado_acpm</td>
+        
     </tr>
     <tr>
-        <th>Cambios SIG</th>
-        <td>$cambios_sig</td>
-        <th>Justificación SIG</th>
-        <td>$justificacion_sig</td>
+     <th colspan="1">Fecha de Finalización</th>
+        <td colspan="2">$fecha_finalizacion</td>
+    </tr>    
+    <tr>
+        <div class="section-title">Causa ACPM</div>
     </tr>
     <tr>
-        <th>Conforme SIG</th>
-        <td>$conforme_sig</td>
-        <th>Justificación Conforme SIG</th>
-        <td>$justificacion_conforme_sig</td>
+        <td colspan="3" style="text-align: justify;" >$causa_acpm</td>
+    </tr>
+  
+    <tr>
+       <div class="section-title">Espacio Exclusivo del SIG</div>
+    </tr>
+  <tr>
+        <th colspan="1">¿Es Conforme?</th>
+        <td colspan="3">$conforme_sig</td>
+       
     </tr>
     <tr>
-        <th>Fecha de Estado</th>
-        <td>$fecha_estado</td>
-        <th>Fecha de Finalización</th>
-        <td>$fecha_finalizacion</td>
+     <th colspan="1">Justifique por qué es o no es conforme </th>
+        <td colspan="3">$justificacion_conforme_sig</td>
+    </tr>
+
+
+    <tr>
+        <th colspan="1">¿Existe la necesidad de actualizar los riesgos y oportunidades actuales para el SIG?</th>
+        <td colspan="3">$riesgos_sig</td>
+      
+    </tr>
+    <tr>
+       <th colspan="1"> ¿Cuáles riesgos u oportunidades se deben contemplar?</th>
+        <td colspan="3">$jriesgos_sig</td>
+    </tr>
+
+
+    <tr>
+        <th colspan="1">¿Es necesario hacer cambios al sistema de gestión?</th>
+        <td colspan="3">$cambios_sig</td>
+      
+    </tr>
+    <tr>
+       <th colspan="1">¿Qué cambios se deben contemplar y documentar? </th>
+        <td colspan="3">$justificacion_sig</td>
+    </tr>
+  
+    <tr>
+        <th colspan="1">Fecha Verificación </th>
+        <td colspan="3">$fecha_estado</td>
+       
     </tr>
 </table>
 EOF;
@@ -214,7 +338,7 @@ try {
                     color: #004080;
                 }
                 .section-title {
-                    font-size: 14px;
+                   
                     font-weight: bold;
                     background-color: #004080;
                     color: #ffffff;
@@ -222,6 +346,7 @@ try {
                     padding: 5px;
                     margin-top: 20px;
                 }
+        
                 .content-table {
                     border-collapse: collapse;
                     width: 100%;
@@ -247,20 +372,19 @@ try {
             <!-- Tabla con Detalles de la Actividad -->
             <table class="content-table">
                 <tr>
-                    <th>Fecha de Cumplimiento</th>
-                    <td>$fecha_actividad</td>
+                     <th colspan="1">Fecha de Cumplimiento</th>
+                    <td colspan="1">$fecha_actividad</td>
+                     <th colspan="1">Estado</th>
+                    <td colspan="1">$estado_actividad</td>
                 </tr>
                 <tr>
-                    <th>Descripción</th>
-                    <td>$descripcion_actividad</td>
+                     <th colspan="1">Descripción</th>
+                     <td colspan="3">$descripcion_actividad</td>
                 </tr>
+               
                 <tr>
-                    <th>Estado</th>
-                    <td>$estado_actividad</td>
-                </tr>
-                <tr>
-                    <th>Responsable</th>
-                    <td>$responsable $apellido_responsable</td>
+                    <th colspan="1">Responsable</th>
+                     <td colspan="3">$responsable $apellido_responsable</td>
                 </tr>
             </table>
             EOF;
@@ -291,7 +415,7 @@ try {
                                 color: #004080;
                             }
                             .section-title {
-                                font-size: 14px;
+                               
                                 font-weight: bold;
                                 background-color: #004080;
                                 color: #ffffff;
@@ -320,20 +444,17 @@ try {
 
                         <!-- Título de la Sección de Detalle -->
                         <div class="section-title">Detalle de Evidencia</div>
-
                         <!-- Tabla con Detalles de Evidencia -->
                         <table class="content-table">
                             <tr>
-                                <th>Fecha Evidencia</th>
-                                <td>$fecha_evidencia</td>
+                               <th colspan="1">Fecha Evidencia</th>
+                                 <td colspan="1">$fecha_evidencia</td>
+                                 <th colspan="1">Recursos</th>
+                                 <td colspan="1">$recursos</td>
                             </tr>
                             <tr>
-                                <th>Evidencia</th>
-                                <td>$evidencia</td>
-                            </tr>
-                            <tr>
-                                <th>Recursos</th>
-                                <td>$recursos</td>
+                               <th colspan="1">Evidencia</th>
+                                 <td colspan="3">$evidencia</td>
                             </tr>
                         </table>
                         EOF;

@@ -138,4 +138,50 @@ class ControladorPw
 
         return $respuesta;
     }
+
+       /*=============================================
+    VERIFICAR CONTRASEÑA
+    =============================================*/
+    public function ctrVerificarPw()
+    {
+        if (isset($_POST["estado_pw"])) {
+            $id_detalle_pw = $_POST["id_detalle_pw"];
+            $estado_pw = $_POST["estado_pw"];
+            $observaciones_pw = $_POST["observaciones_pw"];
+            $id_usuario_ti = $_SESSION["id"];
+            $tabla = "detalle_pw";
+            $datos = array(
+                "id_detalle_pw" => $id_detalle_pw,
+                "estado_pw" => $estado_pw,
+                "observaciones_pw" => $observaciones_pw,
+                "id_usuario_ti" => $id_usuario_ti
+            );
+            $respuesta = ModeloPw::mdlVerificarPw($tabla, $datos);
+            if ($respuesta === "ok") {
+                echo '<script>
+                    Swal.fire(
+                        "Buen Trabajo!",
+                        "La verificación de la contraseña se realizó con éxito.",
+                        "success"
+                    ).then(function() {
+                        // Limpiar el formulario
+                        $("#formVerificarPw")[0].reset(); // Resetea el formulario
+                        $("#modalVerificarPw").modal("hide"); // Cierra el modal
+                        window.location = "ti"; // Redirige a la página de TI
+                        $("#panelti").addClass("active");
+                    });
+                </script>';
+            } else {
+                echo '<script>
+                    Swal.fire(
+                        "Error",
+                        "Hubo un problema al verificar la contraseña.",
+                        "error"
+                    ).then(function() {
+                        $("#panelti").addClass("active");
+                    });
+                </script>';
+            }
+        }
+    }
 }

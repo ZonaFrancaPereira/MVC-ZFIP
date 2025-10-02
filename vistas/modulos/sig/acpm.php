@@ -65,7 +65,7 @@
                                             </div>
                                             <div class="col-md-12 col-xs-12 col-sm-12">
                                                 <label>Descripción ACPM</label>
-                                                <textarea class="form-control" id="descripcion_acpm" name="descripcion_acpm" rows="3" required></textarea>
+                                                <textarea class="form-control textarea" id="descripcion_acpm" name="descripcion_acpm" rows="3" required></textarea>
                                             </div>
                                             <div class="col-12 bg-navy pt-2 mt-3 col-xs-12 col-sm-12">
                                                 <center>
@@ -75,7 +75,7 @@
                                             </div>
                                             <div class="col-md-12 col-xs-12 col-sm-12">
                                                 <label>Análisis de Causa (Técnicas de los por ques, espina de pescado, lluvia de ideas, etc)</label>
-                                                <textarea class="form-control" id="causa_acpm" name="causa_acpm" rows="3"></textarea>
+                                                <textarea class="form-control textarea" id="causa_acpm" name="causa_acpm" rows="3"></textarea>
                                             </div>
                                             <div class="col-md-12 col-xs-12 col-sm-12">
                                                 <label>¿Se identifican No Conformidades similares o que potencialmente puedan ocurrir en otro proceso?</label>

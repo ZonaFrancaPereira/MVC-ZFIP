@@ -89,49 +89,43 @@ class ControladorActivos
 	CREAR ASIGNACION DE EQUIPOS
 	=============================================*/
 
-    static public function ctrCrearAsignacion()
-    {
+   static public function ctrCrearAsignacion()
+{
+    if (isset($_POST["guardar_asignacion"])) {
 
-        if (isset($_POST["guardar_asignacion"])) {
+        $tabla = "asignacion_equipos";
 
+        // 1. Primero, actualizar las asignaciones actuales del usuario a "Inactiva"
+        ModeloActivos::mdlActualizarEstadoAsignaciones($tabla, $_POST["id_usuario_fk"]);
 
+        // 2. Luego, crear la nueva asignación con estado Activa
+        $datos = array(
+            "fecha_asignacion" => $_POST["fecha_asignacion"],
+            "estado_asignacion" => "Activa",
+            "id_ti_fk" => $_SESSION["id"],
+            "id_usuario_fk" => $_POST["id_usuario_fk"]
+        );
 
-            $tabla = "asignacion_equipos";
+        $respuesta = ModeloActivos::mdlIngresarAsignacion($tabla, $datos);
 
-            $datos = array(
+        if ($respuesta == "ok") {
 
-                "fecha_asignacion" => $_POST["fecha_asignacion"],
-                "estado_asignacion" => "Activa",
-                "id_ti_fk" => $_SESSION["id"],
-                "id_usuario_fk" => $_POST["id_usuario_fk"]
-
-            );
-
-            $respuesta = ModeloActivos::mdlIngresarAsignacion($tabla, $datos);
-
-            if ($respuesta == "ok") {
-
-                echo '<script>
-
+            echo '<script>
 					  Swal.fire(
 							"Buen Trabajo!",
-							"El Activos  se ha registrado con éxito.",
+							"El Activo se ha registrado con éxito.",
 							"success"
 							).then(function() {
-							 //Limpiar el formulario
-                            $("#formAsignacion")[0].reset(); // Resetea el formulario
-                           window.location = "index.php?ruta=ti
-                           +-e";
-							
-
+                            $("#formAsignacion")[0].reset(); 
+                            window.location = "ti";
 							});
-
 					</script>';
-            }
         } else {
             return "error";
         }
     }
+}
+
 
     static public function ctrCrearDetallesEquipo()
     {

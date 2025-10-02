@@ -9,14 +9,14 @@
 
     <li class="nav-item">
       <a href="sadoc" class="nav-link">
-        <i class="nav-icon fas fa-qrcode"></i>
+       <i class="nav-icon far fa-folder-open"></i>
         <p>SADOC</p>
       </a>
     </li>
 
     <li class="nav-item">
       <a data-toggle="collapse" href="#acpmMenu" class="nav-link">
-        <i class="nav-icon fas fa-qrcode"></i>
+    <i class="nav-icon fas fa-chalkboard-teacher"></i>
         <p>ACPM<i class="fas fa-angle-left right"></i></p>
       </a>
       <ul class="nav nav-treeview collapse show" id="acpmMenu">

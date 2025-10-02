@@ -26,8 +26,8 @@ $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
 // Configurar la información del documento
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('Zona Franca Internacional de Pereira');
-$pdf->SetTitle('Formato de ACPM');
-$pdf->SetSubject('Detalles de la ACPM');
+$pdf->SetTitle('Formato de Solicitud de Modificación / Creación de Documento o Formato');
+$pdf->SetSubject('Detalles de la Solicitud de Modificación / Creación de Documento o Formato');
 
 // Eliminar las líneas de encabezado y pie de página
 $pdf->setPrintHeader(false);
@@ -80,6 +80,29 @@ $causa_rechazo_codificacion = $row['causa_rechazo_codificacion'];
 $evidencia_difucion = $row['evidencia_difucion'];
 $nombre_proceso_cod = $row['nombre_proceso_cod'];
 
+$nombreImagen = "images/logo_zf.png";
+if (!file_exists($nombreImagen)) {
+    die('No se encontró la imagen del logo.');
+}
+$imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($nombreImagen));
+
+// CONSULTA ENCABEZADO DE LAS TABLAS
+$tablad = 'version_documentos';
+$itemd = 'id_documento';
+$valord = '9';
+$datosd = ModeloCodificar::mdlMostrarVersionDocumentos($tablad, $itemd, $valord);
+
+if (empty($datosd)) {
+    die('No se encontraron datos para formato.');
+}
+
+$rowd = $datosd[0];
+$codigo_documento = $rowd["codigo_documento"];
+$nombre_documento = $rowd["nombre_documento"];
+$fecha_implementacion = $rowd["fecha_implementacion"];
+$fecha_actualizacion = $rowd["fecha_actualizacion"];
+$version_documento = $rowd["version_documento"];
+
 // Contenido del documento en formato HTML
 $html = <<<EOF
 <style>
@@ -91,7 +114,6 @@ $html = <<<EOF
         color: #004080;
     }
     .section-title {
-        font-size: 14px;
         font-weight: bold;
         background-color: #004080;
         color: #ffffff;
@@ -107,7 +129,7 @@ $html = <<<EOF
     .content-table th, .content-table td {
         border: 1px solid #004080;
         padding: 8px;
-        text-align: left;
+        text-align: center;
     }
     .content-table th {
         background-color: #004080;
@@ -116,12 +138,75 @@ $html = <<<EOF
     .content-table td {
         background-color: #f2f2f2;
     }
+    .content-encabezado {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 10px;
+        text-align: center;
+    }
+    .content-encabezado th, .content-encabezado td {
+        font-weight: bold;
+        border: 1px solid #004080;
+        padding: 8px;
+        text-align: center;
+    }
+    .external-border-table {
+        border: 1px solid #004080;
+        border-collapse: collapse;
+        width: 100%;
+    }
+    .external-border-table th {
+        padding: 10px;
+        text-align: center;
+    }
+    /* ESTILO PARA RESALTAR EN AMARILLO */
+    .highlight {
+        background-color: yellow;
+        font-weight: bold;
+        color: black;
+        padding: 2px;
+        border-radius: 3px;
+    }
+    /* Para dividir el espacio en dos columnas */
+    .column {
+        width: 50%;
+        vertical-align: top;
+        padding: 5px;
+    }
 </style>
 
-<div class="title">FORMATO DE CODIFICACIÓN - ID # $id_codificar</div>
+<table class="external-border-table">
+    <tr>
+        <td colspan="1"><img src="$imagenBase64" alt="Logo" width="100"></td>
+        <td colspan="4" style="text-align: center;">
+            <h4>$nombre_documento</h4>
+        </td>
+    </tr>
+</table>
 
-<div class="section-title">SOLICITUD DE MODIFICACIÓN / CREACIÓN DE DOCUMENTO O FORMATO</div>
+<table class="content-encabezado">
+    <tr>
+        <th>CÓDIGO</th>
+        <th>FECHA DE IMPLEMENTACIÓN</th>
+        <th>FECHA DE ACTUALIZACIÓN</th>
+        <th>VERSIÓN</th>
+    </tr>
+    <tr>
+        <td>$codigo_documento</td>
+        <td>$fecha_implementacion</td>
+        <td>$fecha_actualizacion</td>
+        <td>$version_documento</td>
+    </tr>
+</table>
+
+<div style="height:30px;"></div> <!-- Espacio fijo --> <table class="content-table" >
+<div class="section-title">Información de la Solicitud</div>
 <table class="content-table">
+    <tr>
+    <th colspan="4">
+    Consecutivo No. $id_codificar
+    </th>
+    </tr>
     <tr>
         <th>Vigencia</th>
         <td>$vigencia</td>
@@ -155,8 +240,10 @@ $html = <<<EOF
         <th>$link_formato_codificacion</th>
     </tr>
 </table>
-<div class="section-title">POLÍTICA DE ELABORACIÓN, REVISIÓN Y APROBACIÓN</div>
+<div style="height:30px;"></div> <!-- Espacio fijo --> <table class="content-table" >
+<div class="section-title">Política de Elaboración, Revisión y Aprobación</div>
 <table class="content-table">
+
     <tr>
         <td>Elabora</td>
         <td>Revisa</td>
@@ -173,7 +260,8 @@ $html = <<<EOF
         <td>Cargo:  $aprueba_correo</td>
     </tr>
 </table>
-<div class="section-title">DOCUMENTOS RELACIONADOS O ANEXOS</div>
+<div style="height:30px;"></div> <!-- Espacio fijo --> <table class="content-table" >
+<div class="section-title">Documentos Relacionados o Anexos</div>
 <table class="content-table">
     <tr>
         <th>Enliste a continuación los documentos relacionados o anexos del documento en modificación y determine si el cambio los afecta. 
@@ -198,38 +286,72 @@ try {
     $html = <<<EOF
     <style>
         .title {
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #004080;
-        }
-        .section-title {
-            font-size: 14px;
-            font-weight: bold;
-            background-color: #004080;
-            color: #ffffff;
-            text-align: center;
-            padding: 5px;
-            margin-top: 20px;
-        }
-        .content-table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-top: 10px;
-        }
-        .content-table th, .content-table td {
-            border: 1px solid #004080;
-            padding: 8px;
-            text-align: left;
-        }
-        .content-table th {
-            background-color: #004080;
-            color: #ffffff;
-        }
-        .content-table td {
-            background-color: #f2f2f2;
-        }
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: #004080;
+    }
+    .section-title {
+        font-weight: bold;
+        background-color: #004080;
+        color: #ffffff;
+        text-align: center;
+        padding: 5px;
+        margin-top: 20px;
+    }
+    .content-table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 10px;
+    }
+    .content-table th, .content-table td {
+        border: 1px solid #004080;
+        padding: 8px;
+        text-align: center;
+    }
+    .content-table th {
+        background-color: #004080;
+        color: #ffffff;
+    }
+    .content-table td {
+        background-color: #f2f2f2;
+    }
+    .content-encabezado {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 10px;
+        text-align: center;
+    }
+    .content-encabezado th, .content-encabezado td {
+        font-weight: bold;
+        border: 1px solid #004080;
+        padding: 8px;
+        text-align: center;
+    }
+    .external-border-table {
+        border: 1px solid #004080;
+        border-collapse: collapse;
+        width: 100%;
+    }
+    .external-border-table th {
+        padding: 10px;
+        text-align: center;
+    }
+    /* ESTILO PARA RESALTAR EN AMARILLO */
+    .highlight {
+        background-color: yellow;
+        font-weight: bold;
+        color: black;
+        padding: 2px;
+        border-radius: 3px;
+    }
+    /* Para dividir el espacio en dos columnas */
+    .column {
+        width: 50%;
+        vertical-align: top;
+        padding: 5px;
+    }
     </style>
     EOF;
 
@@ -256,8 +378,11 @@ try {
 
     // Agregar la sección de política de elaboración, revisión y aprobación
     $html .= <<<EOF
-    <div class="section-title">DIFUSIONES - Interna</div>
+    <div style="height:30px;"></div> <!-- Espacio fijo --> <table class="content-table" >
+    <div class="section-title">Difusiones - Interna</div> 
+
     <table class="content-table">
+
         <tr>
             <td>Todos Colaboradores:</td>
             <td>Sólo Líderes de Proceso:</td>
@@ -277,13 +402,13 @@ try {
     // Escribir los documentos relacionados en el PDF
     $pdf->writeHTML($html, true, false, true, false, '');
 
-        // Consultar los documentos relacionados o anexos
-        $stmt = Conexion::conectar()->prepare('SELECT * FROM detalle_codificacion WHERE id_codificacion_fk = :id_codificacion');
-        $stmt->bindParam(':id_codificacion', $id_codificar, PDO::PARAM_INT);
-        $stmt->execute();
-    
-        // Comienza el contenido HTML general (se agrega una vez)
-        $html = <<<EOF
+    // Consultar los documentos relacionados o anexos
+    $stmt = Conexion::conectar()->prepare('SELECT * FROM detalle_codificacion WHERE id_codificacion_fk = :id_codificacion');
+    $stmt->bindParam(':id_codificacion', $id_codificar, PDO::PARAM_INT);
+    $stmt->execute();
+
+    // Comienza el contenido HTML general (se agrega una vez)
+    $html = <<<EOF
         <style>
             .title {
                 text-align: center;
@@ -293,13 +418,12 @@ try {
                 color: #004080;
             }
             .section-title {
-                font-size: 14px;
-                font-weight: bold;
-                background-color: #004080;
-                color: #ffffff;
-                text-align: center;
-                padding: 5px;
-                margin-top: 20px;
+              font-weight: bold;
+        background-color: #004080;
+        color: #ffffff;
+        text-align: center;
+        padding: 5px;
+        margin-top: 20px;
             }
             .content-table {
                 border-collapse: collapse;
@@ -321,32 +445,33 @@ try {
         </style>
          <div class="section-title">Difusiones Externa</div>
         EOF;
-    
-        // Verificar si hay resultados antes de recorrerlos
-        if ($stmt->rowCount() > 0) {
-            while ($row = $stmt->fetch()) {
-                $nombre_externa = htmlspecialchars($row["nombre_externa"], ENT_QUOTES, 'UTF-8');
-                $correo_externa = htmlspecialchars($row["correo_externa"], ENT_QUOTES, 'UTF-8');
-                // Agregar los datos al HTML de actividades
-                $html .= <<<EOF
+
+    // Verificar si hay resultados antes de recorrerlos
+    if ($stmt->rowCount() > 0) {
+        while ($row = $stmt->fetch()) {
+            $nombre_externa = htmlspecialchars($row["nombre_externa"], ENT_QUOTES, 'UTF-8');
+            $correo_externa = htmlspecialchars($row["correo_externa"], ENT_QUOTES, 'UTF-8');
+            // Agregar los datos al HTML de actividades
+            $html .= <<<EOF
                 <table class="content-table">
                     <tr><th>Nombre:</th><td>$nombre_externa</td></tr>
                     <tr><th>Correo:</th><td>$correo_externa</td></tr>
                 </table>
                 EOF;
-            }
-        } else {
-            // Manejar el caso en que no se encuentren resultados
-            $html .= "<p>No se encontraron documentos relacionados.</p>";
         }
-          // Agregar la sección de política de elaboración, revisión y aprobación
+    } else {
+        // Manejar el caso en que no se encuentren resultados
+        $html .= "<p>No se encontraron documentos relacionados.</p>";
+    }
+    // Agregar la sección de política de elaboración, revisión y aprobación
     $html .= <<<EOF
-    <div class="section-title">Difusiones Externa</div>
+    
     <table class="content-table">
         <tr>
             <td>¿Se requiere envío de copia NO controlada del Documento, a las partes externas?: $enviar_copia</td>
         </tr>
     </table>
+    <div style="height:30px;"></div> <!-- Espacio fijo --> <table class="content-table" >
     <div class="section-title">Espacio Reservado para SIG</div>
      <table class="content-table">
         <tr>
@@ -362,7 +487,7 @@ try {
         </tr>
     </table>
     EOF;
-    
+
     if ($estado_sig_codificacion === 'Rechazado') {
         $html .= <<<EOF
         <div class="section-title">Causa del Rechazo</div>

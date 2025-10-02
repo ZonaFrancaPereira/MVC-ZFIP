@@ -253,6 +253,16 @@ class ControladorSoporte
         }
     }
 
+  // Simple proxy que devuelve conteo para YYYY-MM
+    public static function ctrContarSoportesAtendidosPorMes($anoMes)
+    {
+        return ModeloSoporte::contarSoportesAtendidosPorMes($anoMes);
+    }
 
+    // Devuelve arreglo con los últimos N meses (ano_mes, atendidos)
+    public static function ctrObtenerAtendidosUltimosMeses($ultimoNMeses = 12)
+    {
+        return ModeloSoporte::obtenerAtendidosUltimosMeses($ultimoNMeses);
+    }
 
 }
