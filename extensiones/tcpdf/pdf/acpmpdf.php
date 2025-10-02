@@ -56,6 +56,7 @@ $nombre_cargo = $row["nombre_cargo"];
 $origen_acpm = $row["origen_acpm"];
 $fuente_acpm = $row["fuente_acpm"];
 $descripcion_fuente = $row["descripcion_fuente"];
+$descripcion_acpm = $row["descripcion_acpm"];
 $tipo_acpm = $row["tipo_acpm"];
 $causa_acpm = $row["causa_acpm"];
 $nc_similar = $row["nc_similar"];
@@ -256,7 +257,13 @@ $html = <<<EOF
     <tr>
      <th colspan="1">Fecha de Finalización</th>
         <td colspan="2">$fecha_finalizacion</td>
-    </tr>    
+    </tr>  
+     <tr>
+        <div class="section-title">Descripción ACPM</div>
+    </tr>
+    <tr>
+        <td colspan="3" style="text-align: justify;" >$descripcion_acpm</td>
+    </tr>  
     <tr>
         <div class="section-title">Causa ACPM</div>
     </tr>

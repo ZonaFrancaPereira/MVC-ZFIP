@@ -524,6 +524,8 @@ class ModeloAcpm
                     a.causa_acpm,
                     a.nc_similar,
                     a.descripcion_nsc,
+                    a.fecha_correccion,
+                    a.descripcion_acpm,
                     a.estado_acpm,
                     a.riesgo_acpm,
                     a.justificacion_riesgo,
