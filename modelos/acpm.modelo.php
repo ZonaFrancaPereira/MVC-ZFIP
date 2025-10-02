@@ -138,12 +138,11 @@ class ModeloAcpm
                 break;
 
             case 'aprobar':
-                // Consulta con filtro
+                // Consulta para mostrar ACPM en estado 'Verificación'
                 $stmt = Conexion::conectar()->prepare("SELECT $tabla.*, usuarios.nombre, usuarios.apellidos_usuario
-                                               FROM $tabla
-                                               INNER JOIN usuarios ON $tabla.id_usuario_fk = usuarios.id
-                                               WHERE $tabla.$item = :valor");
-                $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
+                    FROM $tabla
+                    INNER JOIN usuarios ON $tabla.id_usuario_fk = usuarios.id
+                    WHERE $tabla.estado_acpm = 'Verificación'");
                 $stmt->execute();
                 return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
                 $stmt = null;
