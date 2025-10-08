@@ -67,7 +67,7 @@
                                                         </div>
                                                         <div class="col-2 col-xs-12 col-sm-12" hidden>
                                                             <label for="">Tipo actividad</label>
-                                                            <input type="text" class="form-control" value="Actividad" name="tipo_actividad" id="tipo_actividad" readonly>
+                                                            <input type="textarea" class="form-control" value="Actividad" name="tipo_actividad" id="tipo_actividad" readonly>
                                                         </div>
                                                         <div class="col-2 col-xs-12 col-sm-12" hidden>
                                                             <label for="">Estado de la Actividad</label>
