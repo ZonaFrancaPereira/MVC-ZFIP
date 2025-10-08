@@ -25,7 +25,7 @@ require_once "configuracion.php";
                     </a>
                 </li>
 
-                <?php if (isset($_SESSION["id_proceso_fk"]) && $_SESSION["id_proceso_fk"] == 14): ?>
+                <?php if (isset($_SESSION["id_proceso_fk"]) && $_SESSION["id_proceso_fk"] == 11): ?>
                 <li class="nav-item">
                     <a data-toggle="tab" href="#finalizadas_tecnica" class="nav-link">
                         <i class="nav-icon fas fa-sync-alt"></i>

@@ -38,6 +38,20 @@
                                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-lg">
                                             Nueva Asignación
                                         </button>
+                                                          <?php
+                                                                        $item = null;
+                                                                        $valor = null;
+
+                                                                        // Llamada al método del controlador para obtener los usuarios
+                                                                        $equipos = ControladorActivos::ctrMostrarAsignaciones($item, $valor);
+
+                                                                        // Verificar si $usuarios es un array válido
+
+                                                                        foreach ($equipos as $key => $value) {
+                                                                            echo '<option value="' . htmlspecialchars($value["id"]) . '">' . htmlspecialchars($value["nombre"] . ' ' . $value["apellidos_usuario"]) . '</option>';
+                                                                        }
+
+                                                                        ?>
 
                                         <div class="modal fade" id="modal-lg">
                                             <div class="modal-dialog modal-lg">
@@ -64,12 +78,13 @@
                                                                         $valor = null;
 
                                                                         // Llamada al método del controlador para obtener los usuarios
-                                                                        $equipos = ControladorActivos::ctrMostrarAsignaciones($item, $valor);
+                                                                        $usuarios = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
 
                                                                         // Verificar si $usuarios es un array válido
-
-                                                                        foreach ($equipos as $key => $value) {
-                                                                            echo '<option value="' . htmlspecialchars($value["id"]) . '">' . htmlspecialchars($value["nombre"] . ' ' . $value["apellidos_usuario"]) . '</option>';
+                                                                        if (!empty($usuarios) && is_array($usuarios)) {
+                                                                            foreach ($usuarios as $value) {
+                                                                                echo '<option value="' . htmlspecialchars($value["id"]) . '">' . htmlspecialchars($value["nombre"] . ' ' . $value["apellidos_usuario"]) . '</option>';
+                                                                            }
                                                                         }
 
                                                                         ?>

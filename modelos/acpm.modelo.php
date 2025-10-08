@@ -524,6 +524,8 @@ class ModeloAcpm
                     a.causa_acpm,
                     a.nc_similar,
                     a.descripcion_nsc,
+                    a.fecha_correccion,
+                    a.descripcion_acpm,
                     a.estado_acpm,
                     a.riesgo_acpm,
                     a.justificacion_riesgo,
@@ -532,7 +534,12 @@ class ModeloAcpm
                     a.conforme_sig,
                     a.justificacion_conforme_sig,
                     a.fecha_estado,
-                    a.fecha_finalizacion
+                    a.fecha_finalizacion,
+                    a.descripcion_acpm,
+                    a.correccion_acpm,
+                    a.riesgos_sig,
+                    a.jriesgos_sig
+
                 FROM $tabla a
                 INNER JOIN usuarios u ON a.id_usuario_fk = u.id
                 INNER JOIN proceso p ON u.id_proceso_fk = p.id_proceso
@@ -740,18 +747,23 @@ class ModeloAcpm
             // Actualizar eficacia
             $stmt = Conexion::conectar()->prepare(
                 "UPDATE $tabla SET 
-                riesgo_acpm = :riesgo_acpm, 
-                justificacion_riesgo = :justificacion_riesgo,
+        
                 cambios_sig = :cambios_sig,
                 justificacion_sig = :justificacion_sig,
+
                 conforme_sig = :conforme_sig,
                 justificacion_conforme_sig = :justificacion_conforme_sig,
+
+                riesgos_sig = :riesgos_sig, 
+                jriesgos_sig = :jriesgos_sig,
+
                 fecha_estado = :fecha_estado 
+                
             WHERE id_consecutivo = :id_consecutivo"
             );
 
-            $stmt->bindParam(":riesgo_acpm", $datos["riesgo_acpm"], PDO::PARAM_STR);
-            $stmt->bindParam(":justificacion_riesgo", $datos["justificacion_riesgo"], PDO::PARAM_STR);
+            $stmt->bindParam(":riesgos_sig", $datos["riesgos_sig"], PDO::PARAM_STR);
+            $stmt->bindParam(":jriesgos_sig", $datos["jriesgos_sig"], PDO::PARAM_STR);
             $stmt->bindParam(":cambios_sig", $datos["cambios_sig"], PDO::PARAM_STR);
             $stmt->bindParam(":justificacion_sig", $datos["justificacion_sig"], PDO::PARAM_STR);
             $stmt->bindParam(":conforme_sig", $datos["conforme_sig"], PDO::PARAM_STR);

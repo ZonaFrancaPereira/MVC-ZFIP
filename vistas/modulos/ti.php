@@ -12,17 +12,17 @@ require_once "configuracion.php";
         </li>
 
         <li class="nav-header">PANEL TI</li>
-<?php
+        <?php
         $cargoTi = [1, 2];
         if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargoTi)):
         ?>
-        <li class="nav-item">
-            <a data-toggle="tab" href="#recursos_ti" class="nav-link">
-                <i class="fas fa-desktop"></i>
-                <p>Detalle de Equipos</p>
-            </a>
-        </li>
-<?php endif; ?>
+            <li class="nav-item">
+                <a data-toggle="tab" href="#recursos_ti" class="nav-link">
+                    <i class="fas fa-desktop"></i>
+                    <p>Detalle de Equipos</p>
+                </a>
+            </li>
+        <?php endif; ?>
         <li class="nav-item">
             <a data-toggle="tab" href="" class="nav-link">
                 <i class="far fa-save"></i>
@@ -98,12 +98,12 @@ require_once "configuracion.php";
         $cargoTi = [1, 2];
         if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargoTi)):
         ?>
-        <li class="nav-item">
-            <a data-toggle="tab" href="#inventario" class="nav-link">
-                <i class="fas fa-file-invoice"></i>
-                <p>Inventario TI</p>
-            </a>
-        </li>
+            <li class="nav-item">
+                <a data-toggle="tab" href="#inventario" class="nav-link">
+                    <i class="fas fa-file-invoice"></i>
+                    <p>Inventario TI</p>
+                </a>
+            </li>
         <?php endif; ?>
         <li class="nav-item">
             <a data-toggle="tab" href="" class="nav-link">
@@ -147,27 +147,27 @@ require_once "configuracion.php";
             </ul>
         </li>
         <?php
-        $cargoTiSig = [1, 2,4];
+        $cargoTiSig = [1, 2, 4];
         if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargoTiSig)):
         ?>
-       
-        <li class="nav-item">
-            <a data-toggle="tab" href="#usuarios" class="nav-link">
-                <i class="fas fa-users"></i>
-                <p>Usuarios</p>
-            </a>
-        </li>
+
+            <li class="nav-item">
+                <a data-toggle="tab" href="#usuarios" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    <p>Usuarios</p>
+                </a>
+            </li>
         <?php endif; ?>
         <?php
         $cargoTi = [1, 2];
         if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargoTi)):
         ?>
-        <li class="nav-item">
-            <a data-toggle="tab" href="#perfiles" class="nav-link">
-                <i class="fas fa-id-card"></i>
-                <p>Perfiles</p>
-            </a>
-        </li>
+            <li class="nav-item">
+                <a data-toggle="tab" href="#perfiles" class="nav-link">
+                    <i class="fas fa-id-card"></i>
+                    <p>Perfiles</p>
+                </a>
+            </li>
         <?php endif; ?>
         <li class="nav-item">
             <a data-toggle="tab" href="" class="nav-link">
@@ -208,17 +208,17 @@ require_once "configuracion.php";
                     </li>
                 <?php endif; ?>
             </ul>
-        </li>  
+        </li>
         <?php
         $cargoTi = [1, 2];
         if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargoTi)):
-        ?>   
-        <li class="nav-item">
-            <a data-toggle="tab" href="#verificar_pw" class="nav-link">
-                <i class="fas fa-check"></i>
-                <p>Verificar Contraseñas</p>
-            </a>
-        </li>
+        ?>
+            <li class="nav-item">
+                <a data-toggle="tab" href="#verificar_pw" class="nav-link">
+                    <i class="fas fa-check"></i>
+                    <p>Verificar Contraseñas</p>
+                </a>
+            </li>
         <?php endif; ?>
 
     </ul>
@@ -401,7 +401,7 @@ if ($_SESSION["ti"] == "off") {
                             </div>
                         </div>
                     </div>
-                     <div id="verificar_pw" class="tab-pane">
+                    <div id="verificar_pw" class="tab-pane">
                         <div class="row">
                             <div class="col-md-12">
                                 <?php require "ti/verificar_pw.php"; ?>

@@ -7,16 +7,17 @@ class ModeloPw
 
 
 
-	/*=============================================
+    /*=============================================
 	REGISTRO DE DETALLES DEL CAMBIO DE PW
 	=============================================*/
-static public function mdlDetallePw($tabla, $datos) {
-    try {
-        // Obtener la conexión PDO
-        $pdo = Conexion::conectar();
+    static public function mdlDetallePw($tabla, $datos)
+    {
+        try {
+            // Obtener la conexión PDO
+            $pdo = Conexion::conectar();
 
-        // Preparar la consulta de inserción
-        $stmt = $pdo->prepare("INSERT INTO $tabla (
+            // Preparar la consulta de inserción
+            $stmt = $pdo->prepare("INSERT INTO $tabla (
             estado_pw,
             id_usuario_fk
         ) VALUES (
@@ -24,37 +25,38 @@ static public function mdlDetallePw($tabla, $datos) {
             :id_usuario_fk
         )");
 
-        // Vincular parámetros
-        $stmt->bindParam(":estado_pw", $datos["estado_pw"], PDO::PARAM_STR);
-        $stmt->bindParam(":id_usuario_fk", $datos["id_usuario_fk"], PDO::PARAM_INT);
+            // Vincular parámetros
+            $stmt->bindParam(":estado_pw", $datos["estado_pw"], PDO::PARAM_STR);
+            $stmt->bindParam(":id_usuario_fk", $datos["id_usuario_fk"], PDO::PARAM_INT);
 
-        // Ejecutar la consulta
-        if ($stmt->execute()) {
-            // Obtener el último ID insertado
-            $lastInsertId = $pdo->lastInsertId();
+            // Ejecutar la consulta
+            if ($stmt->execute()) {
+                // Obtener el último ID insertado
+                $lastInsertId = $pdo->lastInsertId();
 
-            // Cerrar el cursor y liberar recursos
-            $stmt->closeCursor();
-            $stmt = null;
+                // Cerrar el cursor y liberar recursos
+                $stmt->closeCursor();
+                $stmt = null;
 
-            // Devolver el último ID insertado
-            return $lastInsertId;
-        } else {
-            return "error";
+                // Devolver el último ID insertado
+                return $lastInsertId;
+            } else {
+                return "error";
+            }
+        } catch (PDOException $e) {
+            // Manejar errores
+            return "error: " . $e->getMessage();
         }
-    } catch (PDOException $e) {
-        // Manejar errores
-        return "error: " . $e->getMessage();
     }
-}
 
-static public function mdlCambioPw($tabla_pw, $datos) {
-    try {
-        // Obtener la conexión PDO
-        $pdo = Conexion::conectar();
+    static public function mdlCambioPw($tabla_pw, $datos)
+    {
+        try {
+            // Obtener la conexión PDO
+            $pdo = Conexion::conectar();
 
-        // Preparar la consulta de inserción
-        $stmt = $pdo->prepare("INSERT INTO $tabla_pw (
+            // Preparar la consulta de inserción
+            $stmt = $pdo->prepare("INSERT INTO $tabla_pw (
             nombre_app,
             usuario_app,
             pw_app,
@@ -66,41 +68,41 @@ static public function mdlCambioPw($tabla_pw, $datos) {
             :id_pw_fk
         )");
 
-        // Vincular parámetros
-        $stmt->bindParam(":nombre_app", $datos["nombre_app"], PDO::PARAM_STR);
-        $stmt->bindParam(":usuario_app", $datos["usuario_app"], PDO::PARAM_STR);
-        $stmt->bindParam(":pw_app", $datos["pw_app"], PDO::PARAM_STR);
-        $stmt->bindParam(":id_pw_fk", $datos["id_pw_fk"], PDO::PARAM_INT);
+            // Vincular parámetros
+            $stmt->bindParam(":nombre_app", $datos["nombre_app"], PDO::PARAM_STR);
+            $stmt->bindParam(":usuario_app", $datos["usuario_app"], PDO::PARAM_STR);
+            $stmt->bindParam(":pw_app", $datos["pw_app"], PDO::PARAM_STR);
+            $stmt->bindParam(":id_pw_fk", $datos["id_pw_fk"], PDO::PARAM_INT);
 
-        // Ejecutar la consulta
-        if ($stmt->execute()) {
-            // Obtener el último ID insertado
-            $lastInsertId = $pdo->lastInsertId();
+            // Ejecutar la consulta
+            if ($stmt->execute()) {
+                // Obtener el último ID insertado
+                $lastInsertId = $pdo->lastInsertId();
 
-            // Cerrar el cursor y liberar recursos
-            $stmt->closeCursor();
-            $stmt = null;
+                // Cerrar el cursor y liberar recursos
+                $stmt->closeCursor();
+                $stmt = null;
 
-            // Devolver el último ID insertado
-            return $lastInsertId;
-        } else {
-            return "error";
+                // Devolver el último ID insertado
+                return $lastInsertId;
+            } else {
+                return "error";
+            }
+        } catch (PDOException $e) {
+            // Manejar errores
+            return "error: " . $e->getMessage();
         }
-    } catch (PDOException $e) {
-        // Manejar errores
-        return "error: " . $e->getMessage();
     }
-}
 
 
 
-/*=============================================
+    /*=============================================
 MOSTRAR PW TRAER TODOS LOS DATOS
 =============================================*/
-static public function mdlMostrarPwGeneral($tabla, $valor)
-{
-    try {
-        $stmt = Conexion::conectar()->prepare("
+    static public function mdlMostrarPwGeneral($tabla, $valor)
+    {
+        try {
+            $stmt = Conexion::conectar()->prepare("
             SELECT 
                 u1.id, 
                 u1.nombre,
@@ -120,6 +122,7 @@ static public function mdlMostrarPwGeneral($tabla, $valor)
                 d.id_usuario_fk,
                 d.id_usuario_ti AS usuario_ti_id,
                 d.fecha_verificacion,
+                d.observacion_verificacion,
                 a.id_pw,
                 a.nombre_app,
                 a.usuario_app,
@@ -144,34 +147,34 @@ static public function mdlMostrarPwGeneral($tabla, $valor)
             WHERE d.id_detalle_pw = :valor
         ");
 
-        $stmt->bindParam(":valor", $valor, PDO::PARAM_INT);
-        $stmt->execute();
+            $stmt->bindParam(":valor", $valor, PDO::PARAM_INT);
+            $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC); // ✅ Array asociativo
-    } catch (PDOException $e) {
-        die("Error al obtener datos del ACPM: " . $e->getMessage());
-    }
-}
-
-
-
-static public function mdlMostrarPwIndividual($tabla, $item, $valor)
-{
-    // Validación mínima del nombre de tabla/columna (evita inyección simple)
-    if (!preg_match('/^[a-zA-Z0-9_]+$/', $tabla)) {
-        return [];
-    }
-    if ($item !== null && !preg_match('/^[a-zA-Z0-9_]+$/', $item)) {
-        return [];
+            return $stmt->fetchAll(PDO::FETCH_ASSOC); // ✅ Array asociativo
+        } catch (PDOException $e) {
+            die("Error al obtener datos del ACPM: " . $e->getMessage());
+        }
     }
 
-    $pdo = Conexion::conectar();
 
-    if ($item != null) {
-        // Si el filtro es por estado_pw, normalizamos (sin mayúsculas/espacios)
-        if ($item === 'estado_pw') {
-            $valorNorm = mb_strtolower(trim($valor));
-            $sql = "
+
+    static public function mdlMostrarPwIndividual($tabla, $item, $valor)
+    {
+        // Validación mínima del nombre de tabla/columna (evita inyección simple)
+        if (!preg_match('/^[a-zA-Z0-9_]+$/', $tabla)) {
+            return [];
+        }
+        if ($item !== null && !preg_match('/^[a-zA-Z0-9_]+$/', $item)) {
+            return [];
+        }
+
+        $pdo = Conexion::conectar();
+
+        if ($item != null) {
+            // Si el filtro es por estado_pw, normalizamos (sin mayúsculas/espacios)
+            if ($item === 'estado_pw') {
+                $valorNorm = mb_strtolower(trim($valor));
+                $sql = "
                 SELECT 
                     dp.id_detalle_pw,
                     dp.fecha_pw,
@@ -202,12 +205,11 @@ static public function mdlMostrarPwIndividual($tabla, $item, $valor)
                 INNER JOIN proceso AS p ON u.id_proceso_fk = p.id_proceso
                 WHERE LOWER(TRIM(dp.estado_pw)) = :valor
             ";
-            $stmt = $pdo->prepare($sql);
-            $stmt->bindValue(':valor', $valorNorm, PDO::PARAM_STR);
-
-        } else {
-            // Filtro general (id_usuario_fk u otras columnas)
-            $sql = "
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindValue(':valor', $valorNorm, PDO::PARAM_STR);
+            } else {
+                // Filtro general (id_usuario_fk u otras columnas)
+                $sql = "
                 SELECT 
                     dp.id_detalle_pw,
                     dp.fecha_pw,
@@ -238,23 +240,22 @@ static public function mdlMostrarPwIndividual($tabla, $item, $valor)
                 INNER JOIN proceso AS p ON u.id_proceso_fk = p.id_proceso
                 WHERE dp.{$item} = :valor
             ";
-            $stmt = $pdo->prepare($sql);
+                $stmt = $pdo->prepare($sql);
 
-            // Detectar si es numérico -> bind int, sino string
-            if (is_numeric($valor)) {
-                $stmt->bindValue(':valor', (int)$valor, PDO::PARAM_INT);
-            } else {
-                $stmt->bindValue(':valor', $valor, PDO::PARAM_STR);
+                // Detectar si es numérico -> bind int, sino string
+                if (is_numeric($valor)) {
+                    $stmt->bindValue(':valor', (int)$valor, PDO::PARAM_INT);
+                } else {
+                    $stmt->bindValue(':valor', $valor, PDO::PARAM_STR);
+                }
             }
-        }
 
-        $stmt->execute();
-        $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stmt->execute();
+            $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } else {
 
-    } else {
-
-        // Sin filtro: devolver todo (fetchAll para foreach en la vista)
-        $sql = "
+            // Sin filtro: devolver todo (fetchAll para foreach en la vista)
+            $sql = "
             SELECT 
                 dp.id_detalle_pw,
                 dp.fecha_pw,
@@ -284,18 +285,49 @@ static public function mdlMostrarPwIndividual($tabla, $item, $valor)
             INNER JOIN usuarios AS u ON dp.id_usuario_fk = u.id
             INNER JOIN proceso AS p ON u.id_proceso_fk = p.id_proceso
         ";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute();
-        $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute();
+            $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        $stmt = null;
+        return $resultado;
     }
 
-    $stmt = null;
-    return $resultado;
-}
+    static public function mdlVerificarPw($tabla, $datos)
+    {
+        try {
+            // Obtener la conexión PDO
+            $pdo = Conexion::conectar();
 
+            // Preparar la consulta de actualización
+            $stmt = $pdo->prepare("UPDATE $tabla SET 
+            estado_pw = :estado_pw,
+            id_usuario_ti = :id_usuario_ti,
+            fecha_verificacion = NOW(),
+            observacion_verificacion = :observacion_verificacion
+            WHERE id_detalle_pw = :id_detalle_pw
+        ");
 
+            // Vincular parámetros
+            $stmt->bindParam(":estado_pw", $datos["estado_pw"], PDO::PARAM_STR);
+            $stmt->bindParam(":id_usuario_ti", $datos["id_usuario_ti"], PDO::PARAM_INT);
+            $stmt->bindParam(":id_detalle_pw", $datos["id_detalle_pw"], PDO::PARAM_INT);
+            $stmt->bindParam(":observacion_verificacion", $datos["observaciones_pw"], PDO::PARAM_STR);
 
+            // Ejecutar la consulta
+            if ($stmt->execute()) {
+                // Cerrar el cursor y liberar recursos
+                $stmt->closeCursor();
+                $stmt = null;
 
-    
-    
+                return "ok";
+            } else {
+                return "error";
+            }
+        } catch (PDOException $e) {
+            // Manejar errores
+            return "error: " . $e->getMessage();
+        }
+    }
 }

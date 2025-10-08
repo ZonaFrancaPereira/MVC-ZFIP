@@ -70,7 +70,7 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
                             <h1>Solicitud de Soporte</h1>
                         </div>
                         <div style='padding: 20px;'>
-                            <p>Se ha generado una nueva solicitud de soporte:</p>
+                            <p>Se ha generado una nueva solicitud de soporte en Beta: </p>
                             <ul>
                                 <li>Correo del solicitante: $correo_soporte</li>
                                 <li>Usuario solicitante: $nombre_usuario</li>
@@ -80,7 +80,7 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
                             <p>Por favor, toma las acciones necesarias para abordar esta solicitud lo antes posible.</p>
                             <p>Inicia sesión en nuestro sistema para revisar la Solicitud.</p>
                             <center>
-                                <a href='https://app.zonafrancadepereira.com/' target='_blank'>
+                                <a href='https://beta.zonafrancadepereira.com/' target='_blank'>
                                     <button style='border: none;color: white; padding: 14px 28px; cursor: pointer;border-radius: 5px; background: #0b7dda;'>Iniciar Sesión</button>
                                 </a>
                             </center>
@@ -123,7 +123,7 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
                             <p><strong>Solución:</strong> $solucion_soporte</p>
                             <p>Por favor, inicie sesión en nuestro sistema para revisar la solicitud y confirmar la solución proporcionada.</p>
                             <center>
-                                <a href='https://app.zonafrancadepereira.com/' target='_blank'>
+                                <a href='https://beta.zonafrancadepereira.com/' target='_blank'>
                                     <button style='border: none; color: white; padding: 14px 28px; cursor: pointer; border-radius: 5px; background: #0b7dda;'>Iniciar Sesión</button>
                                 </a>
                             </center>
@@ -151,7 +151,7 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
                     $fecha_finalizacion = $value['fecha_finalizacion'];
                 }
 
-                $titulo_correo = "Nueva ACPM del Proceso de $proceso / $fecha_finalizacion";
+                $titulo_correo = "Nueva ACPM del Proceso de $proceso / $fecha_finalizacion en Beta";
                 $message = "
                     <html><body>
                     <div style='max-width: 600px; margin: 0 auto;padding: 20px;border: 1px solid #ccc;border-radius: 5px;'>
@@ -165,7 +165,7 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
                             <p><strong>Descripción ACPM:</strong> $descripcion_acpm</p>
                             <p>Por favor, inicia sesión en nuestro sistema para revisar la ACPM.</p>
                             <center>
-                                <a href='https://app.zonafrancadepereira.com/' target='_blank'>
+                                <a href='https://beta.zonafrancadepereira.com/' target='_blank'>
                                     <button style='border: none;color: white; padding: 14px 28px; cursor: pointer;border-radius: 5px; background: #0b7dda;'>Iniciar Sesión</button>
                                 </a>
                             </center>
@@ -199,7 +199,7 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
                     $mail->addAddress($correo_usuario_u);
 
                     // Preparar el título y el cuerpo del mensaje de correo electrónico
-                    $titulo_correo = "Nueva Actividad Proceso del " . $siglas_proceso . " / " . $fecha_actividad;
+                    $titulo_correo = "Nueva Actividad Proceso del " . $siglas_proceso . " / " . $fecha_actividad." en Beta";
                     $message = "
                                 <html><body>
                                 <div style='max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px;'>
@@ -214,7 +214,7 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
                                         <p>Es de suma importancia que subas las evidencias correspondientes a esta actividad en el tiempo establecido. Recuerda que 'La fuerza del equipo viene de cada miembro'.</p>
                                         <p>Por favor, inicia sesión en nuestro sistema para revisar la Actividad.<br>
                                         <center>
-                                        <a href='https://app.zonafrancadepereira.com/' target='_blank'><button style='border: none; color: white; padding: 14px 28px; cursor: pointer; border-radius: 5px; background: #0b7dda;'>Iniciar Sesión</button></a></center>
+                                        <a href='https://beta.zonafrancadepereira.com/' target='_blank'><button style='border: none; color: white; padding: 14px 28px; cursor: pointer; border-radius: 5px; background: #0b7dda;'>Iniciar Sesión</button></a></center>
                                         <p>¡Gracias!</p>
                                     </div>
                                     <div style='text-align: center; padding: 10px; background-color: #f4f4f4; border-radius: 0 0 5px 5px;'>
@@ -247,7 +247,7 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
                     }
 
                     // Preparar el título y el cuerpo del mensaje de correo electrónico
-                    $titulo_correo = "Nueva Solicitud de Soporte - Usuario: " . $nombre_usuario;
+                    $titulo_correo = "Nueva Solicitud de Soporte - Usuario: " . $nombre_usuario. " en Beta";
                     $message = "
                                     <html><body>
                     <div style='max-width: 600px; margin: 0 auto;padding: 20px;border: 1px solid #ccc;border-radius: 5px;'>
@@ -266,7 +266,7 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
                             <p>Por favor, toma las acciones necesarias para abordar esta solicitud lo antes posible.</p>
                             <p>Inicia sesión en nuestro sistema para revisar la Solicitud.</p>
                             <center>
-                                <a href='https://app.zonafrancadepereira.com/' target='_blank'>
+                                <a href='https://beta.zonafrancadepereira.com/' target='_blank'>
                                     <button style='border: none;color: white; padding: 14px 28px; cursor: pointer;border-radius: 5px; background: #0b7dda;'>Iniciar Sesión</button>
                                 </a>
                             </center>
@@ -417,7 +417,7 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
                     }
 
                     // Preparar el título y el cuerpo del mensaje de correo electrónico
-                    $titulo_correo = "NUEVA ACPM PARA REVISION DE: " . $nombre_usuario;
+                    $titulo_correo = "NUEVA ACPM PARA REVISION DE: " . $nombre_usuario . " en Beta";
                     $message = "
                             <html><body>
                             <div style='max-width: 600px; margin: 0 auto;padding: 20px;border: 1px solid #ccc;border-radius: 5px;'>
@@ -430,7 +430,7 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
                                 <p>Te informamos que hay una ACPM de $nombre_usuario $apellidos_usuario esperando tu aprobación</p>
                                 <p>Por favor, inicia sesión en nuestro sistema para revisar y procesar la ACPM <br>
                                 <center>
-                                <a href='https://app.zonafrancadepereira.com/' target='_blank'><button style=' border: none;color: white; padding: 14px 28px; cursor: pointer;border-radius: 5px; background: #0b7dda;'>Iniciar Sesion</button></p><a><center>
+                                <a href='https://beta.zonafrancadepereira.com/' target='_blank'><button style=' border: none;color: white; padding: 14px 28px; cursor: pointer;border-radius: 5px; background: #0b7dda;'>Iniciar Sesion</button></p><a><center>
                                 <p>¡Gracias!</p>
                             </div>
                             <div style=' text-align: center; padding: 10px;background-color: #f4f4f4;border-radius: 0 0 5px 5px;'>
@@ -468,7 +468,7 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
                                     <p>Te informamos que hay una Nueva solicitud de Codificacion esperando tu revision</p>
                                     <p>Por favor, inicia sesión en nuestro sistema para revisar y procesar la SOLICITUD <br>
                                     <center>
-                                    <a href='https://app.zonafrancadepereira.com/' target='_blank'><button style=' border: none;color: white; padding: 14px 28px; cursor: pointer;border-radius: 5px; background: #0b7dda;'>Iniciar Sesion</button></p><a><center>
+                                    <a href='https://beta.zonafrancadepereira.com/' target='_blank'><button style=' border: none;color: white; padding: 14px 28px; cursor: pointer;border-radius: 5px; background: #0b7dda;'>Iniciar Sesion</button></p><a><center>
                                     <p>¡Gracias!</p>
                                 </div>
                                 <div style=' text-align: center; padding: 10px;background-color: #f4f4f4;border-radius: 0 0 5px 5px;'>
@@ -488,7 +488,7 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
             // Armar correo
             $mail->addAddress($destinatario); // Correo del aprobador
 
-            $titulo_correo = "Solicitud de Vacaciones del usuario: " . $nombre_solicitante;
+            $titulo_correo = "Solicitud de Vacaciones del usuario: " . $nombre_solicitante . " en Beta";
             $message = "
             <html><body>
                         <div style='max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px;'>
@@ -499,7 +499,7 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
                                 <p>Estimado usuario,</p>
                                 <p>Se ha realizado una nueva solicitud de vacaciones y está pendiente de su revisión y aprobación. A continuación podrá gestionar la solicitud desde el sistema:</p>
                                 <center>
-                                    <a href='https://app.zonafrancadepereira.com/' target='_blank'>
+                                    <a href='https://beta.zonafrancadepereira.com/' target='_blank'>
                                         <button style='border: none; color: white; padding: 14px 28px; cursor: pointer; border-radius: 5px; background: #0b7dda;'>Iniciar Sesión</button>
                                     </a>
                                 </center>

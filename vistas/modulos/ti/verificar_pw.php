@@ -39,12 +39,13 @@
                                         <tr>
                                             <th style="width:10px">#</th>
                                             <th>Fecha Actualización</th>
+                                            <th>Responsable</th>
                                             <th>Estado</th>
                                             <th>Informe</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody class="text-center">
                                         <?php
 
                                         $item = "estado_pw";
@@ -54,6 +55,8 @@
 
                                         foreach ($MostrarPw as $key => $value) {
                                             $estado=$value["estado_pw"];
+                                           
+                                            $responsable_pw = $value["nombre"] . ' ' . $value["apellidos_usuario"];
                                             $informe="<a href='extensiones/tcpdf/pdf/formato_pw.php?codigo={$value["id_detalle_pw"]}' target='_blank' class='btn bg-danger' title='Ver Informe'>
                                           <i class='fas fa-file-pdf'></i>
                                             </a>";
@@ -61,8 +64,8 @@
                                                 case 'Proceso':
                                                     $estado_pw = "<span class='badge badge-info'>Proceso</span>";
                                                     
-                                                    $boton="<button type='button' class='btn bg-warning' data-toggle='modal' data-target='#modalCerrarInventario' data-id_detalle_fk='{$value["id_detalle_fk"]}' title='Cerrar Inventario'>
-                                                            <i class='far fa-edit'></i>
+                                                    $boton="<button type='button' class='btn bg-warning' data-toggle='modal' data-target='#modalVerificarPw' data-id_detalle_pw='{$value["id_detalle_pw"]}' title='Verificar Contraseña'>
+                                                          <i class='far fa-check-square'></i>
                                                           </button>";
                                                     break;
                                                 case 'Verificado':
@@ -81,6 +84,7 @@
                                             echo ' <tr>
                                             <td>' . ($key + 1) . '</td>
                                             <td>' . $value["fecha_pw"] . '</td>
+                                            <td>' . $responsable_pw. '</td>
                                             <td>' . $estado_pw . '</td>
                                              <td>'.$informe.'</td>
                                              <td>'.$boton.'</td>
@@ -104,20 +108,21 @@
                                         <tr>
                                             <th style="width:10px">#</th>
                                             <th>Fecha Actualización</th>
+                                            <th>Responsable</th>
                                             <th>Estado</th>
                                             <th>Informe</th>
                                        
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php
-
-                                      $item = "estado_pw";
+                                    <?php
+                                        $item = "estado_pw";
                                         $valor = "Verificado";
                                         $MostrarPw = ControladorPw::ctrMostrarPwIndividual($item, $valor);
 
                                         foreach ($MostrarPw as $key => $value) {
                                             $estado=$value["estado_pw"];
+                                             $responsable_pw1 = $value["nombre"] . ' ' . $value["apellidos_usuario"];
                                             $informe="<a href='extensiones/tcpdf/pdf/formato_pw.php?codigo={$value["id_detalle_pw"]}' target='_blank' class='btn bg-danger' title='Ver Informe'>
                                           <i class='fas fa-file-pdf'></i>
                                             </a>";
@@ -128,10 +133,7 @@
                                                     break;
                                                 case 'Verificado':
                                                     $estado_pw = "<span class='badge badge-success'>Verificado</span>";
-                                                    
-                                                
                                                     break;
-                                              
                                                 default:
                                                     $estado_pw = "<span class='badge badge-secondary'>Desconocido</span>";
                                                     break;
@@ -140,16 +142,14 @@
                                             echo ' <tr>
                                             <td>' . ($key + 1) . '</td>
                                             <td>' . $value["fecha_pw"] . '</td>
+                                            <td>' . $responsable_pw1. '</td>
                                             <td>' . $estado_pw . '</td>
                                              <td>'.$informe.'</td>
                                     
                                              ';
 
                                         }
-
-
                                         ?>
-
                                     </tbody>
                                 </table>
                             </div>
@@ -168,6 +168,56 @@
     <!-- /.container-fluid -->
 </section>
 
+<!-- Modal para Verificar Contraseña -->
+<div class="modal fade" id="modalVerificarPw" tabindex="-1" role="dialog" aria-labelledby="modalVerificarPwLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form id="formVerificarPw" method="post" action="">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title" id="modalVerificarPwLabel">Verificar Contraseña</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id_detalle_pw" id="id_detalle_pw">
 
+                    <div class="form-group">
+                        <label for="estado_pw">Estado</label>
+                        <select class="form-control" name="estado_pw" id="estado_pw">
+                            
+                            <option value="Verificado">Verificado</option>
+                            <option value="Declinado">Declinado</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="observacion_pw">Observación</label>
+                        <textarea class="form-control" name="observacion_verificacion" id="observacion_verificacion" rows="3" placeholder="Ingrese una observación"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-warning">Verificar</button>
+        <?php
+
+                      $VerificarPw = new ControladorPw();
+                      $VerificarPw->ctrVerificarPw();
+
+                      ?>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+$('#modalVerificarPw').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    var id_detalle_pw = button.data('id_detalle_pw');
+    var modal = $(this);
+    modal.find('#id_detalle_pw').val(id_detalle_pw);
+});
+</script>
 
 

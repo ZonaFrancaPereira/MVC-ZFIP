@@ -141,4 +141,41 @@ class ModeloSoporte
         $stmt->closeCursor();
         $stmt = null;
     }
+
+
+    // Cuenta atendidos en un mes dado (formato 'YYYY-MM'), por ejemplo '2025-09'
+    public static function contarSoportesAtendidosPorMes($anoMes)
+    {
+        $db = Conexion::conectar();
+        $sql = " SELECT 
+                YEAR(fecha_solucion) AS anio,
+                MONTH(fecha_solucion) AS mes,
+                COUNT(id_soporte) AS total
+            FROM soporte
+            WHERE fecha_solucion IS NOT NULL
+            GROUP BY YEAR(fecha_solucion), MONTH(fecha_solucion)
+            ORDER BY anio, mes";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':ano_mes', $anoMes, PDO::PARAM_STR);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return (int)$row['total_atendidos'];
+    }
+
+    // Devuelve rows con ano_mes y atendidos para los últimos N meses (agrupado)
+    public static function obtenerAtendidosUltimosMeses($ultimoNMeses = 12)
+    {
+        $db = Conexion::conectar();
+        $sql = "SELECT DATE_FORMAT(FROM_UNIXTIME(fecha_solucion), '%Y-%m') AS ano_mes,
+                       COUNT(*) AS atendidos
+                FROM soporte
+                WHERE fecha_solucion IS NOT NULL
+                  AND FROM_UNIXTIME(fecha_solucion) >= DATE_SUB(CURDATE(), INTERVAL :nmes MONTH)
+                GROUP BY ano_mes
+                ORDER BY ano_mes";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':nmes', (int)$ultimoNMeses, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

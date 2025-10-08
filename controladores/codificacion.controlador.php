@@ -98,8 +98,8 @@ class ControladorCodificar
                         }
                     });
                     // Resetear el formulario y agregar la clase al elemento después del AJAX
-                document.getElementById("codificar").reset();
-                $("#codificacion").addClass("active");
+                     document.getElementById("codificar").reset();
+               
                 });
               </script>
             ';

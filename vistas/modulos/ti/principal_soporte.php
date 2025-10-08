@@ -63,10 +63,11 @@
                                                     $soportes = ControladorSoporte::ctrMostrarSoporteFinalizadas($item, $valor);
                                                     foreach ($soportes as $key => $value) {
                                                         echo '<tr>
-                                    <td>' . $value["id_soporte"] . '</td>
-                                    <td>' . $value["fecha_soporte"] . '</td>
-                                    <td>' . $value["descripcion_soporte"] . '</td>
-                                    <td>';
+                                                                <td>' . $value["id_soporte"] . '</td>
+                                                                <td>' . $value["fecha_soporte"] . '</td>
+                                                                <td>' . $value["descripcion_soporte"] . '</td>
+                                                                <td>
+                                                            ';
                                                         // Evaluamos la urgencia
                                                         if ($value["urgencia"] == "Urgente") {
                                                             echo '<span class="badge bg-danger">' . $value["urgencia"] . '</span>';

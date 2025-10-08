@@ -122,6 +122,22 @@ class ModeloActivos
 
         $stmt = null;
     }
+
+    static public function mdlActualizarEstadoAsignaciones($tabla, $id_usuario_fk)
+{
+    $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado_asignacion = 'Inactiva' WHERE id_usuario_fk = :id_usuario_fk AND estado_asignacion = 'Activa'");
+
+    $stmt->bindParam(":id_usuario_fk", $id_usuario_fk, PDO::PARAM_INT);
+
+    if ($stmt->execute()) {
+        return "ok";
+    } else {
+        return "error";
+    }
+
+    $stmt = null;
+}
+
   /*=============================================
 	CREAR DETALLES DE EQUIPOS DE COMPUTO
 	=============================================*/
