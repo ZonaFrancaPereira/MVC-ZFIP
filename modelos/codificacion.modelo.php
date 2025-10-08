@@ -181,26 +181,26 @@ class ModeloCodificar
                 $stmt = null;
                 break;
 
-                case 'cod_realizadas':
-    // Obtener el nombre del usuario que inició sesión desde la sesión
-    $id_usuario_cod = $_SESSION["nombre"];
-    
-    // Preparar y ejecutar la consulta
-    $stmt = Conexion::conectar()->prepare("SELECT solicitud_codificacion.*, usuarios.nombre, usuarios.apellidos_usuario
+            case 'cod_realizadas':
+                // Obtener el nombre del usuario que inició sesión desde la sesión
+                $id_usuario_cod = $_SESSION["nombre"];
+
+                // Preparar y ejecutar la consulta
+                $stmt = Conexion::conectar()->prepare("SELECT solicitud_codificacion.*, usuarios.nombre, usuarios.apellidos_usuario
                                            FROM solicitud_codificacion
                                            INNER JOIN usuarios 
                                                ON solicitud_codificacion.usuario_solicitud_cod = usuarios.nombre
                                            WHERE usuarios.nombre = :id_usuario_cod");
-    // Enlazar el parámetro :id_usuario_cod con el nombre del usuario actual
-    $stmt->bindParam(":id_usuario_cod", $id_usuario_cod, PDO::PARAM_STR);
-    $stmt->execute();
-    
-    // Retornar todos los resultados
-    $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    $stmt = null;
-    return $resultados;
-    break;
+                // Enlazar el parámetro :id_usuario_cod con el nombre del usuario actual
+                $stmt->bindParam(":id_usuario_cod", $id_usuario_cod, PDO::PARAM_STR);
+                $stmt->execute();
+
+                // Retornar todos los resultados
+                $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                $stmt = null;
+                return $resultados;
+                break;
 
             default:
                 // En el caso por defecto, asignar null a las variables
@@ -238,7 +238,7 @@ class ModeloCodificar
     }
 
 
-      /*=============================================
+    /*=============================================
 	MOSTRAR PDF ACPM
 	=============================================*/
 
@@ -261,7 +261,7 @@ class ModeloCodificar
         }
     }
 
-    
+
     public static function mdlMostrarVersionDocumentos($tablad, $itemd, $valord)
     {
         try {
@@ -273,7 +273,7 @@ class ModeloCodificar
                 $stmt = Conexion::conectar()->prepare("SELECT * FROM $tablad WHERE $itemd = :valor");
                 $stmt->bindParam(":valor", $valord, PDO::PARAM_INT);
             }
-    
+
             $stmt->execute();
             return $stmt->fetchAll();
         } catch (Exception $e) {
@@ -281,6 +281,4 @@ class ModeloCodificar
             echo "Error: " . $e->getMessage();
         }
     }
-    
-
 }

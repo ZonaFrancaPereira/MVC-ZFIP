@@ -10,20 +10,20 @@ if ($id_gh > 0) {
     try {
         $tabla_vacaciones = 'detalle_vacaciones';
         $query_vacaciones = "
-            SELECT 
-                dv.*, 
-                u.nombre, 
-                u.apellidos_usuario,
-                v.*
-            FROM 
-                usuarios u
-            LEFT JOIN 
-                $tabla_vacaciones dv ON dv.id_usuario_fk = u.id
-            LEFT JOIN 
-                vacaciones v ON dv.id_usuario_fk = v.nombre_administrativa
-            WHERE 
-                u.id = :id_gh
-        ";
+    SELECT 
+        dv.*, 
+        u.nombre, 
+        u.apellidos_usuario,
+        v.*
+    FROM 
+        usuarios u
+    LEFT JOIN 
+        $tabla_vacaciones dv ON dv.id_usuario_fk = u.id
+    LEFT JOIN 
+        vacaciones v ON v.nombre_administrativa = u.id
+    WHERE 
+        u.id = :id_gh
+";
 
         $stmt = Conexion::conectar()->prepare($query_vacaciones);
         $stmt->bindParam(':id_gh', $id_gh, PDO::PARAM_INT);
