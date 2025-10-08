@@ -403,6 +403,25 @@ class ModeloAdministrativa
         }
     }
 
+    static public function mdlEliminarUsuario($tabla, $id)
+    {
+        try {
+            $pdo = Conexion::conectar();
+
+            // Preparar la consulta de eliminación
+            $stmt = $pdo->prepare("DELETE FROM $tabla WHERE id = :id");
+            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                return "ok";
+            } else {
+                return "error";
+            }
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        }
+    }
+
 
 
 }
