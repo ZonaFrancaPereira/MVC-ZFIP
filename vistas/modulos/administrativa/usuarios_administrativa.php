@@ -121,10 +121,19 @@
                                         </button>
 
                                         <a target="_blank"
-                                        class="btn btn-danger btn-sm"
+                                        class="btn btn-info btn-sm"
                                         href="index.php?ruta=gh&id=' . $usuario["nombre_administrativa"] . '">
                                         Gestionar
                                         </a>
+
+                                        <button type="button"
+                                                class="btn btn-danger btn-sm"
+                                                data-toggle="modal"
+                                                data-target="#modal-eliminar"
+                                                data-id_eliminar="' . $usuario["id"] . '">
+                                            Eliminar
+                                        </button>
+
                                     </td>
                                 </tr>';
                                 }
@@ -132,6 +141,31 @@
 
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modal-eliminar" tabindex="-1" aria-labelledby="eliminarLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title" id="eliminarLabel"><i class="fas fa-trash-alt"></i> Eliminar Usuario</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" enctype="multipart/form-data">
+                            <input type="hidden" id="id_eliminar" name="id_eliminar">
+                            <p>¿Está seguro de que desea eliminar este usuario?</p>
+                            <div class="text-end mt-4">
+                                <button type="submit" class="btn btn-danger px-4" id="eliminarUsuario" name="eliminarUsuario"><i class="fas fa-trash-alt"></i> Eliminar</button>
+                                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal"><i class="fas fa-times"></i> Cancelar</button>
+                            </div>
+                            <?php
+                            $eliminarUsuario = new ControladorAdministrativa();
+                            $eliminarUsuario->ctrEliminarUsuario();
+                            ?>
+                        </form>
                     </div>
                 </div>
             </div>

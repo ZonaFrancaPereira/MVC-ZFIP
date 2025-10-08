@@ -124,3 +124,13 @@ $('#modal-Descontar').on('show.bs.modal', function (event) {
     var modal = $(this);
     modal.find('#id_detalle_vacaciones').val(id_detalle_vacaciones);
 });
+
+/*=============================================
+CAPTURA EL ID PARA ELIMINAR LOS USUARIOS
+=============================================*/
+$('#modal-eliminar').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); 
+    var id_eliminar = button.data('id_eliminar');
+    var modal = $(this);
+    modal.find('#id_eliminar').val(id_eliminar);
+});
