@@ -49,13 +49,14 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="row">
-                                        <form id="form_actividades" method="POST" enctype="multipart/form-data" >
+                                        <form id="form_actividades" method="POST" enctype="multipart/form-data" onsubmit="return evitarDuplicado(this)">
                                             <div class="card">
                                                 <div class="card-header" hidden>
                                                     <label>Desea Asignar actividades a la siguiente ACPM:</label>
                                                     <input type="text" class="form-control" id="id_acpm_fk" readonly>
                                                 </div>
                                                 <div class="card-body">
+                                                    
                                                     <div class="row">
                                                         <div class="col-md-12 col-xs-12 col-sm-12">
                                                             <label for="">Fecha vencimiento de la Actividad</label>
@@ -115,4 +116,34 @@
             </div>
         </div>
     </div>
-</section>
+</section><script>
+function evitarDuplicado(form) {
+    const boton = form.querySelector('button[type="submit"], input[type="submit"]');
+    if (boton) {
+        boton.disabled = true;
+        boton.innerText = "Guardando...";
+    }
+    sessionStorage.setItem("formEnviado", "true");
+    return true; // permite el envío
+}
+</script>
+<script>
+// Limpia el historial (evita reenvío al dar F5)
+if (window.history.replaceState) {
+    window.history.replaceState(null, null, window.location.href);
+}
+
+// Si el formulario fue enviado, esperemos a que PHP muestre el Swal
+// y luego, cuando se cierre, recargamos con GET
+if (sessionStorage.getItem("formEnviado")) {
+    // Borramos la marca solo después de un pequeño tiempo
+    setTimeout(() => {
+        sessionStorage.removeItem("formEnviado");
+        // Recarga limpia (sin POST) después del SweetAlert
+        window.addEventListener('click', () => {
+            window.location.replace(window.location.href);
+        }, { once: true });
+    }, 500);
+}
+</script>
+

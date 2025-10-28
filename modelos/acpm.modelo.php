@@ -308,7 +308,7 @@ class ModeloAcpm
     {
         try {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario_fk = 11");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario_fk = 14");
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -326,7 +326,7 @@ class ModeloAcpm
     {
         try {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario_fk = 14");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario_fk = 17");
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -343,7 +343,7 @@ class ModeloAcpm
     {
         try {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario_fk = 19");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario_fk = 27");
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -360,7 +360,7 @@ class ModeloAcpm
     {
         try {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario_fk = 18");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario_fk = 37");
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -394,7 +394,7 @@ class ModeloAcpm
     {
         try {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario_fk = 4");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario_fk = 6");
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -412,7 +412,7 @@ class ModeloAcpm
     {
         try {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario_fk = 5");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario_fk = 7");
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -429,7 +429,7 @@ class ModeloAcpm
     {
         try {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario_fk = 8");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario_fk = 11");
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -446,7 +446,7 @@ class ModeloAcpm
     {
         try {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario_fk = 22");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario_fk = 35");
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -501,6 +501,7 @@ class ModeloAcpm
             return "error: " . $e->getMessage();
         }
     }
+    
 
     /*=============================================
 	MOSTRAR PDF ACPM

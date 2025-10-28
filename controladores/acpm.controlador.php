@@ -299,11 +299,8 @@ class ControladorAcpm
                         success: function(respuesta) {
                             console.log("respuesta", respuesta);
                         }
+                        });
                     });
-                    // Resetear el formulario y agregar la clase al elemento después del AJAX
-                    document.getElementById("form_actividades").reset();
-                    $("#acciones_verificacion").addClass("active");
-                });
                 </script>';
             } else {
                 echo '<script>
