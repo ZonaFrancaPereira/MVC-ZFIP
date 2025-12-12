@@ -28,6 +28,7 @@
                             <thead class="bg-dark">
                                 <tr>
                                     <th>#</th>
+                                    <th>Usuario</th>
                                     <th>Fecha</th>
                                     <th>Descripción</th>
                                     <th>Urgencia</th>
@@ -46,6 +47,7 @@
                                 foreach ($soportes as $key => $value) {
                                     echo '<tr>
                                         <td>' . $value["id_soporte"] . '</td>
+                                        <td>' . $value["nombre"] . '</td>
                                         <td>' . $value["fecha_soporte"] . '</td>
                                         <td>' . $value["descripcion_soporte"] . '</td>
                                          <td>';

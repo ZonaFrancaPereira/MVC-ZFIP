@@ -82,20 +82,34 @@ class ModeloSoporte
             return "error: " . $e->getMessage();
         }
     }
-    public static function mdlMostrarSoporteTi($tabla, $item, $valor)
-    {
-        try {
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE fecha_solucion IS NULL ");
-            $stmt->execute();
-            $result = $stmt->fetchAll();
-            $stmt->closeCursor();
-            $stmt = null;
 
-            return $result;
-        } catch (PDOException $e) {
-            return "error: " . $e->getMessage();
-        }
+public static function mdlMostrarSoporteTi($tabla, $item, $valor)
+{
+    try {
+        $conexion = Conexion::conectar();
+
+        $stmt = $conexion->prepare("SELECT 
+                s.*, 
+                u.nombre 
+            FROM $tabla s
+            INNER JOIN usuarios u 
+                ON s.id_usuario_fk = u.id
+            WHERE s.fecha_solucion IS NULL
+        ");
+
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+
+    } catch (PDOException $e) {
+        return "error: " . $e->getMessage();
     }
+}
+
 
     /*=============================================
 	ASIGNAR URGENCIA
