@@ -41,6 +41,7 @@
                                                                 <div class="form-group">
                                                                     <label>Vigencia</label>
                                                                     <select class="form-control select2" id="vigencia" name="vigencia">
+                                                                        <option value="Seleccione">Seleccione</option>
                                                                         <option value="Nuevo">Nuevo</option>
                                                                         <option value="Antiguo">Antiguo</option>
                                                                     </select>
@@ -327,4 +328,17 @@ function handleCheckboxChange() {
         memberInput.style.display = 'none';
     }
 }
+</script>
+<script>
+    document.getElementById('vigencia').addEventListener('change', function() {
+        const codigoInput = document.getElementById('codigo');
+
+        if (this.value === 'Nuevo') {
+            codigoInput.value = 'N/A';
+            codigoInput.setAttribute('readonly', true); // Bloquea el campo
+        } else {
+            codigoInput.value = '';
+            codigoInput.removeAttribute('readonly'); // Lo habilita nuevamente
+        }
+    });
 </script>

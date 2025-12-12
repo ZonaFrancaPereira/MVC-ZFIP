@@ -85,8 +85,8 @@ $apagar_pantalla = $row["apagar_pantalla"];
 $estado_suspension = $row["estado_suspension"];
 $estado_mantenimiento_equipo = $row["estado_mantenimiento_equipo"];
 
-//$baseUrl = "https://beta.zonafrancadepereira.com/"; // Cambia esto según sea necesario para tu entorno de hosting
-$baseUrl = "/MVC-ZFIP/";
+$baseUrl = "https://beta.zonafrancadepereira.com/"; // Cambia esto según sea necesario para tu entorno de hosting
+//$baseUrl = "/MVC-ZFIP/";
 
 $rutaRelativa = $row["firma"];
 
