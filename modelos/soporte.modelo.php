@@ -2,8 +2,6 @@
 
 require_once "conexion.php";
 
-
-
 class ModeloSoporte
 {
 
@@ -17,10 +15,8 @@ class ModeloSoporte
             // Preparar la consulta de inserción
             $stmt = $pdo->prepare("INSERT INTO $tabla (
                 id_usuario_fk,
-                descripcion_soporte
-
-            ) VALUES (
-            
+                descripcion_soporte) 
+                VALUES (
                 :id_usuario_fk,
                 :descripcion_soporte
 
@@ -83,32 +79,32 @@ class ModeloSoporte
         }
     }
 
-public static function mdlMostrarSoporteTi($tabla, $item, $valor)
-{
-    try {
-        $conexion = Conexion::conectar();
+    public static function mdlMostrarSoporteTi($tabla, $item, $valor)
+    {
+        try {
+            $conexion = Conexion::conectar();
 
-        $stmt = $conexion->prepare("SELECT 
-                s.*, 
-                u.nombre 
-            FROM $tabla s
-            INNER JOIN usuarios u 
-                ON s.id_usuario_fk = u.id
-            WHERE s.fecha_solucion IS NULL
-        ");
+            $stmt = $conexion->prepare("SELECT 
+                    s.*, 
+                    u.nombre 
+                FROM $tabla s
+                INNER JOIN usuarios u 
+                    ON s.id_usuario_fk = u.id
+                WHERE s.fecha_solucion IS NULL
+            ");
 
-        $stmt->execute();
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $stmt->closeCursor();
-        $stmt = null;
+            $stmt->closeCursor();
+            $stmt = null;
 
-        return $result;
+            return $result;
 
-    } catch (PDOException $e) {
-        return "error: " . $e->getMessage();
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        }
     }
-}
 
 
     /*=============================================

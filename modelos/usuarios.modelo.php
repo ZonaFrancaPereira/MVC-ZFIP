@@ -84,7 +84,7 @@ class ModeloUsuarios
 			FROM $tabla u
 			INNER JOIN soporte s ON u.id = s.id_usuario_fk
 			INNER JOIN proceso p ON u.id_proceso_fk = p.id_proceso
-			INNER JOIN acpm a ON u.id = a.id_usuario_fk
+			LEFT JOIN acpm a ON u.id = a.id_usuario_fk
 			WHERE u.$item = :valor"
 		);
 		$stmt->bindParam(":valor", $valor, PDO::PARAM_INT);
