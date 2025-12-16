@@ -16,6 +16,7 @@ class ControladorOrden
         return $cargo ? $cargo["nombre_cargo"] : "Cargo no encontrado";
     }
 
+    
     /* =============================================
     Crear una nueva orden de compra
     ============================================= */
@@ -117,6 +118,12 @@ class ControladorOrden
                 </script>';
             }
         }
+    }
+
+     // Método para contar activos por usuario
+    public static function ctrContarOrdenPorUsuario($idUsuario)
+    {
+        return ModeloOrden::contarOrdenPorUsuario($idUsuario);
     }
     
 }

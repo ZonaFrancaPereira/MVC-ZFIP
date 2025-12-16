@@ -144,4 +144,24 @@ class ModeloOrden{
         $stmt = null;
     }
     
+      // Contar activos por usuario
+    public static function contarOrdenPorUsuario($idUsuario)
+    {
+        // Obtener la conexión a la base de datos
+        $db = Conexion::conectar();
+        $stmt = "SELECT COUNT(id_orden) AS total_orden
+                 FROM orden_compra
+                 WHERE id_cotizante = :idUsuario 
+                   AND (estado_orden = 'Proceso')";
+        // Preparar la consulta
+        $stmt = $db->prepare($stmt);
+        $stmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
+
+        // Ejecutar la consulta
+        $stmt->execute();
+
+        // Obtener el resultado como un array asociativo
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total_orden'];
+    }
 }

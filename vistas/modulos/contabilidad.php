@@ -114,14 +114,86 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
             </p>
           </a>
         </li>
+        <?php
+        $cargosLideres = [1, 4, 6, 7, 12, 14, 15];
+
+        if (in_array($_SESSION['id_cargo_fk'], $cargosLideres)) {
+          // aquí va el botón, acción o contenido
+
+        ?>
+          <li class="nav-item">
+            <a data-toggle="tab" href="#OrdenesLideres" class=" nav-link ">
+              <i class=" nav-icon fas fa-search"></i>
+              <p>
+                Consultar Ordenes
+              </p>
+            </a>
+          </li>
+        <?php } ?>
+        <?php
+        $cargosGH = [5,6];
+
+        if (in_array($_SESSION['id_cargo_fk'], $cargosGH)) {
+          // aquí va el botón, acción o contenido
+
+        ?>
+          <li class="nav-item">
+            <a data-toggle="tab" href="#Ordenes_GH" class=" nav-link ">
+              <i class=" nav-icon fas fa-search"></i>
+              <p>
+                Análisis de Cotización
+              </p>
+            </a>
+          </li>
+        <?php } ?>
+         <?php
+        $cargosGR = [19,1];
+
+        if (in_array($_SESSION['id_cargo_fk'], $cargosGR)) {
+          // aquí va el botón, acción o contenido
+
+        ?>
+       <li class="nav-item">
+            <a data-toggle="tab" href="#OrdenGerencia" class=" nav-link ">
+              <i class=" nav-icon fas fa-search"></i>
+              <p>
+                Análisis de Cotización
+              </p>
+            </a>
+          </li>
+        <?php } ?>
+        
+        <?php
+        $cargosCT = [12,13,1];
+
+        if (in_array($_SESSION['id_cargo_fk'], $cargosCT)) {
+          // aquí va el botón, acción o contenido
+        ?>
         <li class="nav-item">
-          <a data-toggle="tab" href="#consultar_ordenes" class=" nav-link ">
-            <i class=" nav-icon fas fa-search"></i>
-            <p>
-              Consultar Ordenes
-            </p>
-          </a>
-        </li>
+            <a data-toggle="tab" href="#Ordenes_CT" class=" nav-link ">
+              <i class=" nav-icon fas fa-search"></i>
+              <p>
+                Ordenes Aprobadas
+              </p>
+            </a>
+          </li>
+        <?php } ?>
+                <?php
+        $cargosE = [12,13,5,6,1];
+
+        if (in_array($_SESSION['id_cargo_fk'], $cargosE)) {
+          // aquí va el botón, acción o contenido
+        ?>
+        <li class="nav-item">
+            <a data-toggle="tab" href="#Ordenes_Ejecutadas" class=" nav-link ">
+              <i class=" nav-icon fas fa-search"></i>
+              <p>
+                Ordenes Ejecutadas
+              </p>
+            </a>
+          </li>
+        <?php } ?>
+
         <li class="nav-item">
           <a data-toggle="tab" href="#manual_ordenes" class="nav-link ">
             <i class="nav-icon fas fa-book"></i>
@@ -201,12 +273,36 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
           <div id="nueva_orden" class="tab-pane">
             <?php require "ct/orden_compra.php"; ?>
           </div>
-          <div id="consultar_ordenes" class="tab-pane">
-            Consultar ordenes de compra
+
+          <div id="OrdenesLideres" class="tab-pane">
+            lideres
+            <?php require "ct/consultar_orden.php"; ?>
           </div>
+
+           <div id="Ordenes_GH" class="tab-pane">
+            gh
+            <?php require "ct/consultar_GH.php"; ?>
+          </div>
+
+           <div id="OrdenGerencia" class="tab-pane">
+            gerencia
+      
+          </div>
+
+           <div id="Ordenes_CT" class="tab-pane">
+            contabilidad
+            <?php require "ct/consultar_CT.php"; ?>
+          </div>
+
+           <div id="Ordenes_Ejecutadas" class="tab-pane">
+            ejecutadas
+            <?php require "ct/consultar_Ejecutadas.php"; ?>
+          </div>
+
           <div id="manual_ordenes" class="tab-pane">
             Poner manual ordenes de compra
           </div>
+
         </div>
       </div>
     </div>

@@ -193,7 +193,7 @@
 
                     <div class="form-group">
                         <label for="observacion_pw">Observación</label>
-                        <textarea class="form-control" name="observacion_verificacion" id="observacion_verificacion" rows="3" placeholder="Ingrese una observación"></textarea>
+                        <textarea class="form-control" name="observaciones_pw" id="observaciones_pw" rows="3" placeholder="Ingrese una observación"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">

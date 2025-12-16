@@ -15,7 +15,7 @@
           </div>
           <div class="col-md-6 col-xs-6 col-sm-6">
             <label>Cotizado Por :</label>
-            <input type="text" name="" value="<?php echo $_SESSION['nombre_usuario'] . " " . $_SESSION['apellidos_usuario'] ?>" class="form-control" readonly>
+            <input type="text" name="" value="<?php echo $_SESSION['nombre'] . " " . $_SESSION['apellidos_usuario'] ?>" class="form-control" readonly>
           </div>
           <?php
           $id_cargo_fk = $_SESSION["id_cargo_fk"];
@@ -98,7 +98,7 @@
                 <button id="adicional" name="adicional" type="button" class="adicional btn btn-info btn-block"> <i class="fas fa-plus"></i> Agregar</button>
               </div>
             </div>
-                      
+          
           </div>
           <div class="col-12 bg-navy pt-2 mt-3 col-xs-12 col-sm-12">
             <center>
@@ -217,3 +217,4 @@
 
   });
 </script>
+

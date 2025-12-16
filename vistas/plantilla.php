@@ -140,6 +140,21 @@
 </head>
 <!-- Estilos para Select2 -->
 <style>
+  /* Fix select en modales con tema oscuro */
+#modalVerificarPw select.form-control {
+    background-color: #2f343a;
+    color: #ffffff;
+    border: 1px solid #555;
+    height: 38px;
+    padding: 6px 12px;
+}
+
+/* Opciones del select */
+#modalVerificarPw select.form-control option {
+    background-color: #2f343a;
+    color: #ffffff;
+}
+
     .select2-search__field {
         color: black !important;
     }
@@ -162,6 +177,7 @@ $totalActivos = ControladorActivos::ctrContarActivosPorUsuario($idUsuario);
 // Llamar al método del controlador para activos inactivos
 $totalInactivos = ControladorActivos::ctrContarActivosInactivosPorUsuario($idUsuario);
 
+$totalOrden = ControladorOrden::ctrContarOrdenPorUsuario($idUsuario);
 // Mostrar el resultado
 //echo "Total de activos para el usuario actual: " . $totalActivos;
 ?>
@@ -333,10 +349,67 @@ autoWidth: true
 
  
 </script>
-
 <script>
-  
-    $(function() {
+    // Función para actualizar la suma total
+    function actualizarSuma() {
+    var filas = document.getElementById('tabla').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+    var sumaTotal = 0;
+
+    // Itera sobre cada fila y suma los valores de los campos
+    for (var i = 0; i < filas.length; i++) {
+      var cantidad = parseFloat(filas[i].getElementsByClassName('cantidad_orden')[0].value) || 0;
+      var valorNeto = parseFloat(filas[i].getElementsByClassName('valor_neto')[0].value) || 0;
+      var valorIva = parseFloat(filas[i].getElementsByClassName('valor_iva')[0].value) || 0;
+
+      // Realiza la suma
+      var total = cantidad * valorNeto + valorIva;
+      sumaTotal += total;
+
+      // Actualiza el valor en la columna 'Total'
+      filas[i].getElementsByClassName('valor_total')[0].value = total.toFixed(0);
+      
+    }
+
+    // Actualiza el valor del input de suma total
+    document.getElementById('sumaTotal').value = sumaTotal.toFixed(0);
+    }
+  /*=============================================
+     Suma todos los valores de la tabla
+     =============================================*/
+  function sumarTotalPrecios() {
+
+    var precioItem = $(".valor_total");
+
+    var arraySumaPrecio = [];
+
+    for (var i = 0; i < precioItem.length; i++) {
+
+      arraySumaPrecio.push(Number($(precioItem[i]).val()));
+
+
+    }
+
+    function sumaArrayPrecios(total, numero) {
+
+      return total + numero;
+
+    }
+
+    var sumaTotalPrecio = arraySumaPrecio.reduce(sumaArrayPrecios);
+
+    $("#totalOrden").val(sumaTotalPrecio);
+    $("#totalOrden").attr("total", sumaTotalPrecio);
+
+  }
+
+    /*=============================================
+     MODIFICAR EL TOTAL PAGADO
+     =============================================*/
+     $(".formularioCompra").on("change", "input.valor_total", function () {
+      sumarTotalPrecios()
+      
+    })
+  $(function() {
     /*=============================================
      Clona la fila oculta que tiene los campos base, y la agrega al final de la tabla
      =============================================*/
@@ -381,7 +454,8 @@ autoWidth: true
 
     });
   });
-  $(function() {
+  
+   $(function() {
     /*=============================================
      Clona la fila oculta que tiene los campos base, y la agrega al final de la tabla
      =============================================*/
@@ -404,7 +478,6 @@ autoWidth: true
     });
   });
 </script>
-
 
 <script>
     function handleRadioChange() {

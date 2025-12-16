@@ -97,7 +97,7 @@
 
            <div class="info-box-content">
              <span class="info-box-text">Ordenes de Compra</span>
-             <h3>2</h3>
+             <h3><?= $totalOrden ?></h3>
              <div class="progress">
                <div class="progress-bar" style="width: 2%"></div>
              </div>
