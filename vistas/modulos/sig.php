@@ -36,7 +36,7 @@
         </li>
 
         <?php
-        $cargosPermitidos = [1, 3, 4, 6, 7, 8, 12, 14, 15, 19, 22];
+        $cargosPermitidos = [1, 4, 6, 7, 8, 12, 14, 15, 19, 22];
         if (isset($_SESSION["id_cargo_fk"]) && in_array($_SESSION["id_cargo_fk"], $cargosPermitidos)):
         ?>
           <li class="nav-item">

@@ -29,7 +29,7 @@ class ModeloBackup
     {
         try {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM usuarios");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM usuarios WHERE estado = 1");
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -40,20 +40,29 @@ class ModeloBackup
 
     public static function mdlAsignarVerificacion($tabla, $item, $valor)
     {
-        try {
+    try {
 
-            $conexion = Conexion::conectar();
-                    $stmt = $conexion->prepare("SELECT usuarios.*, copias_seguridad.carpeta_backup, copias_seguridad.verificado
-                        FROM  usuarios 
-                        INNER JOIN copias_seguridad 
-                        ON usuarios.id = copias_seguridad.id_usuario_backup_fk WHERE verificado = 'No verificado'");
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            echo 'Error: ' . $e->getMessage();
-            return [];
-        }
+        $conexion = Conexion::conectar();
+        $stmt = $conexion->prepare("SELECT 
+                usuarios.*, 
+                copias_seguridad.carpeta_backup, 
+                copias_seguridad.verificado
+            FROM usuarios
+            INNER JOIN copias_seguridad 
+                ON usuarios.id = copias_seguridad.id_usuario_backup_fk
+            WHERE copias_seguridad.verificado = 'No verificado'
+              AND usuarios.estado = 1
+        ");
+
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    } catch (PDOException $e) {
+        echo 'Error: ' . $e->getMessage();
+        return [];
     }
+    }
+
 
     /*=============================================
         ASIGNAR RUTA

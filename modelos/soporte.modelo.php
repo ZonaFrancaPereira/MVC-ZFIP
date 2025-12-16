@@ -2,8 +2,6 @@
 
 require_once "conexion.php";
 
-
-
 class ModeloSoporte
 {
 
@@ -17,10 +15,8 @@ class ModeloSoporte
             // Preparar la consulta de inserción
             $stmt = $pdo->prepare("INSERT INTO $tabla (
                 id_usuario_fk,
-                descripcion_soporte
-
-            ) VALUES (
-            
+                descripcion_soporte) 
+                VALUES (
                 :id_usuario_fk,
                 :descripcion_soporte
 
@@ -82,20 +78,34 @@ class ModeloSoporte
             return "error: " . $e->getMessage();
         }
     }
+
     public static function mdlMostrarSoporteTi($tabla, $item, $valor)
     {
         try {
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE fecha_solucion IS NULL ");
+            $conexion = Conexion::conectar();
+
+            $stmt = $conexion->prepare("SELECT 
+                    s.*, 
+                    u.nombre 
+                FROM $tabla s
+                INNER JOIN usuarios u 
+                    ON s.id_usuario_fk = u.id
+                WHERE s.fecha_solucion IS NULL
+            ");
+
             $stmt->execute();
-            $result = $stmt->fetchAll();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
             $stmt->closeCursor();
             $stmt = null;
 
             return $result;
+
         } catch (PDOException $e) {
             return "error: " . $e->getMessage();
         }
     }
+
 
     /*=============================================
 	ASIGNAR URGENCIA

@@ -48,12 +48,6 @@ class ControladorSoporte
                                 console.log("respuesta", respuesta);
                             }
                         });
-            
-                        // Limpiar el formulario, ocultar la sección de soporte y mostrar principal_soporte
-                        document.getElementById("soporte_ti").reset();
-                        $("#soporte").hide(); // Oculta toda la sección
-                        $("#nuevo_soporte").hide(); // Oculta toda la sección
-                        $("#principal_soporte").addClass("active").show(); // Muestra principal_soporte
                     });
                 </script>';
             }
