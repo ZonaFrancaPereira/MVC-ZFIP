@@ -283,6 +283,44 @@ $dotenv->load();
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
   </aside>
+<!--MODAL DENEGAR ORDEN -->
+<div class="modal fade modalDenegarOrden" id="" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header bg-danger">
+        <h5 class="modal-title text-white">Denegar Orden</h5>
+        <button type="button" class="close text-white" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" id="idOrdenDenegar">
+
+        <div class="form-group">
+          <label>Motivo de la denegación</label>
+          <textarea
+            class="form-control"
+            id="descripcionDenegada"
+            rows="4"
+            placeholder="Ingrese el motivo..."
+            required></textarea>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cancelar
+        </button>
+        <button type="button" class="btn btn-danger btnConfirmarDenegacion" id="">
+          Denegar
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
   <script src="vistas/js/plantilla.js"></script>
   <script src="vistas/js/usuarios.js"></script>
   <script src="vistas/js/perfiles.js"></script>
@@ -521,6 +559,359 @@ autoWidth: true
     });
   });
 </script>
+
+<script>
+
+$(document).ready(function() {
+    $('.OrdenesLideresT').DataTable({
+      "language": {
+        "sProcessing": "Procesando...",
+        "sLengthMenu": "Mostrar _MENU_ registros",
+        "sZeroRecords": "No se encontraron resultados",
+        "sEmptyTable": "Ningún dato disponible en esta tabla",
+        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+        "sSearch": "Buscar:",
+        "sInfoThousands": ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+          "sFirst": "Primero",
+          "sLast": "Último",
+          "sNext": "Siguiente",
+          "sPrevious": "Anterior"
+        },
+        "oAria": {
+          "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        },
+        "buttons": {
+          "copy": "Copiar",
+          "colvis": "Visibilidad"
+        }
+      },
+      responsive: "true",
+      dom: "Bfrtilp",
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+      "order": [
+        [0, 'desc']
+      ],
+      autoWidth: true
+    });
+  });
+
+  $(document).ready(function() {
+    $('#tablaOrdenesAprobacion').DataTable({
+      "language": {
+        "sProcessing": "Procesando...",
+        "sLengthMenu": "Mostrar _MENU_ registros",
+        "sZeroRecords": "No se encontraron resultados",
+        "sEmptyTable": "Ningún dato disponible en esta tabla",
+        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+        "sSearch": "Buscar:",
+        "sInfoThousands": ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+          "sFirst": "Primero",
+          "sLast": "Último",
+          "sNext": "Siguiente",
+          "sPrevious": "Anterior"
+        },
+        "oAria": {
+          "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        },
+        "buttons": {
+          "copy": "Copiar",
+          "colvis": "Visibilidad"
+        }
+      },
+      responsive: "true",
+      dom: "Bfrtilp",
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+      "order": [
+        [0, 'desc']
+      ],
+      autoWidth: true
+    });
+  });
+
+  /* ABRIR MODAL */
+  $(document).on("click", ".btnDenegarOrden", function() {
+
+    let idOrden = $(this).data("id");
+    $("#idOrdenDenegar").val(idOrden);
+    $("#descripcionDenegada").val("");
+
+    $(".modalDenegarOrden").modal("show");
+  });
+  /* CONFIRMAR DENEGACIÓN */
+  $(document).on("click", ".btnConfirmarDenegacion", function() {
+
+    let idOrden = $("#idOrdenDenegar").val();
+    let descripcion = $("#descripcionDenegada").val();
+
+    if (descripcion.trim() === "") {
+      alert("Debe ingresar el motivo de la denegación");
+      return;
+    }
+
+    $.ajax({
+      url: "ajax/ordenes.ajax.php",
+      method: "POST",
+      data: {
+        accion: "denegar",
+        idOrden: idOrden,
+        descripcion: descripcion
+      },
+      success: function(respuesta) {
+        if (respuesta === "ok") {
+
+          Swal.fire({
+            icon: "success",
+            title: "Denegada",
+            text: "La orden fue denegada correctamente",
+            timer: 1500,
+            showConfirmButton: false
+          }).then(() => {
+            location.reload();
+          });
+
+        } else {
+
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "No se pudo denegar la orden"
+          });
+
+        }
+      }
+    });
+  });
+
+// ANALISIS DE COTIZACION → PROCESO / APROBADA
+$(document).on("click", ".btnGH", function () {
+
+    let idOrden = $(this).data("id");
+    let estado  = $(this).data("estado");
+
+    Swal.fire({
+        title: "¿Aprobar orden?",
+        text: "La orden será enviada a la Gerencia para su aprobación final",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#28a745",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, continuar",
+        cancelButtonText: "Cancelar"
+    }).then((result) => {
+
+        if (!result.isConfirmed) return;
+
+        /* =========================
+           1️⃣ CAMBIAR ESTADO ORDEN
+        ========================== */
+        $.ajax({
+            url: "ajax/ordenes.ajax.php",
+            method: "POST",
+            dataType: "json",
+            data: {
+                accion: "aprobarOrden",
+                idOrden: idOrden,
+                estado: estado
+            },
+            success: function (respuesta) {
+
+                if (respuesta !== "ok") {
+                    Swal.fire("Error", "No se pudo actualizar la orden", "error");
+                    return;
+                }
+
+                /* =========================
+                   2️⃣ ENVIAR CORREO (SILENCIOSO) SOLO PARA AGALAN
+                ========================== */
+                let datosCorreo = {
+                    id_usuario_fk: null,
+                    modulo: "ordenGH",
+                    id_consulta: idOrden,
+                    destinatario: "agalan@zonafrancadepereira.com"
+                };
+
+                $.ajax({
+                    url: "ajax/enviarCorreo.php",
+                    method: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(datosCorreo)
+                    // ❌ NO dataType
+                    // ❌ NO validación
+                    // ❌ NO error visual
+                });
+
+                /* =========================
+                   3️⃣ ÉXITO GLOBAL
+                ========================== */
+                Swal.fire({
+                    icon: "success",
+                    title: "Proceso exitoso",
+                    text: "La orden fue actualizada y notificada",
+                    timer: 1500,
+                    showConfirmButton: false
+                }).then(() => {
+                    location.reload();
+                });
+            },
+            error: function (xhr) {
+                console.error("Error AJAX orden:", xhr.responseText);
+                Swal.fire("Error", "Error al actualizar la orden", "error");
+            }
+        });
+    });
+});
+
+
+// PROCESO → APROBADA 
+$(document).on("click", ".btnGR", function () {
+
+    let idOrden = $(this).data("id");
+    let estado  = $(this).data("estado");
+
+    Swal.fire({
+        title: "¿Aprobar orden?",
+        text: "La orden será enviada al área de Contabilidad para su ejecución",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#28a745",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, continuar",
+        cancelButtonText: "Cancelar"
+    }).then((result) => {
+
+        if (!result.isConfirmed) return;
+
+        /* =========================
+           1️⃣ CAMBIAR ESTADO ORDEN
+        ========================== */
+        $.ajax({
+            url: "ajax/ordenes.ajax.php",
+            method: "POST",
+            dataType: "json",
+            data: {
+                accion: "aprobarOrden",
+                idOrden: idOrden,
+                estado: estado
+            },
+            success: function (respuesta) {
+
+                if (respuesta !== "ok") {
+                    Swal.fire("Error", "No se pudo actualizar la orden", "error");
+                    return;
+                }
+
+                /* =========================
+                   2️⃣ ENVIAR CORREO (SILENCIOSO) SOLO PARA CONTABILIDAD
+                ========================== */
+                let datosCorreo = {
+                    id_usuario_fk: null,
+                    modulo: "ordenGR",
+                    id_consulta: idOrden,
+                    destinatario: "facturacion@zonafrancadepereira.com"
+                };
+
+                $.ajax({
+                    url: "ajax/enviarCorreo.php",
+                    method: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(datosCorreo)
+                    // ❌ NO dataType
+                    // ❌ NO validación
+                    // ❌ NO error visual
+                });
+
+                /* =========================
+                   3️⃣ ÉXITO GLOBAL
+                ========================== */
+                Swal.fire({
+                    icon: "success",
+                    title: "Proceso exitoso",
+                    text: "La orden fue actualizada y notificada",
+                    timer: 1500,
+                    showConfirmButton: false
+                }).then(() => {
+                    location.reload();
+                });
+            },
+            error: function (xhr) {
+                console.error("Error AJAX orden:", xhr.responseText);
+                Swal.fire("Error", "Error al actualizar la orden", "error");
+            }
+        });
+    });
+});
+
+  //PROCESO → EJECUTADA
+  $(document).on("click", ".btnCT", function() {
+
+    let idOrden = $(this).data("id");
+    let estado = $(this).data("estado");
+    alert(estado);
+    Swal.fire({
+      title: "¿El pago de esta orden ya fue realizado y se cuenta con la respectiva factura.?",
+      text: "La orden pasará a estado Ejecutada",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#28a745",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, aprobar",
+      cancelButtonText: "Cancelar"
+    }).then((result) => {
+
+      if (result.isConfirmed) {
+
+        $.ajax({
+          url: "ajax/ordenes.ajax.php",
+          method: "POST",
+          data: {
+            accion: "aprobarOrden",
+            idOrden: idOrden,
+            estado: "Ejecutada"
+
+          },
+          dataType: "json",
+          success: function(respuesta) {
+
+            if (respuesta === "ok") {
+
+              Swal.fire({
+                icon: "success",
+                title: "Ejecutada",
+                text: "La orden fue ejecutada con éxito",
+                timer: 1500,
+                showConfirmButton: false
+              }).then(() => {
+                location.reload();
+              });
+
+            } else {
+
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "No se pudo aprobar la orden"
+              });
+
+            }
+
+          }
+        });
+      }
+    });
+
+  });
+</script>
+
 
 </body>
 

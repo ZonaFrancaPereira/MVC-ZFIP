@@ -96,7 +96,13 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
         </li>
       </ul>
     </li>
+<?php
+        $cargosLideres = [1, 4, 6, 7, 12, 14, 15];
 
+        if (in_array($_SESSION['id_cargo_fk'], $cargosLideres)) {
+          // aquí va el botón, acción o contenido
+
+        ?>
     <li class="nav-item">
       <a data-toggle="tab" href="" class="nav-link">
         <i class="nav-icon fas fa-file-invoice-dollar"></i>
@@ -114,13 +120,7 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
             </p>
           </a>
         </li>
-        <?php
-        $cargosLideres = [1, 4, 6, 7, 12, 14, 15];
-
-        if (in_array($_SESSION['id_cargo_fk'], $cargosLideres)) {
-          // aquí va el botón, acción o contenido
-
-        ?>
+        
           <li class="nav-item">
             <a data-toggle="tab" href="#OrdenesLideres" class=" nav-link ">
               <i class=" nav-icon fas fa-search"></i>
@@ -129,64 +129,34 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
               </p>
             </a>
           </li>
+
         <?php } ?>
         <?php
-        $cargosGH = [5,6];
+        $cargosAprobacion = [5, 6, 12, 13, 19];
 
-        if (in_array($_SESSION['id_cargo_fk'], $cargosGH)) {
+        if (in_array($_SESSION['id_cargo_fk'], $cargosAprobacion)) {
           // aquí va el botón, acción o contenido
 
         ?>
           <li class="nav-item">
-            <a data-toggle="tab" href="#Ordenes_GH" class=" nav-link ">
-              <i class=" nav-icon fas fa-search"></i>
+            <a data-toggle="tab" href="#Ordenes_Aprobacion" class=" nav-link ">
+              <i class="nav-icon fas fa-clipboard-check"></i>
               <p>
-                Análisis de Cotización
+                Gestionar Ordenes
               </p>
             </a>
           </li>
         <?php } ?>
-         <?php
-        $cargosGR = [19,1];
 
-        if (in_array($_SESSION['id_cargo_fk'], $cargosGR)) {
-          // aquí va el botón, acción o contenido
-
-        ?>
-       <li class="nav-item">
-            <a data-toggle="tab" href="#OrdenGerencia" class=" nav-link ">
-              <i class=" nav-icon fas fa-search"></i>
-              <p>
-                Análisis de Cotización
-              </p>
-            </a>
-          </li>
-        <?php } ?>
-        
         <?php
-        $cargosCT = [12,13,1];
-
-        if (in_array($_SESSION['id_cargo_fk'], $cargosCT)) {
-          // aquí va el botón, acción o contenido
-        ?>
-        <li class="nav-item">
-            <a data-toggle="tab" href="#Ordenes_CT" class=" nav-link ">
-              <i class=" nav-icon fas fa-search"></i>
-              <p>
-                Ordenes Aprobadas
-              </p>
-            </a>
-          </li>
-        <?php } ?>
-                <?php
-        $cargosE = [12,13,5,6,1];
+        $cargosE = [5, 6, 12, 13, 19];
 
         if (in_array($_SESSION['id_cargo_fk'], $cargosE)) {
           // aquí va el botón, acción o contenido
         ?>
-        <li class="nav-item">
+          <li class="nav-item">
             <a data-toggle="tab" href="#Ordenes_Ejecutadas" class=" nav-link ">
-              <i class=" nav-icon fas fa-search"></i>
+              <i class="nav-icon fas fa-file-download"></i>
               <p>
                 Ordenes Ejecutadas
               </p>
@@ -275,31 +245,293 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
           </div>
 
           <div id="OrdenesLideres" class="tab-pane">
-            lideres
-            <?php require "ct/consultar_orden.php"; ?>
+            <div class="card-body p-0">
+              <div class="table-responsive">
+
+                <table class="table table-bordered table-striped  nowrap OrdenesLideresT"
+                  id=""
+                  style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Fecha</th>
+                      <th>Proveedor</th>
+                      <th>NIT</th>
+                      <th>Total</th>
+                      <th>Estado</th>
+                      <th>PDF</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <?php
+                    $ordenes = ControladorOrden::ctrMostrarOrdenesLideres();
+
+                    if (empty($ordenes)) {
+                      echo '<tr><td colspan="8" class="text-center">No hay órdenes registradas</td></tr>';
+                    }
+
+                    foreach ($ordenes as $key => $value) {
+
+                      $badge = "secondary";
+                      if ($value["estado_orden"] == "Analisis de Cotizacion") $badge = "warning";
+                      if ($value["estado_orden"] == "Proceso") $badge = "warning";
+                      if ($value["estado_orden"] == "Aprobada") $badge = "success";
+                      if ($value["estado_orden"] == "Denegada") $badge = "danger";
+                      if ($value["estado_orden"] == "Ejecutada") $badge = "info";
+                      echo '<tr>
+                    <td>' . $value["id_orden"] . '</td>
+                    <td>' . $value["fecha_orden"] . '</td>
+                    <td>' . $value["nombre_proveedor"] . '</td>
+                    <td>' . $value["nit_proveedor"] . '</td>
+                    <td>$ ' . number_format($value["total_orden"], 0, ",", ".") . '</td>
+                    <td>
+                        <span class="badge badge-' . $badge . '">' . $value["estado_orden"] . '</span>
+                    </td>
+                    <td class="text-center">
+                        <a href="pdf/orden_compra.php?id=' . $value["id_orden"] . '" 
+                          target="_blank" 
+                          class="btn btn-danger btn-sm">
+                            <i class="fa fa-file-pdf"></i>
+                        </a>
+                    </td>
+                </tr>';
+                    }
+                    ?>
+
+                  </tbody>
+                </table>
+
+              </div>
+            </div>
           </div>
 
-           <div id="Ordenes_GH" class="tab-pane">
-            gh
-            <?php require "ct/consultar_GH.php"; ?>
+          <div id="Ordenes_Aprobacion" class="tab-pane">
+
+            <?php
+            $ordenes = ControladorOrden::ctrBandejaOrdenes();
+            $cargo = $_SESSION["id_cargo_fk"];
+            ?>
+
+            <div class="card-body p-0">
+              <div class="table-responsive">
+
+                <table class="table table-bordered table-striped  nowrap"
+                  id="tablaOrdenesAprobacion"
+                  style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Fecha</th>
+                      <th>Usuario</th>
+                      <th>Proveedor</th>
+
+                      <th>Total</th>
+                      <th>Estado</th>
+                      <th>PDF</th>
+                      <th>Acción</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <?php foreach ($ordenes as $key => $o):
+                      $estado = trim($o["estado_orden"]);
+                      $badge  = "bg-secondary";
+
+                      switch ($estado) {
+                        case "Analisis de Cotizacion":
+                          $badge = "bg-warning";
+                          break;
+                        case "Proceso":
+                          $badge = "bg-warning";
+                          break;
+                        case "Aprobada":
+                          $badge = "bg-success";
+                          break;
+                        case "Denegada":
+                          $badge = "bg-danger";
+                          break;
+                        case "Ejecutada":
+                          $badge = "bg-info";
+                          break;
+                      }
+                    ?>
+                      <tr>
+                        <td><?= $o["id_orden"] ?></td>
+                        <td><?= $o["fecha_orden"] ?></td>
+                        <td><?= $o["nombre"] ?> <?= $o["apellidos_usuario"] ?></td>
+                        <td><?= $o["nit_proveedor"] ?> - <?= $o["nombre_proveedor"] ?></td>
+                        <td>$ <?= number_format($o["total_orden"], 0, ",", ".") ?></td>
+
+                        <td class="text-center">
+                          <span class="badge <?= $badge ?>">
+                            <?= $estado ?>
+                          </span>
+
+                        </td>
+
+                        <td>
+                          <a href="pdf/orden_compra.php?id=<?= $o["id_orden"] ?>"
+                            target="_blank"
+                            class="btn btn-danger btn-sm">
+                            PDF
+                          </a>
+                        </td>
+
+                        <td>
+
+                          <?php if (in_array($cargo, [5, 6])): ?>
+                            <div class="btn-group">
+
+                              <!-- APROBAR / ENVIAR A PROCESO -->
+                              <button
+                                class="btn btn-success btn-sm btnGH"
+                                data-id="<?= $o["id_orden"] ?>"
+                                data-estado="Proceso"
+                                title="Enviar a Gerencia">
+                                <i class="fa fa-thumbs-up"></i>
+                              </button>
+
+                              <!-- DENEGAR -->
+                              <button
+                                class="btn btn-danger btn-sm btnDenegarOrden"
+                                data-id="<?= $o["id_orden"] ?>"
+                                title="Denegar orden">
+                                <i class="fas fa-thumbs-down"></i>
+                              </button>
+
+                            </div>
+                          <?php endif; ?>
+
+
+                          <?php if (in_array($cargo, [19])): ?>
+                            <div class="btn-group">
+
+                              <!-- APROBAR / ENVIAR A PROCESO -->
+                              <button
+                                class="btn btn-success btn-sm btnGR"
+                                data-id="<?= $o["id_orden"] ?>"
+                                data-estado="Aprobada"
+                                title="Enviar a Contabilidad">
+                                <i class="fa fa-thumbs-up"></i>
+                              </button>
+
+                              <!-- DENEGAR -->
+                              <button
+                                class="btn btn-danger btn-sm btnDenegarOrden"
+                                data-id="<?= $o["id_orden"] ?>"
+                                title="Denegar orden">
+
+                                <i class="fas fa-thumbs-down"></i>
+                              </button>
+
+                            </div>
+                          <?php endif; ?>
+
+                          <?php if (in_array($cargo, [12, 13])): ?>
+                            <!-- APROBAR / ENVIAR A PROCESO -->
+                            <button
+                              class="btn btn-success btn-sm btnCT"
+                              data-id="<?= $o["id_orden"] ?>"
+                              data-estado="Ejecutada"
+                              title="Ejecutar Orden">
+                              <i class="fas fa-thumbs-up"></i>
+                            </button>
+                          <?php endif; ?>
+
+                        </td>
+
+                      </tr>
+                    <?php endforeach; ?>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
 
-           <div id="OrdenGerencia" class="tab-pane">
-            gerencia
-      
-          </div>
 
-           <div id="Ordenes_CT" class="tab-pane">
-            contabilidad
-            <?php require "ct/consultar_CT.php"; ?>
-          </div>
 
-           <div id="Ordenes_Ejecutadas" class="tab-pane">
-            ejecutadas
-            <?php require "ct/consultar_Ejecutadas.php"; ?>
+          <div id="Ordenes_Ejecutadas" class="tab-pane">
+
+            <?php
+            $ordenes = ControladorOrden::ctrMostrarOrdenesEjecutadas();
+            $cargo = $_SESSION["id_cargo_fk"];
+            ?>
+
+            <div class="card-body p-0">
+              <div class="table-responsive">
+
+                <table class="table table-bordered table-striped display nowrap"
+                  id=""
+                  style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Fecha</th>
+                      <th>Usuario</th>
+                      <th>Proveedor</th>
+                      <th>Presupuestado</th>
+                      <th>Total</th>
+                      <th>Estado</th>
+                      <th>PDF</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <?php foreach ($ordenes as $key => $o):
+                      $estado = trim($o["estado_orden"]);
+                      $badge  = "bg-secondary";
+
+                      switch ($estado) {
+                        case "Analisis de Cotizacion":
+                          $badge = "bg-warning";
+                          break;
+                        case "Proceso":
+                          $badge = "bg-warning";
+                          break;
+                        case "Aprobada":
+                          $badge = "bg-success";
+                          break;
+                        case "Denegada":
+                          $badge = "bg-danger";
+                          break;
+                        case "Ejecutada":
+                          $badge = "bg-info";
+                          break;
+                      }
+                    ?>
+                      <tr>
+                        <td><?= $key + 1 ?></td>
+                        <td><?= $o["fecha_orden"] ?></td>
+                        <td><?= $o["nombre"] ?> <?= $o["apellidos_usuario"] ?></td>
+                        <td><?= $o["nit_proveedor"] ?> - <?= $o["nombre_proveedor"] ?></td>
+                        <td><?= $o["presupuestado"] ?></td>
+                        <td>$ <?= number_format($o["total_orden"], 0, ",", ".") ?></td>
+
+                        <td class="text-center">
+                          <span class="badge <?= $badge ?>">
+                            <?= $estado ?>
+                          </span>
+                        </td>
+
+                        <td class="text-center">
+                          <a href="pdf/orden_compra.php?id=<?= $o["id_orden"] ?>"
+                            target="_blank"
+                            class="btn btn-danger btn-sm">
+                            <i class="fa fa-file-pdf"></i>
+                          </a>
+                        </td>
+                      </tr>
+                    <?php endforeach; ?>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
 
           <div id="manual_ordenes" class="tab-pane">
+
             Poner manual ordenes de compra
           </div>
 
@@ -308,6 +540,7 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
     </div>
   </div>
 </div>
+
 
 
 

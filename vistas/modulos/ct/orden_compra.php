@@ -48,6 +48,13 @@
               <option value="No">No</option>
             </select>
           </div>
+           <div class="col-md-4 col-xs-12 col-sm-12">
+            <label>¿Esta compra se encuentra en su presupuesto?</label>
+            <select name="presupuestado" id="presupuestado" class="form-control">
+              <option value="Si">Si</option>
+              <option value="No">No</option>
+            </select>
+          </div>
           <div class="col-md-12 col-xs-12 col-sm-12 pt-2">
             <table class="table pt-2" id="tabla">
               <thead>

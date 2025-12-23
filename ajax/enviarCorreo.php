@@ -518,13 +518,10 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
 
                     $titulo_correo = "Solicitud de Vacaciones del usuario: " . $nombre_solicitante . " en Beta";
                     $message = "
-            <html><body>
-                        <div style='max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px;'>
+                        <html><body>
+                            <div style='max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px;'>
                             <div style='background-color: #F8F9F9; color: black; text-align: center; padding: 10px; border-radius: 5px 5px 0 0;'>
-                                           <img src='https://beta.zonafrancadepereira.com/vistas/img/logo.png'
-                 width='120'
-                 style='height:auto; display:block; margin:0 auto 10px auto;'
-                 alt='Zona Franca Internacional de Pereira'>
+                                <img src='https://beta.zonafrancadepereira.com/vistas/img/logo.png' width='120' style='height:auto; display:block; margin:0 auto 10px auto;' alt='Zona Franca Internacional de Pereira'>
                             </div>
                             <div style='padding: 20px;'>
                                 <p>Estimado usuario,</p>
@@ -540,7 +537,222 @@ function EnviarCorreo($id_usuario_fk, $modulo, $id_consulta, $destinatario)
                                 <p>Este es un mensaje automático, por favor no responda a este correo.</p>
                             </div>
                         </div>
-                        </body></html>";
+                        </body></html>
+                    ";
+                }
+
+                break;
+
+            case 'ordenGH':
+                // 🔹 EL DESTINATARIO YA ES UN CORREO
+                if (empty($destinatario)) {
+                    throw new Exception("Destinatario vacío en orden_compra");
+                }
+
+                $mail->addAddress($destinatario);
+                $id_orden = $id_consulta;
+                $orden = ModeloUsuarios::mdlEnviarOrdenCompra($id_orden);
+
+                if (!empty($orden)) {
+                    // Usuario (cotizante)
+                    $nombre_usuario = $orden['nombre_cotizante'];
+                    $apellidos_usuario = $orden['apellidos_cotizante'];
+                    $correo_usuario = $orden['correo_cotizante'];
+
+                    // Proveedor
+                    $nombre_proveedor = $orden['nombre_proveedor'];
+                    $id_proveedor_fk = $orden['id_proveedor'];
+
+                    // Información de la orden
+                    $id_orden = $orden['id_orden'];
+                    $total_orden = $orden['total_orden'];
+                    $estado_orden = $orden['estado_orden'];
+                    $comentario_orden = $orden['comentario_orden'];
+                    $presupuestado = $orden['presupuestado'] ? 'Sí' : 'No';
+                    $fecha_orden = $orden['fecha_orden'];
+                    $total = number_format($total_orden, 0, ',', '.');
+                    $proceso = $orden['nombre_proceso'];
+
+                    // Preparar el título y el cuerpo del mensaje
+                    $titulo_correo = " Notificación – Orden de Compra #21 | $proceso | $fecha_orden ";
+
+                    $message = "
+                    <html><body>
+                        <div style='max-width: 600px; margin: 0 auto;padding: 20px;border: 1px solid #ccc;border-radius: 5px;'>
+                            <div style='background-color: #F8F9F9;color: black;text-align: center;padding: 10px;border-radius: 5px 5px 0 0;'>
+                                <img src='https://beta.zonafrancadepereira.com/vistas/img/logo.png'
+                                    width='120' style='height:auto; display:block; margin:0 auto 10px auto;'
+                                    alt='Zona Franca Internacional de Pereira'>
+                                <h1>Orden de Compra # $id_orden</h1>
+                            </div>
+                            <div style='padding: 20px;'>
+                            <p>Hola, Andrea Galán</p>
+                                    <p>Te informamos que hay una nueva orden de compra de  $nombre_usuario $apellidos_usuario por un valor de $ $total esperando tu aprobación</p>
+                                    <p>Por favor, inicia sesión en nuestro sistema para revisar y procesar la orden. <br>
+                                    <p>Detalles<br>
+                                <ul>
+                                    <li><B>¿Está orden se encuentra dentro del presupuesto? </B>: $presupuestado</li>
+                                    <li><B>Proveedor </B>: $id_proveedor_fk - $nombre_proveedor</li>
+                                    <li><B>Estado de la orden </B>: $estado_orden</li>
+                                    <li><B>Comentario</B>: $comentario_orden</li>
+                                </ul>
+                                <p>Por favor, toma las acciones necesarias para procesar esta orden.</p>
+                                <center>
+                                    <a href='https://beta.zonafrancadepereira.com/' target='_blank'>
+                                        <button style='border: none;color: white; padding: 14px 28px; cursor: pointer;border-radius: 5px; background: #0b7dda;'>Iniciar Sesión</button>
+                                    </a>
+                                </center>
+                                <p>¡Gracias!</p>
+                            </div>
+                            <div style='text-align: center; padding: 10px;background-color: #f4f4f4;border-radius: 0 0 5px 5px;'>
+                                <p>Este es un mensaje automático, por favor no respondas a este correo.</p>
+                            </div>
+                        </div>
+                    </body></html>";
+                } else {
+                    echo "No se encontró la orden con ID: $id_consulta";
+                }
+            break;
+            
+            case 'ordenGR':
+                // 🔹 EL DESTINATARIO YA ES UN CORREO
+                if (empty($destinatario)) {
+                    throw new Exception("Destinatario vacío en orden_compra");
+                }
+
+                $mail->addAddress($destinatario);
+                $id_orden = $id_consulta;
+                $orden = ModeloUsuarios::mdlEnviarOrdenCompra($id_orden);
+
+                if (!empty($orden)) {
+                    // Usuario (cotizante)
+                    $nombre_usuario = $orden['nombre_cotizante'];
+                    $apellidos_usuario = $orden['apellidos_cotizante'];
+                    $correo_usuario = $orden['correo_cotizante'];
+
+                    // Proveedor
+                    $nombre_proveedor = $orden['nombre_proveedor'];
+                    $id_proveedor_fk = $orden['id_proveedor'];
+
+                    // Información de la orden
+                    $id_orden = $orden['id_orden'];
+                    $total_orden = $orden['total_orden'];
+                    $estado_orden = $orden['estado_orden'];
+                    $comentario_orden = $orden['comentario_orden'];
+                    $presupuestado = $orden['presupuestado'] ? 'Sí' : 'No';
+                    $fecha_orden = $orden['fecha_orden'];
+                    $total = number_format($total_orden, 0, ',', '.');
+                    $proceso = $orden['nombre_proceso'];
+
+                    // Preparar el título y el cuerpo del mensaje
+                    $titulo_correo = " Notificación – Orden de Compra #21 | $proceso | $fecha_orden ";
+
+                    $message = "
+                    <html><body>
+                        <div style='max-width: 600px; margin: 0 auto;padding: 20px;border: 1px solid #ccc;border-radius: 5px;'>
+                            <div style='background-color: #F8F9F9;color: black;text-align: center;padding: 10px;border-radius: 5px 5px 0 0;'>
+                                <img src='https://beta.zonafrancadepereira.com/vistas/img/logo.png'
+                                    width='120' style='height:auto; display:block; margin:0 auto 10px auto;'
+                                    alt='Zona Franca Internacional de Pereira'>
+                                <h1>Orden de Compra # $id_orden</h1>
+                            </div>
+                            <div style='padding: 20px;'>
+                            <p>Hola, Contabilidad y Finanzas</p>
+                                    <p>Te informamos que hay una nueva orden de compra de  $nombre_usuario $apellidos_usuario por un valor de $ $total esperando tu aprobación</p>
+                                    <p>Por favor, inicia sesión en nuestro sistema para revisar y procesar la orden. <br>
+                                    <p>Detalles<br>
+                                <ul>
+                                    <li><B>¿Está orden se encuentra dentro del presupuesto? </B>: $presupuestado</li>
+                                    <li><B>Proveedor </B>: $id_proveedor_fk - $nombre_proveedor</li>
+                                    <li><B>Estado de la orden </B>: $estado_orden</li>
+                                    <li><B>Comentario</B>: $comentario_orden</li>
+                                </ul>
+                                <p>Por favor, toma las acciones necesarias para procesar esta orden.</p>
+                                <center>
+                                    <a href='https://beta.zonafrancadepereira.com/' target='_blank'>
+                                        <button style='border: none;color: white; padding: 14px 28px; cursor: pointer;border-radius: 5px; background: #0b7dda;'>Iniciar Sesión</button>
+                                    </a>
+                                </center>
+                                <p>¡Gracias!</p>
+                            </div>
+                            <div style='text-align: center; padding: 10px;background-color: #f4f4f4;border-radius: 0 0 5px 5px;'>
+                                <p>Este es un mensaje automático, por favor no respondas a este correo.</p>
+                            </div>
+                        </div>
+                    </body></html>";
+                } else {
+                    echo "No se encontró la orden con ID: $id_consulta";
+                }
+                break;
+
+            case 'OrdenCompra':
+                // 🔹 EL DESTINATARIO YA ES UN CORREO
+                if (empty($destinatario)) {
+                    throw new Exception("Destinatario vacío en orden_compra");
+                }
+
+                $mail->addAddress($destinatario);
+                $id_orden = $id_consulta;
+                $orden = ModeloUsuarios::mdlEnviarOrdenCompra($id_orden);
+
+                if (!empty($orden)) {
+                    // Usuario (cotizante)
+                    $nombre_usuario = $orden['nombre_cotizante'];
+                    $apellidos_usuario = $orden['apellidos_cotizante'];
+                    $correo_usuario = $orden['correo_cotizante'];
+
+                    // Proveedor
+                    $nombre_proveedor = $orden['nombre_proveedor'];
+                    $id_proveedor_fk = $orden['id_proveedor'];
+
+                    // Información de la orden
+                    $id_orden = $orden['id_orden'];
+                    $total_orden = $orden['total_orden'];
+                    $estado_orden = $orden['estado_orden'];
+                    $comentario_orden = $orden['comentario_orden'];
+                    $presupuestado = $orden['presupuestado'] ? 'Sí' : 'No';
+                    $fecha_orden = $orden['fecha_orden'];
+                    $total = number_format($total_orden, 0, ',', '.');
+                    $proceso = $orden['nombre_proceso'];
+
+                    // Preparar el título y el cuerpo del mensaje
+                    $titulo_correo = " Notificación – Orden de Compra #21 | $proceso | $fecha_orden ";
+
+                    $message = "
+                    <html><body>
+                        <div style='max-width: 600px; margin: 0 auto;padding: 20px;border: 1px solid #ccc;border-radius: 5px;'>
+                            <div style='background-color: #F8F9F9;color: black;text-align: center;padding: 10px;border-radius: 5px 5px 0 0;'>
+                                <img src='https://beta.zonafrancadepereira.com/vistas/img/logo.png'
+                                    width='120' style='height:auto; display:block; margin:0 auto 10px auto;'
+                                    alt='Zona Franca Internacional de Pereira'>
+                                <h1>Orden de Compra # $id_orden</h1>
+                            </div>
+                            <div style='padding: 20px;'>
+                            <p>Hola, Isabel Cristina Bustamante 😁</p>
+                                    <p>Te informamos que hay una nueva orden de compra de  $nombre_usuario $apellidos_usuario por un valor de $ $total esperando tu aprobación</p>
+                                    <p>Por favor, inicia sesión en nuestro sistema para revisar y procesar la orden. <br>
+                                    <p>Detalles<br>
+                                <ul>
+                                    <li><B>¿Está orden se encuentra dentro del presupuesto? </B>: $presupuestado</li>
+                                    <li><B>Proveedor </B>: $id_proveedor_fk - $nombre_proveedor</li>
+                                    <li><B>Estado de la orden </B>: $estado_orden</li>
+                                    <li><B>Comentario</B>: $comentario_orden</li>
+                                </ul>
+                                <p>Por favor, toma las acciones necesarias para procesar esta orden.</p>
+                                <center>
+                                    <a href='https://beta.zonafrancadepereira.com/' target='_blank'>
+                                        <button style='border: none;color: white; padding: 14px 28px; cursor: pointer;border-radius: 5px; background: #0b7dda;'>Iniciar Sesión</button>
+                                    </a>
+                                </center>
+                                <p>¡Gracias!</p>
+                            </div>
+                            <div style='text-align: center; padding: 10px;background-color: #f4f4f4;border-radius: 0 0 5px 5px;'>
+                                <p>Este es un mensaje automático, por favor no respondas a este correo.</p>
+                            </div>
+                        </div>
+                    </body></html>";
+                } else {
+                    echo "No se encontró la orden con ID: $id_consulta";
                 }
                 break;
 

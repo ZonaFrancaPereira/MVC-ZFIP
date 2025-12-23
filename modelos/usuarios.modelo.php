@@ -22,22 +22,20 @@ class ModeloUsuarios
 			echo 'Error: ' . $e->getMessage(); // Manejo de errores
 			return [];
 		}
-
-		
 	}
 
 	/*=============================================
 	MOSTRAR USUARIOS
 	=============================================*/
-	
+
 
 	static public function mdlMostrarUsuarios($tabla, $item, $valor)
 	{
-	// Conexión a la base de datos
-	$db = Conexion::conectar();
+		// Conexión a la base de datos
+		$db = Conexion::conectar();
 
-	// Construir la consulta SQL base
-	$sql = "SELECT a.*, 
+		// Construir la consulta SQL base
+		$sql = "SELECT a.*, 
 					(SELECT b.descripcion 
 					FROM perfiles b 
 					WHERE b.perfil = a.perfil) AS nombrePerfil,
@@ -45,33 +43,33 @@ class ModeloUsuarios
 			FROM $tabla a
 			INNER JOIN proceso p ON a.id_proceso_fk = p.id_proceso";
 
-	// Si se proporciona un ítem y un valor, añadir una cláusula WHERE
-	if ($item != null && $valor != null) {
-		$sql .= " WHERE a.$item = :$item";
+		// Si se proporciona un ítem y un valor, añadir una cláusula WHERE
+		if ($item != null && $valor != null) {
+			$sql .= " WHERE a.$item = :$item";
+		}
+
+		// Preparar la consulta
+		$stmt = $db->prepare($sql);
+
+		// Si hay un ítem y un valor, enlazar el valor con el parámetro de la consulta
+		if ($item != null && $valor != null) {
+			$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+		}
+
+		// Ejecutar la consulta
+		$stmt->execute();
+
+		// Retorna un único registro si se proporcionó un ítem, o todos los registros si no se proporcionó ítem
+		$result = ($item != null && $valor != null) ? $stmt->fetch() : $stmt->fetchAll();
+
+		// Cierre del statement
+		$stmt = null;
+
+		// Retorna el resultado
+		return $result;
 	}
 
-	// Preparar la consulta
-	$stmt = $db->prepare($sql);
 
-	// Si hay un ítem y un valor, enlazar el valor con el parámetro de la consulta
-	if ($item != null && $valor != null) {
-		$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
-	}
-
-	// Ejecutar la consulta
-	$stmt->execute();
-
-	// Retorna un único registro si se proporcionó un ítem, o todos los registros si no se proporcionó ítem
-	$result = ($item != null && $valor != null) ? $stmt->fetch() : $stmt->fetchAll();
-
-	// Cierre del statement
-	$stmt = null;
-
-	// Retorna el resultado
-	return $result;
-	}
-
-	
 
 	/*=============================================
 		MOSTRAR USUARIOS CORREO
@@ -102,14 +100,15 @@ class ModeloUsuarios
 	static public function mdlMostrarUsuariosCorreoActividad($tabla, $item, $valor)
 	{
 		// Consulta con INNER JOIN entre usuarios y actividades_acpm
-		$stmt = Conexion::conectar()->prepare("SELECT u.correo_usuario, u.nombre, u.apellidos_usuario, a.descripcion_actividad, a.fecha_actividad, a.id_acpm_fk
+		$stmt = Conexion::conectar()->prepare(
+			"SELECT u.correo_usuario, u.nombre, u.apellidos_usuario, a.descripcion_actividad, a.fecha_actividad, a.id_acpm_fk
 			FROM $tabla u
 			INNER JOIN actividades_acpm a ON u.id = a.id_usuario_fk
 			WHERE u.$item = :valor"
 		);
 		$stmt->bindParam(":valor", $valor, PDO::PARAM_INT);
 		$stmt->execute();
-	
+
 		// Utilizar fetchAll para obtener todos los resultados
 		return $stmt->fetchAll();
 	}
@@ -118,43 +117,45 @@ class ModeloUsuarios
 			ENVIO DE CORREO PARA SOLICITUD DE SOPORTE TECNICO
 		=============================================*/
 
-		static public function mdlMostrarUsuariosCorreoSolicitud($tabla, $item, $valor)
-		{
-			// Consulta con INNER JOIN entre usuarios y actividades_acpm
-			$stmt = Conexion::conectar()->prepare("SELECT u.correo_usuario, u.nombre, u.apellidos_usuario, a.descripcion_soporte_tecnico, p.*
+	static public function mdlMostrarUsuariosCorreoSolicitud($tabla, $item, $valor)
+	{
+		// Consulta con INNER JOIN entre usuarios y actividades_acpm
+		$stmt = Conexion::conectar()->prepare(
+			"SELECT u.correo_usuario, u.nombre, u.apellidos_usuario, a.descripcion_soporte_tecnico, p.*
 				FROM $tabla u
 				INNER JOIN soporte_tecnico a ON u.id = a.id_usuario_fk1
 				INNER JOIN proceso p ON u.id_proceso_fk = p.id_proceso
 				WHERE u.$item = :valor"
-			);
-			$stmt->bindParam(":valor", $valor, PDO::PARAM_INT);
-			$stmt->execute();
-		
-			// Utilizar fetchAll para obtener todos los resultados
-			return $stmt->fetchAll();
-		}
+		);
+		$stmt->bindParam(":valor", $valor, PDO::PARAM_INT);
+		$stmt->execute();
+
+		// Utilizar fetchAll para obtener todos los resultados
+		return $stmt->fetchAll();
+	}
 
 
-		
+
 	/*=============================================
 			ENVIO DE CORREO PARA SOLICITUD DE SOPORTE JURIDICO
 		=============================================*/
 
-		static public function mdlMostrarUsuariosCorreoJuridico($tabla, $item, $valor)
-			{
-				// Consulta con INNER JOIN entre usuarios y actividades_acpm
-						$stmt = Conexion::conectar()->prepare("SELECT u.nombre, u.apellidos_usuario, u.correo_usuario, a.descripcion_solicitud_juridico, a.correo_solicitante, p.*, a.*
+	static public function mdlMostrarUsuariosCorreoJuridico($tabla, $item, $valor)
+	{
+		// Consulta con INNER JOIN entre usuarios y actividades_acpm
+		$stmt = Conexion::conectar()->prepare(
+			"SELECT u.nombre, u.apellidos_usuario, u.correo_usuario, a.descripcion_solicitud_juridico, a.correo_solicitante, p.*, a.*
 						FROM $tabla u
 						INNER JOIN soporte_juridico a ON u.id = a.nombre_solicitante
 						INNER JOIN proceso p ON u.id_proceso_fk = p.id_proceso
 						WHERE u.$item = :valor"
-					);
-					$stmt->bindParam(":valor", $valor, PDO::PARAM_INT);
-					$stmt->execute();
-				
-					// Utilizar fetchAll para obtener todos los resultados
-					return $stmt->fetchAll();
-			}
+		);
+		$stmt->bindParam(":valor", $valor, PDO::PARAM_INT);
+		$stmt->execute();
+
+		// Utilizar fetchAll para obtener todos los resultados
+		return $stmt->fetchAll();
+	}
 
 	static public function mdlEnviarSolucion($tabla)
 	{
@@ -176,30 +177,89 @@ class ModeloUsuarios
 		}
 	}
 
-	
+
 	/*================================================================
 	ENVIAR CORREO DE SOLICITUD DE VACACIONES AL DIRECTOR O COORDINADOR
 	==================================================================*/
 
-		static public function mdlEnviarSolicitudVacaciones($tabla, $item, $valor)
-		{
-			try {
-				$stmt = Conexion::conectar()->prepare(
-					"SELECT nombre, apellidos_usuario, correo_usuario 
+	static public function mdlEnviarSolicitudVacaciones($tabla, $item, $valor)
+	{
+		try {
+			$stmt = Conexion::conectar()->prepare(
+				"SELECT nombre, apellidos_usuario, correo_usuario 
 					FROM $tabla 
 					WHERE $item = :valor"
-				);
-				$stmt->bindParam(":valor", $valor, PDO::PARAM_INT);
-				$stmt->execute();
+			);
+			$stmt->bindParam(":valor", $valor, PDO::PARAM_INT);
+			$stmt->execute();
 
-				return $stmt->fetch(PDO::FETCH_ASSOC); // Un solo resultado
-			} catch (PDOException $e) {
-				echo "Error en la consulta: " . $e->getMessage();
-				return [];
-			}
+			return $stmt->fetch(PDO::FETCH_ASSOC); // Un solo resultado
+		} catch (PDOException $e) {
+			echo "Error en la consulta: " . $e->getMessage();
+			return [];
 		}
+	}
 
-		
+	/*================================================================
+	ENVIAR CORREO DE ORDEN DE COMPRA
+	==================================================================*/
+static public function mdlEnviarOrdenCompra($id_orden)
+{
+    try {
+        $stmt = Conexion::conectar()->prepare(
+            "SELECT 
+                oc.id_orden,
+                oc.fecha_orden,
+                oc.proveedor_recurrente,
+                oc.forma_pago,
+                oc.tiempo_pago,
+                oc.porcentaje_anticipo,
+                oc.condiciones_negociacion,
+                oc.comentario_orden,
+                oc.tiempo_entrega,
+                oc.total_orden,
+                oc.analisis_cotizacion,
+                oc.presupuestado,
+                oc.estado_orden,
+                oc.descripcion_declinado,
+                oc.fecha_aprobacion,
+
+                u.id AS id_cotizante,
+                u.nombre AS nombre_cotizante,
+                u.apellidos_usuario AS apellidos_cotizante,
+                u.correo_usuario AS correo_cotizante,
+
+                pr.id_proceso,
+                pr.nombre_proceso,
+                pr.siglas_proceso,
+
+                p.id_proveedor,
+                p.nombre_proveedor,
+                p.contacto_proveedor,
+                p.telefono_proveedor
+
+            FROM orden_compra oc
+            LEFT JOIN usuarios u 
+                ON oc.id_cotizante = u.id
+            LEFT JOIN proceso pr 
+                ON u.id_proceso_fk = pr.id_proceso
+            LEFT JOIN proveedor_compras p 
+                ON oc.id_proveedor_fk = p.id_proveedor
+            WHERE oc.id_orden = :id_orden"
+        );
+
+        $stmt->bindParam(":id_orden", $id_orden, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+
+    } catch (PDOException $e) {
+        echo "Error en la consulta: " . $e->getMessage();
+        return [];
+    }
+}
+
+
 	/*=============================================
 	REGISTRO DE USUARIO
 	=============================================*/
@@ -208,14 +268,14 @@ class ModeloUsuarios
 	{
 		try {
 			$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(nombre, apellidos_usuario, correo_usuario, password, perfil, foto) VALUES (:nombre, :apellidos_usuario, :correo_usuario, :password, :perfil, :foto)");
-	
+
 			$stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
 			$stmt->bindParam(":apellidos_usuario", $datos["apellidos_usuario"], PDO::PARAM_STR);
 			$stmt->bindParam(":correo_usuario", $datos["correo_usuario"], PDO::PARAM_STR);
 			$stmt->bindParam(":password", $datos["password"], PDO::PARAM_STR);
 			$stmt->bindParam(":perfil", $datos["perfil"], PDO::PARAM_STR);
 			$stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
-	
+
 			// Ejecutar la consulta
 			if ($stmt->execute()) {
 				return "ok";
@@ -224,10 +284,10 @@ class ModeloUsuarios
 				$errorInfo = $stmt->errorInfo();
 				$errorMessage = "SQLSTATE: " . $errorInfo[0] . "\n" . "Código de error: " . $errorInfo[1] . "\n" . "Mensaje: " . $errorInfo[2];
 				echo "Error en la consulta: " . $errorMessage . "\n";
-	
+
 				// Puedes también registrar el error en un archivo de log
 				error_log("Error en la consulta SQL: " . $errorMessage, 3, "error_log.log");
-	
+
 				return $errorMessage;
 			}
 		} catch (Exception $e) {
@@ -237,7 +297,7 @@ class ModeloUsuarios
 			return $e->getMessage();
 		}
 	}
-	
+
 
 	/*=============================================
 	EDITAR USUARIO
@@ -348,8 +408,4 @@ class ModeloUsuarios
 
 		$stmt = null;
 	}
-
-
-
-
 }

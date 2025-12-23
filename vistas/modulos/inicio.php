@@ -109,6 +109,156 @@
          </div>
          <!-- /.info-box -->
        </div>
+        <?php
+        $cargosE = [5, 6, 12, 13, 19];
+
+        if (in_array($_SESSION['id_cargo_fk'], $cargosE)) {
+          // aquí va el botón, acción o contenido
+        ?>
+       <div class="col-md-12 col-sm-12 col-12">
+
+            <?php
+            $ordenes = ControladorOrden::ctrBandejaOrdenes();
+            $cargo = $_SESSION["id_cargo_fk"];
+            ?>
+
+            <div class="card-body p-0">
+              <div class="table-responsive">
+
+                <table class="table table-bordered table-striped  nowrap display"
+                  id=""
+                  style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Fecha</th>
+                      <th>Usuario</th>
+                      <th>Proveedor</th>
+
+                      <th>Total</th>
+                      <th>Estado</th>
+                      <th>PDF</th>
+                      <th>Acción</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <?php foreach ($ordenes as $key => $o):
+                      $estado = trim($o["estado_orden"]);
+                      $badge  = "bg-secondary";
+
+                      switch ($estado) {
+                        case "Analisis de Cotizacion":
+                          $badge = "bg-warning";
+                          break;
+                        case "Proceso":
+                          $badge = "bg-warning";
+                          break;
+                        case "Aprobada":
+                          $badge = "bg-success";
+                          break;
+                        case "Denegada":
+                          $badge = "bg-danger";
+                          break;
+                        case "Ejecutada":
+                          $badge = "bg-info";
+                          break;
+                      }
+                    ?>
+                      <tr>
+                        <td><?= $o["id_orden"] ?></td>
+                        <td><?= $o["fecha_orden"] ?></td>
+                        <td><?= $o["nombre"] ?> <?= $o["apellidos_usuario"] ?></td>
+                        <td><?= $o["nit_proveedor"] ?> - <?= $o["nombre_proveedor"] ?></td>
+                        <td>$ <?= number_format($o["total_orden"], 0, ",", ".") ?></td>
+
+                        <td class="text-center">
+                          <span class="badge <?= $badge ?>">
+                            <?= $estado ?>
+                          </span>
+
+                        </td>
+
+                        <td>
+                          <a href="pdf/orden_compra.php?id=<?= $o["id_orden"] ?>"
+                            target="_blank"
+                            class="btn btn-danger btn-sm">
+                            PDF
+                          </a>
+                        </td>
+
+                        <td>
+
+                          <?php if (in_array($cargo, [5, 6])): ?>
+                            <div class="btn-group">
+
+                              <!-- APROBAR / ENVIAR A PROCESO -->
+                              <button
+                                class="btn btn-success btn-sm btnGH"
+                                data-id="<?= $o["id_orden"] ?>"
+                                data-estado="Proceso"
+                                title="Enviar a Gerencia">
+                                <i class="fa fa-thumbs-up"></i>
+                              </button>
+
+                              <!-- DENEGAR -->
+                              <button
+                                class="btn btn-danger btn-sm btnDenegarOrden"
+                                data-id="<?= $o["id_orden"] ?>"
+                                title="Denegar orden">
+                                <i class="fas fa-thumbs-down"></i>
+                              </button>
+
+                            </div>
+                          <?php endif; ?>
+
+
+                          <?php if (in_array($cargo, [19])): ?>
+                            <div class="btn-group">
+
+                              <!-- APROBAR / ENVIAR A PROCESO -->
+                              <button
+                                class="btn btn-success btn-sm btnGR"
+                                data-id="<?= $o["id_orden"] ?>"
+                                data-estado="Aprobada"
+                                title="Enviar a Contabilidad">
+                                <i class="fa fa-thumbs-up"></i>
+                              </button>
+
+                              <!-- DENEGAR -->
+                              <button
+                                class="btn btn-danger btn-sm btnDenegarOrden"
+                                data-id="<?= $o["id_orden"] ?>"
+                                title="Denegar orden">
+
+                                <i class="fas fa-thumbs-down"></i>
+                              </button>
+
+                            </div>
+                          <?php endif; ?>
+
+                          <?php if (in_array($cargo, [12, 13])): ?>
+                            <!-- APROBAR / ENVIAR A PROCESO -->
+                            <button
+                              class="btn btn-success btn-sm btnCT"
+                              data-id="<?= $o["id_orden"] ?>"
+                              data-estado="Ejecutada"
+                              title="Ejecutar Orden">
+                              <i class="fas fa-thumbs-up"></i>
+                            </button>
+                          <?php endif; ?>
+
+                        </td>
+
+                      </tr>
+                    <?php endforeach; ?>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+                <?php } ?>
        <!-- /.col -->
      </div>
    </section>
