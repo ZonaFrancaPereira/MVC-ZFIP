@@ -679,6 +679,48 @@ class ControladorActivos
 
         return $respuesta;
     }
+
+        /* ===============================
+       MOSTRAR ACTAS POR ESTADO
+    =============================== */
+   public static function ctrMostrarActasPorEstado($item, $valor, $estado)
+{
+    $tabla = "acta_activos";
+
+    $respuesta = ModeloActivos::mdlMostrarActasPorEstado($tabla,$item,$valor,$estado);
+    return $respuesta;
+}
+
+public function ctrAprobarActa() {
+
+    if (isset($_POST["aprobarActa"])) {
+
+        $idActa = $_POST["idActa"];
+
+        $tabla = "acta_activos";
+
+        $datos = [
+            "id_acta" => $idActa,
+            "estado_aprobacion" => "Aprobado",
+            "fecha_aprobacion" => date("Y-m-d H:i:s")
+        ];
+
+        $respuesta = ModeloActivos::mdlAprobarActa($tabla, $datos);
+
+        if ($respuesta == "ok") {
+            echo "<script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Acta aprobada correctamente'
+                }).then(() => {
+                    window.location = '';
+                });
+            </script>";
+        }
+    }
+}
+
+
 }
 
 /*=============================================

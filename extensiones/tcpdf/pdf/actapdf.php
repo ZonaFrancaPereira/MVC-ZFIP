@@ -35,6 +35,9 @@ $nombre_proceso_destino = $row["nombre_proceso_destino"];
 $centro_costos_destino = $row["centro_costos_destino"];
 $cedula_destino = $row["cedula_destino"];
 $observaciones_acta = $row["observaciones_acta"];
+$estado_aprobacion = $row["estado_aprobacion"];
+$bloqueFirmas = '';
+
 
 
 
@@ -105,6 +108,54 @@ $activosList = ModeloActivos::mdlObtenerActivosPorActa($id_acta);
 // Validar que se obtuvieron resultados
 if (empty($activosList)) {
     die('No se encontraron datos para el ID de acta proporcionado.');
+}
+
+
+if ($estado_aprobacion === 'Aprobado') {
+
+    $bloqueFirmas = <<<EOF
+    <br><br>
+    <table class="content-table" border="1" cellpadding="4" cellspacing="0" width="100%">
+        <thead>
+            <tr class="section-title">
+                <th>FIRMA RESPONSABLE ACTIVOS FIJOS</th>
+                <th>FIRMA NUEVO RESPONSABLE</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="text-align: center;">
+                <td>
+                    <img src="$firma_origen" style="width: 100px; height: auto;">
+                </td>
+                <td>
+                    <img src="$firma_destino" style="width: 100px; height: auto;">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+EOF;
+}else{
+    $bloqueFirmas = <<<EOF
+    <br><br>
+    <table class="content-table" border="1" cellpadding="4" cellspacing="0" width="100%">
+        <thead>
+            <tr class="section-title">
+                <th>FIRMA RESPONSABLE ACTIVOS FIJOS</th>
+                <th>FIRMA NUEVO RESPONSABLE</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="text-align: center;">
+                <td>
+                    <p style="font-size:8px;">Acta no aprobada</p>
+                </td>
+                <td>
+                    <p style="font-size:8px;">Acta no aprobada</p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+EOF;
 }
 // Crear instancia de TCPDF
 $pdf = new TCPDF('P', 'mm', array(210, 297), true, 'UTF-8', false);
@@ -367,26 +418,11 @@ $html .= <<<EOF
 </table>
 
 <br><br>
-<table class="content-table" border="1" cellpadding="4" cellspacing="0" width="100%">
-    <thead>
-        <tr class="section-title">
-            <th>FIRMA RESPONSABLE ACTIVOS FIJOS</th>
-            <th>FIRMA NUEVO RESPONSABLE</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr style="text-align: center;">
-            <td>
-                <img src="$firma_origen" alt="Firma Responsable Activos Fijos" style="width: 100px; height: auto;">
-            </td>
-            <td>
-                <img src="$firma_destino" alt="Firma Nuevo Responsable" style="width: 100px; height: auto;">
-            </td>
-        </tr>
-    </tbody>
-</table>
+EOF;
 
+$html .= $bloqueFirmas;
 
+$html .= <<<EOF
 <table class="content-table">
     <tr>
         <td><p style="text-align:justify; font-size:8px;">Al registrar y entregar sus datos personales mediante este mecanismo de recolección de información,

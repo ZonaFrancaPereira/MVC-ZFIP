@@ -48,6 +48,13 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
             </p>
           </a>
         </li>
+    <?php
+    $cargosLideres = [1, 2,12,13];
+
+    if (in_array($_SESSION['id_cargo_fk'], $cargosLideres)) {
+      // aquí va el botón, acción o contenido
+
+    ?>
         <li class="nav-item">
           <a data-toggle="tab" href="#nuevo_activo" class="nav-link ">
             <i class="nav-icon fas fa-cart-plus"></i>
@@ -56,6 +63,7 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
             </p>
           </a>
         </li>
+  
         <li class="nav-item">
           <a data-toggle="tab" href="#inventario_activos" class="nav-link ">
             <i class="nav-icon fas fa-boxes"></i>
@@ -74,6 +82,7 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
             </p>
           </a>
         </li>
+        <?php } ?>
 
         <li class="nav-item">
           <a data-toggle="tab" href="#acta_movimiento" class="nav-link ">
@@ -96,34 +105,34 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
         </li>
       </ul>
     </li>
-<?php
-        $cargosLideres = [1, 4, 6, 7, 12, 14, 15];
+    <?php
+    $cargosLideres = [1, 4, 6, 7, 12, 14, 15];
 
-        if (in_array($_SESSION['id_cargo_fk'], $cargosLideres)) {
-          // aquí va el botón, acción o contenido
+    if (in_array($_SESSION['id_cargo_fk'], $cargosLideres)) {
+      // aquí va el botón, acción o contenido
 
-        ?>
-    <li class="nav-item">
-      <a data-toggle="tab" href="" class="nav-link">
-        <i class="nav-icon fas fa-file-invoice-dollar"></i>
-        <p>
-          Ordenes de Compra
-          <i class="fas fa-angle-left right"></i>
-        </p>
-      </a>
-      <ul class="nav nav-treeview">
-        <li class="nav-item">
-          <a data-toggle="tab" href="#nueva_orden" class="nav-link ">
-            <i class="nav-icon fas fa-qrcode"></i>
-            <p>
-              Nueva Orden de Compra
-            </p>
-          </a>
-        </li>
-        
+    ?>
+      <li class="nav-item">
+        <a data-toggle="tab" href="" class="nav-link">
+          <i class="nav-icon fas fa-file-invoice-dollar"></i>
+          <p>
+            Ordenes de Compra
+            <i class="fas fa-angle-left right"></i>
+          </p>
+        </a>
+        <ul class="nav nav-treeview">
+          <li class="nav-item">
+            <a data-toggle="tab" href="#nueva_orden" class="nav-link ">
+              <i class="nav-icon fas fa-donate"></i>
+              <p>
+                Nueva Orden de Compra
+              </p>
+            </a>
+          </li>
+
           <li class="nav-item">
             <a data-toggle="tab" href="#OrdenesLideres" class=" nav-link ">
-              <i class=" nav-icon fas fa-search"></i>
+              <i class=" nav-icon fas fa-search-dollar"></i>
               <p>
                 Consultar Ordenes
               </p>
@@ -163,18 +172,34 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
             </a>
           </li>
         <?php } ?>
+         <?php
+    $cargosLideres = [1, 4, 5,6,7,12,13,14,15];
 
+    if (in_array($_SESSION['id_cargo_fk'], $cargosLideres)) {
+      // aquí va el botón, acción o contenido
+
+    ?>
         <li class="nav-item">
-          <a data-toggle="tab" href="#manual_ordenes" class="nav-link ">
-            <i class="nav-icon fas fa-book"></i>
+          <a data-toggle="tab" href="#proveedores" class="nav-link ">
+            <i class="nav-icon fas fa-address-book"></i>
             <p>
-              Manual
+              Proveedores
             </p>
           </a>
 
         </li>
-      </ul>
-    </li>
+        <li class="nav-item">
+          <a data-toggle="tab" href="#manual_ordenes" class="nav-link ">
+            <i class="nav-icon fas fa-book"></i>
+            <p>
+              Manual OC
+            </p>
+          </a>
+
+        </li>
+              <?php } ?>
+        </ul>
+      </li>
   </ul>
 </nav>
 </div>
@@ -289,10 +314,11 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
                         <span class="badge badge-' . $badge . '">' . $value["estado_orden"] . '</span>
                     </td>
                     <td class="text-center">
-                        <a href="pdf/orden_compra.php?id=' . $value["id_orden"] . '" 
+                   
+                        <a href="extensiones/tcpdf/pdf/orden_compra.php?id=' . $value["id_orden"] . '" 
                           target="_blank" 
-                          class="btn btn-danger btn-sm">
-                            <i class="fa fa-file-pdf"></i>
+                          >
+                            <i class="fas fa-file-pdf fa-2x text-danger"></i>
                         </a>
                     </td>
                 </tr>';
@@ -371,11 +397,8 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
                         </td>
 
                         <td>
-                          <a href="pdf/orden_compra.php?id=<?= $o["id_orden"] ?>"
-                            target="_blank"
-                            class="btn btn-danger btn-sm">
-                            PDF
-                          </a>
+                          <a href="extensiones/tcpdf/pdf/orden_compra.php?id=<?= $o["id_orden"] ?>" target="_blank"><i class="fas fa-file-pdf fa-2x text-danger"></i></a>
+                          
                         </td>
 
                         <td>
@@ -450,8 +473,6 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
             </div>
           </div>
 
-
-
           <div id="Ordenes_Ejecutadas" class="tab-pane">
 
             <?php
@@ -516,10 +537,10 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
                         </td>
 
                         <td class="text-center">
-                          <a href="pdf/orden_compra.php?id=<?= $o["id_orden"] ?>"
+                          <a href="extensiones/tcpdf/pdf/orden_compra.php?id=<?= $o["id_orden"] ?>"
                             target="_blank"
-                            class="btn btn-danger btn-sm">
-                            <i class="fa fa-file-pdf"></i>
+                            >
+                            <i class="fas fa-file-pdf fa-2x text-danger"></i>
                           </a>
                         </td>
                       </tr>
@@ -529,7 +550,9 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
               </div>
             </div>
           </div>
-
+          <div id="proveedores" class="tab-pane">
+            <?php require "ct/proveedores_compras.php"; ?>
+          </div>
           <div id="manual_ordenes" class="tab-pane">
 
             Poner manual ordenes de compra
@@ -540,9 +563,6 @@ if ($_SESSION["ConsultarBascula"] == "NULL") {
     </div>
   </div>
 </div>
-
-
-
 
 </body>
 

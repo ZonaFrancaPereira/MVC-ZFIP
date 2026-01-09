@@ -4,8 +4,48 @@ require_once "conexion.php";
 
 class ModeloOrden
 {
+    /* =============================================
+        INSERTAR PROVEEDORES
+    ============================================= */
+    public static function mdlCrearProveedorCompras($tabla, $datos)
+    {
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (
+            id_proveedor,
+            nombre_proveedor,
+            contacto_proveedor,
+            telefono_proveedor,
+            id_usuario_fk
+        )
+        VALUES (
+        :id_proveedor,
+        :nombre_proveedor, 
+        :contacto_proveedor,
+        :telefono_proveedor, 
+        :id_usuario_fk)"
+        );
 
-    public static function mdlMostrarProvedor($tabla, $item, $valor)
+        $stmt->bindParam(":id_proveedor", $datos["id_proveedor"], PDO::PARAM_INT);
+        $stmt->bindParam(":nombre_proveedor", $datos["nombre_proveedor"], PDO::PARAM_STR);
+        $stmt->bindParam(":contacto_proveedor", $datos["contacto_proveedor"], PDO::PARAM_STR);
+        $stmt->bindParam(":telefono_proveedor", $datos["telefono_proveedor"], PDO::PARAM_STR);
+        $stmt->bindParam(":id_usuario_fk", $datos["id_usuario_fk"], PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return "ok";
+        } else {
+            return "error";
+        }
+
+        $stmt->close();
+        $stmt = null;
+    }
+
+
+    /* =============================================
+        CONSULTAR PROVEEDORES
+    ============================================= */
+
+    public static function mdlMostrarProvedor($tabla)
     {
         $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
         $stmt->execute();
@@ -73,7 +113,7 @@ class ModeloOrden
             );
 
             // Vincular los parámetros
-   $stmt->bindParam(":presupuestado", $datos["presupuestado"], PDO::PARAM_STR);
+            $stmt->bindParam(":presupuestado", $datos["presupuestado"], PDO::PARAM_STR);
             $stmt->bindParam(":proveedor_recurrente", $datos["proveedor_recurrente"], PDO::PARAM_STR);
             $stmt->bindParam(":forma_pago", $datos["forma_pago"], PDO::PARAM_STR);
             $stmt->bindParam(":tiempo_pago", $datos["tiempo_pago"], PDO::PARAM_INT);
@@ -186,6 +226,134 @@ class ModeloOrden
             return [];
         }
     }
+     /* =============================================
+   MOSTRAR ORDENES PDF
+============================================= */
+public static function mdlMostrarOrdenesPdf($tabla, $item, $valor)
+{
+    try {
+
+        $stmt = Conexion::conectar()->prepare("
+            SELECT 
+                /* ============ ORDEN ============ */
+                oc.id_orden,
+                oc.fecha_orden,
+                oc.forma_pago,
+                oc.total_orden,
+                oc.estado_orden,
+                oc.presupuestado,
+                oc.proveedor_recurrente,
+                oc.tiempo_pago,
+                oc.porcentaje_anticipo,
+                oc.condiciones_negociacion,
+                oc.comentario_orden,
+                oc.tiempo_entrega,
+                oc.analisis_cotizacion,
+                oc.descripcion_declinado,
+                oc.fecha_aprobacion,
+                oc.id_gerente,
+                oc.id_cotizante,
+
+                /* ============ PROVEEDOR ============ */
+                p.id_proveedor,
+                p.nombre_proveedor,
+                p.contacto_proveedor,
+                p.telefono_proveedor,
+
+                /* ============ COTIZANTE ============ */
+                u.id AS id_usuario,
+                u.nombre AS nombre_usuario,
+                u.apellidos_usuario,
+                u.correo_usuario,
+                u.foto AS firma_usuario,
+                cu.nombre_cargo AS cargo_usuario,
+
+                /* ============ GERENTE ============ */
+                g.id AS id_gerente_usuario,
+                g.nombre AS nombre_gerente,
+                g.apellidos_usuario AS apellidos_gerente,
+                g.correo_usuario AS correo_gerente,
+                g.foto AS firma_gerente,
+                cg.nombre_cargo AS cargo_gerente
+
+            FROM $tabla oc
+
+            INNER JOIN proveedor_compras p
+                ON p.id_proveedor = oc.id_proveedor_fk
+
+            INNER JOIN usuarios u
+                ON u.id = oc.id_cotizante
+
+            LEFT JOIN cargos cu
+                ON cu.id_cargo = u.id_cargo_fk
+
+            LEFT JOIN usuarios g
+                ON g.id = oc.id_gerente
+
+            LEFT JOIN cargos cg
+                ON cg.id_cargo = g.id_cargo_fk
+
+            WHERE oc.id_orden = :valor
+            LIMIT 1
+        ");
+
+        $stmt->bindParam(":valor", $valor, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+
+    } catch (PDOException $e) {
+        error_log("Error mdlMostrarOrdenesPdf: " . $e->getMessage());
+        return false;
+    }
+}
+
+
+    /* =============================================
+   DETALLE DE ARTICULOS ORDEN DE COMPRA
+    ============================================= */
+    public static function mdlObtenerArticulosOrden($id_orden)
+    {
+        $stmt = Conexion::conectar()->prepare("SELECT 
+                id_orden_detalle,
+                articulo_compra,
+                cantidad_orden,
+                valor_neto,
+                valor_iva,
+                valor_total,
+                observaciones_articulo
+            FROM detalle_orden
+            WHERE id_orden_compra = :id_orden
+        ");
+        
+        $stmt->bindParam(":id_orden", $id_orden, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /* =============================================
+============================================= */
+public static function mdlObtenerActivosPorActa($id_acta)
+    {
+        $stmt = Conexion::conectar()->prepare("
+            SELECT 
+                a.id_activo,
+                a.cod_renta,
+                a.nombre_articulo,
+                a.marca_articulo,
+                a.modelo_articulo,
+                a.referencia_articulo,
+                ht.id_activo_fk,
+                ht.id_acta_fk
+            FROM historial_transferencias ht
+            INNER JOIN activos a ON ht.id_activo_fk = a.id_activo
+            WHERE ht.id_acta_fk = :id_acta
+        ");
+        
+        $stmt->bindParam(":id_acta", $id_acta, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     /* =============================================
    MOSTRAR ORDENES POR CARGO
 ============================================= */
@@ -283,33 +451,36 @@ ORDER BY oc.fecha_orden DESC;
     }
 
 
-  /* ==============================
+    /* ==============================
      CAMBIAR ESTADO DE ORDEN
   ============================== */
-  static public function mdlCambiarEstadoOrden($tabla, $idOrden, $estado) {
+    static public function mdlCambiarEstadoOrden($tabla, $idOrden, $estado)
+    {
 
-    $stmt = Conexion::conectar()->prepare(
-      "UPDATE $tabla 
+        $stmt = Conexion::conectar()->prepare(
+            "UPDATE $tabla 
        SET estado_orden = :estado 
        WHERE id_orden = :id"
-    );
+        );
 
-    $stmt->bindParam(":estado", $estado, PDO::PARAM_STR);
-    $stmt->bindParam(":id", $idOrden, PDO::PARAM_INT);
+        $stmt->bindParam(":estado", $estado, PDO::PARAM_STR);
+        $stmt->bindParam(":id", $idOrden, PDO::PARAM_INT);
 
-    if ($stmt->execute()) {
-      return "ok";
-    } else {
-      return "error";
+        if ($stmt->execute()) {
+            return "ok";
+        } else {
+            return "error";
+        }
+
+        $stmt = null;
     }
-
-    $stmt = null;
-  }
     /* ==============================
          CAMBIAR ESTADO DE ORDEN GERENCIA
         ============================== */
-    static public function mdlCambiarEstadoOrdenGR($tabla, $idOrden, $estado, $fechaAprobacion, $id_gerente) {
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla 
+    static public function mdlCambiarEstadoOrdenGR($tabla, $idOrden, $estado, $fechaAprobacion, $id_gerente)
+    {
+        $stmt = Conexion::conectar()->prepare(
+            "UPDATE $tabla 
        SET estado_orden = :estado,
            fecha_aprobacion = :fecha_aprobacion,
            id_gerente = :id_gerente
@@ -330,20 +501,20 @@ ORDER BY oc.fecha_orden DESC;
         $stmt = null;
     }
 
-public static function mdlDenegarOrden($idOrden, $descripcion)
-{
-  $stmt = Conexion::conectar()->prepare("
+    public static function mdlDenegarOrden($idOrden, $descripcion)
+    {
+        $stmt = Conexion::conectar()->prepare("
     UPDATE orden_compra 
     SET estado_orden = 'Denegada',
         descripcion_declinado = :descripcion
     WHERE id_orden = :id
   ");
 
-  $stmt->bindParam(":descripcion", $descripcion, PDO::PARAM_STR);
-  $stmt->bindParam(":id", $idOrden, PDO::PARAM_INT);
+        $stmt->bindParam(":descripcion", $descripcion, PDO::PARAM_STR);
+        $stmt->bindParam(":id", $idOrden, PDO::PARAM_INT);
 
-  return $stmt->execute();
-}
+        return $stmt->execute();
+    }
 
 
     /* =============================================

@@ -542,6 +542,86 @@ class ModeloActivos
         $stmt = null;
     }
     
+    public static function mdlMostrarActasPorEstado($tabla, $item, $valor, $estado)
+{
+    if ($item != null) {
+
+        $stmt = Conexion::conectar()->prepare("SELECT 
+                a.id_acta,
+                a.fecha_acta,
+                a.tipo_acta,
+                a.observaciones_acta,
+                a.estado_aprobacion,
+                a.fecha_aprobacion,
+
+                -- Datos usuario origen
+                CONCAT(uo.nombre, ' ', uo.apellidos_usuario) AS usuario_origen,
+                uo.foto AS firma_origen,
+                vo.cedula_administrativa AS cedula_origen,
+                po.id_proceso AS id_proceso_origen,
+                po.siglas_proceso AS siglas_proceso_origen,
+                po.nombre_proceso AS nombre_proceso_origen,
+                po.centro_costos AS centro_costos_origen,
+
+                -- Datos usuario destino
+                CONCAT(ud.nombre, ' ', ud.apellidos_usuario) AS usuario_destino,
+                ud.foto AS firma_destino,
+                vd.cedula_administrativa AS cedula_destino,
+                pd.id_proceso AS id_proceso_destino,
+                pd.siglas_proceso AS siglas_proceso_destino,
+                pd.nombre_proceso AS nombre_proceso_destino,
+                pd.centro_costos AS centro_costos_destino
+
+            FROM {$tabla} a
+            LEFT JOIN usuarios uo ON a.usuario_origen = uo.id
+            LEFT JOIN usuarios ud ON a.usuario_destino = ud.id
+
+            -- Relación con procesos
+            LEFT JOIN proceso po ON uo.id_proceso_fk = po.id_proceso
+            LEFT JOIN proceso pd ON ud.id_proceso_fk = pd.id_proceso
+
+            -- Relación con vacaciones (para obtener la cédula)
+            LEFT JOIN vacaciones vo ON vo.nombre_administrativa = uo.id
+            LEFT JOIN vacaciones vd ON vd.nombre_administrativa = ud.id
+            WHERE a.$item = :valor
+            AND a.estado_aprobacion = :estado
+            ORDER BY a.fecha_acta DESC
+        ");
+    
+
+        $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
+        $stmt->bindParam(":estado", $estado, PDO::PARAM_STR);
+
+    } 
+
+    $stmt->execute();
+    return $stmt->fetchAll();
+    $stmt = null;
+}
+
+public static function mdlAprobarActa($tabla, $datos)
+{
+    $stmt = Conexion::conectar()->prepare("UPDATE $tabla 
+        SET 
+            estado_aprobacion = :estado_aprobacion,
+            fecha_aprobacion = :fecha_aprobacion
+        WHERE id_acta = :id_acta
+    ");
+
+    $stmt->bindParam(":estado_aprobacion", $datos["estado_aprobacion"], PDO::PARAM_STR);
+    $stmt->bindParam(":fecha_aprobacion", $datos["fecha_aprobacion"], PDO::PARAM_STR);
+    $stmt->bindParam(":id_acta", $datos["id_acta"], PDO::PARAM_INT);
+
+    if ($stmt->execute()) {
+        return "ok";
+    } else {
+        return "error";
+    }
+
+    $stmt = null;
+}
+
+
     /*=============================================
 	EDITAR Activos
 	=============================================*/
@@ -673,6 +753,8 @@ static public function mdlMostrarActa($tabla, $item, $valor)
                 a.fecha_acta,
                 a.tipo_acta,
                 a.observaciones_acta,
+                a.estado_aprobacion,
+                a.fecha_aprobacion,
 
                 -- Datos usuario origen
                 CONCAT(uo.nombre, ' ', uo.apellidos_usuario) AS usuario_origen,

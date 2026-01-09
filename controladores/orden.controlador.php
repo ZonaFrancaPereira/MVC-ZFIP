@@ -2,11 +2,58 @@
 
 class ControladorOrden
 {
+    /* =============================================
+    CREAR PROVEEDOR
+    ============================================= */
+    public static function ctrCrearProveedorCompras(){
+        if (isset($_POST["nombre_proveedor"])) {
 
-    public static function ctrMostrarProvedor($item, $valor)
+            $tabla = "proveedor_compras";
+
+            $datos = array(
+                "id_proveedor"=> $_POST["id_proveedor"],
+                "nombre_proveedor"=> $_POST["nombre_proveedor"],
+                "contacto_proveedor"=> $_POST["contacto_proveedor"],
+                "telefono_proveedor"=> $_POST["telefono_proveedor"],
+                "id_usuario_fk" => $_SESSION["id"]
+            );
+
+            $respuesta = ModeloOrden::mdlCrearProveedorCompras($tabla, $datos);
+
+            if ($respuesta == "ok") {
+                echo '
+                <script>
+                Swal.fire({
+                    type: "success",
+                    title: "Proveedor registrado correctamente",
+                    showConfirmButton: true
+                }).then(() => {
+                    window.location = "";
+                });
+            </script>';
+            }else{
+
+                echo '<script>
+                Swal.fire({
+                    type: "error",
+                    title: "Error al registrar el proveedor",
+                    showConfirmButton: true
+                }).then(() => {
+                    window.location = "";
+                });
+            </script>';
+
+            }
+        }
+    }
+
+    /* =============================================
+    MOSTRAR PROVEEDOR
+    ============================================= */
+    public static function ctrMostrarProvedor()
     {
         $tabla = "proveedor_compras";
-        $respuesta = ModeloOrden::mdlMostrarProvedor($tabla, $item, $valor);
+        $respuesta = ModeloOrden::mdlMostrarProvedor($tabla);
         return $respuesta;
     }
 
@@ -153,6 +200,15 @@ class ControladorOrden
     {
         $idUsuario = $_SESSION["id"];
         return ModeloOrden::mdlMostrarOrdenesLideres($idUsuario);
+    }
+      /* =============================================
+    MOSTRAR ORDENES DE COMPRA PDF
+    ============================================= */
+    static public function ctrMostrarOrdenesPdf($item, $valor)
+    {
+        $tabla = "orden_compra";
+        $respuesta = ModeloOrden::mdlMostrarOrdenesPdf($tabla, $item, $valor);
+        return $respuesta;
     }
     /* =============================================
     MOSTRAR ORDENES DE COMPRA POR CARGO
