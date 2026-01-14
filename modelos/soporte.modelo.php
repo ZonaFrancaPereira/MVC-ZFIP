@@ -64,7 +64,27 @@ class ModeloSoporte
         }
     }
     
-    public static function mdlMostrarSoporteFinalizadas($tabla, $item, $valor)
+public static function mdlMostrarSoporteFinalizadasUsuario($tabla, $idUsuariosoporte,$item, $valor)
+{
+    try {
+
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario_fk = :id_usuario"
+        );
+
+        $stmt->bindParam(":id_usuario", $idUsuariosoporte, PDO::PARAM_INT);
+        $stmt->execute();
+            $result = $stmt->fetchAll();
+            $stmt->closeCursor();
+            $stmt = null;
+
+            return $result;
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        }
+}
+
+
+        public static function mdlMostrarSoporteFinalizadas($tabla, $item, $valor)
     {
         try {
             $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE fecha_solucion IS NOT NULL AND fecha_solucion != ''");
