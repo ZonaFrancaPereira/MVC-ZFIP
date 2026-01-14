@@ -56,8 +56,8 @@ if (empty($ordenList)) {
     die('No se encontraron datos para el ID de  proporcionado.');
 }
 
-//$baseUrl = "https://beta.zonafrancadepereira.com/"; // Cambia esto según sea necesario para tu entorno de hosting
-$baseUrl = "/MVC-ZFIP/";
+$baseUrl = "https://beta.zonafrancadepereira.com/"; // Cambia esto según sea necesario para tu entorno de hosting
+//$baseUrl = "/MVC-ZFIP/";
 
 
 $ruta_firma = $firma_cotizante;

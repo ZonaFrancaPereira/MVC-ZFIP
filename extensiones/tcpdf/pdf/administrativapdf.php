@@ -49,8 +49,8 @@ $obs_solicitud = $row["observaciones_solicitud"];
 $descripcion_solicitud = $row["descripcion_solicitud"];
 
 
-//$baseUrl = "https://beta.zonafrancadepereira.com/"; // Cambia esto según sea necesario para tu entorno de hosting
-$baseUrl = "/MVC-ZFIP/";
+$baseUrl = "https://beta.zonafrancadepereira.com/"; // Cambia esto según sea necesario para tu entorno de hosting
+//$baseUrl = "/MVC-ZFIP/";
 
 $rutaRelativa = $row["firma_aprobador"];
 

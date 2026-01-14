@@ -273,4 +273,11 @@ class ControladorOrden
             return $respuesta;
         }
     }
+    /* =============================================
+    MOSTRAR ORDENES PRESUPUESTADAS
+    ============================================= */
+   static public function ctrOrdenesPresupuestadoPorUsuario()
+{
+    return ModeloOrden::mdlOrdenesPresupuestadoPorUsuario();
+}
 }
