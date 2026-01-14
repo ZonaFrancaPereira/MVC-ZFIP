@@ -60,7 +60,7 @@
                                                     <?php
                                                     $item = null;
                                                     $valor = null;
-                                                    $soportes = ControladorSoporte::ctrMostrarSoporteFinalizadas($item, $valor);
+                                                    $soportes = ControladorSoporte::ctrMostrarSoporteFinalizadasUsuario($item, $valor);
                                                     foreach ($soportes as $key => $value) {
                                                         echo '<tr>
                                                                 <td>' . $value["id_soporte"] . '</td>
@@ -79,10 +79,10 @@
                                                             echo '<span class="badge bg-secondary">' . $value["urgencia"] . '</span>';
                                                         }
                                                         echo '</td>
-                                    <td>' . $value["solucion_soporte"] . '</td>
-                                    <td>' . $value["fecha_solucion"] . '</td>
-                                    <td>' . $value["usuario_respuesta"] . '</td>
-                                </tr>';
+                                                        <td>' . $value["solucion_soporte"] . '</td>
+                                                        <td>' . $value["fecha_solucion"] . '</td>
+                                                        <td>' . $value["usuario_respuesta"] . '</td>
+                                                    </tr>';
                                                     }
                                                     ?>
                                                 </tbody>

@@ -95,6 +95,20 @@ class ControladorSoporte
 	MOSTRAR SOPORTE
 	=============================================*/
 
+    static public function ctrMostrarSoporteFinalizadasUsuario($item, $valor)
+    {
+        $tabla = "soporte";
+        $idUsuariosoporte = $_SESSION['id'];
+
+        $respuesta = ModeloSoporte::mdlMostrarSoporteFinalizadasUsuario($tabla, $idUsuariosoporte, $item, $valor);
+
+        return $respuesta;
+    }
+
+            /*=============================================
+	MOSTRAR SOPORTE
+	=============================================*/
+
     static public function ctrMostrarSoporteFinalizadas($item, $valor)
     {
         $tabla = "soporte";
@@ -120,60 +134,52 @@ class ControladorSoporte
 	ASIGNAR URGENCIA SOPORTE
 	=============================================*/
 
-    static public function ctrCrearUrgencia()
-    {
+static public function ctrCrearUrgencia()
+{
+    if (isset($_POST["id_soporte"])) {
 
-        if (isset($_POST["id_soporte"])) {
-            //...
-            $tabla = "soporte";
-            $datos = array(
-                "id_soporte" => $_POST["id_soporte"],
-                "urgencia" => $_POST["urgencia"]
-            );
+        $tabla = "soporte";
 
-            $respuesta = ModeloSoporte::mdlIngresarUrgencia($tabla, $datos);
+        $datos = array(
+            "id_soporte" => $_POST["id_soporte"],
+            "urgencia"   => $_POST["urgencia"]
+        );
 
-            if ($respuesta == "ok") {
+        $respuesta = ModeloSoporte::mdlIngresarUrgencia($tabla, $datos);
 
-                echo '<script>
-                if (!sessionStorage.getItem("recargado")) {
-                    Swal.fire({
-                        title: "Buen Trabajo!",
-                        text: "La urgencia ha sido registrada con éxito.",
-                        icon: "success"
-                    }).then(function() {
-                        document.getElementById("soporte_ti").reset();
-                        $("#solicitudes_soporte").addClass("active");
-                        
-                        sessionStorage.setItem("recargado", "true"); // Marcar que ya se recargó
-                        location.reload(); // Recargar la página una vez
-                    });
-                } else {
-                    sessionStorage.removeItem("recargado"); // Eliminar la marca después de la recarga
-                }
+        if ($respuesta == "ok") {
+
+            echo '<script>
+                Swal.fire({
+                    title: "¡Buen trabajo!",
+                    text: "La urgencia ha sido registrada con éxito.",
+                    icon: "success",
+                    confirmButtonText: "OK"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = window.location.href;
+                    }
+                });
             </script>';
-            
 
-            
-            } else {
-                echo '<script>
-                    Swal.fire({
-                        type: "error",
-                        title: "¡La descrición del perfil no puede ir vacío o llevar caracteres especiales!",
-                        showConfirmButton: true,
-                        confirmButtonText: "Cerrar"
+        } else {
 
-                    }).then(function(result){
-                        if(result.value){
-                            $("#solicitudes_soporte ").addClass("active");
-                            
-                        }
-                    });
-                </script>
-            ';
-            }
+            echo '<script>
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "La descripción no puede ir vacía ni contener caracteres especiales.",
+                    confirmButtonText: "Cerrar"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $("#solicitudes_soporte").addClass("active");
+                    }
+                });
+            </script>';
         }
     }
+}
+
 
     /*=============================================
 	ASIGNAR URGENCIA SOPORTE
