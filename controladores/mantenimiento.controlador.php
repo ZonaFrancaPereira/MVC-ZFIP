@@ -9,6 +9,7 @@ class ControladorMantenimiento
             $datos = array(
                 "fecha_mantenimiento" => $_POST["fecha_mantenimiento"],
                 "id_usuario_fk" => $_POST["id_usuario_fk"],
+                "id_activos_fk" => $_POST["id_activos_fk"],
                 "marca" => $_POST["marca"],
                 "modelo" => $_POST["modelo"],
                 "serie" => $_POST["serie"],
@@ -28,6 +29,8 @@ class ControladorMantenimiento
                 "desfragmentar" => $_POST["desfragmentar"],
                 "usuario" => $_POST["usuario"],
                 "clave" => $_POST["clave"],
+                "cableada" => $_POST["cableada"],
+                "wifi" => $_POST["wifi"],
                 "estandar" => $_POST["estandar"],
                 "administrador" => $_POST["administrador"],
                 "analisis_completo" => $_POST["analisis_completo"],
@@ -46,14 +49,17 @@ class ControladorMantenimiento
 
             if ($respuesta == "ok") {
                 echo '<script>
-                    Swal.fire(
-                    "Buen Trabajo!",
-                    "El Mantenimiento fue creado con éxito.",
-                    "success"
-                    ).then(function() {
-                    $("#equipo").addClass("active");
-                    });
-                </script>';
+                Swal.fire({
+                    title: "¡Buen trabajo!",
+                    text: "El mantenimiento ha sido registrado con éxito.",
+                    icon: "success",
+                    confirmButtonText: "OK"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = window.location.href;
+                    }
+                });
+            </script>';
             } else {
                 echo '<script>
                     Swal.fire({
@@ -102,14 +108,17 @@ class ControladorMantenimiento
 
             if ($respuesta == "ok") {
                 echo '<script>
-                    Swal.fire(
-                    "Buen Trabajo!",
-                    "El Mantenimiento de esta Impresora fue creado con éxito.",
-                    "success"
-                    ).then(function() {
-                    $("#impresora").addClass("active");
-                    });
-                </script>';
+                Swal.fire({
+                    title: "¡Buen trabajo!",
+                    text: "El mantenimiento ha sido registrado con éxito.",
+                    icon: "success",
+                    confirmButtonText: "OK"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = window.location.href;
+                    }
+                });
+            </script>';
             } else {
                 echo '<script>
                     Swal.fire({
@@ -153,14 +162,17 @@ class ControladorMantenimiento
 
             if ($respuesta == "ok") {
                 echo '<script>
-                    Swal.fire(
-                    "Buen Trabajo!",
-                    "El Mantenimiento General fue creado con éxito.",
-                    "success"
-                    ).then(function() {
-                    $("#general").addClass("active");
-                    });
-                </script>';
+                Swal.fire({
+                    title: "¡Buen trabajo!",
+                    text: "El mantenimiento ha sido registrado con éxito.",
+                    icon: "success",
+                    confirmButtonText: "OK"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = window.location.href;
+                    }
+                });
+            </script>';
             } else {
                 echo '<script>
                     Swal.fire({

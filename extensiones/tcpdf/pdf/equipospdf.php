@@ -84,6 +84,21 @@ $dominio_zfip = $row["dominio_zfip"];
 $apagar_pantalla = $row["apagar_pantalla"];
 $estado_suspension = $row["estado_suspension"];
 $estado_mantenimiento_equipo = $row["estado_mantenimiento_equipo"];
+$mac_osx = $row["mac_osx"];
+$windows = $row["windows"];
+$office = $row["office"];
+$autocad = $row["autocad"];
+$appolo = $row["appolo"];
+$zeus = $row["zeus"];
+$procesador = $row["procesador"];
+$memoria_ram = $row["memoria_ram"];
+$disco_duro = $row["disco_duro"];
+$cd_dvd = $row["cd_dvd"];
+$tarjeta_video = $row["tarjeta_video"];
+$tarjeta_red = $row["tarjeta_red"];
+$wifi = $row["wifi"];
+$cableada = $row["cableada"];
+
 
 $baseUrl = "https://beta.zonafrancadepereira.com/"; // Cambia esto según sea necesario para tu entorno de hosting
 //$baseUrl = "/MVC-ZFIP/";
@@ -121,8 +136,8 @@ $fecha_actualizacion = $rowd["fecha_actualizacion"];
 $version_documento = $rowd["version_documento"];
 
 //PARA QUE SE MUESTREN LOS CHECK
-$usuario_checkbox = ($usuario == "SI") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
-$clave_checkbox = ($clave == "SI") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
+$usuario_checkbox = ($usuario == "Si") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
+$clave_checkbox = ($clave == "Si") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
 $estandar_checkbox = ($estandar == "SI") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
 $administrador_checkbox = ($administrador == "SI") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
 $analisis_completo_checkbox = ($analisis_completo == "SI") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
@@ -130,6 +145,8 @@ $bloqueo_usb_checkbox = ($bloqueo_usb == "SI") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nb
 $dominio_zfip_checkbox = ($dominio_zfip == "SI") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
 $apagar_pantalla_checkbox = ($apagar_pantalla == "SI") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
 $estado_suspension_checkbox = ($estado_suspension == "SI") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
+$wifi_checkbox = ($wifi == "SI") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
+$cableada_checkbox = ($cableada == "SI") ? '|&nbsp;X&nbsp;|' : '|&nbsp;&nbsp;&nbsp;|';
 
 // Contenido del documento
 $html = <<<EOF
@@ -325,22 +342,22 @@ $html = <<<EOF
 <table class="content-table">
     <tr>
         <td>Windows</td>
-        <th>Traer de Activos</th>
+        <th>$windows</th>
         <td>Microsoft Office</td>
-        <th>Traer de Activos</th>
+        <th>$office</th>
     </tr>
        <tr>
        <td>MAC</td>
-        <th>Traer de Activos</th>
+        <th>$mac_osx</th>
         <td>AutoCAD</td>
-        <th>Traer de Activos</th>
+        <th>$autocad</th>
     </tr>
        <tr>
         
          <td>Zeus</td>
-        <th>Traer de Activos</th>
+        <th>$zeus</th>
         <td>Appolo</td>
-        <th>Traer de Activos</th>
+        <th>$appolo</th>
     </tr>
 </table>
 
@@ -348,21 +365,21 @@ $html = <<<EOF
 <table class="content-table">
     <tr>
         <td>Procesador</td>
-        <th>Traer de Activos</th>
+        <th>$procesador</th>
         <td>Disco Duro</td>
-        <th>Traer de Activos</th>
+        <th>$disco_duro</th>
     </tr>
        <tr>
        <td>Memoria RAM</td>
-        <th>Traer de Activos</th>
+        <th>$memoria_ram</th>
         <td>CD-DVD</td>
-        <th>Traer de Activos</th>
+        <th>$cd_dvd</th>
     </tr>
        <tr>
         <td>Tarjeta Video </td>
-        <th>Traer de Activos</th>
+        <th>$tarjeta_video</th>
         <td>Tarjeta Red </td>
-        <th>Traer de Activos</th>
+        <th>$tarjeta_red</th>
     </tr>
 </table>
 
@@ -374,7 +391,7 @@ $html = <<<EOF
         <td>Privilegios </td>
     </tr>
     <tr>
-        <th>&nbsp;&nbsp;Wi-Fi : <b>$usuario_checkbox</b> &nbsp;&nbsp;&nbsp;&nbsp; Cableada <b>$clave_checkbox</b></th>
+        <th>&nbsp;&nbsp;Wi-Fi : <b>$wifi_checkbox</b> &nbsp;&nbsp;&nbsp;&nbsp; Cableada <b>$cableada_checkbox</b></th>
         <th>Dentro del Dominio de ZFIP: <b>$dominio_zfip_checkbox</b></th>
         <th>Administrador : <b>$administrador_checkbox</b> &nbsp;&nbsp; Estandar <b>$estandar_checkbox</b></th>
     </tr>

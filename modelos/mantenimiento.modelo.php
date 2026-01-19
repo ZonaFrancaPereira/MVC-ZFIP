@@ -14,7 +14,8 @@ class ModeloMantenimiento
             // Preparar la consulta de inserción
             $stmt = $pdo->prepare("INSERT INTO $tabla (
                 fecha_mantenimiento, 
-                id_usuario_fk, 
+                id_usuario_fk,
+                id_activos_fk,
                 marca, 
                 modelo, 
                 serie,
@@ -34,6 +35,8 @@ class ModeloMantenimiento
                 desfragmentar,
                 usuario,
                 clave,
+                cableada,
+                wifi,
                 estandar,
                 administrador,
                 analisis_completo,
@@ -47,6 +50,7 @@ class ModeloMantenimiento
             ) VALUES (
                 :fecha_mantenimiento, 
                 :id_usuario_fk, 
+                :id_activos_fk,
                 :marca, 
                 :modelo, 
                 :serie,
@@ -66,6 +70,8 @@ class ModeloMantenimiento
                 :desfragmentar,
                 :usuario,
                 :clave,
+                :cableada,
+                :wifi,
                 :estandar,
                 :administrador,
                 :analisis_completo,
@@ -81,6 +87,7 @@ class ModeloMantenimiento
 
             $stmt->bindParam(":fecha_mantenimiento", $datos["fecha_mantenimiento"], PDO::PARAM_STR);
             $stmt->bindParam(":id_usuario_fk", $datos["id_usuario_fk"], PDO::PARAM_INT);
+            $stmt->bindParam(":id_activos_fk", $datos["id_activos_fk"], PDO::PARAM_INT);
             $stmt->bindParam(":marca", $datos["marca"], PDO::PARAM_STR);
             $stmt->bindParam(":modelo", $datos["modelo"], PDO::PARAM_STR);
             $stmt->bindParam(":serie", $datos["serie"], PDO::PARAM_STR);
@@ -100,6 +107,8 @@ class ModeloMantenimiento
             $stmt->bindParam(":desfragmentar", $datos["desfragmentar"], PDO::PARAM_STR);
             $stmt->bindParam(":usuario", $datos["usuario"], PDO::PARAM_STR);
             $stmt->bindParam(":clave", $datos["clave"], PDO::PARAM_STR);
+            $stmt->bindParam(":cableada", $datos["cableada"], PDO::PARAM_STR);
+            $stmt->bindParam(":wifi", $datos["wifi"], PDO::PARAM_STR);
             $stmt->bindParam(":estandar", $datos["estandar"], PDO::PARAM_STR);
             $stmt->bindParam(":administrador", $datos["administrador"], PDO::PARAM_STR);
             $stmt->bindParam(":analisis_completo", $datos["analisis_completo"], PDO::PARAM_STR);
@@ -416,11 +425,13 @@ class ModeloMantenimiento
         switch ($consulta) {
             case 'mantenimientos':
                 // Consulta con filtro
-                $stmt = Conexion::conectar()->prepare("SELECT m.*, p.nombre_proceso, u.*, c.nombre_cargo
+                $stmt = Conexion::conectar()->prepare("SELECT m.*, p.nombre_proceso, u.*, c.nombre_cargo, f.*,j.*
                 FROM usuarios m
                 INNER JOIN proceso p ON m.id_proceso_fk = p.id_proceso
-                INNER JOIN mantenimientos u ON m.id = u.id_usuario_fk
-                INNER JOIN cargos c ON m.id_cargo_fk = c.id_cargo WHERE $item = :valor");
+                LEFT JOIN mantenimientos u ON m.id = u.id_usuario_fk
+                LEFT JOIN activos f ON m.id = f.id_usuario_fk
+                LEFT JOIN detalles_equipos j ON u.id_activos_fk = j.id_activo_fk
+                LEFT JOIN cargos c ON m.id_cargo_fk = c.id_cargo WHERE $item = :valor");
                 $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
                 $stmt->execute();
                 return $stmt->fetchAll(); // Usar fetchAll() para obtener todos los resultados
