@@ -197,7 +197,7 @@ MOSTRAR ACTIVOS FIJOS NO VERIFICADOS (SERVER-SIDE)
         SELECT a.*
         FROM $tablaActivos a
         LEFT JOIN $tablaVerificaciones v ON a.id_activo = v.id_activo_fk AND v.id_inventario_fk = :id_inventario
-        WHERE v.id_activo_fk IS NULL 
+        WHERE v.id_activo_fk IS NULL AND (a.estado_activo='Activo' OR a.estado_activo='Rentado' OR a.estado_activo='En Almacenamiento')
         AND a.id_usuario_fk = :id_usuario_fk
         AND (
             a.id_activo LIKE :searchTerm

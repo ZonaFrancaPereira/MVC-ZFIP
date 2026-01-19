@@ -87,8 +87,8 @@ $row = $datos[0];
 $id_proceso_fk = $row["nombre_proceso"];
 
 
-//$baseUrl = "https://beta.zonafrancadepereira.com/"; // Cambia esto según sea necesario para tu entorno de hosting
-$baseUrl = "/MVC-ZFIP/";
+$baseUrl = "https://beta.zonafrancadepereira.com/"; // Cambia esto según sea necesario para tu entorno de hosting
+//$baseUrl = "/MVC-ZFIP/";
 
 $rutaRelativa = $row["firma"];
 

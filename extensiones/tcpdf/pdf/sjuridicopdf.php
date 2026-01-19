@@ -133,8 +133,9 @@ $requerimientos9_checkbox = ($respuesta_requerimientos == "Usuario de Apoyo") ? 
 $requerimientos10_checkbox = ($respuesta_requerimientos == "Admon Municipal") ? '(X)' : '(&nbsp;&nbsp;)';
 $requerimientos11_checkbox = ($respuesta_requerimientos == "Proveedores") ? '(X)' : '(&nbsp;&nbsp;)';
 $requerimientos12_checkbox = ($respuesta_requerimientos == "Otros") ? '(X)' : '(&nbsp;&nbsp;)';
-//$baseUrl = "https://beta.zonafrancadepereira.com/"; // Cambia esto según sea necesario para tu entorno de hosting
-$baseUrl = "/MVC-ZFIP/";
+
+$baseUrl = "https://beta.zonafrancadepereira.com/"; // Cambia esto según sea necesario para tu entorno de hosting
+//$baseUrl = "/MVC-ZFIP/";
 
 // Construct the full URL
 //$firma_recibido = $baseUrl . $rutaRelativa;

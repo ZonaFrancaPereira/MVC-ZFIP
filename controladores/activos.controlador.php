@@ -292,12 +292,13 @@ class ControladorActivos
                 SELECT a.id_activo, a.nombre_articulo, u.nombre AS nombre_usuario, u.apellidos_usuario
                 FROM activos a
                 INNER JOIN usuarios u ON a.id_usuario_fk = u.id
-                WHERE a.id_usuario_fk = :idUsuario
+                WHERE a.id_usuario_fk = :idUsuario AND (a.estado_activo='Activo' OR a.estado_activo='Rentado' OR a.estado_activo='En Almacenamiento')
                 ORDER BY a.nombre_articulo ASC";
         } else {
             $sql = "
                 SELECT a.id_activo, a.nombre_articulo, u.nombre AS nombre_usuario, u.apellidos_usuario
                 FROM activos a
+                WHERE a.estado_activo='Activo' OR a.estado_activo='Rentado' OR a.estado_activo='En Almacenamiento'
                 INNER JOIN usuarios u ON a.id_usuario_fk = u.id
                 ORDER BY a.nombre_articulo ASC";
         }

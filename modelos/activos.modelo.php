@@ -247,12 +247,15 @@ class ModeloActivos
     /*=============================================
 	MOSTRAR Activos
 	=============================================*/
+    /*=============================================
+	MOSTRAR Activos
+	=============================================*/
    static public function mdlMostrarActivos($tabla, $item, $valor)
 {
     // Verifica si se proporcionaron parámetros
     if ($item != null && $valor != null) {
 
-        $stmt = Conexion::conectar()->prepare("SELECT a.*,p.id_proveedor, p.nombre_proveedor 
+        $stmt = Conexion::conectar()->prepare("SELECT a.id_activo,a.cod_renta,a.fecha_asignacion,a.nombre_articulo,a.descripcion_articulo,a.modelo_articulo,a.referencia_articulo,a.marca_articulo,a.tipo_articulo,a.lugar_articulo,a.observaciones_articulo,a.numero_factura,a.fecha_garantia,a.valor_articulo,a.condicion_articulo,a.id_proveedor_fk,a.descripcion_proveedor,a.id_usuario_fk,a.estado_activo,a.recurso_tecnologico,a.id_categoriact_fk,p.id_proveedor, p.nombre_proveedor 
             FROM $tabla a
             INNER JOIN proveedor_compras p ON a.id_proveedor_fk = p.id_proveedor
             WHERE a.$item = :valor
@@ -264,7 +267,7 @@ class ModeloActivos
 
     } else {
 
-        $stmt = Conexion::conectar()->prepare("SELECT a.*, p.id_proveedor,p.nombre_proveedor 
+        $stmt = Conexion::conectar()->prepare("SELECT a.id_activo,a.cod_renta,a.fecha_asignacion,a.nombre_articulo,a.descripcion_articulo,a.modelo_articulo,a.referencia_articulo,a.marca_articulo,a.tipo_articulo,a.lugar_articulo,a.observaciones_articulo,a.numero_factura,a.fecha_garantia,a.valor_articulo,a.condicion_articulo,a.id_proveedor_fk,a.descripcion_proveedor,a.id_usuario_fk,a.estado_activo,a.recurso_tecnologico,a.id_categoriact_fk, p.id_proveedor,p.nombre_proveedor 
             FROM $tabla a
             INNER JOIN proveedor_compras p ON a.id_proveedor_fk = p.id_proveedor
         ");
@@ -289,7 +292,8 @@ class ModeloActivos
             WHERE a.$item = :valor 
             AND a.recurso_tecnologico = 'Si' 
             AND a.id_categoriact_fk NOT IN (1, 2, 12,14)
-            AND a.estado_activo != 'Inactivo'");
+             AND  (a.estado_activo='Activo' OR a.estado_activo='Rentado' OR a.estado_activo='En Almacenamiento')
+            ");
             $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
             $stmt->execute();
             return $stmt->fetchAll();
@@ -315,10 +319,10 @@ class ModeloActivos
                                                    INNER JOIN categorias_activos c ON a.id_categoriact_fk = c.id_categoriact
                                                    LEFT JOIN detalles_equipos d ON a.id_activo = d.id_activo_fk
                                                    LEFT JOIN usuarios u ON a.id_usuario_fk = u.id
-                                                   WHERE a.$item = :valor 
+                                                   WHERE a.$item = :valor AND  (a.estado_activo='Activo' OR a.estado_activo='Rentado' OR a.estado_activo='En Almacenamiento')
                                                    AND a.recurso_tecnologico = 'Si' 
                                                    AND a.id_categoriact_fk IN (1, 2, 12) 
-                                                   AND a.estado_activo != 'Inactivo'
+                                                  
                                                    ");
             $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
             $stmt->execute();
@@ -334,7 +338,7 @@ class ModeloActivos
                                                    LEFT JOIN usuarios u ON a.id_usuario_fk = u.id
                                                    WHERE a.recurso_tecnologico = 'Si' 
                                                    AND a.id_categoriact_fk IN (1, 2, 12) 
-                                                   AND a.estado_activo != 'Inactivo'
+                                                AND (a.estado_activo != 'Inactivo' AND a.estado_activo != 'Dar de Baja')
                                                    AND d.id_detalle IS NULL");
             $stmt->execute();
             return $stmt->fetchAll();

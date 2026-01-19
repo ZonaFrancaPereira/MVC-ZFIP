@@ -43,8 +43,8 @@ $bloqueFirmas = '';
 
 
 
-//$baseUrl = "https://beta.zonafrancadepereira.com/"; // Cambia esto según sea necesario para tu entorno de hosting
-$baseUrl = "/MVC-ZFIP/";
+$baseUrl = "https://beta.zonafrancadepereira.com/"; // Cambia esto según sea necesario para tu entorno de hosting
+//$baseUrl = "/MVC-ZFIP/";
 
 
 $ruta_firma = $row["firma_origen"];

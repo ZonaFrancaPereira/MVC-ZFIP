@@ -67,8 +67,9 @@ $condiciones_fisicas = $row["condiciones_fisicas"];
 $cableado_verificar = $row["cableado_verificar"];
 $dispositivo = $row["dispositivo"];
 $estado_general = $row["estado_general"];
-//$baseUrl = "https://beta.zonafrancadepereira.com/"; // Cambia esto según sea necesario para tu entorno de hosting
-$baseUrl = "/MVC-ZFIP/"; 
+
+$baseUrl = "https://beta.zonafrancadepereira.com/"; // Cambia esto según sea necesario para tu entorno de hosting
+//$baseUrl = "/MVC-ZFIP/"; 
 
 $rutaRelativa = $row["firma_general"]; 
 

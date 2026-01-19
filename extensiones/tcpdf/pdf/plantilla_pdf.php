@@ -54,7 +54,8 @@ $pdf->SetFont('helvetica', '', 10);
 $pdf->AddPage();
 
 // Rutas de firma
-$baseUrl = "/MVC-ZFIP/";
+$baseUrl = "https://beta.zonafrancadepereira.com/"; // Cambia esto según sea necesario para tu entorno de hosting
+//$baseUrl = "/MVC-ZFIP/";
 $ruta_firma = $row["firma_general"];
 
 if (is_null($ruta_firma) || empty($ruta_firma)) {
