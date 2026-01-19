@@ -260,56 +260,164 @@
          </div>
        <?php } ?>
 
-     <?php
+<?php
 $rows = ControladorOrden::ctrOrdenesPresupuestadoPorUsuario();
 
 $usuarios = array_column($rows, 'usuario');
-$si = array_map(fn($r) => (int)$r['presupuestadas'], $rows);
-$no = array_map(fn($r) => (int)$r['no_presupuestadas'], $rows);
+$si = array_map(fn($r) => (float)$r['val_si'], $rows);
+$no = array_map(fn($r) => (float)$r['val_no'], $rows);
+
+// y si quieres también tener conteos para tooltip:
+$cntSi = array_map(fn($r) => (int)$r['cnt_si'], $rows);
+$cntNo = array_map(fn($r) => (int)$r['cnt_no'], $rows);
 ?>
 
+
+<?php
+$rows = ControladorOrden::ctrOrdenesPresupuestadoPorUsuario();
+
+$usuarios = array_column($rows, 'usuario');
+$valSi = array_map(fn($r) => (float)($r['val_si'] ?? 0), $rows);
+$valNo = array_map(fn($r) => (float)($r['val_no'] ?? 0), $rows);
+
+$cntSi = array_map(fn($r) => (int)($r['cnt_si'] ?? 0), $rows);
+$cntNo = array_map(fn($r) => (int)($r['cnt_no'] ?? 0), $rows);
+
+$pxPorUsuario = 90;               // ancho por usuario (más alto = más espacio por usuario)
+$minWidth = max(900, count($usuarios) * $pxPorUsuario);
+?>
+   <?php
+        $cargosE = [12, 13, 19];
+
+        if (in_array($_SESSION['id_cargo_fk'], $cargosE)) {
+          // aquí va el botón, acción o contenido
+        ?>
 <div class="col-md-12 col-sm-12 col-12">
   <div class="card">
     <div class="card-header">
       <h3 class="card-title">Órdenes por Usuario (Presupuestado)</h3>
     </div>
     <div class="card-body">
-     <div style="overflow-x: auto;">
-  <div style="min-width: 1600px;">
-    <canvas id="chartOrdenesPorUsuario" height="50"></canvas>
+   <div style="overflow-x:auto;">
+  <div style="min-width: <?= $minWidth ?>px; height:320px;">
+    <canvas id="chartOrdenesPorUsuario"></canvas>
   </div>
 </div>
-
     </div>
   </div>
 </div>
+<?php } ?>
+
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const ctx = document.getElementById('chartOrdenesPorUsuario').getContext('2d');
+document.addEventListener('DOMContentLoaded', () => {
+  const canvas = document.getElementById('chartOrdenesPorUsuario');
 
-  const usuarios = <?= json_encode($usuarios, JSON_UNESCAPED_UNICODE) ?>;
-  const presupuestadas = <?= json_encode($si) ?>;
-  const noPresupuestadas = <?= json_encode($no) ?>;
+  // 1) Validaciones básicas
+  if (!canvas) {
+    console.warn('No existe #chartOrdenesPorUsuario');
+    return;
+  }
+  if (typeof Chart === 'undefined') {
+    console.error('Chart.js NO está cargado. Revisa el <script src="...chart.js">');
+    return;
+  }
 
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: usuarios,
-      datasets: [
-        { label: 'Si', data: presupuestadas, backgroundColor: '#28a745' },
-        { label: 'No', data: noPresupuestadas, backgroundColor: '#dc3545' }
-      ]
-    },
-    options: {
-      responsive: true,
-      scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+  // 2) Datos desde PHP
+  const labels = <?= json_encode($usuarios ?? [], JSON_UNESCAPED_UNICODE) ?>;
+  const dataSi = <?= json_encode($valSi ?? []) ?>;
+  const dataNo = <?= json_encode($valNo ?? []) ?>;
+  const cntSi  = <?= json_encode($cntSi ?? []) ?>;
+  const cntNo  = <?= json_encode($cntNo ?? []) ?>;
+
+  console.log('labels length:', labels.length);
+  console.log({ labels, dataSi, dataNo, cntSi, cntNo });
+
+  if (!labels.length) {
+    console.warn('No hay labels para graficar (labels vacío). Revisa $rows / consulta SQL.');
+    return;
+  }
+
+  // 3) Formato moneda
+  const money = (n) =>
+    new Intl.NumberFormat('es-CO', {
+      style: 'currency',
+      currency: 'COP',
+      maximumFractionDigits: 0
+    }).format(Number(n || 0));
+
+  try {
+    // 4) Destruir instancia previa si existe
+    if (window.chartOrdenesPorUsuario && typeof window.chartOrdenesPorUsuario.destroy === 'function') {
+      window.chartOrdenesPorUsuario.destroy();
     }
-  });
+
+    // 5) Crear Chart
+    window.chartOrdenesPorUsuario = new Chart(canvas.getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'SI (Valor acumulado)',
+            data: dataSi,
+            backgroundColor: '#28a745',
+            barThickness: 14,
+            maxBarThickness: 18,
+            categoryPercentage: 0.55,
+            barPercentage: 0.95
+          },
+          {
+            label: 'NO (Valor acumulado)',
+            data: dataNo,
+            backgroundColor: '#dc3545',
+            barThickness: 14,
+            maxBarThickness: 18,
+            categoryPercentage: 0.55,
+            barPercentage: 0.95
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        scales: {
+          x: {
+            offset: false,
+            ticks: {
+              autoSkip: false,
+              maxRotation: 45,
+              minRotation: 45
+            }
+          },
+          y: {
+            beginAtZero: true,
+            ticks: { callback: (v) => money(v) }
+          }
+        },
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: (ctx) => {
+                const i = ctx.dataIndex;
+                const ds = ctx.datasetIndex;
+                const valor = ctx.parsed.y ?? 0;
+                const count = (ds === 0) ? (cntSi[i] ?? 0) : (cntNo[i] ?? 0);
+                return `${ctx.dataset.label}: ${money(valor)} (OC: ${count})`;
+              }
+            }
+          },
+          legend: { position: 'top' }
+        }
+      }
+    });
+
+  } catch (err) {
+    console.error('Error creando el chart:', err);
+  }
 });
 </script>
-
-
        <!-- /.col -->
      </div>
    </section>

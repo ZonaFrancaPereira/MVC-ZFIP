@@ -361,7 +361,7 @@ class ModeloActivos
                 INNER JOIN proceso p ON u.id_proceso_fk = p.id_proceso
                 INNER JOIN cargos c ON u.id_cargo_fk = c.id_cargo
                 INNER JOIN $tabla_asignacion a ON a.id_usuario_fk = u.id
-                WHERE a.$item_asignacion = :valor
+                WHERE a.$item_asignacion = :valor AND a.estado_asignacion = 'Activa'
             ");
             $stmt->bindParam(":valor", $valor_asignacion, PDO::PARAM_STR);
         } else {
@@ -373,6 +373,7 @@ class ModeloActivos
                 LEFT JOIN $tabla_asignacion a ON u.id = a.id_usuario_fk
                 WHERE a.id_usuario_fk IS NULL
                 AND u.estado = '1'
+
             ");
         }
 

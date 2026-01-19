@@ -38,20 +38,20 @@
                                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-lg">
                                             Nueva Asignación
                                         </button>
-                                                          <?php
-                                                                        $item = null;
-                                                                        $valor = null;
+                                        <?php
+                                        $item = null;
+                                        $valor = null;
 
-                                                                        // Llamada al método del controlador para obtener los usuarios
-                                                                        $equipos = ControladorActivos::ctrMostrarAsignaciones($item, $valor);
+                                        // Llamada al método del controlador para obtener los usuarios
+                                        $equipos = ControladorActivos::ctrMostrarAsignaciones($item, $valor);
 
-                                                                        // Verificar si $usuarios es un array válido
+                                        // Verificar si $usuarios es un array válido
 
-                                                                        foreach ($equipos as $key => $value) {
-                                                                            echo '<option value="' . htmlspecialchars($value["id"]) . '">' . htmlspecialchars($value["nombre"] . ' ' . $value["apellidos_usuario"]) . '</option>';
-                                                                        }
+                                        foreach ($equipos as $key => $value) {
+                                            echo '<option value="' . htmlspecialchars($value["id"]) . '">' . htmlspecialchars($value["nombre"] . ' ' . $value["apellidos_usuario"]) . '</option>';
+                                        }
 
-                                                                        ?>
+                                        ?>
 
                                         <div class="modal fade" id="modal-lg">
                                             <div class="modal-dialog modal-lg">
@@ -200,7 +200,7 @@
                                                                     <label for="otros" class="form-label">Otros</label>
                                                                     <textarea class="form-control textarea" id="otros" name="otros" rows="3">
                                                                     </textarea>
-                                                                <br>
+                                                                    <br>
                                                                 </div>
                                                                 <!-- CARACTERISTICAS DE HADWARE -->
                                                                 <div class="card-header bg-navy col-md-12">
@@ -309,7 +309,7 @@
                                                                 </div>
                                                                 <div class="form-group col-md-12">
                                                                     <label for="backup">Ruta Carpeta en Red</label>
-                                                                    <input type="text" class="form-control form-control-border"  name="backup">
+                                                                    <input type="text" class="form-control form-control-border" name="backup">
                                                                 </div>
 
                                                                 <div class="form-group col-md-6">
@@ -367,13 +367,13 @@
 </section>
 
 <script>
-document.getElementById("id_activo_fk").addEventListener("change", function() {
-    var input = this;
-    var datalist = document.getElementById("equipo");
-    var opciones = Array.from(datalist.options).map(option => option.value);
+    document.getElementById("id_activo_fk").addEventListener("change", function() {
+        var input = this;
+        var datalist = document.getElementById("equipo");
+        var opciones = Array.from(datalist.options).map(option => option.value);
 
-    if (!opciones.includes(input.value)) {
-        Swal.fire({
+        if (!opciones.includes(input.value)) {
+            Swal.fire({
                 title: "Error",
                 text: "El activo seleccionado no es válido.",
                 imageUrl: "vistas/img/ti.png",
@@ -381,7 +381,7 @@ document.getElementById("id_activo_fk").addEventListener("change", function() {
                 imageHeight: 150,
                 imageAlt: "Error"
             });
-        input.value = ""; // Borra el valor no válido
-    }
-});
+            input.value = ""; // Borra el valor no válido
+        }
+    });
 </script>

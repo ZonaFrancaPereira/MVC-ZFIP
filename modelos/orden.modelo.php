@@ -543,27 +543,35 @@ ORDER BY oc.fecha_orden DESC;
     /* =============================================
     MOSTRAR ORDENES PRESUPUESTADAS
     ============================================= */
-  public static function mdlOrdenesPresupuestadoPorUsuario()
+public static function mdlOrdenesPresupuestadoPorUsuario()
 {
     try {
-        $year = date('Y'); // año vigente según el servidor
+        $year = date('Y');
         $inicio = $year . '-01-01 00:00:00';
         $fin    = ($year + 1) . '-01-01 00:00:00';
 
         $stmt = Conexion::conectar()->prepare("SELECT 
                 CONCAT(u.nombre, ' ', u.apellidos_usuario) AS usuario,
-                u.id_cargo_fk AS cargo,
-                COALESCE(SUM(CASE WHEN oc.presupuestado = 'Si' THEN 1 ELSE 0 END), 0) AS presupuestadas,
-                COALESCE(SUM(CASE WHEN oc.presupuestado = 'No' THEN 1 ELSE 0 END), 0) AS no_presupuestadas
+
+                /* Conteos */
+                COALESCE(SUM(CASE WHEN oc.presupuestado = 'Si' THEN 1 ELSE 0 END), 0) AS cnt_si,
+                COALESCE(SUM(CASE WHEN oc.presupuestado = 'No' THEN 1 ELSE 0 END), 0) AS cnt_no,
+
+                /* Valores acumulados */
+                COALESCE(SUM(CASE WHEN oc.presupuestado = 'Si' THEN oc.total_orden ELSE 0 END), 0) AS val_si,
+                COALESCE(SUM(CASE WHEN oc.presupuestado = 'No' THEN oc.total_orden ELSE 0 END), 0) AS val_no
+
             FROM usuarios u
             LEFT JOIN orden_compra oc
-                ON oc.id_cotizante = u.id
-               AND oc.fecha_orden >= :inicio
-               AND oc.fecha_orden <  :fin
+              ON oc.id_cotizante = u.id
+             AND oc.fecha_orden >= :inicio
+             AND oc.fecha_orden <  :fin
+
             WHERE u.estado = 1
               AND u.id_cargo_fk IN (1,3,4,6,7,12,14)
-            GROUP BY u.id, u.nombre, u.apellidos_usuario, u.id_cargo_fk
-            ORDER BY u.id_cargo_fk ASC, usuario ASC
+
+            GROUP BY u.id, u.nombre, u.apellidos_usuario
+            ORDER BY usuario ASC
         ");
 
         $stmt->bindParam(":inicio", $inicio, PDO::PARAM_STR);
@@ -577,6 +585,7 @@ ORDER BY oc.fecha_orden DESC;
         return [];
     }
 }
+
 
 
 }
