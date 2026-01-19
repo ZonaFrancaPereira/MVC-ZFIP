@@ -185,73 +185,84 @@ static public function ctrCrearUrgencia()
 	ASIGNAR URGENCIA SOPORTE
 	=============================================*/
 
-    static public function ctrResponderSolicitud()
-    {
-        if (isset($_POST["id_soporte1"])) {
-            $tabla = "soporte";
-            $datos = array(
-                "id_soporte1" =>  $_POST["id_soporte1"],
-                "solucion_soporte" =>  $_POST["solucion_soporte"],
-                "fecha_solucion" =>  $_POST["fecha_solucion"],
-                "usuario_respuesta" =>  $_POST["usuario_respuesta"],
-            );
-
-            $respuesta = ModeloSoporte::mdlResponderSolicitud($tabla, $datos);
-
-            if ($respuesta == "ok") {
-                echo '<script>
-                    if (!sessionStorage.getItem("recargado")) {
-                        Swal.fire({
-                            title: "Buen Trabajo!",
-                            text: "Se ha dado respuesta a la solicitud con éxito.",
-                            icon: "success"
-                        }).then(function() {
-                            var datosCorreo = {
-                                id_usuario_fk: "' . $_SESSION["id"] . '",
-                                modulo: "solicitudes_soporte",
-                                id_consulta: "' . $_POST["id_soporte1"] . '",
-                                destinatario: "ninguno"
-                            };
-            
-                            $.ajax({
-                                url: "ajax/enviarCorreo.php",
-                                method: "POST",
-                                data: JSON.stringify(datosCorreo),
-                                cache: false,
-                                contentType: "application/json",
-                                processData: false,
-                                success: function(respuesta) {
-                                    console.log("respuesta", respuesta);
-                                }
-                            });
-            
-                            document.getElementById("soporte_ti").reset();
-                            $("#solicitudes_soporte").addClass("active");
-            
-                            sessionStorage.setItem("recargado", "true"); // Marcar que ya se recargó
-                            location.reload(); // Recargar la página
-                        });
-                    } else {
-                        sessionStorage.removeItem("recargado"); // Eliminar la marca después de la recarga
-                    }
-                </script>';
-            } else {
-                echo '<script>
-                    Swal.fire({
-                        icon: "error",
-                        title: "¡No se pudo guardar la respuesta de la Solicitud!",
-                        showConfirmButton: true,
-                        confirmButtonText: "Cerrar"
-                    }).then(function(result){
-                        if(result.value){
-                            $("#solicitudes_soporte").addClass("active");
-                        }
-                    });
-                </script>';
-            }
-            
-        }
+   public static function ctrResponderSolicitud()
+{
+    if (!isset($_POST["id_soporte1"])) {
+        return;
     }
+
+    $tabla = "soporte";
+
+    $datos = array(
+        "id_soporte1"       => $_POST["id_soporte1"],
+        "solucion_soporte"  => $_POST["solucion_soporte"],
+        "fecha_solucion"    => $_POST["fecha_solucion"],
+        "usuario_respuesta" => $_POST["usuario_respuesta"]
+    );
+
+    $respuesta = ModeloSoporte::mdlResponderSolicitud($tabla, $datos);
+
+    if ($respuesta === "ok") {
+
+        echo '<script>
+            if (!sessionStorage.getItem("recargado")) {
+
+                Swal.fire({
+                    title: "¡Buen trabajo!",
+                    text: "Se ha dado respuesta a la solicitud con éxito.",
+                    icon: "success",
+                    confirmButtonText: "Aceptar"
+                }).then((result) => {
+
+                    if (result.isConfirmed) {
+
+                        sessionStorage.setItem("recargado", "true");
+
+                        var datosCorreo = {
+                            id_usuario_fk: "' . $_SESSION["id"] . '",
+                            modulo: "solicitudes_soporte",
+                            id_consulta: "' . $_POST["id_soporte1"] . '",
+                            destinatario: "ninguno"
+                        };
+
+                        $.ajax({
+                            url: "ajax/enviarCorreo.php",
+                            method: "POST",
+                            data: JSON.stringify(datosCorreo),
+                            cache: false,
+                            contentType: "application/json",
+                            processData: false,
+                            success: function(respuesta) {
+                                console.log("respuesta", respuesta);
+                            }
+                        });
+
+                        window.location.href = window.location.href;
+                    }
+                });
+
+            } else {
+                sessionStorage.removeItem("recargado");
+            }
+        </script>';
+
+    } else {
+
+        echo '<script>
+            Swal.fire({
+                icon: "error",
+                title: "¡No se pudo guardar la respuesta de la solicitud!",
+                showConfirmButton: true,
+                confirmButtonText: "Cerrar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $("#solicitudes_soporte").addClass("active");
+                }
+            });
+        </script>';
+    }
+}
+
 
   // Simple proxy que devuelve conteo para YYYY-MM
     public static function ctrContarSoportesAtendidosPorMes($anoMes)

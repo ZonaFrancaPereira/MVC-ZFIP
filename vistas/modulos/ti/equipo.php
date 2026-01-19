@@ -56,8 +56,8 @@
                                     </div>
 
                                     <div class="col-4"><br>
-                                        <label for="id_activo">Equipo</label>
-                                        <select class="form-control" id="id_activo" name="id_activo" style="height: 43px;" onchange="cargarDatosEquipo(this)">
+                                        <label for="id_activos_fk">Equipo</label>
+                                        <select class="form-control" id="id_activos_fk" name="id_activos_fk" style="height: 43px;" onchange="cargarDatosEquipo(this)">
                                             <option value="">Seleccione un equipo</option>
                                             <?php
                                             $item = null;
@@ -207,7 +207,7 @@
                                     <div class="col-md-12"><br>
                                         <div class="card card-info collapsed-card">
                                             <div class="card-header">
-                                                <h3 class="card-title">Equipo de Computo</h3>
+                                                <h3 class="card-title">Privilegios</h3>
                                             </div>
                                         </div>
                                     </div>
@@ -243,7 +243,7 @@
                                     <div class="col-md-12"><br>
                                         <div class="card card-info collapsed-card">
                                             <div class="card-header">
-                                                <h3 class="card-title">Equipo de Computo</h3>
+                                                <h3 class="card-title">Seguridad Basica de Equipos</h3>
                                             </div>
                                         </div>
                                     </div>
@@ -278,6 +278,27 @@
                                     <div class="col-3"><br>
                                         <label for="estado_suspension">Estado Suspensión o hibernación correcta (20 minutos)</label>
                                         <select class="form-control" id="estado_suspension" name="estado_suspension" style="height: 45px;">
+                                            <option value="SI">SI</option>
+                                            <option value="NO">NO</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12"><br>
+                                        <div class="card card-info collapsed-card">
+                                            <div class="card-header">
+                                                <h3 class="card-title">Tipo de Red</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3"><br>
+                                        <label for="wifi">Wifi</label>
+                                        <select class="form-control" id="wifi" name="wifi" style="height: 45px;">
+                                            <option value="SI">SI</option>
+                                            <option value="NO">NO</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-3"><br>
+                                        <label for="cableada">Cableada</label>
+                                        <select class="form-control" id="cableada" name="cableada" style="height: 45px;">
                                             <option value="SI">SI</option>
                                             <option value="NO">NO</option>
                                         </select>
