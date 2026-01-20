@@ -41,6 +41,23 @@ $apellidos_usuario = $rowa["apellidos_usuario"];
 $nombre_cargo = $rowa["nombre_cargo"];
 
 $fecha_asignacion = date("d/m/Y", strtotime($fecha_a));
+//$baseUrl = "https://beta.zonafrancadepereira.com/"; // Cambia esto según sea necesario para tu entorno de hosting
+$baseUrl = "/MVC-ZFIP/";
+
+
+$ruta_firma = $rowa["foto"];
+
+// Construct the full URL
+$firma_origen = $baseUrl . $rutaRelativa;
+
+
+$firma_origen = $baseUrl . $ruta_firma;
+if (is_null($ruta_firma) || empty($ruta_firma)) {
+    $firma_origen = $baseUrl . 'vistas/img/usuarios/default/sinautorizar.png';
+} else {
+    $firma_origen = $baseUrl . $ruta_firma;
+}
+
 
 
 // Obtener los datos del mantenimiento desde la base de datos
@@ -87,13 +104,6 @@ $row = $datos[0];
 $id_proceso_fk = $row["nombre_proceso"];
 
 
-$baseUrl = "https://beta.zonafrancadepereira.com/"; // Cambia esto según sea necesario para tu entorno de hosting
-//$baseUrl = "/MVC-ZFIP/";
-
-$rutaRelativa = $row["firma"];
-
-// Construct the full URL
-$foto = $baseUrl . $rutaRelativa;
 
 
 $nombreImagen = "images/logo_zf.png";
@@ -247,9 +257,9 @@ $html .= <<<EOF
     </tr> 
 EOF;
 $count = 0;
-  foreach ($datos as $row){ 
+foreach ($datos as $row) {
 
-        $html .= '<tr>
+    $html .= '<tr>
         <td>' . $row['id_activo'] . '</td>
         <td>' . $row['fecha_asignacion'] . '</td>
         <td>' . $row['nombre_articulo'] . '</td>
@@ -258,7 +268,7 @@ $count = 0;
         <td>' . $row['estado_activo'] . '</td>
     </tr>';
     $count++;
-    }; 
+};
 $html .= <<<EOF
 <tr>
 <td colspan="4" class="section-title"><br><br>TOTAL ARTÍCULOS<br></td>
@@ -269,7 +279,7 @@ $html .= <<<EOF
 
 
 EOF;
-foreach ($datose as $rowe) { 
+foreach ($datose as $rowe) {
     $html .= '
     <div class="section-title">
         <br><b> ' . $rowe['id_activo'] . ' ' . $rowe['nombre_articulo'] . '</b><br>
@@ -389,7 +399,6 @@ foreach ($datose as $rowe) {
     
     
     <br>';
-  
 }
 
 $html .= <<<EOF
@@ -401,10 +410,14 @@ $html .= <<<EOF
 <table class="content-table">
         <tr>
             <th>Nombre</th>
-            <td>$ $</td>
+            <td>$nombre_usuario $apellidos_usuario</td>
         </tr>
         <tr>
-            <td colspan="2"><img src="" alt="Firma" width="120" style="margin-left: 50px;"></td>
+            <td colspan="2">
+          <img src="$firma_origen" style="width: 100px; height: auto;">
+            </td>
+     
+            
         </tr>
   
 </table>

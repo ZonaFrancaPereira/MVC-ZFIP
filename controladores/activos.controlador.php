@@ -241,6 +241,73 @@ class ControladorActivos
 
         return $respuesta;
     }
+/*===============================================
+MOSTRAR USUARIOS ACTIVOS CON ASIGNACION DE EQUIPOS
+=============================================*/
+static public function ctrUsuariosActivosConAsignacionEquipos()
+{
+    return ModeloActivos::mdlUsuariosActivosConAsignacionEquipos();
+}
+
+/*=============================================
+    EDITAR DETALLES EQUIPO
+    =============================================*/
+static public function ctrEditarDetallesEquipo()
+{
+    if (isset($_POST["editar_detalles"])) {
+
+        $tabla = "detalles_equipos";
+
+        $datos = array(
+            "id_detalle" => $_POST["editar_id_detalle"],
+            "msd" => $_POST["msd"],
+            "antivirus" => $_POST["antivirus"],
+            "visio_pro" => $_POST["visio_pro"],
+            "mac_osx" => $_POST["mac_osx"],
+            "windows" => $_POST["windows"],
+            "autocad" => $_POST["autocad"],
+            "office" => $_POST["office"],
+            "appolo" => $_POST["appolo"],
+            "zeus" => $_POST["zeus"],
+            "otros" => $_POST["otros"],
+            "procesador" => $_POST["procesador"],
+            "disco_duro" => $_POST["disco_duro"],
+            "memoria_ram" => $_POST["memoria_ram"],
+            "cd_dvd" => $_POST["cd_dvd"],
+            "tarjeta_video" => $_POST["tarjeta_video"],
+            "tarjeta_red" => $_POST["tarjeta_red"],
+            "tipo_red" => $_POST["tipo_red"],
+            "tiempo_bloqueo" => $_POST["tiempo_bloqueo"],
+            "usuario" => $_POST["usuario"],
+            "clave" => $_POST["clave"],
+            "zfip" => $_POST["zfip"],
+            "privilegios" => $_POST["privilegios"],
+            "observaciones_equipo" => $_POST["observaciones_equipo"],
+            "backup" => $_POST["backup"],
+            "dia_backup" => $_POST["dia_backup"],
+            "realiza_backup" => $_POST["realiza_backup"],
+            "justificacion_backup" => $_POST["justificacion_backup"]
+        
+        );
+
+        $respuesta = ModeloActivos::mdlEditarDetallesEquipo($tabla, $datos);
+
+        if ($respuesta == "ok") {
+            echo '<script>
+                Swal.fire(
+                    "Buen Trabajo!",
+                    "Los detalles del equipo se han actualizado con éxito.",
+                    "success"
+                ).then(function() {
+                    $("#formEditarDetallesEquipo")[0].reset();
+                    window.location = "ti";
+                });
+            </script>';
+        }
+    }
+}
+
+
 
     /*=============================================
 	MOSTRAR Activos AJAX
