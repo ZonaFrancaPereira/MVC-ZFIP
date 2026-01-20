@@ -41,8 +41,8 @@ $apellidos_usuario = $rowa["apellidos_usuario"];
 $nombre_cargo = $rowa["nombre_cargo"];
 
 $fecha_asignacion = date("d/m/Y", strtotime($fecha_a));
-//$baseUrl = "https://beta.zonafrancadepereira.com/"; // Cambia esto según sea necesario para tu entorno de hosting
-$baseUrl = "/MVC-ZFIP/";
+$baseUrl = "https://beta.zonafrancadepereira.com/"; // Cambia esto según sea necesario para tu entorno de hosting
+//$baseUrl = "/MVC-ZFIP/";
 
 
 $ruta_firma = $rowa["foto"];

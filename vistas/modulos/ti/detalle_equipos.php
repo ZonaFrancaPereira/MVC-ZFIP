@@ -289,7 +289,7 @@
                                                                         data-backup="<?= htmlspecialchars($d["backup"]) ?>"
                                                                         data-dia_backup="<?= htmlspecialchars($d["dia_backup"]) ?>"
                                                                         data-realiza_backup="<?= htmlspecialchars($d["realiza_backup"]) ?>"
-                                                                        data-justificacion_backup="<?= htmlspecialchars($d["justificacion_backup"]) ?>">
+                                                                        data-justificacion_backup="<?= htmlspecialchars($d["justificacion_backup"] ?? "", ENT_QUOTES) ?>"
                                                                         <i class="fas fa-edit"></i>
                                                                     </button>
                                                                 </td>
@@ -506,7 +506,7 @@
                                                                 </div>
 
                                                                 <div class="form-group col-md-12">
-                                                                    <label for="justificacion_backup">¿Donde y Por qué</label>
+                                                                    <label for="justificacion_backup">¿Donde y Por qué?</label>
                                                                     <textarea class="form-control form-control-border textarea" id="justificacion_backup" name="justificacion_backup" rows="3"></textarea>
                                                                 </div>
                                                             </div>
@@ -778,6 +778,7 @@
         $('#editar_backup').val(button.data('backup'));
         $('#editar_dia_backup').val(button.data('dia_backup'));
         $('#editar_realiza_backup').val(button.data('realiza_backup'));
-        $('#editar_justificacion_backup').val(button.data('justificacion_backup'));
+        $('#editar_justificacion_backup').summernote('code', button.data('justificacion_backup') || '');
+        
     });
 </script>
